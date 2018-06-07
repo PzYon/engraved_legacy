@@ -1,0 +1,89 @@
+import * as React from "react";
+import {ReactNode} from "react";
+import styled from "styled-components";
+import {StyleConstants} from "../../common/StyleConstants";
+import {IDropDownItem} from "./IDropDownItem";
+import {IDropDownItemGroup} from "./IDropDownItemGroup";
+
+const ContainerDiv = styled.div`
+  position: absolute;
+  width: calc(100% - 20px);
+  text-align: left;
+  font-size: 0.8rem;
+  border-top: 1px solid deepskyblue;
+  background-color: white;
+`;
+
+const GroupContainerDiv = styled.div`
+`;
+
+const GroupItemsList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const GroupTitleDiv = styled.div`
+  font-weight: bold;
+  padding: ${StyleConstants.formElementPadding};
+`;
+
+const GroupItem = styled.li`
+  padding: ${StyleConstants.formElementPadding};
+
+  &:hover {
+    background-color: lightskyblue;
+    cursor: pointer;
+  }
+`;
+
+export interface ISuggestionsProps {
+    groups: IDropDownItemGroup[];
+    hideDropDown: boolean;
+}
+
+interface ISuggestionsState {
+    // active node (using key board)
+    // up/down and enter to select
+    // --> if none of the above, then transform to SFC
+}
+
+export class DropDown extends React.PureComponent<ISuggestionsProps, ISuggestionsState> {
+    public render(): ReactNode {
+        const groups: IDropDownItemGroup[] = this.props.groups;
+
+        if (this.props.hideDropDown || !groups || !groups.length) {
+            return null;
+        }
+
+        return (
+            <ContainerDiv>
+                {
+                    groups.map((g: IDropDownItemGroup) => {
+                        return (
+                            <GroupContainerDiv key={g.title}>
+                                <GroupTitleDiv>
+                                    {g.title}
+                                </GroupTitleDiv>
+                                <GroupItemsList>
+                                    {
+                                        g.items.map((i: IDropDownItem) => {
+                                            return (
+                                                <GroupItem
+                                                    key={i.key}
+                                                    onClick={() => g.onSelectItem(i)}
+                                                >
+                                                    {i.node}
+                                                </GroupItem>
+                                            );
+                                        })
+                                    }
+                                </GroupItemsList>
+                            </GroupContainerDiv>
+                        )
+                    })
+                }
+            </ContainerDiv>
+        );
+    }
+}
