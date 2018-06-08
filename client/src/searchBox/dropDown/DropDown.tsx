@@ -39,7 +39,6 @@ const GroupItem = styled.li`
 
 export interface ISuggestionsProps {
     groups: IDropDownItemGroup[];
-    hideDropDown: boolean;
 }
 
 interface ISuggestionsState {
@@ -49,10 +48,17 @@ interface ISuggestionsState {
 }
 
 export class DropDown extends React.PureComponent<ISuggestionsProps, ISuggestionsState> {
+
+    public constructor(props: ISuggestionsProps) {
+        super(props);
+
+        this.state = {};
+    }
+
     public render(): ReactNode {
         const groups: IDropDownItemGroup[] = this.props.groups;
 
-        if (this.props.hideDropDown || !groups || !groups.length) {
+        if (!groups || !groups.length) {
             return null;
         }
 

@@ -6,7 +6,7 @@ import {ApiController} from "./controllers/ApiController";
 import {DevApiController} from "./controllers/DevApiControlller";
 
 const configureDb = async function (client: MongoClient) {
-    const db: Db = client.db("stuff");
+    const db: Db = client.db(Config.db.name);
     db.on("error", console.log);
 
     await db.collection(Config.db.collections.items).createIndex({"$**": "text"});

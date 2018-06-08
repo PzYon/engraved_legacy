@@ -24,7 +24,7 @@ interface IRouterParams {
     value: string;
 }
 
-export class AddItemForm extends React.PureComponent<RouteComponentProps<IRouterParams>, IAddItemFormState> {
+export class EditItemForm extends React.PureComponent<RouteComponentProps<IRouterParams>, IAddItemFormState> {
     public constructor(props: RouteComponentProps<IRouterParams>) {
         super(props);
 
@@ -55,7 +55,7 @@ export class AddItemForm extends React.PureComponent<RouteComponentProps<IRouter
                     <SelectField
                         label={"Item Kind"}
                         onValueChange={(value: ItemKind) => this.setState({itemKind: value})}
-                        options={AddItemForm.getOptions()}
+                        options={EditItemForm.getOptions()}
                         defaultKey={this.state.itemKind}
                     />
                     <MultiLineTextField
