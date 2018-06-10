@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable, SubscriptionLike} from "rxjs";
 import {ajax} from "rxjs/ajax";
 import {AjaxResponse} from "rxjs/internal/observable/dom/AjaxObservable";
 import {map} from "rxjs/internal/operators";
+import {Observer} from "rxjs/internal/types";
 import {CodeItem} from "./CodeItem";
 import {NoteItem} from "./NoteItem";
 import {UrlItem} from "./UrlItem";
@@ -68,9 +69,21 @@ export class ItemStore {
                 case ItemKind.Url:
                     return new UrlItem(item as IUrlItem);
                 default:
-                    // return new NoteItem(item);
+                    // todo: return a default item instead?
                     throw new Error(`item with kind "${item.itemKind}" is not supported.`);
             }
         });
+    }
+
+    public getLocalItemOrLoad(id: string): Observable<IItem> {
+        const localItem: IItem | undefined = this.items$.value.find(i => i._id === id);
+        if (localItem) {
+            return new Observable((observer: Observer<IItem>) => {
+                observer.next(localItem);
+                observer.complete();
+            });
+        }
+
+        return ajax.getJSON<IItem>(`http://localhost:3001/items/${id}`);
     }
 }

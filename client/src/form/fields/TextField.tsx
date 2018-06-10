@@ -8,14 +8,12 @@ export interface ITextFieldProps extends IFieldProps<string> {
     value?: string;
 }
 
-export const TextField: React.SFC<ITextFieldProps> = (props: ITextFieldProps) => {
-    return (
-        <FieldWrapper label={props.label}>
-            <Input
-                type="text"
-                value={props.value}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => props.onValueChange(e.target.value)}
-            />
-        </FieldWrapper>
-    );
-};
+export const TextField: React.SFC<ITextFieldProps> = (props: ITextFieldProps) => (
+    <FieldWrapper label={props.label}>
+        <Input
+            type="text"
+            value={props.value}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => props.onValueChange(e.target.value)}
+        />
+    </FieldWrapper>
+);

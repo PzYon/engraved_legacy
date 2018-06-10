@@ -11,7 +11,8 @@ const SelectedKeywordSpan = styled.span`
   display: inline-block;
   margin: 0 10px;
   padding: ${StyleConstants.formElementPadding};
-  background-color: deepskyblue;
+  background-color: white;
+  cursor: pointer;
 `;
 
 interface ISelectedKeywordsProps {
