@@ -7,7 +7,7 @@ export class KeywordDropDownItem implements IDropDownItem<IKeyword> {
         return this.item.name;
     }
 
-    public get node(): React.ReactNode {
+    public get nodeOrLabel(): React.ReactNode {
         return this.item.name;
     }
 

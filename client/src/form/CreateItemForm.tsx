@@ -31,10 +31,13 @@ export class CreateItemForm extends React.PureComponent<RouteComponentProps<IRou
     }
 
     public render(): ReactNode {
+        // todo: this.state should not be the whole item
+
         return (
             <Form
+                title={"Create item"}
                 item={this.state as any}
-                buttons={[{onClick: this.addItem, label: "Add"}]}
+                buttons={[{onClick: this.addItem, nodeOrLabel: "Add"}]}
             />
         );
     }

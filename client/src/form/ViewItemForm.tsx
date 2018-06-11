@@ -2,6 +2,7 @@ import {IItem} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import {RouteComponentProps} from "react-router";
+import {Link} from "react-router-dom";
 import {ItemStore} from "../items/ItemStore";
 import {Form} from "./Form";
 
@@ -39,8 +40,18 @@ export class ViewItemForm extends React.Component<RouteComponentProps<IRouterPar
 
         return (
             <Form
+                title={"Item details"}
                 item={this.state.item}
-                buttons={[{label: "Foooo", onClick: (item: IItem) => alert(JSON.stringify(item))}]}
+                buttons={[
+                    {
+                        nodeOrLabel: (
+                            <Link to={`${this.state.item._id}/edit`} key={this.state.item._id}>
+                                {"Edit"}
+                            </Link>
+                        ),
+                        onClick: (item: IItem) => void(0)
+                    }
+                ]}
             />
         );
     }

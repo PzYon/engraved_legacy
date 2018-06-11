@@ -10,6 +10,7 @@ import {FormFieldContainer} from "./Form.StyledComponents";
 import {IButton} from "./IButton";
 
 export interface IFormProps {
+    title: string;
     item: IItem | undefined;
     buttons: IButton[];
 }
@@ -40,7 +41,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
         }
 
         return (
-            <Dialog title={"Add Item"} onClose={this.onClose}>
+            <Dialog title={this.props.title} onClose={this.onClose}>
                 <FormFieldContainer>
                     <TextField
                         label={"Title"}
@@ -66,10 +67,10 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         .map((b: IButton) => (
                             <button
                                 type="button"
-                                key={b.label}
+                                key={typeof b.nodeOrLabel === "string" ? b.nodeOrLabel : this.state.item._id}
                                 onClick={() => b.onClick(this.state.item)}
                             >
-                                {b.label}
+                                {b.nodeOrLabel}
                             </button>
                         ))
                 }
