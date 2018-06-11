@@ -19,18 +19,24 @@ export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
     public render(): ReactNode {
         return (
             <FieldWrapper label={this.props.label}>
-                <Select defaultValue={this.props.defaultKey} onChange={this.onChange}>
-                    {
-                        this.props
-                            .options
-                            .map((o: ISelectFieldOptions<any>) => (
-                                     <option value={o.key} key={o.key}>
-                                         {o.label}
-                                     </option>
-                                 )
-                            )
-                    }
-                </Select>
+                {
+                    this.props.isReadOnly
+                    ? `TODO! Following is only the default key: ${this.props.defaultKey}`
+                    : (
+                        <Select defaultValue={this.props.defaultKey} onChange={this.onChange}>
+                            {
+                                this.props
+                                    .options
+                                    .map((o: ISelectFieldOptions<any>) => (
+                                             <option value={o.key} key={o.key}>
+                                                 {o.label}
+                                             </option>
+                                         )
+                                    )
+                            }
+                        </Select>
+                    )
+                }
             </FieldWrapper>
         );
     }

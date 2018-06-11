@@ -1,7 +1,7 @@
+import {IItem, IKeyword, ItemSearchQuery} from "engraved-shared/dist";
 import {Express} from "express";
 import {Request, Response} from "express-serve-static-core";
 import {Db} from "mongodb";
-import {IItem, IKeyword, ItemSearchQuery} from "engraved-shared/dist";
 import {DbService} from "../db/DbService";
 
 export class ApiController {
@@ -12,6 +12,7 @@ export class ApiController {
         this.dbService = new DbService(db);
 
         app.get("/items", this.searchItems);
+        app.get("/items/:itemId", this.getItemById);
         app.post("/items", this.addItem);
         app.get("/keywords", this.searchKeywords);
     }
@@ -19,6 +20,12 @@ export class ApiController {
     private addItem = (req: Request, res: Response): any => {
         this.dbService
             .insertItem(req.body)
+            .then((item: IItem) => res.send(item));
+    };
+
+    private getItemById = (req: Request, res: Response): any => {
+        this.dbService
+            .getItemById(req.params.itemId)
             .then((item: IItem) => res.send(item));
     };
 

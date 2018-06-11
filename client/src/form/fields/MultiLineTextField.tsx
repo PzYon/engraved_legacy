@@ -7,10 +7,16 @@ import {ITextFieldProps} from "./TextField";
 export const MultiLineTextField: React.SFC<ITextFieldProps> = (props: ITextFieldProps) => {
     return (
         <FieldWrapper label={props.label}>
-            <TextArea
-                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => props.onValueChange(e.target.value)}
-                value={props.value}
-            />
+            {
+                props.isReadOnly
+                ? props.value
+                : (
+                    <TextArea
+                        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => props.onValueChange(e.target.value)}
+                        value={props.value}
+                    />
+                )
+            }
         </FieldWrapper>
     );
 };

@@ -1,7 +1,7 @@
 import {IUrlItem} from "engraved-shared/dist";
 import {BaseItem} from "./BaseItem";
 
-export class UrlItem extends BaseItem {
+export class UrlItem extends BaseItem implements IUrlItem {
     public readonly url: string;
 
     public constructor(urlItem: IUrlItem) {
