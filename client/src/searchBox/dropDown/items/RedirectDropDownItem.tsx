@@ -19,7 +19,7 @@ export class RedirectDropDownItem implements IDropDownItem<IRedirection> {
         return this.item.url;
     }
 
-    public get nodeOrLabel(): React.ReactNode {
+    public get node(): React.ReactNode {
         return (
             <Container>
                 <Link to={this.item.url} key={this.key}>

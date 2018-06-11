@@ -1,58 +1,138 @@
-import {ReactNode} from "react";
+import {IItem, ItemKind} from "engraved-shared/dist";
 import * as React from "react";
-import {RouteComponentProps} from "react-router";
-import {IItem} from "../../../shared/src/items/IItem";
+import {ReactNode} from "react";
+import {Redirect, RouteComponentProps} from "react-router";
+import {Dialog} from "../common/Dialog";
 import {ItemStore} from "../items/ItemStore";
-import {Form} from "./Form";
+import {MultiLineTextField} from "./fields/MultiLineTextField";
+import {ISelectFieldOptions, SelectField} from "./fields/SelectField";
+import {TextField} from "./fields/TextField";
+import {FormFieldContainer} from "./Form.StyledComponents";
+
+interface IAddItemFormState {
+    itemKind: ItemKind;
+    title?: string;
+    description?: string;
+    url?: string;
+    note?: string;
+    code?: string;
+    isClose: boolean;
+}
 
 interface IRouterParams {
-    itemId: string;
+    itemKind: ItemKind;
+    value: string;
 }
 
-interface IEditItemFormState {
-    itemId: string;
-    item: IItem | undefined;
-}
-
-export class EditItemForm extends React.Component<RouteComponentProps<IRouterParams>, IEditItemFormState> {
+export class EditItemForm extends React.PureComponent<RouteComponentProps<IRouterParams>, IAddItemFormState> {
     public constructor(props: RouteComponentProps<IRouterParams>) {
         super(props);
 
+        const value = decodeURIComponent(props.match.params.value);
+        const itemKind = decodeURIComponent(props.match.params.itemKind) as ItemKind;
+
         this.state = {
-            item: undefined,
-            itemId: decodeURIComponent(this.props.match.params.itemId)
+            isClose: false,
+            title: itemKind !== ItemKind.Url ? value : undefined,
+            url: itemKind === ItemKind.Url ? value : undefined,
+            itemKind: itemKind
         };
     }
 
-    public componentDidMount(): void {
-        ItemStore.instance
-                 .getLocalItemOrLoad(this.state.itemId)
-                 .subscribe(item => {
-                     this.setState({item: item});
-                 });
-    }
-
     public render(): ReactNode {
-        if (!this.state.item) {
-            return null;
+        if (this.state.isClose) {
+            return <Redirect to="/" push={true}/>
         }
 
         return (
-            <Form
-                isReadonly={false}
-                title={"Edit item"}
-                item={this.state.item}
-                buttons={[
-                    {
-                        nodeOrLabel: "Update",
-                        onClick: this.updateItem
-                    }
-                ]}
-            />
+            <Dialog title={"Add Item"} onClose={this.onClose}>
+                <FormFieldContainer>
+                    <TextField
+                        label={"Title"}
+                        onValueChange={(value: string) => this.setState({title: value})}
+                        value={this.state.title}
+                    />
+                    <SelectField
+                        label={"Item Kind"}
+                        onValueChange={(value: ItemKind) => this.setState({itemKind: value})}
+                        options={EditItemForm.getOptions()}
+                        defaultKey={this.state.itemKind}
+                    />
+                    <MultiLineTextField
+                        label={"Description"}
+                        onValueChange={(value: string) => this.setState({description: value})}
+                        value={this.state.description}
+                    />
+                    {this.getKindSpecificFields()}
+                </FormFieldContainer>
+                <button type="button" onClick={this.addItem}>
+                    Add
+                </button>
+            </Dialog>
         );
     }
 
-    private updateItem = (item: IItem): void => {
-        alert("not yet implemented")
+    private onClose = (): void => {
+        this.setState({isClose: true});
     };
+
+    private addItem = (): void => {
+        const item: IItem = {
+            title: this.state.title || "",
+            description: this.state.description,
+            itemKind: this.state.itemKind
+        };
+
+        ItemStore.instance
+                 .addItem(item)
+                 .subscribe(() => {
+                     ItemStore.instance.loadItems();
+                     this.onClose();
+                 });
+    };
+
+    private getKindSpecificFields(): ReactNode {
+        switch (this.state.itemKind) {
+            case ItemKind.Url:
+                return (
+                    <TextField
+                        label={"URL"}
+                        onValueChange={(value: string) => this.setState({url: value})}
+                        value={this.state.url}
+                    />
+                );
+
+            case ItemKind.Note:
+                return (
+                    <MultiLineTextField
+                        label={"Note"}
+                        onValueChange={(value: string) => this.setState({note: value})}
+                        value={this.state.note}
+                    />
+                );
+
+            case ItemKind.Code:
+                return (
+                    <MultiLineTextField
+                        label={"Code"}
+                        onValueChange={(value: string) => this.setState({code: value})}
+                        value={this.state.code}
+                    />
+                );
+
+            default:
+                return null;
+        }
+    }
+
+    private static getOptions(): Array<ISelectFieldOptions<ItemKind>> {
+        return Object.keys(ItemKind)
+                     .map((k: string) => {
+                         return {
+                             key: k,
+                             label: k,
+                             value: ItemKind[k] as ItemKind
+                         }
+                     });
+    }
 }

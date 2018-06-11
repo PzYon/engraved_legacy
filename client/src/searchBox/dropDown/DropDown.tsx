@@ -79,7 +79,7 @@ export class DropDown extends React.PureComponent<ISuggestionsProps, ISuggestion
                                                     key={i.key}
                                                     onClick={() => g.onSelectItem(i)}
                                                 >
-                                                    {i.nodeOrLabel}
+                                                    {i.node}
                                                 </GroupItem>
                                             );
                                         })

@@ -1,9 +1,7 @@
 import {ICodeItem} from "engraved-shared/dist";
 import {BaseItem} from "./BaseItem";
 
-export class CodeItem extends BaseItem implements ICodeItem {
-    public code: string;
-
+export class CodeItem extends BaseItem {
     public constructor(codeItem: ICodeItem) {
         super(codeItem);
     }
