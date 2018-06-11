@@ -47,23 +47,25 @@ export interface IDialogProps {
     onClose?: () => void;
 }
 
-export const Dialog: React.SFC<IDialogProps> = (props: IDialogProps) => (
-    <RootDiv>
-        <InnerDiv>
-            {
-                props.title
-                && (
-                    <TitleDiv>
-                        {props.title}
-                    </TitleDiv>
-                )
-            }
-            <CloseSpan onClick={props.onClose ? props.onClose : void(0)}>
-                x
-            </CloseSpan>
-            <ContentDiv>
-                {props.children}
-            </ContentDiv>
-        </InnerDiv>
-    </RootDiv>
-);
+export const Dialog: React.SFC<IDialogProps> = (props: IDialogProps) => {
+    return (
+        <RootDiv>
+            <InnerDiv>
+                {
+                    props.title
+                    && (
+                        <TitleDiv>
+                            {props.title}
+                        </TitleDiv>
+                    )
+                }
+                <CloseSpan onClick={props.onClose ? props.onClose : void(0)}>
+                    x
+                </CloseSpan>
+                <ContentDiv>
+                    {props.children}
+                </ContentDiv>
+            </InnerDiv>
+        </RootDiv>
+    );
+};

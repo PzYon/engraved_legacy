@@ -1,5 +1,5 @@
+import {Db, InsertWriteOpResult} from "mongodb";
 import {IItem, IKeyword, ItemSearchQuery} from "engraved-shared/dist";
-import {Db, InsertWriteOpResult, ObjectID} from "mongodb";
 import Config from "../Config";
 
 export class DbService {
@@ -23,12 +23,6 @@ export class DbService {
                    .find(query)
                    .sort("createdOn", -1)
                    .toArray();
-    }
-
-    public getItemById(id: string): Promise<IItem> {
-        return this.db
-                   .collection(Config.db.collections.items)
-                   .findOne({_id: new ObjectID(id)});
     }
 
     private static transformQuery(searchQuery: ItemSearchQuery): any {
