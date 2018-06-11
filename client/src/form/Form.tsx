@@ -13,6 +13,7 @@ export interface IFormProps {
     title: string;
     item: IItem | undefined;
     buttons: IButton[];
+    isReadonly: boolean;
 }
 
 interface IFormState {
@@ -47,17 +48,20 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         label={"Title"}
                         onValueChange={(value: string) => this.setNewState("title", value)}
                         value={this.state.item.title}
+                        isReadOnly={this.props.isReadonly}
                     />
                     <SelectField
                         label={"Item Kind"}
                         onValueChange={(value: ItemKind) => this.setNewState("itemKind", value)}
                         options={Form.getOptions()}
                         defaultKey={this.state.item.itemKind}
+                        isReadOnly={this.props.isReadonly}
                     />
                     <MultiLineTextField
                         label={"Description"}
                         onValueChange={(value: string) => this.setNewState("description", value)}
                         value={this.state.item.description}
+                        isReadOnly={this.props.isReadonly}
                     />
                     {this.getKindSpecificFields()}
                 </FormFieldContainer>
@@ -90,6 +94,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         label={"URL"}
                         onValueChange={(value: string) => this.setNewState("url", value)}
                         value={(this.state.item as IUrlItem).url}
+                        isReadOnly={this.props.isReadonly}
                     />
                 );
 
@@ -99,6 +104,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         label={"Note"}
                         onValueChange={(value: string) => this.setNewState("note", value)}
                         value={(this.state.item as INoteItem).note}
+                        isReadOnly={this.props.isReadonly}
                     />
                 );
 
@@ -108,6 +114,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         label={"Code"}
                         onValueChange={(value: string) => this.setNewState("code", value)}
                         value={(this.state.item as ICodeItem).code}
+                        isReadOnly={this.props.isReadonly}
                     />
                 );
 

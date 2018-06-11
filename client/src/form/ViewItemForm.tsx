@@ -40,6 +40,7 @@ export class ViewItemForm extends React.Component<RouteComponentProps<IRouterPar
 
         return (
             <Form
+                isReadonly={true}
                 title={"Item details"}
                 item={this.state.item}
                 buttons={[

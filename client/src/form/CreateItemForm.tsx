@@ -35,6 +35,7 @@ export class CreateItemForm extends React.PureComponent<RouteComponentProps<IRou
 
         return (
             <Form
+                isReadonly={false}
                 title={"Create item"}
                 item={this.state as any}
                 buttons={[{onClick: this.addItem, nodeOrLabel: "Add"}]}
