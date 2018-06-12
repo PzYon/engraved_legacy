@@ -2,6 +2,7 @@ import {ItemKind} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import {RouteComponentProps} from "react-router";
+import {ErrorBoundary} from "../common/ErrorBoundary";
 import {ItemStore} from "../items/ItemStore";
 import {Form} from "./Form";
 
@@ -49,6 +50,6 @@ export class CreateItemForm extends React.PureComponent<RouteComponentProps<IRou
                  .subscribe(() => {
                      ItemStore.instance.loadItems();
                      // this.onClose();
-                 });
+                 }, (error: Error) => ErrorBoundary.ensureError(this, error));
     };
 }
