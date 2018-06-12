@@ -2,6 +2,7 @@ import {IItem} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
+import {ErrorBoundary} from "../common/ErrorBoundary";
 import {Item} from "./Item";
 import {ItemStore} from "./ItemStore";
 
@@ -28,7 +29,8 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
     public componentDidMount() {
         ItemStore.instance
                  .items$
-                 .subscribe(t => this.setState({items: t}));
+                 .subscribe(t => this.setState({items: t}),
+                            (error: Error) => ErrorBoundary.ensureError(this, error));
     }
 
     public render(): ReactNode {

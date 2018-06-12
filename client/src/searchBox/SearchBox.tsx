@@ -2,6 +2,7 @@ import {IKeyword, ItemKind, Util} from "engraved-shared/dist";
 import * as React from "react";
 import {ChangeEvent, ReactNode} from "react";
 import styled from "styled-components";
+import {ErrorBoundary} from "../common/ErrorBoundary";
 import {IRedirection} from "../common/IRedirection";
 import {StyleConstants} from "../common/StyleConstants";
 import {ItemStore} from "../items/ItemStore";
@@ -48,7 +49,7 @@ export class SearchBox extends React.PureComponent<{}, IMagicBoxState> {
             showDropDown: true,
             actionDropDownItems: [],
             keywordDropDownItems: []
-        }
+        };
     }
 
     public componentDidMount(): void {
@@ -167,7 +168,7 @@ export class SearchBox extends React.PureComponent<{}, IMagicBoxState> {
                                            keywordDropDownItems: (keywords || []).map(k => new KeywordDropDownItem(k)),
                                            showDropDown: true
                                        });
-                     });
+                     }, (error: Error) => ErrorBoundary.ensureError(this, error));
         }
     };
 

@@ -3,6 +3,7 @@ import * as React from "react";
 import {ReactNode} from "react";
 import {RouteComponentProps} from "react-router";
 import {Link} from "react-router-dom";
+import {ErrorBoundary} from "../common/ErrorBoundary";
 import {ItemStore} from "../items/ItemStore";
 import {Form} from "./Form";
 
@@ -30,7 +31,7 @@ export class ViewItemForm extends React.Component<RouteComponentProps<IRouterPar
                  .getLocalItemOrLoad(this.state.itemId)
                  .subscribe(item => {
                      this.setState({item: item});
-                 });
+                 }, (error: Error) => ErrorBoundary.ensureError(this, error));
     }
 
     public render(): ReactNode {

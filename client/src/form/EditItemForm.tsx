@@ -1,7 +1,8 @@
-import {ReactNode} from "react";
+import {IItem} from "engraved-shared/dist";
 import * as React from "react";
+import {ReactNode} from "react";
 import {RouteComponentProps} from "react-router";
-import {IItem} from "../../../shared/src/items/IItem";
+import {ErrorBoundary} from "../common/ErrorBoundary";
 import {ItemStore} from "../items/ItemStore";
 import {Form} from "./Form";
 
@@ -27,9 +28,8 @@ export class EditItemForm extends React.Component<RouteComponentProps<IRouterPar
     public componentDidMount(): void {
         ItemStore.instance
                  .getLocalItemOrLoad(this.state.itemId)
-                 .subscribe(item => {
-                     this.setState({item: item});
-                 });
+                 .subscribe(item => this.setState({item: item}),
+                            (error: Error) => ErrorBoundary.ensureError(this, error));
     }
 
     public render(): ReactNode {
