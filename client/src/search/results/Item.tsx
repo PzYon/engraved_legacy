@@ -1,9 +1,9 @@
-import {IItem, IKeyword} from "engraved-shared/dist";
 import * as moment from "moment";
 import * as React from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import {StyleConstants} from "../common/StyleConstants";
+import {IItem, IKeyword} from "../../../../shared/dist/index";
+import {StyleConstants} from "../../common/StyleConstants";
 
 const Root = styled.div`
   border: 1px solid deepskyblue;

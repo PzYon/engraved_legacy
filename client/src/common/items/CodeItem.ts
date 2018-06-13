@@ -1,4 +1,4 @@
-import {ICodeItem} from "engraved-shared/dist";
+import {ICodeItem} from "../../../../shared/dist/index";
 import {BaseItem} from "./BaseItem";
 
 export class CodeItem extends BaseItem implements ICodeItem {

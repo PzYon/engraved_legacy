@@ -37,7 +37,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
             return <Redirect to="/" push={true}/>
         }
 
-        if (!this.props.item) {
+        const item: IItem = this.state.item;
+        if (!item) {
             return null;
         }
 
@@ -47,23 +48,23 @@ export class Form extends React.Component<IFormProps, IFormState> {
                     <TextField
                         label={"Title"}
                         onValueChange={(value: string) => this.setNewState("title", value)}
-                        value={this.state.item.title}
+                        value={item.title}
                         isReadOnly={this.props.isReadonly}
                     />
                     <SelectField
                         label={"Item Kind"}
                         onValueChange={(value: ItemKind) => this.setNewState("itemKind", value)}
                         options={Form.getOptions()}
-                        defaultKey={this.state.item.itemKind}
+                        defaultKey={item.itemKind}
                         isReadOnly={this.props.isReadonly}
                     />
                     <MultiLineTextField
                         label={"Description"}
                         onValueChange={(value: string) => this.setNewState("description", value)}
-                        value={this.state.item.description}
+                        value={item.description}
                         isReadOnly={this.props.isReadonly}
                     />
-                    {this.getKindSpecificFields()}
+                    {this.getKindSpecificFields(item)}
                 </FormFieldContainer>
                 {
                     this.props
@@ -71,8 +72,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         .map((b: IButton) => (
                             <button
                                 type="button"
-                                key={typeof b.nodeOrLabel === "string" ? b.nodeOrLabel : this.state.item._id}
-                                onClick={() => b.onClick(this.state.item)}
+                                key={typeof b.nodeOrLabel === "string" ? b.nodeOrLabel : item._id}
+                                onClick={() => b.onClick(item)}
                             >
                                 {b.nodeOrLabel}
                             </button>
@@ -82,18 +83,18 @@ export class Form extends React.Component<IFormProps, IFormState> {
         );
     }
 
-    private getKindSpecificFields(): ReactNode {
-        if (!this.props.item) {
+    private getKindSpecificFields(item: IItem): ReactNode {
+        if (!item) {
             return null;
         }
 
-        switch (this.props.item.itemKind) {
+        switch (item.itemKind) {
             case ItemKind.Url:
                 return (
                     <TextField
                         label={"URL"}
                         onValueChange={(value: string) => this.setNewState("url", value)}
-                        value={(this.state.item as IUrlItem).url}
+                        value={(item as IUrlItem).url}
                         isReadOnly={this.props.isReadonly}
                     />
                 );
@@ -103,7 +104,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                     <MultiLineTextField
                         label={"Note"}
                         onValueChange={(value: string) => this.setNewState("note", value)}
-                        value={(this.state.item as INoteItem).note}
+                        value={(item as INoteItem).note}
                         isReadOnly={this.props.isReadonly}
                     />
                 );
@@ -113,7 +114,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                     <MultiLineTextField
                         label={"Code"}
                         onValueChange={(value: string) => this.setNewState("code", value)}
-                        value={(this.state.item as ICodeItem).code}
+                        value={(item as ICodeItem).code}
                         isReadOnly={this.props.isReadonly}
                     />
                 );

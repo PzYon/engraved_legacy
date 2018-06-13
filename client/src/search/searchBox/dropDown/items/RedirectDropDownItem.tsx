@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import {IRedirection} from "../../../common/IRedirection";
+import {IRedirection} from "../../../../common/IRedirection";
 import {IDropDownItem} from "../IDropDownItem";
 
 const Container = styled.span`

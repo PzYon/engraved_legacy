@@ -1,7 +1,7 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../../common/StyleConstants";
+import {StyleConstants} from "../../../common/StyleConstants";
 import {IDropDownItem} from "./IDropDownItem";
 import {IDropDownItemGroup} from "./IDropDownItemGroup";
 

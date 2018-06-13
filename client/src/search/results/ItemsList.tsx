@@ -2,9 +2,9 @@ import {IItem} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {ErrorBoundary} from "../common/ErrorBoundary";
+import {ErrorBoundary} from "../../common/ErrorBoundary";
+import {ItemStore} from "../../common/items/ItemStore";
 import {Item} from "./Item";
-import {ItemStore} from "./ItemStore";
 
 const List = styled.ul`
   list-style-type: none;

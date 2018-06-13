@@ -1,7 +1,7 @@
 import {IKeyword} from "engraved-shared/dist";
 import * as React from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../common/StyleConstants";
+import {StyleConstants} from "../../common/StyleConstants";
 
 const ContainerDiv = styled.div`
   min-height: 1.5rem;

@@ -5,8 +5,7 @@ import {ErrorBoundary} from "./common/ErrorBoundary";
 import {CreateItemForm} from "./form/CreateItemForm";
 import {EditItemForm} from "./form/EditItemForm";
 import {ViewItemForm} from "./form/ViewItemForm";
-import {ItemsList} from "./items/ItemsList";
-import {SearchBox} from "./searchBox/SearchBox";
+import {Search} from "./search/Search";
 
 const AppRootDiv = styled.div`
   background-color: lightskyblue;
@@ -15,19 +14,12 @@ const AppRootDiv = styled.div`
   width: 100%;
 `;
 
-const BoxContainerDiv = styled.div`
-  text-align: center;
-`;
-
 export const App: React.SFC = () => (
     <Router>
         <AppRootDiv>
-            <ErrorBoundary>
-                <BoxContainerDiv>
-                    <SearchBox/>
-                </BoxContainerDiv>
-                <ItemsList/>
-            </ErrorBoundary>
+            <Route
+                path="/"
+                render={ErrorBoundary.wrap(Search)}/>
             <Route
                 path="/create/:itemKind?/:value?"
                 render={ErrorBoundary.wrap(CreateItemForm)}
