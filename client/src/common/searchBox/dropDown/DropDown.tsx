@@ -1,16 +1,16 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../../../common/StyleConstants";
+import {StyleConstants} from "../../StyleConstants";
 import {IDropDownItem} from "./IDropDownItem";
 import {IDropDownItemGroup} from "./IDropDownItemGroup";
 
 const ContainerDiv = styled.div`
   position: absolute;
-  width: calc(100% - 20px);
+  width: 100%;
   text-align: left;
   font-size: 0.8rem;
-  border-top: 1px solid deepskyblue;
+  border-top: 1px solid lightgray;
   background-color: white;
 `;
 
@@ -68,9 +68,14 @@ export class DropDown extends React.PureComponent<ISuggestionsProps, ISuggestion
                     groups.map((g: IDropDownItemGroup) => {
                         return (
                             <GroupContainerDiv key={g.title}>
-                                <GroupTitleDiv>
-                                    {g.title}
-                                </GroupTitleDiv>
+                                {
+                                    g.title
+                                    && (
+                                        <GroupTitleDiv>
+                                            {g.title}
+                                        </GroupTitleDiv>
+                                    )
+                                }
                                 <GroupItemsList>
                                     {
                                         g.items.map((i: IDropDownItem) => {

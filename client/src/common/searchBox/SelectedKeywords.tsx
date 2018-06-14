@@ -1,15 +1,18 @@
 import {IKeyword} from "engraved-shared/dist";
 import * as React from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../../common/StyleConstants";
+import {StyleConstants} from "../StyleConstants";
 
 const ContainerDiv = styled.div`
-  min-height: 1.5rem;
+  text-align: left;
+  font-size: 0.8rem;
+  min-height: 1.7rem;
+  background-color: lightgray;
 `;
 
 const SelectedKeywordSpan = styled.span`
   display: inline-block;
-  margin: 0 10px;
+  margin: ${StyleConstants.formElementPadding};
   padding: ${StyleConstants.formElementPadding};
   background-color: white;
   cursor: pointer;

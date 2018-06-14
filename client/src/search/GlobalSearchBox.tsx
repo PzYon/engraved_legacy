@@ -1,35 +1,16 @@
 import {IKeyword, ItemKind, Util} from "engraved-shared/dist";
 import * as React from "react";
-import {ChangeEvent, ReactNode} from "react";
-import styled from "styled-components";
-import {ErrorBoundary} from "../../common/ErrorBoundary";
-import {IRedirection} from "../../common/IRedirection";
-import {ItemStore} from "../../common/items/ItemStore";
-import {StyleConstants} from "../../common/StyleConstants";
-import {DropDown} from "./dropDown/DropDown";
-import {IDropDownItem} from "./dropDown/IDropDownItem";
-import {IDropDownItemGroup} from "./dropDown/IDropDownItemGroup";
-import {KeywordDropDownItem} from "./dropDown/items/KeywordDropDownItem";
-import {RedirectDropDownItem} from "./dropDown/items/RedirectDropDownItem";
-import {SelectedKeywords} from "./SelectedKeywords";
+import {ReactNode} from "react";
+import {ErrorBoundary} from "../common/ErrorBoundary";
+import {IRedirection} from "../common/IRedirection";
+import {ItemStore} from "../common/items/ItemStore";
+import {IDropDownItem} from "../common/searchBox/dropDown/IDropDownItem";
+import {IDropDownItemGroup} from "../common/searchBox/dropDown/IDropDownItemGroup";
+import {KeywordDropDownItem} from "../common/searchBox/dropDown/items/KeywordDropDownItem";
+import {RedirectDropDownItem} from "../common/searchBox/dropDown/items/RedirectDropDownItem";
+import {SearchBox} from "../common/searchBox/SearchBox";
 
-const ContainerDiv = styled.div`
-  display: inline-block;
-  position: relative;
-  padding: ${StyleConstants.defaultPadding};
-`;
-
-const Input = styled.input`
-  font-size: ${StyleConstants.largeFontSize};
-  border: 0;
-  padding: ${StyleConstants.formElementPadding};
-  
-  &:focus {
-    outline: none;
-  }
-`;
-
-interface IMagicBoxState {
+interface IGlobalSearchBoxState {
     searchValue: string;
     keywordSearchValue: string
     showDropDown: boolean;
@@ -37,8 +18,7 @@ interface IMagicBoxState {
     actionDropDownItems: RedirectDropDownItem[];
 }
 
-export class SearchBox extends React.PureComponent<{}, IMagicBoxState> {
-    private node: HTMLDivElement;
+export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
 
     public constructor(props: {}) {
         super(props);
@@ -52,50 +32,19 @@ export class SearchBox extends React.PureComponent<{}, IMagicBoxState> {
         };
     }
 
-    public componentDidMount(): void {
-        document.addEventListener("mousedown", (e) => this.handleDocumentClick(e), false);
-    }
-
-    public componentWillUnmount(): void {
-        document.removeEventListener("mousedown", (e) => this.handleDocumentClick(e), false);
-    }
-
     public render(): ReactNode {
         return (
-            <ContainerDiv innerRef={ref => this.node = ref}>
-                <SelectedKeywords
-                    selectedKeywords={ItemStore.instance.keywords}
-                    onKeywordSelect={this.handleKeywordSelect}
-                />
-                <Input
-                    type="text"
-                    value={this.state.searchValue}
-                    onChange={this.onChange}
-                    onFocus={() => this.setState({showDropDown: true})}
-                />
-                {
-                    this.state.showDropDown
-                    && (
-                        <DropDown
-                            groups={this.getDropDownItemGroups()}
-                        />
-                    )
-                }
-            </ContainerDiv>
+            <SearchBox
+                selectedKeywords={ItemStore.instance.keywords}
+                onKeywordSelect={this.handleKeywordSelect}
+                dropDownItemGroups={this.getDropDownItemGroups()}
+                onChange={this.onChange}
+                searchValue={this.state.searchValue}
+            />
         );
     }
 
-    private handleDocumentClick = (e: any): void => {
-        if (this.node && this.node.contains(e.target)) {
-            return;
-        }
-
-        this.setState({showDropDown: false});
-    };
-
-    private onChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        const value: string = e.target.value;
-
+    private onChange = (value: string): void => {
         this.setState({searchValue: value});
 
         ItemStore.instance.searchText = value;
