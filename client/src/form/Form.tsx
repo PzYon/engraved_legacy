@@ -2,7 +2,9 @@ import {ICodeItem, IItem, INoteItem, ItemKind, IUrlItem} from "engraved-shared/d
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect} from "react-router";
+import {IKeyword} from "../../../shared/src/IKeyword";
 import {Dialog} from "../common/Dialog";
+import {KeywordField} from "./fields/KeywordField";
 import {MultiLineTextField} from "./fields/MultiLineTextField";
 import {ISelectFieldOptions, SelectField} from "./fields/SelectField";
 import {TextField} from "./fields/TextField";
@@ -62,6 +64,12 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         label={"Description"}
                         onValueChange={(value: string) => this.setNewState("description", value)}
                         value={item.description}
+                        isReadOnly={this.props.isReadonly}
+                    />
+                    <KeywordField
+                        label={"Keywords"}
+                        onValueChange={(value: IKeyword[]) => this.setNewState("keywords", value)}
+                        value={item.keywords || []}
                         isReadOnly={this.props.isReadonly}
                     />
                     {this.getKindSpecificFields(item)}
