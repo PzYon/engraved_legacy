@@ -65,9 +65,9 @@ export class DropDown extends React.PureComponent<ISuggestionsProps, ISuggestion
         return (
             <ContainerDiv>
                 {
-                    groups.map((g: IDropDownItemGroup) => {
+                    groups.map((g: IDropDownItemGroup, index: number) => {
                         return (
-                            <GroupContainerDiv key={g.title}>
+                            <GroupContainerDiv key={g.title || index}>
                                 {
                                     g.title
                                     && (

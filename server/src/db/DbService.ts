@@ -1,10 +1,22 @@
 import {IItem, IKeyword, ItemSearchQuery} from "engraved-shared/dist";
-import {Db, InsertWriteOpResult, ObjectID} from "mongodb";
+import {Db, InsertWriteOpResult, ObjectID, UpdateWriteOpResult} from "mongodb";
 import Config from "../Config";
 
 export class DbService {
-
     public constructor(private db: Db) {
+    }
+
+    public searchKeywords(searchText: any): Promise<IKeyword[]> {
+        const query: any = searchText
+                           ? {name: {$regex: searchText}}
+                           : {};
+
+        console.log(`- executing query: "${JSON.stringify(query)}"`);
+
+        return this.db
+                   .collection(Config.db.collections.keywords)
+                   .find(query)
+                   .toArray();
     }
 
     public insertItem(item: IItem): Promise<IItem> {
@@ -12,6 +24,21 @@ export class DbService {
                    .then((items: IItem[]) => {
                        return items[0];
                    });
+    }
+
+    public updateItem(id: string, item: IItem): Promise<any> {
+        if (item._id) {
+            if (item._id !== id) {
+                throw new Error("ID mismatch!");
+            } else {
+                delete item._id;
+            }
+        }
+
+        return this.db
+                   .collection(Config.db.collections.items)
+                   .updateOne(DbService.getItemByIdFilter(id), {$set: item})
+                   .then((r: UpdateWriteOpResult) => r.result);
     }
 
     public getItems(searchQuery: ItemSearchQuery): Promise<IItem[]> {
@@ -28,60 +55,8 @@ export class DbService {
     public getItemById(id: string): Promise<IItem> {
         return this.db
                    .collection(Config.db.collections.items)
-                   .findOne({_id: new ObjectID(id)});
+                   .findOne(DbService.getItemByIdFilter(id));
     }
-
-    private static transformQuery(searchQuery: ItemSearchQuery): any {
-        if (!searchQuery.hasConditions) {
-            return {};
-        }
-
-        const fullText = searchQuery.getFullText();
-        const doesFullTextMatch = fullText
-                                  ? DbService.createFulltextCondition(fullText, "title", "description")
-                                  : null;
-
-        // todo: make this case insensitive to
-        const areKeywordsApplied = searchQuery.getKeywords()
-                                              .map((keyword: string) => {
-                                                  const keywordsContains: any = {};
-                                                  keywordsContains[`${Config.db.collections.keywords}.name`] = keyword;
-                                                  return keywordsContains;
-                                              });
-
-        const hasKeywords = areKeywordsApplied && areKeywordsApplied.length;
-        const hasFullText = !!doesFullTextMatch;
-
-        if (hasKeywords && hasFullText) {
-            return {$and: [doesFullTextMatch, ...areKeywordsApplied]};
-        }
-
-        if (hasKeywords) {
-            return {$and: areKeywordsApplied};
-        }
-
-        if (hasFullText) {
-            return doesFullTextMatch;
-        }
-
-        return {};
-    }
-
-    private static createFulltextCondition(fullText: string, ...fieldNames: string[]): any {
-        if (!fieldNames || !fieldNames.length) {
-            return null;
-        }
-
-        return {$text: {$search: fullText}};
-
-        // const fieldConditions = fieldNames.map(n => {
-        //     const conditionObj: any = {};
-        //     conditionObj[n] = {$regex: fullText, $options: "i"};
-        //     return conditionObj;
-        // });
-        //
-        // return {$or: [{$text: {$search: fullText}}, ...fieldConditions]}
-    };
 
     public async insertItems(...items: IItem[]): Promise<IItem[]> {
         const all: IKeyword[] = items.map(i => i.keywords || [])
@@ -138,16 +113,67 @@ export class DbService {
                    .then((writeItemsResult: InsertWriteOpResult) => writeItemsResult.ops);
     }
 
-    public getKeywords(searchText: any): Promise<IKeyword[]> {
-        const query: any = searchText
-                           ? {name: {$regex: searchText}}
-                           : {};
+    private static transformQuery(searchQuery: ItemSearchQuery): any {
+        if (!searchQuery.hasConditions) {
+            return {};
+        }
 
-        console.log(`- executing query: "${JSON.stringify(query)}"`);
+        const fullText = searchQuery.getFullText();
+        const doesFullTextMatch = fullText
+                                  ? DbService.createFulltextFilter(true, fullText, "title", "description")
+                                  : null;
 
-        return this.db
-                   .collection(Config.db.collections.keywords)
-                   .find(query)
-                   .toArray();
+        // todo: make this case insensitive to
+        const areKeywordsApplied = searchQuery.getKeywords()
+                                              .map((keyword: string) => {
+                                                  const keywordsContains: any = {};
+                                                  keywordsContains[`${Config.db.collections.keywords}.name`] = keyword;
+                                                  return keywordsContains;
+                                              });
+
+        const hasKeywords = areKeywordsApplied && areKeywordsApplied.length;
+        const hasFullText = !!doesFullTextMatch;
+
+        if (hasKeywords && hasFullText) {
+            return {$and: [doesFullTextMatch, ...areKeywordsApplied]};
+        }
+
+        if (hasKeywords) {
+            return {$and: areKeywordsApplied};
+        }
+
+        if (hasFullText) {
+            return doesFullTextMatch;
+        }
+
+        return {};
+    }
+
+    private static createFulltextFilter(useNative: boolean, fullText: string, ...fieldNames: string[]): any {
+        if (!fieldNames || !fieldNames.length) {
+            return null;
+        }
+
+        return useNative
+               ? this.createNativeFulltextFilter(fullText)
+               : this.createCustomFullTextFilter(fieldNames, fullText);
+    };
+
+    private static createCustomFullTextFilter(fieldNames: string[], fullText: string) {
+        const fieldConditions = fieldNames.map(n => {
+            const conditionObj: any = {};
+            conditionObj[n] = {$regex: fullText, $options: "i"};
+            return conditionObj;
+        });
+
+        return {$or: [{$text: {$search: fullText}}, ...fieldConditions]}
+    }
+
+    private static createNativeFulltextFilter(fullText: string): any {
+        return {$text: {$search: fullText}};
+    }
+
+    private static getItemByIdFilter(id: string): any {
+        return {_id: new ObjectID(id)};
     }
 }
