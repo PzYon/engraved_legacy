@@ -13,13 +13,20 @@ export class ApiController {
 
         app.get("/items", this.searchItems);
         app.get("/items/:itemId", this.getItemById);
-        app.post("/items", this.addItem);
+        app.patch("/items/:itemId", this.updateItem);
+        app.post("/items", this.insertItem);
         app.get("/keywords", this.searchKeywords);
     }
 
-    private addItem = (req: Request, res: Response): any => {
+    private insertItem = (req: Request, res: Response): any => {
         this.dbService
             .insertItem(req.body)
+            .then((item: IItem) => res.send(item));
+    };
+
+    private updateItem = (req: Request, res: Response): any => {
+        this.dbService
+            .updateItem(req.params.itemId, req.body)
             .then((item: IItem) => res.send(item));
     };
 
@@ -37,7 +44,7 @@ export class ApiController {
 
     private searchKeywords = (req: Request, res: Response): any => {
         this.dbService
-            .getKeywords(req.query.q)
+            .searchKeywords(req.query.q)
             .then((keywords: IKeyword[]) => res.send(keywords));
     };
 

@@ -69,11 +69,11 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
     }
 
     public componentDidMount(): void {
-        document.addEventListener("mousedown", (e) => this.handleDocumentClick(e), false);
+        document.addEventListener("mousedown", this.handleDocumentClick, false);
     }
 
     public componentWillUnmount(): void {
-        document.removeEventListener("mousedown", (e) => this.handleDocumentClick(e), false);
+        document.removeEventListener("mousedown", this.handleDocumentClick, false);
     }
 
     private handleDocumentClick = (e: any): void => {

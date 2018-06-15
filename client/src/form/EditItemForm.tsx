@@ -43,16 +43,17 @@ export class EditItemForm extends React.Component<RouteComponentProps<IRouterPar
                 title={"Edit item"}
                 item={this.state.item}
                 buttons={[
-                    {
-                        nodeOrLabel: "Update",
-                        onClick: this.updateItem
-                    }
+                    {nodeOrLabel: "Update", onClick: this.updateItem}
                 ]}
             />
         );
     }
 
     private updateItem = (item: IItem): void => {
-        alert("not yet implemented")
+        ItemStore.instance
+                 .updateItem(item)
+                 .subscribe((updatedItem: IItem) => {
+                     console.log(updatedItem);
+                 });
     };
 }

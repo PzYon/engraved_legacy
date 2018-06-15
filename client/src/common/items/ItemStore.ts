@@ -33,6 +33,12 @@ export class ItemStore {
                    .pipe(map((r: AjaxResponse) => r.response));
     };
 
+    // we send the item to the server and then update it in the (client) cache
+    public updateItem = (item: IItem): Observable<IItem> => {
+        return ajax.patch("http://localhost:3001/items/" + item._id, item, {"Content-Type": "application/json"})
+                   .pipe(map((r: AjaxResponse) => this.updateCache(item)));
+    };
+
     public searchKeywords = (searchText: string): Observable<IKeyword[]> => {
         return ajax.getJSON<IKeyword[]>(`http://localhost:3001/keywords${searchText ? `?q=${searchText}` : ""}`);
     };
@@ -55,6 +61,18 @@ export class ItemStore {
                                          });
     };
 
+    public getLocalItemOrLoad(id: string): Observable<IItem> {
+        const localItem: IItem | undefined = this.items$.value.find(i => i._id === id);
+        if (localItem) {
+            return new Observable((observer: Observer<IItem>) => {
+                observer.next(localItem);
+                observer.complete();
+            });
+        }
+
+        return ajax.getJSON<IItem>(`http://localhost:3001/items/${id}`);
+    }
+
     private transformItems(items: IItem[]): IItem[] {
         if (!items || !items.length) {
             return [];
@@ -75,15 +93,17 @@ export class ItemStore {
         });
     }
 
-    public getLocalItemOrLoad(id: string): Observable<IItem> {
-        const localItem: IItem | undefined = this.items$.value.find(i => i._id === id);
-        if (localItem) {
-            return new Observable((observer: Observer<IItem>) => {
-                observer.next(localItem);
-                observer.complete();
-            });
+    private updateCache(item: IItem): IItem {
+        const cachedItems = this.items$.value;
+        const cachedItemIndex: number = cachedItems.findIndex(i => i._id === item._id);
+
+        if (cachedItemIndex > -1) {
+            const updatedItems = [...cachedItems];
+            updatedItems[cachedItemIndex] = item;
+
+            this.items$.next([...updatedItems]);
         }
 
-        return ajax.getJSON<IItem>(`http://localhost:3001/items/${id}`);
+        return item;
     }
 }
