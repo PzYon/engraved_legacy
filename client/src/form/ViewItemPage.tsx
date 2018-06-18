@@ -2,6 +2,7 @@ import {IItem} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import {RouteComponentProps} from "react-router";
+import {Link} from "react-router-dom";
 import {ErrorBoundary} from "../common/ErrorBoundary";
 import {ItemStore} from "../common/items/ItemStore";
 import {Form} from "./Form";
@@ -10,12 +11,12 @@ interface IRouterParams {
     itemId: string;
 }
 
-interface IEditItemFormState {
+interface IViewItemFormState {
     itemId: string;
     item: IItem | undefined;
 }
 
-export class EditItemForm extends React.Component<RouteComponentProps<IRouterParams>, IEditItemFormState> {
+export class ViewItemPage extends React.Component<RouteComponentProps<IRouterParams>, IViewItemFormState> {
     public constructor(props: RouteComponentProps<IRouterParams>) {
         super(props);
 
@@ -28,8 +29,9 @@ export class EditItemForm extends React.Component<RouteComponentProps<IRouterPar
     public componentDidMount(): void {
         ItemStore.instance
                  .getLocalItemOrLoad(this.state.itemId)
-                 .subscribe(item => this.setState({item: item}),
-                            (error: Error) => ErrorBoundary.ensureError(this, error));
+                 .subscribe(item => {
+                     this.setState({item: item});
+                 }, (error: Error) => ErrorBoundary.ensureError(this, error));
     }
 
     public render(): ReactNode {
@@ -39,21 +41,22 @@ export class EditItemForm extends React.Component<RouteComponentProps<IRouterPar
 
         return (
             <Form
-                isReadonly={false}
-                title={"Edit item"}
+                isReadonly={true}
+                title={"Item details"}
                 item={this.state.item}
+                cancelButtonLabel={"Close"}
                 buttons={[
-                    {nodeOrLabel: "Update", onClick: this.updateItem}
+                    {
+                        nodeOrLabel: (
+                            <Link to={`${this.state.item._id}/edit`} key={this.state.item._id}>
+                                {"Edit"}
+                            </Link>
+                        ),
+                        onClick: (item: IItem) => void(0),
+                        isPrimary: true
+                    }
                 ]}
             />
         );
     }
-
-    private updateItem = (item: IItem): void => {
-        ItemStore.instance
-                 .updateItem(item)
-                 .subscribe((updatedItem: IItem) => {
-                     console.log(updatedItem);
-                 });
-    };
 }

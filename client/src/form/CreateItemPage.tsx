@@ -17,7 +17,7 @@ interface IRouterParams {
     value: string;
 }
 
-export class CreateItemForm extends React.PureComponent<RouteComponentProps<IRouterParams>, ICreateItemFormState> {
+export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRouterParams>, ICreateItemFormState> {
     public constructor(props: RouteComponentProps<IRouterParams>) {
         super(props);
 
@@ -39,7 +39,9 @@ export class CreateItemForm extends React.PureComponent<RouteComponentProps<IRou
                 isReadonly={false}
                 title={"Create item"}
                 item={this.state as any}
-                buttons={[{onClick: this.addItem, nodeOrLabel: "Add"}]}
+                buttons={[
+                    {onClick: this.addItem, nodeOrLabel: "Add", isPrimary: true}
+                ]}
             />
         );
     }

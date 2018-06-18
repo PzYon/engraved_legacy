@@ -1,7 +1,7 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../../StyleConstants";
+import {StyleConstants} from "../../styling/StyleConstants";
 import {IDropDownItem} from "./IDropDownItem";
 import {IDropDownItemGroup} from "./IDropDownItemGroup";
 
@@ -10,8 +10,8 @@ const ContainerDiv = styled.div`
   width: 100%;
   text-align: left;
   font-size: 0.8rem;
-  border-top: 1px solid lightgray;
-  background-color: white;
+  border-top: 1px solid ${StyleConstants.colors.accent.light};
+  background-color: ${StyleConstants.colors.pageBackGround};
 `;
 
 const GroupContainerDiv = styled.div`
@@ -32,7 +32,7 @@ const GroupItem = styled.li`
   padding: ${StyleConstants.formElementPadding};
 
   &:hover {
-    background-color: lightskyblue;
+    background-color: ${StyleConstants.colors.accent.light};
     cursor: pointer;
   }
 `;

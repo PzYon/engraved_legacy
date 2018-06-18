@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {injectGlobal} from "styled-components";
 import {App} from "./App";
-import {StyleConstants} from "./common/StyleConstants";
+import {StyleConstants} from "./common/styling/StyleConstants";
 import registerServiceWorker from './registerServiceWorker';
 
 const injectGlobalStyles = (): void => {
@@ -18,9 +18,12 @@ const injectGlobalStyles = (): void => {
         html,
         input, 
         textarea,
+        button,
         select {
             font-size: 20px;
             font-family: ${StyleConstants.fontFamily};
+            color: ${StyleConstants.colors.font};
+            background-color: ${StyleConstants.colors.pageBackGround};
         }
         
         #root {

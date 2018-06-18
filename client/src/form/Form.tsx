@@ -1,20 +1,21 @@
-import {ICodeItem, IItem, INoteItem, ItemKind, IUrlItem} from "engraved-shared/dist";
+import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, IUrlItem} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect} from "react-router";
-import {IKeyword} from "../../../shared/src/IKeyword";
-import {Dialog} from "../common/Dialog";
+import {Page} from "../common/Page";
 import {KeywordField} from "./fields/KeywordField";
 import {MultiLineTextField} from "./fields/MultiLineTextField";
 import {ISelectFieldOptions, SelectField} from "./fields/SelectField";
 import {TextField} from "./fields/TextField";
-import {FormFieldContainer} from "./Form.StyledComponents";
+import {FormButtonContainer, FormFieldContainer} from "./Form.StyledComponents";
+import {FormButton} from "./FormButton";
 import {IButton} from "./IButton";
 
 export interface IFormProps {
     title: string;
     item: IItem | undefined;
     buttons: IButton[];
+    cancelButtonLabel?: string;
     isReadonly: boolean;
 }
 
@@ -45,7 +46,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
         }
 
         return (
-            <Dialog title={this.props.title} onClose={this.onClose}>
+            <Page title={this.props.title}>
                 <FormFieldContainer>
                     <TextField
                         label={"Title"}
@@ -74,20 +75,27 @@ export class Form extends React.Component<IFormProps, IFormState> {
                     />
                     {this.getKindSpecificFields(item)}
                 </FormFieldContainer>
-                {
-                    this.props
-                        .buttons
-                        .map((b: IButton) => (
-                            <button
-                                type="button"
-                                key={typeof b.nodeOrLabel === "string" ? b.nodeOrLabel : item._id}
-                                onClick={() => b.onClick(item)}
-                            >
-                                {b.nodeOrLabel}
-                            </button>
-                        ))
-                }
-            </Dialog>
+                <FormButtonContainer>
+                    {
+                        this.props
+                            .buttons
+                            .map((b: IButton) => (
+                                <FormButton
+                                    key={typeof b.nodeOrLabel === "string" ? b.nodeOrLabel : item._id}
+                                    onClick={() => b.onClick(item)}
+                                    nodeOrLabel={b.nodeOrLabel}
+                                    isPrimary={b.isPrimary}
+                                />
+                            ))
+                    }
+                    <FormButton
+                        key={"Cancel"}
+                        onClick={this.onClose}
+                        nodeOrLabel={this.props.cancelButtonLabel || "Cancel"}
+                        isPrimary={false}
+                    />
+                </FormButtonContainer>
+            </Page>
         );
     }
 

@@ -2,16 +2,17 @@ import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
 import {IComponentConstructor} from "./IComponentConstructor";
+import {StyleConstants} from "./styling/StyleConstants";
 
 const ErrorContainer = styled.div`
-  background-color: darkred;
-  color: white;
+  background-color: ${StyleConstants.colors.error};
+  color: ${StyleConstants.colors.pageBackGround};
   width: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 5px;
+  padding: 0.4rem;
   font-size: 0.8rem;
 `;
 
