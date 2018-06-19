@@ -2,7 +2,6 @@ import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, IUrlItem} from "engrave
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect} from "react-router";
-import {Page} from "../../pages/Page";
 import {KeywordField} from "./fields/KeywordField";
 import {MultiLineTextField} from "./fields/MultiLineTextField";
 import {ISelectFieldOptions, SelectField} from "./fields/SelectField";
@@ -12,7 +11,6 @@ import {FormButton} from "./FormButton";
 import {IButton} from "./IButton";
 
 export interface IFormProps {
-    title: string;
     item: IItem | undefined;
     buttons: IButton[];
     cancelButtonLabel?: string;
@@ -46,7 +44,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
         }
 
         return (
-            <Page title={this.props.title}>
+            <div>
                 <FormFieldContainer>
                     <TextField
                         label={"Title"}
@@ -95,7 +93,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         isPrimary={false}
                     />
                 </FormButtonContainer>
-            </Page>
+            </div>
         );
     }
 

@@ -5,6 +5,7 @@ import {RouteComponentProps} from "react-router";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../common/items/ItemStore";
+import {Page} from "../Page";
 
 interface ICreateItemFormState {
     title?: string;
@@ -35,14 +36,15 @@ export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRou
         // todo: this.state should not be the whole item
 
         return (
-            <Form
-                isReadonly={false}
-                title={"Create item"}
-                item={this.state as any}
-                buttons={[
-                    {onClick: this.addItem, nodeOrLabel: "Add", isPrimary: true}
-                ]}
-            />
+            <Page browserTitle={"create"}>
+                <Form
+                    isReadonly={false}
+                    item={this.state as any}
+                    buttons={[
+                        {onClick: this.addItem, nodeOrLabel: "Add", isPrimary: true}
+                    ]}
+                />
+            </Page>
         );
     }
 

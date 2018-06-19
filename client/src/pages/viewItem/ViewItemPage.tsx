@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../common/items/ItemStore";
+import {Page} from "../Page";
 
 interface IRouterParams {
     itemId: string;
@@ -40,23 +41,24 @@ export class ViewItemPage extends React.Component<RouteComponentProps<IRouterPar
         }
 
         return (
-            <Form
-                isReadonly={true}
-                title={"Item details"}
-                item={this.state.item}
-                cancelButtonLabel={"Close"}
-                buttons={[
-                    {
-                        nodeOrLabel: (
-                            <Link to={`${this.state.item._id}/edit`} key={this.state.item._id}>
-                                {"Edit"}
-                            </Link>
-                        ),
-                        onClick: (item: IItem) => void(0),
-                        isPrimary: true
-                    }
-                ]}
-            />
+            <Page browserTitle={this.state.item.title} title={"Item details"}>
+                <Form
+                    isReadonly={true}
+                    item={this.state.item}
+                    cancelButtonLabel={"Close"}
+                    buttons={[
+                        {
+                            nodeOrLabel: (
+                                <Link to={`${this.state.item._id}/edit`} key={this.state.item._id}>
+                                    {"Edit"}
+                                </Link>
+                            ),
+                            onClick: (item: IItem) => void(0),
+                            isPrimary: true
+                        }
+                    ]}
+                />
+            </Page>
         );
     }
 }

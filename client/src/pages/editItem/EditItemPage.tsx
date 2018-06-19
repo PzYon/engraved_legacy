@@ -5,6 +5,7 @@ import {RouteComponentProps} from "react-router";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../common/items/ItemStore";
+import {Page} from "../Page";
 
 interface IRouterParams {
     itemId: string;
@@ -38,14 +39,15 @@ export class EditItemPage extends React.Component<RouteComponentProps<IRouterPar
         }
 
         return (
-            <Form
-                isReadonly={false}
-                title={"Edit item"}
-                item={this.state.item}
-                buttons={[
-                    {nodeOrLabel: "Update", onClick: this.updateItem, isPrimary: true}
-                ]}
-            />
+            <Page browserTitle={this.state.item.title + " | edit"} title={"Edit item"}>
+                <Form
+                    isReadonly={false}
+                    item={this.state.item}
+                    buttons={[
+                        {nodeOrLabel: "Update", onClick: this.updateItem, isPrimary: true}
+                    ]}
+                />
+            </Page>
         );
     }
 

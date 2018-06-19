@@ -20,22 +20,29 @@ const ContentDiv = styled.div`
 export interface IPageProps {
     children: ReactNode;
     title?: string;
+    browserTitle?: string;
 }
 
-export const Page: React.SFC<IPageProps> = (props: IPageProps) => (
-    <ErrorBoundary>
-        <ContainerDiv>
-            {
-                props.title
-                && (
-                    <H1>
-                        {props.title}
-                    </H1>
-                )
-            }
-            <ContentDiv>
-                {props.children}
-            </ContentDiv>
-        </ContainerDiv>
-    </ErrorBoundary>
-);
+export const Page: React.SFC<IPageProps> = (props: IPageProps) => {
+    document.title = props.browserTitle
+                     ? "engraved | " + props.browserTitle
+                     : "engraved";
+
+    return (
+        <ErrorBoundary>
+            <ContainerDiv>
+                {
+                    props.title
+                    && (
+                        <H1>
+                            {props.title}
+                        </H1>
+                    )
+                }
+                <ContentDiv>
+                    {props.children}
+                </ContentDiv>
+            </ContainerDiv>
+        </ErrorBoundary>
+    );
+};
