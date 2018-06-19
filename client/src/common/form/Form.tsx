@@ -79,7 +79,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                             .buttons
                             .map((b: IButton) => (
                                 <FormButton
-                                    key={typeof b.nodeOrLabel === "string" ? b.nodeOrLabel : item._id}
+                                    key={typeof b.nodeOrLabel === "string" ? b.nodeOrLabel : item._id as any}
                                     onClick={() => b.onClick(item)}
                                     nodeOrLabel={b.nodeOrLabel}
                                     isPrimary={b.isPrimary}

@@ -1,9 +1,7 @@
 import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, ItemSearchQuery, IUrlItem} from "engraved-shared/dist";
-import {BehaviorSubject, Observable, SubscriptionLike} from "rxjs";
-import {ajax} from "rxjs/ajax";
-import {AjaxResponse} from "rxjs/internal/observable/dom/AjaxObservable";
-import {map} from "rxjs/internal/operators";
-import {Observer} from "rxjs/internal/types";
+import {BehaviorSubject, Observable, Observer, SubscriptionLike} from "rxjs";
+import {ajax, AjaxResponse} from "rxjs/ajax";
+import {map} from "rxjs/operators";
 import {CodeItem} from "./CodeItem";
 import {NoteItem} from "./NoteItem";
 import {UrlItem} from "./UrlItem";
@@ -60,6 +58,12 @@ export class ItemStore {
                                              this.items$.next(this.transformItems(items));
                                          });
     };
+
+    public resetAndLoad(): void {
+        this.keywords = [];
+        this.searchText = "";
+        this.loadItems();
+    }
 
     public getLocalItemOrLoad(id: string): Observable<IItem> {
         const localItem: IItem | undefined = this.items$.value.find(i => i._id === id);
