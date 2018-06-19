@@ -3,9 +3,9 @@ import * as React from "react";
 import {ReactNode} from "react";
 import {RouteComponentProps} from "react-router";
 import {Link} from "react-router-dom";
-import {ErrorBoundary} from "../common/ErrorBoundary";
-import {ItemStore} from "../common/items/ItemStore";
-import {Form} from "./Form";
+import {ErrorBoundary} from "../../common/ErrorBoundary";
+import {Form} from "../../common/form/Form";
+import {ItemStore} from "../../common/items/ItemStore";
 
 interface IRouterParams {
     itemId: string;

@@ -1,9 +1,10 @@
 import {IItem} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
+import {Subscription} from "rxjs/internal/Subscription";
 import styled from "styled-components";
-import {ErrorBoundary} from "../../common/ErrorBoundary";
-import {ItemStore} from "../../common/items/ItemStore";
+import {ErrorBoundary} from "../../../common/ErrorBoundary";
+import {ItemStore} from "../../../common/items/ItemStore";
 import {Item} from "./Item";
 
 const List = styled.ul`
@@ -20,17 +21,25 @@ interface IListOfItemsState {
 }
 
 export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
+    private items$Subscription: Subscription;
+
     public constructor(props: {}) {
         super(props);
 
         this.state = {items: []};
     }
 
-    public componentDidMount() {
-        ItemStore.instance
-                 .items$
-                 .subscribe(t => this.setState({items: t}),
-                            (error: Error) => ErrorBoundary.ensureError(this, error));
+    public componentDidMount(): void {
+        this.items$Subscription = ItemStore.instance
+                                           .items$
+                                           .subscribe(t => this.setState({items: t}),
+                                                      (error: Error) => ErrorBoundary.ensureError(this, error));
+    }
+
+    public componentWillUnmount(): void {
+        if (this.items$Subscription) {
+            this.items$Subscription.unsubscribe();
+        }
     }
 
     public render(): ReactNode {

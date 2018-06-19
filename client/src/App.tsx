@@ -2,10 +2,10 @@ import * as React from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import styled from "styled-components";
 import {StyleConstants} from "./common/styling/StyleConstants";
-import {CreateItemPage} from "./form/CreateItemPage";
-import {EditItemPage} from "./form/EditItemPage";
-import {ViewItemPage} from "./form/ViewItemPage";
-import {SearchPage} from "./search/SearchPage";
+import {CreateItemPage} from "./pages/createItem/CreateItemPage";
+import {EditItemPage} from "./pages/editItem/EditItemPage";
+import {SearchPage} from "./pages/search/SearchPage";
+import {ViewItemPage} from "./pages/viewItem/ViewItemPage";
 
 const AppRootDiv = styled.div`
   background-color: ${StyleConstants.colors.contentBackGround};

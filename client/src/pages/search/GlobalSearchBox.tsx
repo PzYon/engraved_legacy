@@ -1,14 +1,14 @@
 import {IKeyword, ItemKind, Util} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
-import {ErrorBoundary} from "../common/ErrorBoundary";
-import {IRedirection} from "../common/IRedirection";
-import {ItemStore} from "../common/items/ItemStore";
-import {IDropDownItem} from "../common/searchBox/dropDown/IDropDownItem";
-import {IDropDownItemGroup} from "../common/searchBox/dropDown/IDropDownItemGroup";
-import {KeywordDropDownItem} from "../common/searchBox/dropDown/items/KeywordDropDownItem";
-import {RedirectDropDownItem} from "../common/searchBox/dropDown/items/RedirectDropDownItem";
-import {SearchBox} from "../common/searchBox/SearchBox";
+import {ErrorBoundary} from "../../common/ErrorBoundary";
+import {IRedirection} from "../../common/IRedirection";
+import {ItemStore} from "../../common/items/ItemStore";
+import {IDropDownItem} from "../../common/searchBox/dropDown/IDropDownItem";
+import {IDropDownItemGroup} from "../../common/searchBox/dropDown/IDropDownItemGroup";
+import {KeywordDropDownItem} from "../../common/searchBox/dropDown/items/KeywordDropDownItem";
+import {RedirectDropDownItem} from "../../common/searchBox/dropDown/items/RedirectDropDownItem";
+import {SearchBox} from "../../common/searchBox/SearchBox";
 
 interface IGlobalSearchBoxState {
     searchValue: string;

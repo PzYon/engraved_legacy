@@ -2,12 +2,12 @@ import {IKeyword, Util} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {ErrorBoundary} from "../../common/ErrorBoundary";
-import {ItemStore} from "../../common/items/ItemStore";
-import {IDropDownItem} from "../../common/searchBox/dropDown/IDropDownItem";
-import {IDropDownItemGroup} from "../../common/searchBox/dropDown/IDropDownItemGroup";
-import {KeywordDropDownItem} from "../../common/searchBox/dropDown/items/KeywordDropDownItem";
-import {SearchBox} from "../../common/searchBox/SearchBox";
+import {ErrorBoundary} from "../../ErrorBoundary";
+import {ItemStore} from "../../items/ItemStore";
+import {IDropDownItem} from "../../searchBox/dropDown/IDropDownItem";
+import {IDropDownItemGroup} from "../../searchBox/dropDown/IDropDownItemGroup";
+import {KeywordDropDownItem} from "../../searchBox/dropDown/items/KeywordDropDownItem";
+import {SearchBox} from "../../searchBox/SearchBox";
 import {FieldWrapper} from "./FieldWrapper";
 import {IFieldProps} from "./IFieldProps";
 

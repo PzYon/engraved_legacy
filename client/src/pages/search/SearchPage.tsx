@@ -1,8 +1,8 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {Page} from "../common/Page";
-import {StyleConstants} from "../common/styling/StyleConstants";
+import {StyleConstants} from "../../common/styling/StyleConstants";
+import {Page} from "../Page";
 import {GlobalSearchBox} from "./GlobalSearchBox";
 import {ItemsList} from "./results/ItemsList";
 

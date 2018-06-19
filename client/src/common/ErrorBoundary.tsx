@@ -1,7 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {IComponentConstructor} from "./IComponentConstructor";
 import {StyleConstants} from "./styling/StyleConstants";
 
 const ErrorContainer = styled.div`
@@ -30,10 +29,6 @@ export class ErrorBoundary extends React.PureComponent<{}, IErrorBoundaryState> 
         component.setState(() => {
             throw error;
         });
-    }
-
-    public static wrap(Comp: IComponentConstructor<{}, {}>) {
-        return (props: any) => <ErrorBoundary><Comp {...props}/></ErrorBoundary>;
     }
 
     public componentDidCatch(error: Error, info: any): void {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import {StyleConstants} from "../common/styling/StyleConstants";
-import {StyleUtil} from "../common/styling/StyleUtil";
+import {StyleConstants} from "../styling/StyleConstants";
+import {StyleUtil} from "../styling/StyleUtil";
 
 export const FormFieldContainer = styled.div`
   display: table;
@@ -62,8 +62,12 @@ export const Select = styled.select`
 `;
 
 export const Button = styled.button`
-  background-color: ${(p: {isPrimary: boolean}) => p.isPrimary ? StyleConstants.colors.accent.default : StyleConstants.colors.pageBackGround};
-  color: ${(p: {isPrimary: boolean}) => p.isPrimary ? StyleConstants.colors.pageBackGround : StyleConstants.colors.accent.default};
+  background-color: ${(p: { isPrimary: boolean }) => p.isPrimary
+                                                     ? StyleConstants.colors.accent.default
+                                                     : StyleConstants.colors.pageBackGround};
+  color: ${(p: { isPrimary: boolean }) => p.isPrimary
+                                          ? StyleConstants.colors.pageBackGround
+                                          : StyleConstants.colors.accent.default};
   border: 1px solid ${StyleConstants.colors.accent.default};
   padding: 0.4rem 0.6rem;
   cursor: pointer;

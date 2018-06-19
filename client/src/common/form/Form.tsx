@@ -2,7 +2,7 @@ import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, IUrlItem} from "engrave
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect} from "react-router";
-import {Page} from "../common/Page";
+import {Page} from "../../pages/Page";
 import {KeywordField} from "./fields/KeywordField";
 import {MultiLineTextField} from "./fields/MultiLineTextField";
 import {ISelectFieldOptions, SelectField} from "./fields/SelectField";

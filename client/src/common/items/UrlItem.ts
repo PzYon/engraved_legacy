@@ -1,4 +1,4 @@
-import {IUrlItem} from "../../../../shared/dist/index";
+import {IUrlItem} from "engraved-shared/dist";
 import {BaseItem} from "./BaseItem";
 
 export class UrlItem extends BaseItem implements IUrlItem {

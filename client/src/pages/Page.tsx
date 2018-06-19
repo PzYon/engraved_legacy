@@ -1,8 +1,8 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {ErrorBoundary} from "./ErrorBoundary";
-import {StyleConstants} from "./styling/StyleConstants";
+import {ErrorBoundary} from "../common/ErrorBoundary";
+import {StyleConstants} from "../common/styling/StyleConstants";
 
 const ContainerDiv = styled.div`
   padding: 20px;

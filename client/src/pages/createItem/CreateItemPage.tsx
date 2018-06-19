@@ -2,9 +2,9 @@ import {ItemKind} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import {RouteComponentProps} from "react-router";
-import {ErrorBoundary} from "../common/ErrorBoundary";
-import {ItemStore} from "../common/items/ItemStore";
-import {Form} from "./Form";
+import {ErrorBoundary} from "../../common/ErrorBoundary";
+import {Form} from "../../common/form/Form";
+import {ItemStore} from "../../common/items/ItemStore";
 
 interface ICreateItemFormState {
     title?: string;
@@ -51,7 +51,6 @@ export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRou
                  .addItem(item)
                  .subscribe(() => {
                      ItemStore.instance.loadItems();
-                     // this.onClose();
                  }, (error: Error) => ErrorBoundary.ensureError(this, error));
     };
 }
