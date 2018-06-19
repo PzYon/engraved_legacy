@@ -1,7 +1,7 @@
 import {IItem} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
-import {RouteComponentProps} from "react-router";
+import {Redirect, RouteComponentProps} from "react-router";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../common/items/ItemStore";
@@ -14,6 +14,7 @@ interface IRouterParams {
 interface IEditItemFormState {
     itemId: string;
     item: IItem | undefined;
+    isSuccess: boolean;
 }
 
 export class EditItemPage extends React.Component<RouteComponentProps<IRouterParams>, IEditItemFormState> {
@@ -22,7 +23,8 @@ export class EditItemPage extends React.Component<RouteComponentProps<IRouterPar
 
         this.state = {
             item: undefined,
-            itemId: decodeURIComponent(this.props.match.params.itemId)
+            itemId: decodeURIComponent(this.props.match.params.itemId),
+            isSuccess: false
         };
     }
 
@@ -34,6 +36,10 @@ export class EditItemPage extends React.Component<RouteComponentProps<IRouterPar
     }
 
     public render(): ReactNode {
+        if (this.state.isSuccess) {
+            return <Redirect to="/" push={true}/>;
+        }
+
         if (!this.state.item) {
             return null;
         }
@@ -55,7 +61,8 @@ export class EditItemPage extends React.Component<RouteComponentProps<IRouterPar
         ItemStore.instance
                  .updateItem(item)
                  .subscribe((updatedItem: IItem) => {
-                     console.log(updatedItem);
+                     this.setState({isSuccess: true});
+                     ItemStore.instance.resetAndLoad();
                  });
     };
 }

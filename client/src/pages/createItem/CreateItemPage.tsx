@@ -1,16 +1,19 @@
-import {ItemKind} from "engraved-shared/dist";
+import {IItem, ItemKind} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
-import {RouteComponentProps} from "react-router";
+import {Redirect, RouteComponentProps} from "react-router";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../common/items/ItemStore";
 import {Page} from "../Page";
 
 interface ICreateItemFormState {
-    title?: string;
-    url?: string;
-    itemKind: ItemKind;
+    item: {
+        title?: string;
+        url?: string;
+        itemKind: ItemKind;
+    },
+    isSuccess: boolean;
 }
 
 interface IRouterParams {
@@ -26,20 +29,25 @@ export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRou
         const itemKind = decodeURIComponent(props.match.params.itemKind) as ItemKind;
 
         this.state = {
-            title: itemKind !== ItemKind.Url ? value : undefined,
-            url: itemKind === ItemKind.Url ? value : undefined,
-            itemKind: itemKind
+            isSuccess: false,
+            item: {
+                title: itemKind !== ItemKind.Url ? value : undefined,
+                url: itemKind === ItemKind.Url ? value : undefined,
+                itemKind: itemKind
+            }
         };
     }
 
     public render(): ReactNode {
-        // todo: this.state should not be the whole item
+        if (this.state.isSuccess) {
+            return <Redirect to="/" push={true}/>;
+        }
 
         return (
             <Page browserTitle={"create"}>
                 <Form
                     isReadonly={false}
-                    item={this.state as any}
+                    item={this.state.item as IItem}
                     buttons={[
                         {onClick: this.addItem, nodeOrLabel: "Add", isPrimary: true}
                     ]}
@@ -52,7 +60,8 @@ export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRou
         ItemStore.instance
                  .addItem(item)
                  .subscribe(() => {
-                     ItemStore.instance.loadItems();
+                     this.setState({isSuccess: true});
+                     ItemStore.instance.resetAndLoad();
                  }, (error: Error) => ErrorBoundary.ensureError(this, error));
     };
 }
