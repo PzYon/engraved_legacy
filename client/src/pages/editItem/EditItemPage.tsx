@@ -1,10 +1,12 @@
-import {IItem} from "engraved-shared/dist";
+import {IItem, Util} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect, RouteComponentProps} from "react-router";
+import {Link} from "react-router-dom";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../common/items/ItemStore";
+import {NotificationStore} from "../../common/notifications/NotificationStore";
 import {Page} from "../Page";
 
 interface IRouterParams {
@@ -62,6 +64,19 @@ export class EditItemPage extends React.Component<RouteComponentProps<IRouterPar
                  .updateItem(item)
                  .subscribe((updatedItem: IItem) => {
                      this.setState({isSuccess: true});
+                     NotificationStore.instance.addNotification(
+                         {
+                             messageOrNode: (
+                                 <span>
+                                    Successfully updated item
+                                     &nbsp;
+                                     <Link to={`/${updatedItem._id}/edit`}>
+                                        {updatedItem.title}
+                                    </Link>
+                                 </span>
+                             ),
+                             id: Util.createGuid()
+                         });
                      ItemStore.instance.resetAndLoad();
                  });
     };
