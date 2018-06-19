@@ -14,7 +14,7 @@ const SelectedKeywordSpan = styled.span`
   display: inline-block;
   margin: ${StyleConstants.formElementPadding};
   padding: ${StyleConstants.formElementPadding};
-  background-color: ${StyleConstants.colors.pageBackGround};
+  background-color: ${StyleConstants.colors.pageBackground};
   cursor: pointer;
 `;
 

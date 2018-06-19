@@ -1,7 +1,7 @@
 import {IItem} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
-import {Subscription} from "rxjs/internal/Subscription";
+import {Subscription} from "rxjs";
 import styled from "styled-components";
 import {ErrorBoundary} from "../../../common/ErrorBoundary";
 import {ItemStore} from "../../../common/items/ItemStore";

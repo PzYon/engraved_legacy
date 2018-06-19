@@ -23,11 +23,11 @@ const injectGlobalStyles = (): void => {
             font-size: 20px;
             font-family: ${StyleConstants.fontFamily};
             color: ${StyleConstants.colors.font};
-            background-color: ${StyleConstants.colors.pageBackGround};
+            background-color: ${StyleConstants.colors.pageBackground};
         }
         
         #root {
-            max-width: 1200px;
+            max-width: ${StyleConstants.maxContentWidth};
             margin: auto;
         }
 `;

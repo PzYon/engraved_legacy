@@ -1,10 +1,12 @@
-import {IItem, ItemKind} from "engraved-shared/dist";
+import {IItem, ItemKind, Util} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect, RouteComponentProps} from "react-router";
+import {Link} from "react-router-dom";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../common/items/ItemStore";
+import {NotificationStore} from "../../common/notifications/NotificationStore";
 import {Page} from "../Page";
 
 interface ICreateItemFormState {
@@ -56,11 +58,24 @@ export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRou
         );
     }
 
-    private addItem = (item: any): void => {
+    private addItem = (item: IItem): void => {
         ItemStore.instance
                  .addItem(item)
-                 .subscribe(() => {
+                 .subscribe((i: IItem) => {
                      this.setState({isSuccess: true});
+                     NotificationStore.instance.addNotification(
+                         {
+                             messageOrNode: (
+                                 <span>
+                                    Successfully created item
+                                    &nbsp;
+                                    <Link to={`/${i._id}`}>
+                                        {i.title}
+                                    </Link>
+                                 </span>
+                             ),
+                             id: Util.createGuid()
+                         });
                      ItemStore.instance.resetAndLoad();
                  }, (error: Error) => ErrorBoundary.ensureError(this, error));
     };

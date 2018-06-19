@@ -5,7 +5,7 @@ import {StyleConstants} from "./styling/StyleConstants";
 
 const ErrorContainer = styled.div`
   background-color: ${StyleConstants.colors.error};
-  color: ${StyleConstants.colors.pageBackGround};
+  color: ${StyleConstants.colors.pageBackground};
   width: 100%;
   position: absolute;
   bottom: 0;

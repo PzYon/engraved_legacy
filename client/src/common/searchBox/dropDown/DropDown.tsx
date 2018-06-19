@@ -11,7 +11,7 @@ const ContainerDiv = styled.div`
   text-align: left;
   font-size: 0.8rem;
   border-top: 1px solid ${StyleConstants.colors.accent.light};
-  background-color: ${StyleConstants.colors.pageBackGround};
+  background-color: ${StyleConstants.colors.pageBackground};
 `;
 
 const GroupContainerDiv = styled.div`
