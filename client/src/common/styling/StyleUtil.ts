@@ -12,4 +12,12 @@ a:active {
 }
 `;
     }
+
+    public static getEllipsis(): InterpolationValue[] {
+        return css`
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+`;
+    }
 }

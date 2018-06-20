@@ -155,9 +155,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
         return Object.keys(ItemKind)
                      .map((itemKind: string) => {
                          return {
-                             key: itemKind,
-                             label: itemKind,
-                             value: ItemKind[itemKind] as ItemKind
+                             label: itemKind, // we use property name of enum (uppercase)
+                             value: ItemKind[itemKind] as ItemKind // we use actual value (lower case)
                          }
                      });
     }

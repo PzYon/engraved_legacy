@@ -19,12 +19,13 @@ interface IGlobalSearchBoxState {
 }
 
 export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
+    private findOnTypeTimer: any;
 
     public constructor(props: {}) {
         super(props);
 
         this.state = {
-            searchValue: "",
+            searchValue: ItemStore.instance.searchText,
             keywordSearchValue: "",
             showDropDown: true,
             actionDropDownItems: [],
@@ -48,7 +49,12 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
         this.setState({searchValue: value});
 
         ItemStore.instance.searchText = value;
-        ItemStore.instance.loadItems();
+
+        if (this.findOnTypeTimer) {
+            clearTimeout(this.findOnTypeTimer);
+        }
+
+        this.findOnTypeTimer = setTimeout(ItemStore.instance.loadItems, 400);
 
         this.setKeywordDropDownItems(value);
         this.setActionDropDownItems(value);

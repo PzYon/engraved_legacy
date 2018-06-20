@@ -5,7 +5,6 @@ import {FieldWrapper} from "./FieldWrapper";
 import {IFieldProps} from "./IFieldProps";
 
 export interface ISelectFieldOptions<T> {
-    key: string;
     label: string;
     value: T
 }
@@ -23,12 +22,18 @@ export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
                     this.props.isReadOnly
                     ? `TODO! Following is only the default key: ${this.props.defaultKey}`
                     : (
-                        <Select defaultValue={this.props.defaultKey} onChange={this.onChange}>
+                        <Select
+                            defaultValue={this.props.defaultKey}
+                            onChange={this.onChange}
+                        >
                             {
                                 this.props
                                     .options
                                     .map((o: ISelectFieldOptions<any>) => (
-                                             <option value={o.key} key={o.key}>
+                                             <option
+                                                 value={o.value}
+                                                 key={o.value}
+                                             >
                                                  {o.label}
                                              </option>
                                          )
@@ -44,7 +49,7 @@ export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
     private onChange = (event: ChangeEvent<HTMLSelectElement>): void => {
         const option: ISelectFieldOptions<any> = this.props
                                                      .options
-                                                     .find(o => o.key === event.target.value) as any;
+                                                     .find(o => o.value === event.target.value) as any;
 
         this.props.onValueChange(option ? option.value : null);
     }

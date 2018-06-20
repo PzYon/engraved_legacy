@@ -2,6 +2,7 @@ import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
 import {StyleConstants} from "../../styling/StyleConstants";
+import {StyleUtil} from "../../styling/StyleUtil";
 import {IDropDownItem} from "./IDropDownItem";
 import {IDropDownItemGroup} from "./IDropDownItemGroup";
 
@@ -30,6 +31,8 @@ const GroupTitleDiv = styled.div`
 
 const GroupItem = styled.li`
   padding: ${StyleConstants.formElementPadding};
+
+  ${StyleUtil.getEllipsis()}
 
   &:hover {
     background-color: ${StyleConstants.colors.accent.light};
