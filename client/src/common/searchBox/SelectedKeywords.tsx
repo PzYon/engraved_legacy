@@ -7,14 +7,15 @@ const ContainerDiv = styled.div`
   text-align: left;
   font-size: 0.8rem;
   min-height: 1.7rem;
-  background-color: ${StyleConstants.colors.accent.light};
+  background-color: ${StyleConstants.colors.accent};
 `;
 
 const SelectedKeywordSpan = styled.span`
   display: inline-block;
   margin: ${StyleConstants.formElementPadding};
   padding: ${StyleConstants.formElementPadding};
-  background-color: ${StyleConstants.colors.pageBackground};
+  background-color: ${StyleConstants.colors.contentBackground};
+  color: ${StyleConstants.colors.accent};
   cursor: pointer;
 `;
 

@@ -20,7 +20,7 @@ export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
             <FieldWrapper label={this.props.label}>
                 {
                     this.props.isReadOnly
-                    ? `TODO! Following is only the default key: ${this.props.defaultKey}`
+                    ? this.props.defaultKey
                     : (
                         <Select
                             defaultValue={this.props.defaultKey}

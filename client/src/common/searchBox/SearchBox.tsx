@@ -13,12 +13,16 @@ const ContainerDiv = styled.div`
 
 const Input = styled.input`
   font-size: ${StyleConstants.largeFontSize};
-  border: 0;
+  border: 1px solid ${StyleConstants.colors.borders};
   padding: ${StyleConstants.formElementPadding};
   margin-bottom: 0 !important;
-  
+
   &:focus {
     outline: none;
+  }
+
+  &::placeholder {
+    color: ${StyleConstants.colors.accent};
   }
 `;
 
@@ -28,6 +32,7 @@ export interface ISearchBoxProps {
     dropDownItemGroups: IDropDownItemGroup[];
     onChange: (value: string) => void;
     searchValue: string;
+    placeholder?: string;
 }
 
 interface ISearchBoxState {
@@ -55,6 +60,7 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
                     value={this.props.searchValue}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => this.props.onChange(e.target.value)}
                     onFocus={() => this.setState({showDropDown: true})}
+                    placeholder={this.props.placeholder}
                 />
                 {
                     this.state.showDropDown

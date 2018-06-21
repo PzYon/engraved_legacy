@@ -8,6 +8,7 @@ import {ItemsList} from "./results/ItemsList";
 
 const SearchContainerDiv = styled.div`
   text-align: center;
+  margin: 1rem 0;
 `;
 
 const SearchInnerContainerDiv = styled.div`

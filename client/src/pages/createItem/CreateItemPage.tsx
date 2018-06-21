@@ -46,7 +46,7 @@ export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRou
         }
 
         return (
-            <Page browserTitle={"create"}>
+            <Page browserTitle={"create"} title={"Create new item"}>
                 <Form
                     isReadonly={false}
                     item={this.state.item as IItem}

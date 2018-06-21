@@ -7,7 +7,7 @@ import {StyleConstants} from "../../../common/styling/StyleConstants";
 import {StyleUtil} from "../../../common/styling/StyleUtil";
 
 const Root = styled.div`
-  border: 1px solid ${StyleConstants.colors.accent.default};
+  border: 1px solid ${StyleConstants.colors.accent};
   padding: ${StyleConstants.defaultPadding};
   margin: ${StyleConstants.defaultMargin};
 `;
@@ -15,10 +15,15 @@ const Root = styled.div`
 const Title = styled.span`
   font-weight: bold;
   font-size: ${StyleConstants.largeFontSize};
+  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)}
 `;
 
-const Date = styled.span`
-  float: right;
+const AdditionalDetailsDiv = styled.div`
+  font-size: 0.8rem;
+`;
+
+const AuthorInfoSpan = styled.span`
+  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)}
 `;
 
 const Description = styled.p`
@@ -29,34 +34,31 @@ const Keywords = styled.p`
   margin: 0.4rem 0;
 `;
 
-const Actions = styled.p`
-  margin: 0.4rem 0 0 0;
-  font-size: 0.8rem;
-  ${StyleUtil.normalizeAnchors("inherit")}
-`;
-
 export const Item: React.SFC<IItem> = (item: IItem) => (
     <Root>
         <Title>
-            {item.itemKind}: {item.title}
+            <Link to={`/${item._id || ""}`}>
+                {item.itemKind}: {item.title}
+            </Link>
         </Title>
-        <Date>
-            {moment(item.createdOn).fromNow()}
-        </Date>
         <Description>
             {item.description}
         </Description>
-        {
-            item.keywords
-            && item.keywords.length > 0
-            && (
-                <Keywords>
-                    {item.keywords.map((k: IKeyword) => k.name).join(", ")}
-                </Keywords>
-            )
-        }
-        <Actions>
-            <Link to={`/${item._id || ""}`}>view</Link> | <Link to={`/${item._id || ""}/edit`}>edit</Link>
-        </Actions>
+        <AdditionalDetailsDiv>
+            {
+                item.keywords
+                && item.keywords.length > 0
+                && (
+                    <Keywords>
+                        {item.keywords.map((k: IKeyword) => k.name).join(", ")}
+                    </Keywords>
+                )
+            }
+            <AuthorInfoSpan>
+                <Link to={`/${item._id || ""}/edit`}>edited</Link>
+                &nbsp;
+                {moment(item.createdOn).fromNow()}
+            </AuthorInfoSpan>
+        </AdditionalDetailsDiv>
     </Root>
 );

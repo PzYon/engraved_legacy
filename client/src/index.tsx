@@ -7,13 +7,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 const injectGlobalStyles = (): void => {
     return injectGlobal`
-        body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            overflow-y: scroll;
-        }
-        
         body,
         html,
         input, 
@@ -23,6 +16,14 @@ const injectGlobalStyles = (): void => {
             font-size: 20px;
             font-family: ${StyleConstants.fontFamily};
             color: ${StyleConstants.colors.font};
+            background-color: white;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: scroll;
             background-color: ${StyleConstants.colors.pageBackground};
         }
         

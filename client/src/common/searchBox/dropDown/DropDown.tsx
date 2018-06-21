@@ -8,10 +8,12 @@ import {IDropDownItemGroup} from "./IDropDownItemGroup";
 
 const ContainerDiv = styled.div`
   position: absolute;
-  width: 100%;
+  width: calc(100% - 2px);
   text-align: left;
   font-size: 0.8rem;
-  border-top: 1px solid ${StyleConstants.colors.accent.light};
+  border-right: 1px solid ${StyleConstants.colors.accent};
+  border-bottom: 1px solid ${StyleConstants.colors.accent};
+  border-left: 1px solid ${StyleConstants.colors.accent};
   background-color: ${StyleConstants.colors.pageBackground};
 `;
 
@@ -34,9 +36,16 @@ const GroupItem = styled.li`
 
   ${StyleUtil.getEllipsis()}
 
+  ${StyleUtil.normalizeAnchors(StyleConstants.colors.font)}
+
   &:hover {
-    background-color: ${StyleConstants.colors.accent.light};
+    background-color: ${StyleConstants.colors.accent};
+    color: white;
     cursor: pointer;
+
+    a {
+      color: white;
+    }
   }
 `;
 
