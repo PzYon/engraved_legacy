@@ -46,12 +46,6 @@ export class Form extends React.Component<IFormProps, IFormState> {
         return (
             <div>
                 <FormFieldContainer>
-                    <TextField
-                        label={"Title"}
-                        onValueChange={(value: string) => this.setNewState("title", value)}
-                        value={item.title}
-                        isReadOnly={this.props.isReadonly}
-                    />
                     <SelectField
                         label={"Item Kind"}
                         onValueChange={(value: ItemKind) => this.setNewState("itemKind", value)}
@@ -59,6 +53,13 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         defaultKey={item.itemKind}
                         isReadOnly={this.props.isReadonly}
                     />
+                    <TextField
+                        label={"Title"}
+                        onValueChange={(value: string) => this.setNewState("title", value)}
+                        value={item.title}
+                        isReadOnly={this.props.isReadonly}
+                    />
+                    {this.getKindSpecificFields(item)}
                     <MultiLineTextField
                         label={"Description"}
                         onValueChange={(value: string) => this.setNewState("description", value)}
@@ -71,7 +72,6 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         value={item.keywords || []}
                         isReadOnly={this.props.isReadonly}
                     />
-                    {this.getKindSpecificFields(item)}
                 </FormFieldContainer>
                 <FormButtonContainer>
                     {

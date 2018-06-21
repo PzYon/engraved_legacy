@@ -37,6 +37,7 @@ export interface ISearchBoxProps {
 
 interface ISearchBoxState {
     showDropDown: boolean;
+    hidePlaceholder: boolean;
 }
 
 export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState> {
@@ -45,7 +46,10 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
     public constructor(props: ISearchBoxProps) {
         super(props);
 
-        this.state = {showDropDown: true};
+        this.state = {
+            showDropDown: true,
+            hidePlaceholder: false
+        };
     }
 
     public render(): ReactNode {
@@ -59,8 +63,8 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
                     type="text"
                     value={this.props.searchValue}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => this.props.onChange(e.target.value)}
-                    onFocus={() => this.setState({showDropDown: true})}
-                    placeholder={this.props.placeholder}
+                    onFocus={() => this.setState({showDropDown: true, hidePlaceholder: true})}
+                    placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
                 />
                 {
                     this.state.showDropDown

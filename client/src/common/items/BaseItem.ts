@@ -5,7 +5,7 @@ export abstract class BaseItem implements IRenderableItem {
     public readonly _id: string;
     public readonly title: string;
     public readonly itemKind: ItemKind;
-    public readonly createdOn: Date;
+    public readonly editedOn: Date;
     public readonly description: string;
     public readonly keywords: IKeyword[];
 
@@ -13,7 +13,7 @@ export abstract class BaseItem implements IRenderableItem {
         this._id = dbItem._id || "";
         this.title = dbItem.title;
         this.itemKind = dbItem.itemKind;
-        this.createdOn = dbItem.createdOn || new Date();
+        this.editedOn = dbItem.editedOn || new Date();
         this.description = dbItem.description || "";
         this.keywords = dbItem.keywords || [];
     }

@@ -8,8 +8,10 @@ const ContainerDiv = styled.div`
   padding: 20px;
 `;
 
-const H1 = styled.h1`
+const H1 = styled.h2`
   font-weight: bold;
+  font-size: 1.5rem;
+  color: ${StyleConstants.colors.accent};
   margin-top: 0;
 `;
 

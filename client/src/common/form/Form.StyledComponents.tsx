@@ -40,6 +40,7 @@ export const FormLabelSpan = BaseCell.extend`
   display: block;
   padding-bottom: 0.2rem;
   font-size: 0.7rem;
+  color: ${StyleConstants.colors.accent};
   text-transform: uppercase;
 `;
 

@@ -8,7 +8,7 @@ export const createRandomItems = (count: number): IItem[] => {
             {
                 description: getLorems(getRandomInt(0, 30)),
                 title: getLorems(getRandomInt(2, 10)),
-                createdOn: new Date(),
+                editedOn: new Date(),
                 itemKind: ItemKind.Note,
                 keywords: [
                     {name: i + "_1"},

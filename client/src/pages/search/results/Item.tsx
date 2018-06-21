@@ -8,8 +8,8 @@ import {StyleUtil} from "../../../common/styling/StyleUtil";
 
 const Root = styled.div`
   border: 1px solid ${StyleConstants.colors.accent};
-  padding: ${StyleConstants.defaultPadding};
-  margin: ${StyleConstants.defaultMargin};
+  margin: ${StyleConstants.defaultPadding} 0;
+  padding: ${StyleConstants.defaultMargin};
 `;
 
 const Title = styled.span`
@@ -57,7 +57,7 @@ export const Item: React.SFC<IItem> = (item: IItem) => (
             <AuthorInfoSpan>
                 <Link to={`/${item._id || ""}/edit`}>edited</Link>
                 &nbsp;
-                {moment(item.createdOn).fromNow()}
+                {moment(item.editedOn).fromNow()}
             </AuthorInfoSpan>
         </AdditionalDetailsDiv>
     </Root>

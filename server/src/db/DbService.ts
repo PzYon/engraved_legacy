@@ -35,6 +35,8 @@ export class DbService {
             }
         }
 
+        item.editedOn = new Date();
+
         return this.db
                    .collection(Config.db.collections.items)
                    .updateOne(DbService.getItemByIdFilter(id), {$set: item})
@@ -48,7 +50,7 @@ export class DbService {
         return this.db
                    .collection(Config.db.collections.items)
                    .find(query)
-                   .sort("createdOn", -1)
+                   .sort("editedOn", -1)
                    .toArray();
     }
 
@@ -92,7 +94,7 @@ export class DbService {
                  });
 
         items.forEach((item: IItem) => {
-            item.createdOn = new Date();
+            item.editedOn = new Date();
 
             if (item.keywords) {
                 item.keywords.forEach((keyword: IKeyword) => {

@@ -6,6 +6,6 @@ export interface IItem {
     itemKind: ItemKind;
     title: string;
     description?: string;
-    createdOn?: Date;
+    editedOn?: Date;
     keywords?: IKeyword[];
 }
