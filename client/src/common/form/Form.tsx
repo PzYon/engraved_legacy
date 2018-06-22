@@ -2,6 +2,7 @@ import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, IUrlItem} from "engrave
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect} from "react-router";
+import {CodeField} from "./fields/CodeField";
 import {KeywordField} from "./fields/KeywordField";
 import {MultiLineTextField} from "./fields/MultiLineTextField";
 import {ISelectFieldOptions, SelectField} from "./fields/SelectField";
@@ -125,7 +126,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
             case ItemKind.Code:
                 return (
-                    <MultiLineTextField
+                    <CodeField
                         label={"Code"}
                         onValueChange={(value: string) => this.setNewState("code", value)}
                         value={(item as ICodeItem).code}

@@ -10,7 +10,7 @@ export interface ITextFieldProps extends IFieldProps<string> {
 
 export const TextField: React.SFC<ITextFieldProps> = (props: ITextFieldProps) => {
     return (
-        <FieldWrapper label={props.label}>
+        <FieldWrapper label={props.label} doRender={!props.isReadOnly || !!props.value}>
             {
                 props.isReadOnly
                 ? props.value

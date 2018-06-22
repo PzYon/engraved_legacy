@@ -17,7 +17,7 @@ export interface ISelectFieldProps<T> extends IFieldProps<T> {
 export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
     public render(): ReactNode {
         return (
-            <FieldWrapper label={this.props.label}>
+            <FieldWrapper label={this.props.label} doRender={!this.props.isReadOnly || !this.props.defaultKey}>
                 {
                     this.props.isReadOnly
                     ? this.props.defaultKey

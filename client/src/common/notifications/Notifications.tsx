@@ -11,6 +11,7 @@ import {NotificationStore} from "./NotificationStore";
 const RootContainerDiv = styled.div`
   width: 100%;
   position: fixed;
+  z-index: 10;
   bottom: 0;
   left: 0;
   background-color: ${StyleConstants.colors.success.backgroundTransparent};

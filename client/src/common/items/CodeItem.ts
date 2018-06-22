@@ -6,5 +6,7 @@ export class CodeItem extends BaseItem implements ICodeItem {
 
     public constructor(codeItem: ICodeItem) {
         super(codeItem);
+
+        this.code = codeItem.code;
     }
 }

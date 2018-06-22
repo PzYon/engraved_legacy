@@ -6,7 +6,7 @@ import {ITextFieldProps} from "./TextField";
 
 export const MultiLineTextField: React.SFC<ITextFieldProps> = (props: ITextFieldProps) => {
     return (
-        <FieldWrapper label={props.label}>
+        <FieldWrapper label={props.label} doRender={!props.isReadOnly || !!props.value}>
             {
                 props.isReadOnly
                 ? props.value

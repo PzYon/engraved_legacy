@@ -37,16 +37,18 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
     }
 
     public render(): ReactNode {
+        const keywords: IKeyword[] = this.props.value || [];
+
         return (
-            <FieldWrapper label={this.props.label}>
+            <FieldWrapper label={this.props.label} doRender={!this.props.isReadOnly || keywords.length > 0}>
                 {
                     this.props.isReadOnly
-                    ? (this.props.value || []).map(k => k.name).join(", ")
+                    ? keywords.map(k => k.name).join(", ")
                     : (
                         <SearchBoxContainer>
                             <SearchBox
                                 searchValue={this.state.searchValue}
-                                selectedKeywords={this.props.value}
+                                selectedKeywords={keywords}
                                 dropDownItemGroups={this.getDropDownItemGroups()}
                                 onKeywordSelect={this.handleKeywordSelect}
                                 onChange={this.loadKeywordDropDownItems}
