@@ -2,15 +2,19 @@ import styled from "styled-components";
 import {StyleConstants} from "../styling/StyleConstants";
 import {StyleUtil} from "../styling/StyleUtil";
 
-export const FormFieldContainer = styled.div` 
+export const FormContainer = styled.div`
   input,
   textarea,
-  select {
+  select,
+  button {
     border: 1px solid ${StyleConstants.colors.borders};
     margin-bottom: 10px;
     vertical-align: top;
+    
+    &:hover,
     &:focus {
       outline: none;
+      box-shadow: ${StyleConstants.defaultBoxShadow};
     }
   }
   
@@ -26,6 +30,9 @@ export const FormFieldContainer = styled.div`
     width: 100%;
     padding: ${StyleConstants.formElementPadding} 0;
   }
+`;
+
+export const FormFieldContainer = styled.div` 
 `;
 
 export const FormLabel = styled.label`

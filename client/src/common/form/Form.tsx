@@ -7,7 +7,7 @@ import {KeywordField} from "./fields/KeywordField";
 import {MultiLineTextField} from "./fields/MultiLineTextField";
 import {ISelectFieldOptions, SelectField} from "./fields/SelectField";
 import {TextField} from "./fields/TextField";
-import {FormButtonContainer, FormFieldContainer} from "./Form.StyledComponents";
+import {FormButtonContainer, FormContainer, FormFieldContainer} from "./Form.StyledComponents";
 import {FormButton} from "./FormButton";
 import {IButton} from "./IButton";
 
@@ -45,7 +45,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
         }
 
         return (
-            <div>
+            <FormContainer>
                 <FormFieldContainer>
                     <SelectField
                         label={"Item Kind"}
@@ -94,7 +94,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         isPrimary={false}
                     />
                 </FormButtonContainer>
-            </div>
+            </FormContainer>
         );
     }
 

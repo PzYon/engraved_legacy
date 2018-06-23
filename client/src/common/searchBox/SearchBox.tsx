@@ -9,6 +9,7 @@ import {SelectedKeywords} from "./SelectedKeywords";
 
 const ContainerDiv = styled.div`
   position: relative;
+  ${(p: { isHighlight: boolean }) => p.isHighlight ? `box-shadow: ${StyleConstants.defaultBoxShadow};` : ""}
 `;
 
 const Input = styled.input`
@@ -38,6 +39,8 @@ export interface ISearchBoxProps {
 interface ISearchBoxState {
     showDropDown: boolean;
     hidePlaceholder: boolean;
+    isFocus: boolean;
+    isHover: boolean;
 }
 
 export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState> {
@@ -48,13 +51,20 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
 
         this.state = {
             showDropDown: true,
-            hidePlaceholder: false
+            hidePlaceholder: false,
+            isFocus: false,
+            isHover: false
         };
     }
 
     public render(): ReactNode {
         return (
-            <ContainerDiv innerRef={ref => this.node = ref}>
+            <ContainerDiv
+                innerRef={ref => this.node = ref}
+                onMouseOver={() => this.setState({isHover: true})}
+                onMouseLeave={() => this.setState({isHover: false})}
+                isHighlight={this.state.isFocus || this.state.isHover}
+            >
                 <SelectedKeywords
                     selectedKeywords={this.props.selectedKeywords}
                     onKeywordSelect={this.props.onKeywordSelect}
@@ -63,7 +73,8 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
                     type="text"
                     value={this.props.searchValue}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => this.props.onChange(e.target.value)}
-                    onFocus={() => this.setState({showDropDown: true, hidePlaceholder: true})}
+                    onFocus={() => this.setState({showDropDown: true, hidePlaceholder: true, isFocus: true})}
+                    onBlur={() => this.setState({isFocus: false})}
                     placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
                 />
                 {

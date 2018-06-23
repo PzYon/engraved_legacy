@@ -15,6 +15,7 @@ const ContainerDiv = styled.div`
   border-bottom: 1px solid ${StyleConstants.colors.accent};
   border-left: 1px solid ${StyleConstants.colors.accent};
   background-color: ${StyleConstants.colors.pageBackground};
+  box-shadow: ${StyleConstants.defaultBoxShadow};
 `;
 
 const GroupContainerDiv = styled.div`

@@ -10,6 +10,10 @@ const Root = styled.div`
   border: 1px solid ${StyleConstants.colors.accent};
   margin: ${StyleConstants.defaultPadding} 0;
   padding: ${StyleConstants.defaultMargin};
+
+  &:hover {
+    box-shadow: ${StyleConstants.defaultBoxShadow};
+  }
 `;
 
 const Title = styled.span`
