@@ -1,7 +1,8 @@
 import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, ItemSearchQuery, IUrlItem} from "engraved-shared/dist";
 import {BehaviorSubject, Observable, Observer, SubscriptionLike} from "rxjs";
-import {ajax, AjaxResponse} from "rxjs/ajax";
+import {AjaxResponse} from "rxjs/ajax";
 import {map} from "rxjs/operators";
+import {AuthenticatedServerApi} from "../../authentication/AuthenticatedServerApi";
 import {CodeItem} from "./CodeItem";
 import {NoteItem} from "./NoteItem";
 import {UrlItem} from "./UrlItem";
@@ -27,18 +28,18 @@ export class ItemStore {
     }
 
     public addItem = (item: IItem): Observable<IItem> => {
-        return ajax.post("http://localhost:3001/items", item, {"Content-Type": "application/json"})
-                   .pipe(map((r: AjaxResponse) => r.response));
+        return AuthenticatedServerApi.post("/items", item)
+                                     .pipe(map((r: AjaxResponse) => r.response));
     };
 
     // we send the item to the server and then update it in the (client) cache
     public updateItem = (item: IItem): Observable<IItem> => {
-        return ajax.patch("http://localhost:3001/items/" + item._id, item, {"Content-Type": "application/json"})
-                   .pipe(map((r: AjaxResponse) => this.updateCache(item)));
+        return AuthenticatedServerApi.patch("/items/" + item._id, item)
+                                     .pipe(map((r: AjaxResponse) => this.updateCache(item)));
     };
 
     public searchKeywords = (searchText: string): Observable<IKeyword[]> => {
-        return ajax.getJSON<IKeyword[]>(`http://localhost:3001/keywords${searchText ? `?q=${searchText}` : ""}`);
+        return AuthenticatedServerApi.get<IKeyword[]>(`/keywords${searchText ? `?q=${searchText}` : ""}`);
     };
 
     public loadItems = (): void => {
@@ -53,10 +54,10 @@ export class ItemStore {
 
         console.log(`ItemStore: calling server @ "${query.toUrl()}"`);
 
-        this.nextItemsSubscription = ajax.getJSON<IItem[]>(`http://localhost:3001/items?${query.toUrl()}`)
-                                         .subscribe((items: IItem[]) => {
-                                             this.items$.next(this.transformItems(items));
-                                         });
+        this.nextItemsSubscription = AuthenticatedServerApi.get<IItem[]>(`/items?${query.toUrl()}`)
+                                                           .subscribe((items: IItem[]) => {
+                                                               this.items$.next(this.transformItems(items));
+                                                           });
     };
 
     public resetAndLoad(): void {
@@ -74,7 +75,7 @@ export class ItemStore {
             });
         }
 
-        return ajax.getJSON<IItem>(`http://localhost:3001/items/${id}`);
+        return AuthenticatedServerApi.get(`/items/${id}`);
     }
 
     private transformItems(items: IItem[]): IItem[] {

@@ -60,13 +60,13 @@ export class Form extends React.Component<IFormProps, IFormState> {
                         value={item.title}
                         isReadOnly={this.props.isReadonly}
                     />
-                    {this.getKindSpecificFields(item)}
                     <MultiLineTextField
                         label={"Description"}
                         onValueChange={(value: string) => this.setNewState("description", value)}
                         value={item.description}
                         isReadOnly={this.props.isReadonly}
                     />
+                    {this.getKindSpecificFields(item)}
                     <KeywordField
                         label={"Keywords"}
                         onValueChange={(value: IKeyword[]) => this.setNewState("keywords", value)}

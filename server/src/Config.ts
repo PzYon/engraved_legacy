@@ -4,7 +4,8 @@ export default {
         name: "engraved",
         collections: {
             items: "items",
-            keywords: "keywords"
+            keywords: "keywords",
+            users: "users"
         }
     },
     apiPort: 3001

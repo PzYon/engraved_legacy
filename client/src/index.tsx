@@ -30,6 +30,7 @@ const injectGlobalStyles = (): void => {
         #root {
             max-width: ${StyleConstants.maxContentWidth};
             margin: auto;
+            position: relative;
         }
 `;
 };

@@ -1,7 +1,7 @@
+import {IItem, IUser} from "engraved-shared/dist";
 import {Express} from "express";
 import {Request, Response} from "express-serve-static-core";
 import {Db, DeleteWriteOpResultObject} from "mongodb";
-import {IItem} from "engraved-shared/dist";
 import Config from "../Config";
 import {DbService} from "../db/DbService";
 import {createKnownItems} from "../helpers/createKnownItems";
@@ -9,17 +9,7 @@ import {createRandomItems} from "../helpers/createRandomItems";
 
 export class DevApiController {
 
-    private dbService: DbService;
-
-    private addItems = (req: Request, res: Response): any => {
-        this.dbService
-            .insertItems(...createRandomItems(10), ...createKnownItems())
-            .then((items: IItem[]) => res.send(items))
-    };
-
-    public constructor(app: Express, db: Db) {
-        this.dbService = new DbService(db);
-
+    public constructor(app: Express, private db: Db) {
         app.get("/dev/add/items", this.addItems);
 
         app.get("/dev/clear/items", (req: Request, res: Response): any => {
@@ -34,4 +24,17 @@ export class DevApiController {
                      .then((i: DeleteWriteOpResultObject) => res.send(i.result));
         });
     }
+
+    private addItems = (req: Request, res: Response): any => {
+        new DbService(this.db, null).ensureUser({
+                                                    displayName: "Markus Doggweiler",
+                                                    image: "https://lh5.googleusercontent.com/-R-eoewIwKTs/AAAAAAAAAAI/AAAAAAAAASg/LhdVPDRyOcg/photo.jpg?sz=50",
+                                                    mail: "markus.doggweiler@gmail.com",
+                                                })
+                                    .then((user: IUser) => {
+                                        new DbService(this.db, user).insertItems(...createRandomItems(10, user),
+                                                                                 ...createKnownItems(user))
+                                                                    .then((items: IItem[]) => res.send(items))
+                                    });
+    };
 }

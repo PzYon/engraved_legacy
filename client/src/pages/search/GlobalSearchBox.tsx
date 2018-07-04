@@ -57,14 +57,16 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
 
         ItemStore.instance.searchText = value;
 
+        this.setActionDropDownItems(value);
+
         if (this.findOnTypeTimer) {
             clearTimeout(this.findOnTypeTimer);
         }
 
-        this.findOnTypeTimer = setTimeout(ItemStore.instance.loadItems, 400);
-
-        this.setKeywordDropDownItems(value);
-        this.setActionDropDownItems(value);
+        this.findOnTypeTimer = setTimeout(() => {
+            ItemStore.instance.loadItems();
+            this.setKeywordDropDownItems(value);
+        }, 400);
     };
 
     private getDropDownItemGroups = (): IDropDownItemGroup[] => {

@@ -8,6 +8,8 @@ export {INoteItem} from "./items/INoteItem";
 
 export {IKeyword} from "./IKeyword";
 
+export {IUser} from "./IUser";
+
 export {ItemSearchQuery} from "./ItemSearchQuery";
 
 export {Util} from "./Util";

@@ -21,7 +21,7 @@ const configureExpress = function (db: Db) {
 
     app.use((req, res, next) => {
         res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         res.header("Access-Control-Allow-Methods", "GET, POST, PATCH");
         next();
     });
@@ -40,4 +40,5 @@ const bootstrap = async function (client: MongoClient) {
     configureExpress(db);
 };
 
-MongoClient.connect(Config.db.url).then(bootstrap);
+MongoClient.connect(Config.db.url)
+           .then(bootstrap);
