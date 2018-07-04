@@ -8,4 +8,5 @@ export interface IItem {
     description?: string;
     editedOn?: Date;
     keywords?: IKeyword[];
+    user_id: string;
 }

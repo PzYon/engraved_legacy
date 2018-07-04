@@ -116,7 +116,7 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
 
     private static getCreateKeywordDropDownItem = (name: string): IDropDownItem<IKeyword> => {
         return {
-            item: {name: name},
+            item: {name: name, user_id: null},
             nodeOrLabel: `Create keyword "${name}"`,
             key: name
         };

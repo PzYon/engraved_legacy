@@ -3,6 +3,7 @@ import {IRenderableItem} from "./IRenderableItem";
 
 export abstract class BaseItem implements IRenderableItem {
     public readonly _id: string;
+    public readonly user_id: string;
     public readonly title: string;
     public readonly itemKind: ItemKind;
     public readonly editedOn: Date;
@@ -11,6 +12,7 @@ export abstract class BaseItem implements IRenderableItem {
 
     protected constructor(dbItem: IItem) {
         this._id = dbItem._id || "";
+        this.user_id = dbItem.user_id;
         this.title = dbItem.title;
         this.itemKind = dbItem.itemKind;
         this.editedOn = dbItem.editedOn || new Date();

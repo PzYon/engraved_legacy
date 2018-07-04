@@ -1,18 +1,19 @@
-import {IItem, ItemKind} from "engraved-shared/dist";
+import {IItem, ItemKind, IUser} from "engraved-shared/dist";
 
-export const createRandomItems = (count: number): IItem[] => {
+export const createRandomItems = (count: number, user: IUser): IItem[] => {
     const items: IItem[] = [];
 
     for (let i = 0; i < count; i++) {
         items.push(
             {
+                user_id: user._id,
                 description: getLorems(getRandomInt(0, 30)),
                 title: getLorems(getRandomInt(2, 10)),
                 editedOn: new Date(),
                 itemKind: ItemKind.Note,
                 keywords: [
-                    {name: i + "_1"},
-                    {name: i + "_2"}
+                    {name: i + "_1", user_id: user._id},
+                    {name: i + "_2", user_id: user._id}
                 ]
             }
         );

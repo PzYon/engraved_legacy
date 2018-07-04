@@ -1,20 +1,54 @@
-import {IItem, IKeyword, ItemSearchQuery} from "engraved-shared/dist";
-import {Db, InsertWriteOpResult, ObjectID, UpdateWriteOpResult} from "mongodb";
+import {IItem, IKeyword, ItemSearchQuery, IUser} from "engraved-shared/dist";
+import {Collection, Db, InsertOneWriteOpResult, InsertWriteOpResult, ObjectID, UpdateWriteOpResult} from "mongodb";
 import Config from "../Config";
 
 export class DbService {
-    public constructor(private db: Db) {
+    public get keywords(): Collection {
+        return this.db.collection(Config.db.collections.keywords);
+    }
+
+    public get users(): Collection {
+        return this.db.collection(Config.db.collections.users);
+    }
+
+    public get items(): Collection {
+        return this.db.collection(Config.db.collections.items);
+    }
+
+    public constructor(private db: Db,
+                       private currentUser: IUser) {
+    }
+
+    public async ensureUser(user: IUser): Promise<IUser> {
+        let existingUser: IUser = await this.users.findOne({mail: user.mail});
+
+        if (existingUser) {
+            existingUser = {...existingUser, ...user};
+            return this.users
+                       .updateOne(DbService.getItemByIdFilter(existingUser._id), {$set: existingUser})
+                       .then((r: UpdateWriteOpResult) => existingUser);
+        } else {
+            return this.users
+                       .insertOne(user)
+                       .then((writeUserResult: InsertOneWriteOpResult) => writeUserResult.ops[0]);
+        }
+    }
+
+    public getUserById(id: string): Promise<IUser> {
+        return this.users.findOne(DbService.getItemByIdFilter(id));
     }
 
     public searchKeywords(searchText: any): Promise<IKeyword[]> {
-        const query: any = searchText
-                           ? {name: {$regex: searchText}}
-                           : {};
+        let query: any = searchText
+                         ? {name: {$regex: searchText}}
+                         : {};
 
-        console.log(`- executing query: "${JSON.stringify(query)}"`);
+        query = this.ensureCurrentUserId(query);
 
-        return this.db
-                   .collection(Config.db.collections.keywords)
+        console.log(`executing keywords query:`);
+        console.log(query);
+
+        return this.keywords
                    .find(query)
                    .toArray();
     }
@@ -35,29 +69,32 @@ export class DbService {
             }
         }
 
+        if (item.user_id !== this.currentUser._id) {
+            throw new Error("This is not your item.");
+        }
+
         item.editedOn = new Date();
 
-        return this.db
-                   .collection(Config.db.collections.items)
+        return this.items
                    .updateOne(DbService.getItemByIdFilter(id), {$set: item})
                    .then((r: UpdateWriteOpResult) => r.result);
     }
 
     public getItems(searchQuery: ItemSearchQuery): Promise<IItem[]> {
         let query = DbService.transformQuery(searchQuery);
-        console.log(`- executing query: "${JSON.stringify(query)}"`);
+        query = this.ensureCurrentUserId(query);
 
-        return this.db
-                   .collection(Config.db.collections.items)
+        console.log(`executing items query:`);
+        console.log(query);
+
+        return this.items
                    .find(query)
                    .sort("editedOn", -1)
                    .toArray();
     }
 
     public getItemById(id: string): Promise<IItem> {
-        return this.db
-                   .collection(Config.db.collections.items)
-                   .findOne(DbService.getItemByIdFilter(id));
+        return this.items.findOne(this.ensureCurrentUserId(DbService.getItemByIdFilter(id)));
     }
 
     public async insertItems(...items: IItem[]): Promise<IItem[]> {
@@ -71,18 +108,19 @@ export class DbService {
             return this.saveItems(items);
         }
 
-        const allFromDb = await this.db
-                                    .collection(Config.db.collections.keywords)
+        const allFromDb = await this.keywords
                                     .find({name: {$in: all.map(k => k.name)}})
                                     .toArray();
 
         let allFromDbNames = allFromDb.map((f: IKeyword) => f.name);
-        const allNotInDb: IKeyword[] = all.filter((k: IKeyword) => allFromDbNames.indexOf(k.name) === -1);
+        const allNotInDb: IKeyword[] = all.filter((k: IKeyword) => allFromDbNames.indexOf(k.name) === -1)
+                                          .map((k: IKeyword) => {
+                                              k.user_id = this.currentUser._id;
+                                              return k;
+                                          });
 
         const allAddedToDb: IKeyword[] = allNotInDb.length
-                                         ? (await this.db
-                                                      .collection(Config.db.collections.keywords)
-                                                      .insertMany(allNotInDb)).ops
+                                         ? (await this.keywords.insertMany(allNotInDb)).ops
                                          : [];
 
         const idByName: { [name: string]: string } = {};
@@ -95,6 +133,7 @@ export class DbService {
 
         items.forEach((item: IItem) => {
             item.editedOn = new Date();
+            item.user_id = this.currentUser._id;
 
             if (item.keywords) {
                 item.keywords.forEach((keyword: IKeyword) => {
@@ -108,9 +147,11 @@ export class DbService {
         return this.saveItems(items);
     }
 
+    // todo: consider returning one item if insertMany has appropriate return value?
+    // i.e. return type depends on query type
+
     private saveItems(items: IItem[]) {
-        return this.db
-                   .collection(Config.db.collections.items)
+        return this.items
                    .insertMany(items)
                    .then((writeItemsResult: InsertWriteOpResult) => writeItemsResult.ops);
     }
@@ -157,7 +198,7 @@ export class DbService {
         }
 
         return useNative
-               ? this.createNativeFulltextFilter(fullText)
+               ? this.createNativeFullTextFilter(fullText)
                : this.createCustomFullTextFilter(fieldNames, fullText);
     };
 
@@ -171,11 +212,15 @@ export class DbService {
         return {$or: [{$text: {$search: fullText}}, ...fieldConditions]}
     }
 
-    private static createNativeFulltextFilter(fullText: string): any {
+    private static createNativeFullTextFilter(fullText: string): any {
         return {$text: {$search: fullText}};
     }
 
     private static getItemByIdFilter(id: string): any {
         return {_id: new ObjectID(id)};
+    }
+
+    private ensureCurrentUserId(query: any): any {
+        return {...query, ...{user_id: new ObjectID(this.currentUser._id)}};
     }
 }

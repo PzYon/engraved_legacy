@@ -1,8 +1,9 @@
-import {ICodeItem, IItem, INoteItem, ItemKind, IUrlItem} from "engraved-shared/dist";
+import {ICodeItem, IItem, INoteItem, ItemKind, IUrlItem, IUser} from "engraved-shared/dist";
 
-export const createKnownItems = (): IItem[] => {
+export const createKnownItems = (user: IUser): IItem[] => {
     return [
         {
+            user_id: user._id,
             itemKind: ItemKind.Url,
             title: "Google",
             editedOn: new Date(),
@@ -17,6 +18,7 @@ export const createKnownItems = (): IItem[] => {
             ]
         } as IUrlItem,
         {
+            user_id: user._id,
             itemKind: ItemKind.Note,
             title: "Hello world",
             editedOn: new Date(),
@@ -31,6 +33,7 @@ export const createKnownItems = (): IItem[] => {
             ]
         } as ICodeItem,
         {
+            user_id: user._id,
             itemKind: ItemKind.Note,
             title: "My note",
             editedOn: new Date()
