@@ -26,12 +26,6 @@ const injectGlobalStyles = (): void => {
             overflow-y: scroll;
             background-color: ${StyleConstants.colors.pageBackground};
         }
-        
-        #root {
-            max-width: ${StyleConstants.maxContentWidth};
-            margin: auto;
-            position: relative;
-        }
 `;
 };
 

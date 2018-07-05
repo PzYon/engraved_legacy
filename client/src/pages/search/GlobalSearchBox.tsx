@@ -8,7 +8,6 @@ import {IDropDownItemGroup} from "../../common/searchBox/dropDown/IDropDownItemG
 import {KeywordDropDownItem} from "../../common/searchBox/dropDown/items/KeywordDropDownItem";
 import {RedirectDropDownItem} from "../../common/searchBox/dropDown/items/RedirectDropDownItem";
 import {SearchBox} from "../../common/searchBox/SearchBox";
-import {Typer} from "../../common/Typer";
 import {ItemStore} from "../../items/ItemStore";
 
 interface IGlobalSearchBoxState {
@@ -17,7 +16,6 @@ interface IGlobalSearchBoxState {
     showDropDown: boolean;
     keywordDropDownItems: Array<IDropDownItem<IKeyword>>;
     actionDropDownItems: RedirectDropDownItem[];
-    typingPlaceholder: string;
 }
 
 export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
@@ -31,12 +29,8 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
             keywordSearchValue: "",
             showDropDown: true,
             actionDropDownItems: [],
-            keywordDropDownItems: [],
-            typingPlaceholder: ""
+            keywordDropDownItems: []
         };
-
-        const typer = new Typer("engraved.");
-        typer.startTyping((typedText: string) => this.setState({typingPlaceholder: typedText}));
     }
 
     public render(): ReactNode {
@@ -47,7 +41,6 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
                 dropDownItemGroups={this.getDropDownItemGroups()}
                 onChange={this.onChange}
                 searchValue={this.state.searchValue}
-                placeholder={this.state.typingPlaceholder}
             />
         );
     }
