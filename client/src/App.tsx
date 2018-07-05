@@ -6,7 +6,7 @@ import styled from "styled-components";
 import {Authenticated} from "./authentication/Authenticated";
 import {AuthenticatedServerApi} from "./authentication/AuthenticatedServerApi";
 import {AuthStore} from "./authentication/AuthStore";
-import {CurrentUser} from "./authentication/CurrentUser";
+import {Header} from "./common/Header";
 import {Notifications} from "./notifications/Notifications";
 import {CreateItemPage} from "./pages/createItem/CreateItemPage";
 import {EditItemPage} from "./pages/editItem/EditItemPage";
@@ -14,11 +14,30 @@ import {SearchPage} from "./pages/search/SearchPage";
 import {ViewItemPage} from "./pages/viewItem/ViewItemPage";
 import {StyleConstants} from "./styling/StyleConstants";
 
-const AppRootDiv = styled.div`
-  background-color: ${StyleConstants.colors.contentBackground};
+const AppRootDiv = styled.div`  
   min-height: 100vh;
-  height: 100%;
+`;
+
+const BaseSection = styled.section`
   width: 100%;
+  max-width: ${StyleConstants.maxContentWidth};
+  margin: auto;
+`;
+
+const HeaderContainerDiv = styled.div`
+  width: 100%;
+  background-color: ${StyleConstants.colors.header.background};
+  color: ${StyleConstants.colors.header.background};
+`;
+
+const HeaderSection = BaseSection.extend`
+  height: ${StyleConstants.headerHeightInPx}px;
+`;
+
+const ContentSection = BaseSection.extend`
+  min-height: calc(100vh - ${StyleConstants.headerHeightInPx}px);
+  background-color: ${StyleConstants.colors.contentBackground};
+  position: relative;  
 `;
 
 interface IAppState {
@@ -65,25 +84,31 @@ export class App extends React.Component<{}, IAppState> {
         return (
             <Router>
                 <AppRootDiv>
-                    <CurrentUser user={this.state.currentUser}/>
-                    <Route
-                        path="/"
-                        component={SearchPage}
-                        exact={true}
-                    />
-                    <Route
-                        path="/create/:itemKind?/:value?"
-                        component={CreateItemPage}
-                    />
-                    <Route
-                        path="/:itemId"
-                        component={ViewItemPage}
-                        exact={true}
-                    />
-                    <Route
-                        path="/:itemId/edit"
-                        component={EditItemPage}
-                    />
+                    <HeaderContainerDiv>
+                        <HeaderSection>
+                            <Header currentUser={this.state.currentUser}/>
+                        </HeaderSection>
+                    </HeaderContainerDiv>
+                    <ContentSection>
+                        <Route
+                            path="/"
+                            component={SearchPage}
+                            exact={true}
+                        />
+                        <Route
+                            path="/create/:itemKind?/:value?"
+                            component={CreateItemPage}
+                        />
+                        <Route
+                            path="/:itemId"
+                            component={ViewItemPage}
+                            exact={true}
+                        />
+                        <Route
+                            path="/:itemId/edit"
+                            component={EditItemPage}
+                        />
+                    </ContentSection>
                     <Notifications/>
                 </AppRootDiv>
             </Router>
