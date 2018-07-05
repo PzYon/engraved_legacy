@@ -19,6 +19,7 @@ const HeaderInnerContainerDiv = styled.div`
 const AppTitle = styled.h1`
   font-size: ${StyleConstants.headerHeightInPx * 0.7}px;
   margin: 0;
+
   ${StyleUtil.normalizeAnchors(StyleConstants.colors.header.text)}
   
   a:hover {

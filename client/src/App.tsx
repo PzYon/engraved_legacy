@@ -3,10 +3,10 @@ import * as React from "react";
 import {ReactNode} from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import styled from "styled-components";
-import {Authenticated} from "./authentication/Authenticated";
 import {AuthenticatedServerApi} from "./authentication/AuthenticatedServerApi";
 import {AuthStore} from "./authentication/AuthStore";
 import {Header} from "./common/Header";
+import {WelcomeScreen} from "./common/WelcomeScreen";
 import {Notifications} from "./notifications/Notifications";
 import {CreateItemPage} from "./pages/createItem/CreateItemPage";
 import {EditItemPage} from "./pages/editItem/EditItemPage";
@@ -64,21 +64,7 @@ export class App extends React.Component<{}, IAppState> {
 
     public render(): ReactNode {
         if (!this.state.currentUser) {
-            // this could be considered as the splash screen
-            return (
-                <div>
-                    <a href="http://localhost:3001/api/authentication/google/start">
-                        Enter
-                    </a>
-                    <Router>
-                        <Route
-                            path="/authenticated/:jwt"
-                            component={Authenticated}
-                            exact={true}
-                        />
-                    </Router>
-                </div>
-            );
+            return <WelcomeScreen/>;
         }
 
         return (
