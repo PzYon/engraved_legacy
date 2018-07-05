@@ -27,8 +27,8 @@ export interface IPageProps {
 
 export const Page: React.SFC<IPageProps> = (props: IPageProps) => {
     document.title = props.browserTitle
-                     ? "engraved | " + props.browserTitle
-                     : "engraved";
+                     ? "engraved. | " + props.browserTitle
+                     : "engraved.";
 
     return (
         <ErrorBoundary>

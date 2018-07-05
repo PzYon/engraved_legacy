@@ -27,7 +27,6 @@
     "@types/node": "^6.0.113",
     "@types/passport-google-oauth": "^1.0.38",
     "@types/passport-jwt": "^3.0.1",
-    "concurrently": "^3.5.1",
     "jest": "^23.1.0",
     "nodemon": "^1.17.5",
     "ts-node": "^7.0.0",
