@@ -5,8 +5,8 @@ import {Redirect, RouteComponentProps} from "react-router";
 import {Link} from "react-router-dom";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
-import {ItemStore} from "../../common/items/ItemStore";
-import {NotificationStore} from "../../common/notifications/NotificationStore";
+import {ItemStore} from "../../items/ItemStore";
+import {NotificationStore} from "../../notifications/NotificationStore";
 import {Page} from "../Page";
 
 interface ICreateItemFormState {

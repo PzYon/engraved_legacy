@@ -7,7 +7,7 @@ import "brace/theme/github";
 import * as React from "react";
 import AceEditor from "react-ace";
 import styled from "styled-components";
-import {StyleConstants} from "../../styling/StyleConstants";
+import {StyleConstants} from "../../../styling/StyleConstants";
 import {FieldWrapper} from "./FieldWrapper";
 import {IFieldProps} from "./IFieldProps";
 

@@ -2,7 +2,7 @@ import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, ItemSearchQuery, IUrlIt
 import {BehaviorSubject, Observable, Observer, SubscriptionLike} from "rxjs";
 import {AjaxResponse} from "rxjs/ajax";
 import {map} from "rxjs/operators";
-import {AuthenticatedServerApi} from "../../authentication/AuthenticatedServerApi";
+import {AuthenticatedServerApi} from "../authentication/AuthenticatedServerApi";
 import {CodeItem} from "./CodeItem";
 import {NoteItem} from "./NoteItem";
 import {UrlItem} from "./UrlItem";

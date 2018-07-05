@@ -1,18 +1,18 @@
+import {IUser} from "engraved-shared/dist";
 import * as React from "react";
 import {ReactNode} from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import styled from "styled-components";
-import {IUser} from "../../shared/src";
 import {Authenticated} from "./authentication/Authenticated";
 import {AuthenticatedServerApi} from "./authentication/AuthenticatedServerApi";
 import {AuthStore} from "./authentication/AuthStore";
 import {CurrentUser} from "./authentication/CurrentUser";
-import {Notifications} from "./common/notifications/Notifications";
-import {StyleConstants} from "./common/styling/StyleConstants";
+import {Notifications} from "./notifications/Notifications";
 import {CreateItemPage} from "./pages/createItem/CreateItemPage";
 import {EditItemPage} from "./pages/editItem/EditItemPage";
 import {SearchPage} from "./pages/search/SearchPage";
 import {ViewItemPage} from "./pages/viewItem/ViewItemPage";
+import {StyleConstants} from "./styling/StyleConstants";
 
 const AppRootDiv = styled.div`
   background-color: ${StyleConstants.colors.contentBackground};

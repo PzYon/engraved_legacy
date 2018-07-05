@@ -3,7 +3,7 @@ import {Express} from "express";
 import {Request, Response} from "express-serve-static-core";
 import {Db} from "mongodb";
 import passport from "passport";
-import {bootstrapAuthentication} from "../Authentication/bootstrapAuthentication";
+import {bootstrapAuthentication} from "../authentication/bootstrapAuthentication";
 import {DbService} from "../db/DbService";
 
 export class ApiController {

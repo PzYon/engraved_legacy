@@ -4,7 +4,7 @@ import {ReactNode} from "react";
 import {Subscription} from "rxjs";
 import styled from "styled-components";
 import {ErrorBoundary} from "../../../common/ErrorBoundary";
-import {ItemStore} from "../../../common/items/ItemStore";
+import {ItemStore} from "../../../items/ItemStore";
 import {Item} from "./Item";
 
 const List = styled.ul`

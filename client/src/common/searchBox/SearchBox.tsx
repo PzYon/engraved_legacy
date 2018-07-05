@@ -2,7 +2,7 @@ import {IKeyword} from "engraved-shared/dist";
 import * as React from "react";
 import {ChangeEvent, ReactNode} from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../styling/StyleConstants";
+import {StyleConstants} from "../../styling/StyleConstants";
 import {DropDown} from "./dropDown/DropDown";
 import {IDropDownItemGroup} from "./dropDown/IDropDownItemGroup";
 import {SelectedKeywords} from "./SelectedKeywords";

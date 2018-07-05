@@ -3,8 +3,8 @@ import * as moment from "moment";
 import * as React from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import {StyleConstants} from "../../../common/styling/StyleConstants";
-import {StyleUtil} from "../../../common/styling/StyleUtil";
+import {StyleConstants} from "../../../styling/StyleConstants";
+import {StyleUtil} from "../../../styling/StyleUtil";
 
 const Root = styled.div`
   border: 1px solid ${StyleConstants.colors.accent};

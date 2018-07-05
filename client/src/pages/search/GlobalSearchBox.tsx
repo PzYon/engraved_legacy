@@ -3,13 +3,13 @@ import * as React from "react";
 import {ReactNode} from "react";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {IRedirection} from "../../common/IRedirection";
-import {ItemStore} from "../../common/items/ItemStore";
 import {IDropDownItem} from "../../common/searchBox/dropDown/IDropDownItem";
 import {IDropDownItemGroup} from "../../common/searchBox/dropDown/IDropDownItemGroup";
 import {KeywordDropDownItem} from "../../common/searchBox/dropDown/items/KeywordDropDownItem";
 import {RedirectDropDownItem} from "../../common/searchBox/dropDown/items/RedirectDropDownItem";
 import {SearchBox} from "../../common/searchBox/SearchBox";
 import {Typer} from "../../common/Typer";
+import {ItemStore} from "../../items/ItemStore";
 
 interface IGlobalSearchBoxState {
     searchValue: string;

@@ -1,7 +1,7 @@
 import {IKeyword} from "engraved-shared/dist";
 import * as React from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../styling/StyleConstants";
+import {StyleConstants} from "../../styling/StyleConstants";
 
 const ContainerDiv = styled.div`
   text-align: left;

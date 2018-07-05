@@ -5,7 +5,7 @@ import {RouteComponentProps} from "react-router";
 import {Link} from "react-router-dom";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
-import {ItemStore} from "../../common/items/ItemStore";
+import {ItemStore} from "../../items/ItemStore";
 import {Page} from "../Page";
 
 interface IRouterParams {

@@ -1,8 +1,8 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../../styling/StyleConstants";
-import {StyleUtil} from "../../styling/StyleUtil";
+import {StyleConstants} from "../../../styling/StyleConstants";
+import {StyleUtil} from "../../../styling/StyleUtil";
 import {IDropDownItem} from "./IDropDownItem";
 import {IDropDownItemGroup} from "./IDropDownItemGroup";
 

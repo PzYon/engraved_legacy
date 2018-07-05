@@ -2,7 +2,7 @@ import * as React from "react";
 import {ReactNode} from "react";
 import {Subscription} from "rxjs";
 import styled from "styled-components";
-import {ErrorBoundary} from "../ErrorBoundary";
+import {ErrorBoundary} from "../common/ErrorBoundary";
 import {StyleConstants} from "../styling/StyleConstants";
 import {StyleUtil} from "../styling/StyleUtil";
 import {INotification} from "./INotification";

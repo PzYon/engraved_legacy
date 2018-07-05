@@ -1,7 +1,7 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
-import {StyleConstants} from "./styling/StyleConstants";
+import {StyleConstants} from "../styling/StyleConstants";
 
 const ErrorContainer = styled.div`
   background-color: ${StyleConstants.colors.error};
