@@ -69,10 +69,11 @@ export class DbService {
             }
         }
 
-        if (item.user_id !== this.currentUser._id) {
+        if (item.user_id != this.currentUser._id) {
             throw new Error("This is not your item.");
         }
 
+        delete item.user_id;
         item.editedOn = new Date();
 
         return this.items
@@ -104,10 +105,6 @@ export class DbService {
                                          return previousValue;
                                      }, []);
 
-        if (!all || all.length === 0) {
-            return this.saveItems(items);
-        }
-
         const allFromDb = await this.keywords
                                     .find({name: {$in: all.map(k => k.name)}})
                                     .toArray();
@@ -115,7 +112,7 @@ export class DbService {
         let allFromDbNames = allFromDb.map((f: IKeyword) => f.name);
         const allNotInDb: IKeyword[] = all.filter((k: IKeyword) => allFromDbNames.indexOf(k.name) === -1)
                                           .map((k: IKeyword) => {
-                                              k.user_id = this.currentUser._id;
+                                              k.user_id = new ObjectID(this.currentUser._id) as any;
                                               return k;
                                           });
 
@@ -133,7 +130,7 @@ export class DbService {
 
         items.forEach((item: IItem) => {
             item.editedOn = new Date();
-            item.user_id = this.currentUser._id;
+            item.user_id = new ObjectID(this.currentUser._id) as any;
 
             if (item.keywords) {
                 item.keywords.forEach((keyword: IKeyword) => {

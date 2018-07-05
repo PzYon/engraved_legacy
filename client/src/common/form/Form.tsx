@@ -2,8 +2,10 @@ import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, IUrlItem} from "engrave
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect} from "react-router";
+import {CodeLanguage} from "./fields/CodeEditor";
 import {CodeField} from "./fields/CodeField";
 import {KeywordField} from "./fields/KeywordField";
+import {MarkdownField} from "./fields/MarkdownField";
 import {MultiLineTextField} from "./fields/MultiLineTextField";
 import {ISelectFieldOptions, SelectField} from "./fields/SelectField";
 import {TextField} from "./fields/TextField";
@@ -50,7 +52,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                     <SelectField
                         label={"Item Kind"}
                         onValueChange={(value: ItemKind) => this.setNewState("itemKind", value)}
-                        options={Form.getOptions()}
+                        options={Form.getItemKindOptions()}
                         defaultKey={item.itemKind}
                         isReadOnly={this.props.isReadonly}
                     />
@@ -116,7 +118,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
             case ItemKind.Note:
                 return (
-                    <MultiLineTextField
+                    <MarkdownField
                         label={"Note"}
                         onValueChange={(value: string) => this.setNewState("note", value)}
                         value={(item as INoteItem).note}
@@ -125,14 +127,24 @@ export class Form extends React.Component<IFormProps, IFormState> {
                 );
 
             case ItemKind.Code:
-                return (
+                return [
+                    <SelectField
+                        options={Form.getCodeLanguageOptions()}
+                        label={"Language"}
+                        onValueChange={(value: string) => this.setNewState("codeLanguage", value)}
+                        isReadOnly={this.props.isReadonly}
+                        defaultKey={(item as ICodeItem).codeLanguage}
+                        key={"language"}
+                    />,
                     <CodeField
                         label={"Code"}
+                        language={(item as ICodeItem).codeLanguage as CodeLanguage}
                         onValueChange={(value: string) => this.setNewState("code", value)}
                         value={(item as ICodeItem).code}
                         isReadOnly={this.props.isReadonly}
+                        key={"code"}
                     />
-                );
+                ];
 
             default:
                 return null;
@@ -152,7 +164,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
         })
     };
 
-    private static getOptions(): Array<ISelectFieldOptions<ItemKind>> {
+    private static getItemKindOptions(): Array<ISelectFieldOptions<ItemKind>> {
         return Object.keys(ItemKind)
                      .map((itemKind: string) => {
                          return {
@@ -160,5 +172,26 @@ export class Form extends React.Component<IFormProps, IFormState> {
                              value: ItemKind[itemKind] as ItemKind // we use actual value (lower case)
                          }
                      });
+    }
+
+    private static getCodeLanguageOptions(): Array<ISelectFieldOptions<CodeLanguage>> {
+        return Object.keys(CodeLanguage)
+                     .map((codeLanguage: string) => {
+                         return {
+                             label: this.getCodeLanguageLabel(codeLanguage),
+                             value: CodeLanguage[codeLanguage] as CodeLanguage // we use actual value (lower case)
+                         }
+                     });
+    }
+
+    private static getCodeLanguageLabel(codeLanguage: string): string {
+        switch (CodeLanguage[codeLanguage]) {
+            case CodeLanguage.Json:
+                return "JSON";
+            case CodeLanguage.CSharp:
+                return "C#";
+            default:
+                return codeLanguage;
+        }
     }
 }
