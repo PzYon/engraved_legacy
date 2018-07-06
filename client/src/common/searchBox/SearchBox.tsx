@@ -39,8 +39,7 @@ export interface ISearchBoxProps {
 interface ISearchBoxState {
     showDropDown: boolean;
     hidePlaceholder: boolean;
-    isFocus: boolean;
-    isHover: boolean;
+    hasFocus: boolean;
 }
 
 export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState> {
@@ -52,8 +51,7 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
         this.state = {
             showDropDown: true,
             hidePlaceholder: false,
-            isFocus: false,
-            isHover: false
+            hasFocus: false
         };
     }
 
@@ -61,9 +59,7 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
         return (
             <ContainerDiv
                 innerRef={ref => this.node = ref}
-                onMouseOver={() => this.setState({isHover: true})}
-                onMouseLeave={() => this.setState({isHover: false})}
-                isHighlight={this.state.isFocus || this.state.isHover}
+                isHighlight={this.state.hasFocus}
             >
                 <SelectedKeywords
                     selectedKeywords={this.props.selectedKeywords}
@@ -73,8 +69,8 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
                     type="text"
                     value={this.props.searchValue}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => this.props.onChange(e.target.value)}
-                    onFocus={() => this.setState({showDropDown: true, hidePlaceholder: true, isFocus: true})}
-                    onBlur={() => this.setState({isFocus: false})}
+                    onFocus={() => this.setState({showDropDown: true, hidePlaceholder: true, hasFocus: true})}
+                    onBlur={() => this.setState({hasFocus: false})}
                     placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
                 />
                 {

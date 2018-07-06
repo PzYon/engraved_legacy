@@ -10,14 +10,18 @@ export const FormContainer = styled.div`
     border: 1px solid ${StyleConstants.colors.borders};
     margin-bottom: 10px;
     vertical-align: top;
-    
-    &:hover,
+
     &:focus {
       outline: none;
       box-shadow: ${StyleConstants.defaultBoxShadow};
     }
   }
-  
+
+  button:hover {
+    outline: none;
+    box-shadow: ${StyleConstants.defaultBoxShadow};
+   }
+
   input,
   textarea {
     padding: ${StyleConstants.formElementPadding};
@@ -25,7 +29,7 @@ export const FormContainer = styled.div`
     min-width: calc(100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px);
     max-width: calc(100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px);
   }
-  
+
   select {
     width: 100%;
     padding: ${StyleConstants.formElementPadding} 0;
@@ -48,7 +52,6 @@ export const FormLabelSpan = BaseCell.extend`
   padding-bottom: 0.2rem;
   font-size: 0.7rem;
   color: ${StyleConstants.colors.accent};
-  text-transform: uppercase;
 `;
 
 export const FormFieldSpan = BaseCell.extend`

@@ -8,9 +8,13 @@ import {FieldWrapper} from "./FieldWrapper";
 import {IFieldProps} from "./IFieldProps";
 
 const TogglePreviewSpan = styled.span`
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: ${StyleConstants.colors.accent};
   cursor: pointer;
+`;
+
+const MarkupDiv = styled.div`
+  border: 1px solid ${StyleConstants.colors.accent};
 `;
 
 export interface IMarkdownFieldProps extends IFieldProps<string> {
@@ -33,13 +37,18 @@ export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMar
     public render(): ReactNode {
         return (
             <FieldWrapper label={this.props.label} doRender={!this.props.isReadOnly || !!this.props.value}>
-                <TogglePreviewSpan onClick={() => this.setState({isPreview: !this.state.isPreview})}>
-                    Preview
-                </TogglePreviewSpan>
+                {
+                    !this.props.isReadOnly
+                    && (
+                        <TogglePreviewSpan onClick={() => this.setState({isPreview: !this.state.isPreview})}>
+                            > {this.state.isPreview ? "back to edit-mode" : "show preview"}
+                        </TogglePreviewSpan>
+                    )
+                }
                 {
                     this.props.isReadOnly || this.state.isPreview
                     ? (
-                        <div dangerouslySetInnerHTML={{__html: marked(this.props.value || "")}}/>
+                        <MarkupDiv dangerouslySetInnerHTML={{__html: marked(this.props.value || "")}}/>
                     ) : (
                         <CodeEditor
                             language={CodeLanguage.Markdown}
