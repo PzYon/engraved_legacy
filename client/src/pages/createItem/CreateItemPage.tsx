@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../items/ItemStore";
+import {NotificationKind} from "../../notifications/INotification";
 import {NotificationStore} from "../../notifications/NotificationStore";
 import {Page} from "../Page";
 
@@ -74,6 +75,7 @@ export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRou
                                     </Link>
                                  </span>
                              ),
+                             kind: NotificationKind.Success,
                              id: Util.createGuid()
                          });
                      ItemStore.instance.resetAndLoad();

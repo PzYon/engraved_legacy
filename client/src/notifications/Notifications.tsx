@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {ErrorBoundary} from "../common/ErrorBoundary";
 import {StyleConstants} from "../styling/StyleConstants";
 import {StyleUtil} from "../styling/StyleUtil";
-import {INotification} from "./INotification";
+import {INotification, NotificationKind} from "./INotification";
 import {NotificationStore} from "./NotificationStore";
 
 const RootContainerDiv = styled.div`
@@ -14,20 +14,29 @@ const RootContainerDiv = styled.div`
   z-index: 10;
   bottom: 0;
   left: 0;
-  background-color: ${StyleConstants.colors.success.backgroundTransparent};
-  color: ${StyleConstants.colors.success.text};
+  opacity: 0.9;
 `;
 
 const List = styled.ul`
   list-style-type: none;
   padding: 0;
-  margin: auto;
-  max-width: ${StyleConstants.maxContentWidth};
+  margin: 0;
 `;
 
 const ListItem = styled.li`
-  margin: 0.5rem;
+  color: ${(props: { colors: any }) => props.colors.text};
+  background-color: ${(props: { colors: any }) => props.colors.background};
+  padding: 0;
+  margin: 0;
   ${StyleUtil.normalizeAnchors(StyleConstants.colors.success.text)}
+`;
+
+const ListItemInner = styled.span`
+  display: block;
+  max-width: calc(${StyleConstants.maxContentWidth} - ${StyleConstants.defaultPadding} - ${StyleConstants.defaultPadding});
+  padding: ${StyleConstants.defaultPadding};
+  margin: auto;
+  overflow: hidden;
 `;
 
 const RemoverSpan = styled.span`
@@ -76,13 +85,15 @@ export class Notifications extends React.PureComponent<{}, INotificationsState> 
                     {
                         notifications.map(n => {
                             return (
-                                <ListItem key={n.id}>
-                                    <span>
-                                        {n.messageOrNode}
-                                    </span>
-                                    <RemoverSpan onClick={() => this.removeNotification(n)}>
-                                        x
-                                    </RemoverSpan>
+                                <ListItem key={n.id} colors={Notifications.getColors(n.kind)}>
+                                    <ListItemInner>
+                                        <span>
+                                            {n.messageOrNode}
+                                        </span>
+                                        <RemoverSpan onClick={() => this.removeNotification(n)}>
+                                            x
+                                        </RemoverSpan>
+                                    </ListItemInner>
                                 </ListItem>
                             );
                         })
@@ -94,5 +105,16 @@ export class Notifications extends React.PureComponent<{}, INotificationsState> 
 
     private removeNotification = (n: INotification): void => {
         NotificationStore.instance.removeNotification(n);
+    };
+
+    private static getColors(kind: NotificationKind): any {
+        switch (kind) {
+            case NotificationKind.Success:
+                return StyleConstants.colors.success;
+            case NotificationKind.Warning:
+                return StyleConstants.colors.warning;
+            case NotificationKind.Error:
+                return StyleConstants.colors.error;
+        }
     }
 }

@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {Form} from "../../common/form/Form";
 import {ItemStore} from "../../items/ItemStore";
+import {NotificationKind} from "../../notifications/INotification";
 import {NotificationStore} from "../../notifications/NotificationStore";
 import {Page} from "../Page";
 
@@ -75,7 +76,8 @@ export class EditItemPage extends React.Component<RouteComponentProps<IRouterPar
                                     </Link>
                                  </span>
                              ),
-                             id: Util.createGuid()
+                             id: Util.createGuid(),
+                             kind: NotificationKind.Success
                          });
                      ItemStore.instance.resetAndLoad();
                  });

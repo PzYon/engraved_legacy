@@ -9,18 +9,16 @@ interface IRouterParams {
 
 interface IAuthenticatedState {
     jwt: string;
-    doRedirect: boolean;
 }
 
-export class Authenticated extends React.PureComponent<RouteComponentProps<IRouterParams>, IAuthenticatedState> {
+export class AuthenticationCallback extends React.PureComponent<RouteComponentProps<IRouterParams>, IAuthenticatedState> {
     public constructor(props: RouteComponentProps<IRouterParams>) {
         super(props);
 
         const jwt: string = decodeURIComponent(props.match.params.jwt);
 
         this.state = {
-            jwt: jwt,
-            doRedirect: false
+            jwt: jwt
         };
 
         AuthStore.setToken(jwt);

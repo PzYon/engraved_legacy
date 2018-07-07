@@ -8,7 +8,7 @@ import {StyleConstants} from "../styling/StyleConstants";
 import {StyleUtil} from "../styling/StyleUtil";
 import {Typer} from "./Typer";
 
-const HeaderInnerContainerDiv = styled.div`
+const HeaderContainerDiv = styled.div`
   margin: 0 ${StyleConstants.defaultMargin};
   width: calc(100% - ${StyleConstants.defaultMargin} - ${StyleConstants.defaultMargin});
   display: flex;
@@ -53,7 +53,7 @@ export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
 
     public render(): ReactNode {
         return (
-            <HeaderInnerContainerDiv>
+            <HeaderContainerDiv>
                 <AppTitle>
                     <Link to={"/"}>
                         {this.state.title}
@@ -65,7 +65,7 @@ export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
                         imageSizeInPx={StyleConstants.headerHeightInPx * 0.7}
                     />
                 </CurrentUserSpan>
-            </HeaderInnerContainerDiv>
+            </HeaderContainerDiv>
         );
     }
 }

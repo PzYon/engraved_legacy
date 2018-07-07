@@ -14,7 +14,9 @@ export class NotificationStore {
     }
 
     public addNotification(n: INotification) {
-        this.notifications$.next([...this.notifications$.value, n]);
+        if (!this.notifications$.value.find((x: INotification) => x.id === n.id)) {
+            this.notifications$.next([...this.notifications$.value, n]);
+        }
     }
 
     public removeNotification(n: INotification) {

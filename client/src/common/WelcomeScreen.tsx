@@ -1,7 +1,6 @@
 import * as React from "react";
-import {BrowserRouter as Router, Route} from "react-router-dom";
 import styled from "styled-components";
-import {Authenticated} from "../authentication/Authenticated";
+import {AuthenticatedServerApi} from "../authentication/AuthenticatedServerApi";
 import {StyleConstants} from "../styling/StyleConstants";
 import {StyleUtil} from "../styling/StyleUtil";
 
@@ -40,16 +39,9 @@ export const WelcomeScreen: React.SFC<{}> = () => {
                     engraved.
                 </TitleDiv>
                 <MessageDiv>
-                    <a href="http://localhost:3001/api/authentication/google/start">Login</a> or <a href="http://localhost:3001/api/authentication/google/start">signup</a> using your google account.
+                    <a href={AuthenticatedServerApi.authUrl}>Login</a> or <a href={AuthenticatedServerApi.authUrl}>signup</a> using your google account.
                 </MessageDiv>
             </div>
-            <Router>
-                <Route
-                    path="/authenticated/:jwt"
-                    component={Authenticated}
-                    exact={true}
-                />
-            </Router>
         </RootDiv>
     );
 };

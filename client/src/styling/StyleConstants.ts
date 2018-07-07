@@ -19,9 +19,16 @@ export const StyleConstants = {
         font: "#333333",
         accent: accentColor,
         borders: accentColor,
-        error: "darkred",
+        error: {
+            background: "darkred",
+            text: "white"
+        },
+        warning: {
+            background: "#ffbb00",
+            text: "black"
+        },
         success: {
-            backgroundTransparent: "rgba(0, 102, 0, 0.8)",
+            background: "rgba(0, 102, 0, 0.8)",
             text: "white"
         }
     }
