@@ -1,6 +1,7 @@
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";
+import {ErrorBoundary} from "../common/ErrorBoundary";
 import {StyleConstants} from "../styling/StyleConstants";
 
 const ContainerDiv = styled.div`
@@ -31,17 +32,19 @@ export const Page: React.SFC<IPageProps> = (props: IPageProps) => {
 
     return (
         <ContainerDiv>
-            {
-                props.title
-                && (
-                    <H1>
-                        {props.title}
-                    </H1>
-                )
-            }
-            <ContentDiv>
-                {props.children}
-            </ContentDiv>
+            <ErrorBoundary>
+                {
+                    props.title
+                    && (
+                        <H1>
+                            {props.title}
+                        </H1>
+                    )
+                }
+                <ContentDiv>
+                    {props.children}
+                </ContentDiv>
+            </ErrorBoundary>
         </ContainerDiv>
     );
 };

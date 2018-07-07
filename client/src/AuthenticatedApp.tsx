@@ -6,7 +6,6 @@ import {tap} from "rxjs/operators";
 import styled from "styled-components";
 import {AuthenticatedServerApi} from "./authentication/AuthenticatedServerApi";
 import {AuthStore} from "./authentication/AuthStore";
-import {ErrorBoundary} from "./common/ErrorBoundary";
 import {Header} from "./common/Header";
 import {WelcomeScreen} from "./common/WelcomeScreen";
 import {Notifications} from "./notifications/Notifications";
@@ -85,26 +84,24 @@ export class AuthenticatedApp extends React.Component<{}, IAppState> {
                         </HeaderSection>
                     </HeaderContainerDiv>
                     <ContentSection>
-                        <ErrorBoundary>
-                            <Route
-                                path="/"
-                                component={SearchPage}
-                                exact={true}
-                            />
-                            <Route
-                                path="/create/:itemKind?/:value?"
-                                component={CreateItemPage}
-                            />
-                            <Route
-                                path="/:itemId"
-                                component={ViewItemPage}
-                                exact={true}
-                            />
-                            <Route
-                                path="/:itemId/edit"
-                                component={EditItemPage}
-                            />
-                        </ErrorBoundary>
+                        <Route
+                            path="/"
+                            component={SearchPage}
+                            exact={true}
+                        />
+                        <Route
+                            path="/create/:itemKind?/:value?"
+                            component={CreateItemPage}
+                        />
+                        <Route
+                            path="/:itemId"
+                            component={ViewItemPage}
+                            exact={true}
+                        />
+                        <Route
+                            path="/:itemId/edit"
+                            component={EditItemPage}
+                        />
                     </ContentSection>
                     <Notifications/>
                 </AppRootDiv>
