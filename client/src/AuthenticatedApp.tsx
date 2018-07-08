@@ -1,4 +1,4 @@
-import {IUser} from "engraved-shared/dist";
+import {IUser} from "engraved-shared";
 import * as React from "react";
 import {ReactNode} from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";

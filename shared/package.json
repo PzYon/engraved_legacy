@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-shared": "tsc -w"
+    "dev-shared": "tsc -w && cp package.json ../dist",
+    "copy-packagejson": "copy package.json dist"
   },
   "author": "",
   "license": "ISC",

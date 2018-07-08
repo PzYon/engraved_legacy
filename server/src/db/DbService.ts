@@ -1,4 +1,4 @@
-import {IItem, IKeyword, ItemSearchQuery, IUser} from "engraved-shared/dist";
+import {IItem, IKeyword, ItemSearchQuery, IUser} from "engraved-shared";
 import {Collection, Db, InsertOneWriteOpResult, InsertWriteOpResult, ObjectID, UpdateWriteOpResult} from "mongodb";
 import Config from "../Config";
 

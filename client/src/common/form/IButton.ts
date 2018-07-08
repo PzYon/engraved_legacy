@@ -1,4 +1,4 @@
-import {IItem} from "engraved-shared/dist";
+import {IItem} from "engraved-shared";
 import {ReactNode} from "react";
 
 export interface IButton {

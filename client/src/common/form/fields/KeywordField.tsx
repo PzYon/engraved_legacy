@@ -1,4 +1,4 @@
-import {IKeyword, Util} from "engraved-shared/dist";
+import {IKeyword, Util} from "engraved-shared";
 import * as React from "react";
 import {ReactNode} from "react";
 import styled from "styled-components";

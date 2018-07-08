@@ -1,4 +1,4 @@
-import {INoteItem} from "engraved-shared/dist";
+import {INoteItem} from "engraved-shared";
 import {BaseItem} from "./BaseItem";
 
 export class NoteItem extends BaseItem implements INoteItem {

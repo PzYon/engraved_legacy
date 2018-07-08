@@ -1,4 +1,4 @@
-import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, ItemSearchQuery, IUrlItem} from "engraved-shared/dist";
+import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, ItemSearchQuery, IUrlItem} from "engraved-shared";
 import {BehaviorSubject, Observable, Observer, SubscriptionLike} from "rxjs";
 import {AjaxResponse} from "rxjs/ajax";
 import {map} from "rxjs/operators";

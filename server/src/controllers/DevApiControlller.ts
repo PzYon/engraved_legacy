@@ -1,4 +1,4 @@
-import {IItem, IUser} from "engraved-shared/dist";
+import {IItem, IUser} from "engraved-shared";
 import {Express} from "express";
 import {Request, Response} from "express-serve-static-core";
 import {Db, DeleteWriteOpResultObject} from "mongodb";

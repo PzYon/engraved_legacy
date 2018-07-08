@@ -1,4 +1,4 @@
-import {IItem, IKeyword} from "engraved-shared/dist";
+import {IItem, IKeyword} from "engraved-shared";
 import * as moment from "moment";
 import * as React from "react";
 import {Link} from "react-router-dom";

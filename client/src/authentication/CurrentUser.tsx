@@ -1,13 +1,13 @@
+import {IUser} from "engraved-shared";
 import * as React from "react";
 import styled from "styled-components";
-import {IUser} from "../../../shared/src";
 
 const ImageContainer = styled.span`
   display: inline-block;
   font-size: 0;
 
   img {
-    height: ${(p: {imageSizeInPx: number}) => p.imageSizeInPx + "px"};
+    height: ${(p: { imageSizeInPx: number }) => p.imageSizeInPx + "px"};
     border-radius: 50%;
   }
 `;

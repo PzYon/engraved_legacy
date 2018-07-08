@@ -1,4 +1,4 @@
-import {IUser} from "engraved-shared/dist";
+import {IUser} from "engraved-shared";
 import {Express} from "express";
 import {Request, Response} from "express-serve-static-core";
 import * as jwt from "jsonwebtoken";
@@ -19,7 +19,7 @@ const generateJwt = (req: Request, res: Response): void => {
         subject: userId.toString()
     });
 
-    res.redirect("http://localhost:3000/authenticated/" + accessToken);
+    res.redirect(authConfig.clientCallbackUrl + accessToken);
 };
 
 const registerJwtAuth = (dbService: DbService) => {
@@ -68,9 +68,9 @@ const registerGoogleAuth = (dbService: DbService) => {
 export const bootstrapAuthentication = (app: Express, dbService: DbService): void => {
     app.use(passport.initialize());
 
-    app.get('/api/authentication/google/start',
+    app.get('/auth/google/init',
             passport.authenticate('google', {session: false, scope: ['openid', 'profile', 'email']}));
-    app.get('/api/authentication/google/redirect',
+    app.get('/auth/google/callback',
             passport.authenticate('google', {session: false}),
             generateJwt);
 

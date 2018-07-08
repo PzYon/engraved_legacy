@@ -10,7 +10,7 @@ import {AuthStore} from "./AuthStore";
 export class AuthenticatedServerApi {
     private static readonly baseUrl: string = "http://localhost:3001";
 
-    public static readonly authUrl: string = AuthenticatedServerApi.baseUrl + "/api/authentication/google/start";
+    public static readonly authUrl: string = AuthenticatedServerApi.baseUrl + "/auth/google/init";
 
     public static get<T>(url: string, headers: any = {}): Observable<T> {
         return ajax.getJSON(this.getAbsoluteUrl(url), {...headers, ...this.getHeaders()})

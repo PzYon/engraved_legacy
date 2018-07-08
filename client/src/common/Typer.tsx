@@ -13,7 +13,7 @@ export class Typer {
             clearTimeout(this.timer);
         } else {
             this.timer = setTimeout(() => {
-                const nextIndex = (Math.random() > 0.90 && index > 0) ? --index : ++index;
+                const nextIndex = (Math.random() > 0.95 && index > 0) ? --index : ++index;
 
                 onType(this.textToType.substring(0, nextIndex));
                 this.typeNext(nextIndex, (Math.random() * 200) + 100, onType);

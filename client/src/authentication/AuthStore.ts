@@ -1,4 +1,4 @@
-import {IUser} from "engraved-shared/dist";
+import {IUser} from "engraved-shared";
 import {BehaviorSubject} from "rxjs/index";
 import {LocalStorageUtil} from "../common/storage/LocalStorageUtil";
 

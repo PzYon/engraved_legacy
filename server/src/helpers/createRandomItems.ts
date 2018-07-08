@@ -1,4 +1,4 @@
-import {IItem, ItemKind, IUser} from "engraved-shared/dist";
+import {IItem, ItemKind, IUser} from "engraved-shared";
 
 export const createRandomItems = (count: number, user: IUser): IItem[] => {
     const items: IItem[] = [];

@@ -1,4 +1,4 @@
-import {ICodeItem} from "engraved-shared/dist";
+import {ICodeItem} from "engraved-shared";
 import {CodeLanguage} from "../common/form/fields/CodeEditor";
 import {BaseItem} from "./BaseItem";
 
