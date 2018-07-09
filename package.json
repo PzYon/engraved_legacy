@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "copyfiles": "^2.0.0"
+  },
+  "engines": {
+    "node": "8.11.2"
   }
 }

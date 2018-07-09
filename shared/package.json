@@ -14,5 +14,8 @@
   "devDependencies": {
     "copyfiles": "^2.0.0",
     "typescript": "^2.9.2"
+  },
+  "engines": {
+    "node": "8.11.2"
   }
 }

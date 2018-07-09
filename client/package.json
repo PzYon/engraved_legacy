@@ -29,5 +29,8 @@
     "@types/react-router-dom": "^4.2.6",
     "react-router": "latest",
     "typescript": "^2.9.2"
+  },
+  "engines": {
+    "node": "8.11.2"
   }
 }
