@@ -8,7 +8,8 @@
     "build": "tsc",
     "dev-server": "nodemon",
     "start": "ts-node src/WebServer.ts",
-    "test": "jest"
+    "test": "jest",
+    "prod": "node ./dist/WebServer.js"
   },
   "author": "",
   "license": "ISC",

@@ -58,7 +58,7 @@ export class AuthenticatedApp extends React.Component<{}, IAppState> {
     }
 
     public componentDidMount(): void {
-        AuthenticatedServerApi.get("/users/me")
+        AuthenticatedServerApi.get("users/me")
                               .pipe(tap(u => u, () => this.setState({isLoading: false})))
                               .subscribe((currentUser: IUser) => {
                                   AuthStore.currentUser$.next(currentUser);
@@ -85,6 +85,16 @@ export class AuthenticatedApp extends React.Component<{}, IAppState> {
                     </HeaderContainerDiv>
                     <ContentSection>
                         <Route
+                            path={AuthenticatedServerApi.authUrl}
+                            render={() => window.location.href = AuthenticatedServerApi.authUrl}
+                            exact={true}
+                        />
+                        <Route
+                            path="/:itemId"
+                            component={ViewItemPage}
+                            exact={true}
+                        />
+                        <Route
                             path="/"
                             component={SearchPage}
                             exact={true}
@@ -92,11 +102,6 @@ export class AuthenticatedApp extends React.Component<{}, IAppState> {
                         <Route
                             path="/create/:itemKind?/:value?"
                             component={CreateItemPage}
-                        />
-                        <Route
-                            path="/:itemId"
-                            component={ViewItemPage}
-                            exact={true}
                         />
                         <Route
                             path="/:itemId/edit"

@@ -1,12 +1,14 @@
 {
   "name": "engraved-shared",
-  "version": "0.0.16",
+  "version": "0.0.75",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "copyPackageJson": "copyfiles package.json dist",
+    "copyNpmRc": "copyfiles .npmrc dist",
+    "copyFiles": "npm run copyNpmRc && npm run copyPackageJson",
     "dev-shared": "npm run copyPackageJson && tsc -w",
-    "prepublishtonpm": "npm version patch && npm run copyPackageJson",
+    "prepublishtonpm": "npm version patch && npm run copyFiles",
     "publishtonpm": "tsc && cd dist && npm publish"
   },
   "author": "",

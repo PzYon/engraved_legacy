@@ -32,5 +32,6 @@
   },
   "engines": {
     "node": "8.11.2"
-  }
+  },
+  "proxy": "http://localhost:3001/"
 }
