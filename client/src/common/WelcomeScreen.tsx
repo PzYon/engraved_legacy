@@ -15,6 +15,10 @@ const RootDiv = styled.div`
   flex-flow: column;
 `;
 
+const InnerDiv = styled.div`
+  margin: 1rem;
+`;
+
 const TitleDiv = styled.div`
   font-size: 60px;
   font-weight: bold;
@@ -34,14 +38,14 @@ const MessageDiv = styled.div`
 export const WelcomeScreen: React.SFC<{}> = () => {
     return (
         <RootDiv>
-            <div>
+            <InnerDiv>
                 <TitleDiv>
                     engraved.
                 </TitleDiv>
                 <MessageDiv>
                     <a href={AuthenticatedServerApi.authUrl}>Login</a> or <a href={AuthenticatedServerApi.authUrl}>signup</a> using your google account.
                 </MessageDiv>
-            </div>
+            </InnerDiv>
         </RootDiv>
     );
 };

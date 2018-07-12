@@ -40,7 +40,7 @@ export class DbService {
 
     public searchKeywords(searchText: any): Promise<IKeyword[]> {
         let query: any = searchText
-                         ? {name: {$regex: searchText}}
+                         ? {name: {$regex: searchText, $options: "-i"}}
                          : {};
 
         query = this.ensureCurrentUserId(query);

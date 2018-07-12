@@ -28,18 +28,18 @@ export class ItemStore {
     }
 
     public addItem = (item: IItem): Observable<IItem> => {
-        return AuthenticatedServerApi.post("/items", item)
+        return AuthenticatedServerApi.post("items", item)
                                      .pipe(map((r: AjaxResponse) => r.response));
     };
 
     // we send the item to the server and then update it in the (client) cache
     public updateItem = (item: IItem): Observable<IItem> => {
-        return AuthenticatedServerApi.patch("/items/" + item._id, item)
+        return AuthenticatedServerApi.patch("items/" + item._id, item)
                                      .pipe(map((r: AjaxResponse) => this.updateCache(item)));
     };
 
     public searchKeywords = (searchText: string): Observable<IKeyword[]> => {
-        return AuthenticatedServerApi.get<IKeyword[]>(`/keywords${searchText ? `?q=${searchText}` : ""}`);
+        return AuthenticatedServerApi.get<IKeyword[]>(`keywords${searchText ? `?q=${searchText}` : ""}`);
     };
 
     public loadItems = (): void => {
@@ -54,7 +54,7 @@ export class ItemStore {
 
         console.log(`ItemStore: calling server @ "${query.toUrl()}"`);
 
-        this.nextItemsSubscription = AuthenticatedServerApi.get<IItem[]>(`/items?${query.toUrl()}`)
+        this.nextItemsSubscription = AuthenticatedServerApi.get<IItem[]>(`items?${query.toUrl()}`)
                                                            .subscribe((items: IItem[]) => {
                                                                this.items$.next(this.transformItems(items));
                                                            });
@@ -75,7 +75,7 @@ export class ItemStore {
             });
         }
 
-        return AuthenticatedServerApi.get(`/items/${id}`);
+        return AuthenticatedServerApi.get(`items/${id}`);
     }
 
     private transformItems(items: IItem[]): IItem[] {

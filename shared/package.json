@@ -1,16 +1,23 @@
 {
   "name": "engraved-shared",
-  "version": "0.0.1",
+  "version": "0.0.94",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-shared": "tsc -w && cp package.json ../dist",
-    "copy-packagejson": "copy package.json dist"
+    "copyPackageJson": "copyfiles package.json dist",
+    "copyNpmRc": "copyfiles .npmrc dist",
+    "copyFiles": "npm run copyNpmRc && npm run copyPackageJson",
+    "dev-shared": "npm run copyPackageJson && tsc -w",
+    "prepublishtonpm": "npm version patch && npm run copyFiles",
+    "publishtonpm": "tsc && cd dist && npm publish"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "copyfiles": "^2.0.0",
     "typescript": "^2.9.2"
+  },
+  "engines": {
+    "node": "8.11.2"
   }
 }

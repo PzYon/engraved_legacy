@@ -6,28 +6,28 @@ import passport from "passport";
 import * as Google from "passport-google-oauth";
 import {IOAuth2StrategyOption} from "passport-google-oauth";
 import * as PassportJwt from "passport-jwt";
+import Config from "../Config";
 import {DbService} from "../db/DbService";
-import {authConfig} from "./authConfig";
 
 const generateJwt = (req: Request, res: Response): void => {
     const userId = (req as any).user._id;
 
-    const accessToken = jwt.sign({}, authConfig.jwtSecret, {
-        expiresIn: '1 hour',
-        audience: authConfig.jwtAudience,
-        issuer: authConfig.jwtIssuer,
+    const accessToken = jwt.sign({}, Config.authentication.jwtSecret, {
+        expiresIn: Config.authentication.jwtExpiration,
+        audience: Config.authentication.jwtAudience,
+        issuer: Config.authentication.jwtIssuer,
         subject: userId.toString()
     });
 
-    res.redirect(authConfig.clientCallbackUrl + accessToken);
+    res.redirect(Config.authentication.clientCallbackUrl + accessToken);
 };
 
 const registerJwtAuth = (dbService: DbService) => {
     const jwtOptions: PassportJwt.StrategyOptions = {
         jwtFromRequest: PassportJwt.ExtractJwt.fromAuthHeaderWithScheme("jwt"),
-        secretOrKey: authConfig.jwtSecret,
-        issuer: authConfig.jwtIssuer,
-        audience: authConfig.jwtAudience
+        secretOrKey: Config.authentication.jwtSecret,
+        issuer: Config.authentication.jwtIssuer,
+        audience: Config.authentication.jwtAudience
     };
 
     passport.use(new PassportJwt.Strategy(jwtOptions, (payload, done) => {
@@ -45,9 +45,9 @@ const registerJwtAuth = (dbService: DbService) => {
 
 const registerGoogleAuth = (dbService: DbService) => {
     const googleOptions: IOAuth2StrategyOption = {
-        clientID: authConfig.googleClientId,
-        clientSecret: authConfig.googleClientSecret,
-        callbackURL: authConfig.googleCallbackUrl
+        clientID: Config.authentication.googleClientId,
+        clientSecret: Config.authentication.googleClientSecret,
+        callbackURL: Config.authentication.googleCallbackUrl
     };
 
     passport.use(new Google.OAuth2Strategy(googleOptions,
@@ -68,11 +68,11 @@ const registerGoogleAuth = (dbService: DbService) => {
 export const bootstrapAuthentication = (app: Express, dbService: DbService): void => {
     app.use(passport.initialize());
 
-    app.get('/auth/google/init',
-            passport.authenticate('google', {session: false, scope: ['openid', 'profile', 'email']}));
-    app.get('/auth/google/callback',
-            passport.authenticate('google', {session: false}),
-            generateJwt);
+    app.route('/auth/google/init')
+       .get(passport.authenticate('google', {session: false, scope: ['openid', 'profile', 'email']}));
+
+    app.route('/auth/google/callback')
+       .get(passport.authenticate('google', {session: false}), generateJwt);
 
     registerJwtAuth(dbService);
 
