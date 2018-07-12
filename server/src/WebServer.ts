@@ -35,7 +35,7 @@ const configureExpress = function (db: Db) {
 
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
-    app.use(cors())
+    //app.use(cors())
 
     console.log("bootstrapping auth");
 
