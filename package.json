@@ -5,10 +5,9 @@
   "scripts": {
     "start": "npm run server:prod",
     "server:prod": "cd server && npm run prod",
-    "shared:build:prod": "cd shared && npm install --only=dev --no-shrinkwrap && npm run publishtonpm",
     "server:build:prod": "cd server && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "client:build:prod": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build && copyfiles -u 1 build/**/*.* ../server/dist/client",
-    "heroku-postbuild": "npm run shared:build:prod && npm run server:build:prod && npm run client:build:prod"
+    "heroku-postbuild": "npm run server:build:prod && npm run client:build:prod"
   },
   "devDependencies": {
     "copyfiles": "^2.0.0"
