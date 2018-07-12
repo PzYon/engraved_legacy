@@ -1,4 +1,4 @@
-import {json} from "body-parser";
+import * as bodyParser from "body-parser";
 import express, {Express} from "express";
 import {Db, MongoClient} from "mongodb";
 import * as path from "path";
@@ -33,14 +33,9 @@ const configureExpress = function (db: Db) {
 
     const app: Express = express();
 
-    app.use(json());
-
-    app.use((req, res, next) => {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-        res.header("Access-Control-Allow-Methods", "GET, POST, PATCH");
-        next();
-    });
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    //app.use(cors())
 
     console.log("bootstrapping auth");
 
