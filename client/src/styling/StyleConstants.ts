@@ -1,35 +1,38 @@
-const accentColor = "#0099cc";
+const accentColor = "#0099CC";
+const discreetColor = "#DCDCDC";
+const darkColor = "#24292E";
+const whiteColor = "#FFFFFF";
 
 export const StyleConstants = {
     headerHeightInPx: 50,
     maxContentWidth: "1200px",
-    defaultPadding: "10px",
-    defaultMargin: "10px",
-    largeFontSize: "1.2rem",
-    formElementPadding: "4px",
-    fontFamily: "'IBM Plex Sans', sans-serif",
-    defaultBoxShadow: `3px 3px 10px ${accentColor}`,
+    defaultSpacing: "15px",
+    formElementPadding: "5px",
+    defaultBoxShadow: `3px 3px 10px ${discreetColor}`,
+    font: {
+        large: "1.2rem",
+        family: "'IBM Plex Sans', sans-serif",
+    },
     colors: {
-        header: {
-            background: "#24292e",
-            text: "white"
-        },
-        pageBackground: accentColor,
-        contentBackground: "white",
-        font: "#333333",
+        font: darkColor,
         accent: accentColor,
-        borders: accentColor,
+        discreet: discreetColor,
+        pageBackground: whiteColor,
+        header: {
+            background: darkColor,
+            text: whiteColor
+        },
         error: {
-            background: "darkred",
-            text: "white"
+            background: "#D73A4A",
+            text: whiteColor
         },
         warning: {
             background: "#ffbb00",
-            text: "black"
+            text: darkColor
         },
         success: {
-            background: "rgba(0, 102, 0, 0.8)",
-            text: "white"
+            background: "#006600",
+            text: whiteColor
         }
     }
 };

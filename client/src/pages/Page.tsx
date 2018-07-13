@@ -5,7 +5,7 @@ import {ErrorBoundary} from "../common/ErrorBoundary";
 import {StyleConstants} from "../styling/StyleConstants";
 
 const ContainerDiv = styled.div`
-  padding: ${StyleConstants.defaultPadding};
+  padding: ${StyleConstants.defaultSpacing};
 `;
 
 const H1 = styled.h2`
@@ -16,7 +16,7 @@ const H1 = styled.h2`
 `;
 
 const ContentDiv = styled.div`
-  margin: ${StyleConstants.defaultPadding} 0;
+  margin: ${StyleConstants.defaultSpacing} 0;
 `;
 
 export interface IPageProps {

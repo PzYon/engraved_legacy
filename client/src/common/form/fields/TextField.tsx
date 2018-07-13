@@ -5,7 +5,6 @@ import {FieldWrapper} from "./FieldWrapper";
 import {IFieldProps} from "./IFieldProps";
 
 export interface ITextFieldProps extends IFieldProps<string> {
-    value?: string;
 }
 
 export const TextField: React.SFC<ITextFieldProps> = (props: ITextFieldProps) => {

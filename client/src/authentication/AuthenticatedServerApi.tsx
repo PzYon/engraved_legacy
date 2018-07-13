@@ -9,9 +9,9 @@ import {AuthStore} from "./AuthStore";
 
 export class AuthenticatedServerApi {
     private static get baseUrl(): string {
-        return window.location.hostname === "localhost"
-               ? "http://localhost:3001/"
-               : `${location.protocol}//${location.hostname}/`
+        return (window.location.hostname === "localhost"
+                ? "http://localhost:3001"
+                : `${location.protocol}//${location.hostname}`) + "/api/"
     };
 
     public static get authUrl(): string {

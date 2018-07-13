@@ -10,13 +10,15 @@ import {SelectedKeywords} from "./SelectedKeywords";
 const ContainerDiv = styled.div`
   position: relative;
   ${(p: { isHighlight: boolean }) => p.isHighlight ? `box-shadow: ${StyleConstants.defaultBoxShadow};` : ""}
+  width: 100%;
 `;
 
 const Input = styled.input`
-  font-size: ${StyleConstants.largeFontSize};
-  border: 1px solid ${StyleConstants.colors.borders};
+  font-size: ${StyleConstants.font.large};
+  border: 1px solid ${StyleConstants.colors.discreet};
   padding: ${StyleConstants.formElementPadding};
   margin-bottom: 0 !important;
+  width: calc(100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px);
 
   &:focus {
     outline: none;

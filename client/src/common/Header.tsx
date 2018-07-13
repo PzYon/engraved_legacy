@@ -9,8 +9,8 @@ import {StyleUtil} from "../styling/StyleUtil";
 import {Typer} from "./Typer";
 
 const HeaderContainerDiv = styled.div`
-  margin: 0 ${StyleConstants.defaultMargin};
-  width: calc(100% - ${StyleConstants.defaultMargin} - ${StyleConstants.defaultMargin});
+  margin: 0 ${StyleConstants.defaultSpacing};
+  width: calc(100% - ${StyleConstants.defaultSpacing} - ${StyleConstants.defaultSpacing});
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -7,7 +7,7 @@ export const FormContainer = styled.div`
   textarea,
   select,
   button {
-    border: 1px solid ${StyleConstants.colors.borders};
+    border: 1px solid ${StyleConstants.colors.discreet};
     margin-bottom: 10px;
     vertical-align: top;
 
@@ -75,9 +75,9 @@ export const Select = styled.select`
 export const Button = styled.button`
   background-color: ${(p: { isPrimary: boolean }) => p.isPrimary
                                                      ? StyleConstants.colors.accent
-                                                     : StyleConstants.colors.contentBackground};
+                                                     : StyleConstants.colors.pageBackground};
   color: ${(p: { isPrimary: boolean }) => p.isPrimary
-                                          ? StyleConstants.colors.contentBackground
+                                          ? StyleConstants.colors.pageBackground
                                           : StyleConstants.colors.accent};
   border: 1px solid ${StyleConstants.colors.accent};
   padding: 0.4rem 0.6rem;

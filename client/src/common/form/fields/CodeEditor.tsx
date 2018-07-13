@@ -17,7 +17,7 @@ const ace = brace;
 
 const CodeEditorContainer = styled.div`
   #engraved-code-field {
-    border: 1px solid ${StyleConstants.colors.borders};
+    border: 1px solid ${StyleConstants.colors.discreet};
   }
 `;
 

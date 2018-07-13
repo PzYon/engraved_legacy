@@ -12,15 +12,16 @@ export interface ISelectFieldOptions<T> {
 export interface ISelectFieldProps<T> extends IFieldProps<T> {
     options: Array<ISelectFieldOptions<T>>;
     defaultKey?: string;
+    valueLabel: string;
 }
 
 export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
     public render(): ReactNode {
         return (
-            <FieldWrapper label={this.props.label} doRender={!this.props.isReadOnly || !this.props.defaultKey}>
+            <FieldWrapper label={this.props.label} doRender={!this.props.isReadOnly || this.props.value}>
                 {
                     this.props.isReadOnly
-                    ? this.props.defaultKey
+                    ? this.props.valueLabel
                     : (
                         <Select
                             defaultValue={this.props.defaultKey}

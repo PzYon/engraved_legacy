@@ -7,7 +7,10 @@ export default {
             users: "users"
         }
     },
-    apiPort: Number(process.env.PORT) || 3001,
+    webServer: {
+        apiPort: Number(process.env.PORT) || 3001,
+        apiUrlPrefix: "/api"
+    },
     authentication: {
         jwtSecret: process.env.JWT_SECRET || "schwiiiiiizerNati18",
         jwtIssuer: "pzyon",
