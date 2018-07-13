@@ -37,7 +37,7 @@ const Keywords = styled.p`
 export const Item: React.SFC<IItem> = (item: IItem) => (
     <Root>
         <Title>
-            <Link to={`/${item._id || ""}`}>
+            <Link to={`/items/${item._id || ""}`}>
                 {item.itemKind}: {item.title}
             </Link>
         </Title>
@@ -55,7 +55,7 @@ export const Item: React.SFC<IItem> = (item: IItem) => (
                 )
             }
             <AuthorInfoSpan>
-                <Link to={`/${item._id || ""}/edit`}>edited</Link>
+                <Link to={`/items/${item._id || ""}/edit`}>edited</Link>
                 &nbsp;
                 {moment(item.editedOn).fromNow()}
             </AuthorInfoSpan>
