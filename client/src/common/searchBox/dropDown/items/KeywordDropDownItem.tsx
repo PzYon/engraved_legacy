@@ -1,4 +1,4 @@
-import {IKeyword} from "engraved-shared/dist";
+import {IKeyword} from "engraved-shared";
 import * as React from "react";
 import {IDropDownItem} from "../IDropDownItem";
 

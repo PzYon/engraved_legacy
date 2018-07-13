@@ -1,4 +1,4 @@
-import {IKeyword, ItemKind, Util} from "engraved-shared/dist";
+import {IKeyword, ItemKind, Util} from "engraved-shared";
 import * as React from "react";
 import {ReactNode} from "react";
 import {ErrorBoundary} from "../../common/ErrorBoundary";

@@ -1,21 +1,23 @@
 {
   "name": "engraved-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build-watch": "tsc -w",
+    "build": "tsc",
     "dev-server": "nodemon",
     "start": "ts-node src/WebServer.ts",
-    "test": "jest"
+    "test": "jest",
+    "prod": "node ./dist/WebServer.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "engraved-shared": "0.0.1",
+    "engraved-shared": "^0.0",
     "express": "^4.16.3",
-    "mongodb": "^3.1.0-beta4",
+    "mongodb": "^3.1.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
     "passport-jwt": "^4.0.0"
@@ -23,14 +25,17 @@
   "devDependencies": {
     "@types/express": "^4.16.0",
     "@types/jest": "^22.2.3",
-    "@types/mongodb": "^3.0.21",
-    "@types/node": "^6.0.113",
+    "@types/mongodb": "^3.1.1",
+    "@types/node": "^6.0.114",
     "@types/passport-google-oauth": "^1.0.38",
     "@types/passport-jwt": "^3.0.1",
-    "jest": "^23.1.0",
+    "jest": "^23.3.0",
     "nodemon": "^1.17.5",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
+  },
+  "engines": {
+    "node": "8.11.2"
   }
 }

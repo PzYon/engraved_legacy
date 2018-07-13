@@ -1,4 +1,4 @@
-import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, IUrlItem} from "engraved-shared/dist";
+import {ICodeItem, IItem, IKeyword, INoteItem, ItemKind, IUrlItem} from "engraved-shared";
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect} from "react-router";

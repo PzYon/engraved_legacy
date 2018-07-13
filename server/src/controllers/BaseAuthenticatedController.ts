@@ -14,14 +14,20 @@ export abstract class BaseAuthenticatedController extends BaseController {
     }
 
     protected authenticatedGet(url: string, callback: (req: Request, res: Response) => void) {
-        this.app.get(url, BaseAuthenticatedController.authenticate(), callback);
+        this.app
+            .route(url)
+            .get(BaseAuthenticatedController.authenticate(), callback);
     }
 
     protected authenticatedPatch(url: string, callback: (req: Request, res: Response) => void) {
-        this.app.patch(url, BaseAuthenticatedController.authenticate(), callback);
+        this.app
+            .route(url)
+            .patch(BaseAuthenticatedController.authenticate(), callback);
     }
 
     protected authenticatedPost(url: string, callback: (req: Request, res: Response) => void) {
-        this.app.post(url, BaseAuthenticatedController.authenticate(), callback);
+        this.app
+            .route(url)
+            .post(BaseAuthenticatedController.authenticate(), callback);
     }
 }

@@ -1,4 +1,4 @@
-import {ICodeItem, IItem, INoteItem, ItemKind, IUrlItem, IUser} from "engraved-shared/dist";
+import {ICodeItem, IItem, INoteItem, ItemKind, IUrlItem, IUser} from "engraved-shared";
 
 export const createKnownItems = (user: IUser): IItem[] => {
     return [

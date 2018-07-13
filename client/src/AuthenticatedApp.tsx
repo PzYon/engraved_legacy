@@ -1,4 +1,4 @@
-import {IUser} from "engraved-shared/dist";
+import {IUser} from "engraved-shared";
 import * as React from "react";
 import {ReactNode} from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
@@ -58,7 +58,7 @@ export class AuthenticatedApp extends React.Component<{}, IAppState> {
     }
 
     public componentDidMount(): void {
-        AuthenticatedServerApi.get("/users/me")
+        AuthenticatedServerApi.get("users/me")
                               .pipe(tap(u => u, () => this.setState({isLoading: false})))
                               .subscribe((currentUser: IUser) => {
                                   AuthStore.currentUser$.next(currentUser);

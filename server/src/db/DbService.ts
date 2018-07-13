@@ -1,4 +1,4 @@
-import {IItem, IKeyword, ItemSearchQuery, IUser} from "engraved-shared/dist";
+import {IItem, IKeyword, ItemSearchQuery, IUser} from "engraved-shared";
 import {Collection, Db, InsertOneWriteOpResult, InsertWriteOpResult, ObjectID, UpdateWriteOpResult} from "mongodb";
 import Config from "../Config";
 
@@ -40,7 +40,7 @@ export class DbService {
 
     public searchKeywords(searchText: any): Promise<IKeyword[]> {
         let query: any = searchText
-                         ? {name: {$regex: searchText}}
+                         ? {name: {$regex: searchText, $options: "-i"}}
                          : {};
 
         query = this.ensureCurrentUserId(query);

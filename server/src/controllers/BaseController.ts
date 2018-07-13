@@ -1,4 +1,4 @@
-import {IUser} from "engraved-shared/dist";
+import {IUser} from "engraved-shared";
 import {Express} from "express";
 import {Request} from "express-serve-static-core";
 import {Db} from "mongodb";

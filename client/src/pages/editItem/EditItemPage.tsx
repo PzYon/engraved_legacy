@@ -1,4 +1,4 @@
-import {IItem, Util} from "engraved-shared/dist";
+import {IItem, Util} from "engraved-shared";
 import * as React from "react";
 import {ReactNode} from "react";
 import {Redirect, RouteComponentProps} from "react-router";

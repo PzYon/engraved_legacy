@@ -1,6 +1,7 @@
 import {json} from "body-parser";
 import express, {Express} from "express";
 import {Db, MongoClient} from "mongodb";
+import * as path from "path";
 import {bootstrapAuthentication} from "./authentication/bootstrapAuthentication";
 import Config from "./Config";
 import {DevApiController} from "./controllers/DevApiControlller";
@@ -10,12 +11,16 @@ import {UserController} from "./controllers/UserController";
 import {DbService} from "./db/DbService";
 
 const configureDb = async function (client: MongoClient) {
-    const db: Db = client.db(Config.db.name);
-    db.on("error", console.log);
+    try {
+        const db: Db = client.db();
+        db.on("error", console.log);
 
-    await db.collection(Config.db.collections.items).createIndex({"$**": "text"});
+        await db.collection(Config.db.collections.items).createIndex({"$**": "text"});
 
-    return db;
+        return db;
+    } catch (err) {
+        console.log("Error while configuring DB: " + err);
+    }
 };
 
 const configureExpress = function (db: Db) {
@@ -37,16 +42,32 @@ const configureExpress = function (db: Db) {
     const userController = new UserController(app, db);
     const devApiController = new DevApiController(app, db);
 
-    app.listen(Config.apiPort, () => console.log("- Express up and running"));
+    if (process.env.NODE_ENV === "production") {
+        app.use(express.static(path.join(__dirname, "client")));
+        app.route("*").get((req: any, res: any) => res.sendFile(path.join(__dirname, "client", "index.html")));
+    }
+
+    app.listen(Config.apiPort, () => console.log("-> Express up and running"));
 };
 
 const bootstrap = async function (client: MongoClient) {
-    console.log("- Connected to mongoDB");
+    console.log("Connected to mongoDB");
 
     const db = await configureDb(client);
 
-    configureExpress(db);
+    try {
+        configureExpress(db);
+    } catch (err) {
+        console.log("Failed to configure express:");
+        console.log(JSON.stringify(err));
+    }
 };
 
+console.log("Connecting to mongoDB: " + Config.db.url);
+
 MongoClient.connect(Config.db.url)
-           .then(bootstrap);
+           .then(bootstrap)
+           .catch(e => {
+               console.log("Failed to bootstrap the app:");
+               console.log(JSON.stringify(e));
+           });

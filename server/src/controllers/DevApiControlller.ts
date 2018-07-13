@@ -1,4 +1,4 @@
-import {IItem, IUser} from "engraved-shared/dist";
+import {IItem, IUser} from "engraved-shared";
 import {Express} from "express";
 import {Request, Response} from "express-serve-static-core";
 import {Db, DeleteWriteOpResultObject} from "mongodb";
@@ -10,19 +10,22 @@ import {createRandomItems} from "../helpers/createRandomItems";
 export class DevApiController {
 
     public constructor(app: Express, private db: Db) {
-        app.get("/dev/add/items", this.addItems);
+        app.route("/dev/add/items")
+           .get(this.addItems);
 
-        app.get("/dev/clear/items", (req: Request, res: Response): any => {
-            return db.collection(Config.db.collections.items)
-                     .deleteMany({})
-                     .then((i: DeleteWriteOpResultObject) => res.send(i.result));
-        });
+        app.route("/dev/clear/items")
+           .get((req: Request, res: Response): any => {
+               return db.collection(Config.db.collections.items)
+                        .deleteMany({})
+                        .then((i: DeleteWriteOpResultObject) => res.send(i.result));
+           });
 
-        app.get("/dev/clear/keywords", (req: Request, res: Response): any => {
-            return db.collection(Config.db.collections.items)
-                     .deleteMany({})
-                     .then((i: DeleteWriteOpResultObject) => res.send(i.result));
-        });
+        app.route("/dev/clear/keywords")
+           .get((req: Request, res: Response): any => {
+               return db.collection(Config.db.collections.items)
+                        .deleteMany({})
+                        .then((i: DeleteWriteOpResultObject) => res.send(i.result));
+           });
     }
 
     private addItems = (req: Request, res: Response): any => {

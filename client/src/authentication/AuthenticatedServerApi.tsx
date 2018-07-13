@@ -8,9 +8,15 @@ import {NotificationStore} from "../notifications/NotificationStore";
 import {AuthStore} from "./AuthStore";
 
 export class AuthenticatedServerApi {
-    private static readonly baseUrl: string = "http://localhost:3001";
+    private static get baseUrl(): string {
+        return window.location.hostname === "localhost"
+               ? "http://localhost:3001/"
+               : `${location.protocol}//${location.hostname}/`
+    };
 
-    public static readonly authUrl: string = AuthenticatedServerApi.baseUrl + "/api/authentication/google/start";
+    public static get authUrl(): string {
+        return AuthenticatedServerApi.baseUrl + "auth/google/init"
+    };
 
     public static get<T>(url: string, headers: any = {}): Observable<T> {
         return ajax.getJSON(this.getAbsoluteUrl(url), {...headers, ...this.getHeaders()})
