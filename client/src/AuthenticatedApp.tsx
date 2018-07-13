@@ -1,7 +1,7 @@
 import {IUser} from "engraved-shared";
 import * as React from "react";
 import {ReactNode} from "react";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {tap} from "rxjs/operators";
 import styled from "styled-components";
 import {AuthenticatedServerApi} from "./authentication/AuthenticatedServerApi";
@@ -11,6 +11,7 @@ import {WelcomeScreen} from "./common/WelcomeScreen";
 import {Notifications} from "./notifications/Notifications";
 import {CreateItemPage} from "./pages/createItem/CreateItemPage";
 import {EditItemPage} from "./pages/editItem/EditItemPage";
+import {NotFoundPage} from "./pages/notFound/NotFoundPage";
 import {SearchPage} from "./pages/search/SearchPage";
 import {UserPage} from "./pages/user/UserPage";
 import {ViewItemPage} from "./pages/viewItem/ViewItemPage";
@@ -85,29 +86,35 @@ export class AuthenticatedApp extends React.Component<{}, IAppState> {
                         </HeaderSection>
                     </HeaderContainerDiv>
                     <ContentSection>
-                        <Route
-                            path="/"
-                            component={SearchPage}
-                            exact={true}
-                        />
-                        <Route
-                            path="/users/me"
-                            component={UserPage}
-                            exact={true}
-                        />
-                        <Route
-                            path="/items/create/:itemKind?/:value?"
-                            component={CreateItemPage}
-                        />
-                        <Route
-                            path="/items/:itemId/edit"
-                            component={EditItemPage}
-                        />
-                        <Route
-                            path="/items/:itemId"
-                            component={ViewItemPage}
-                            exact={true}
-                        />
+                        <Switch>
+                            <Route
+                                path="/"
+                                component={SearchPage}
+                                exact={true}
+                            />
+                            <Route
+                                path="/users/me"
+                                component={UserPage}
+                                exact={true}
+                            />
+                            <Route
+                                path="/items/create/:itemKind?/:value?"
+                                component={CreateItemPage}
+                            />
+                            <Route
+                                path="/items/:itemId/edit"
+                                component={EditItemPage}
+                            />
+                            <Route
+                                path="/items/:itemId"
+                                component={ViewItemPage}
+                                exact={true}
+                            />
+                            <Route
+                                path="/"
+                                component={NotFoundPage}
+                            />
+                        </Switch>
                     </ContentSection>
                     <Notifications/>
                 </AppRootDiv>
