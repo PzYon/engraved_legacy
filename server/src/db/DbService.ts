@@ -23,6 +23,7 @@ export class DbService {
         let existingUser: IUser = await this.users.findOne({mail: user.mail});
 
         if (existingUser) {
+            delete user.memberSince;
             existingUser = {...existingUser, ...user};
             return this.users
                        .updateOne(DbService.getItemByIdFilter(existingUser._id), {$set: existingUser})
