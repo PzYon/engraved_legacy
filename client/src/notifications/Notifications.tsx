@@ -33,8 +33,8 @@ const ListItem = styled.li`
 
 const ListItemInner = styled.span`
   display: block;
-  max-width: calc(${StyleConstants.maxContentWidth} - ${StyleConstants.defaultPadding} - ${StyleConstants.defaultPadding});
-  padding: ${StyleConstants.defaultPadding};
+  max-width: calc(${StyleConstants.maxContentWidth} - ${StyleConstants.defaultSpacing} - ${StyleConstants.defaultSpacing});
+  padding: ${StyleConstants.defaultSpacing};
   margin: auto;
   overflow: hidden;
 `;

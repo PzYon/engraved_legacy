@@ -9,12 +9,14 @@ import {ItemsList} from "./results/ItemsList";
 const SearchContainerDiv = styled.div`
   text-align: center;
   margin: 0 0 1rem 0;
+  width: 100%;
 `;
 
 const SearchInnerContainerDiv = styled.div`
+  width: 100%;
+  max-width: 500px;
   display: inline-block;
   position: relative;
-  padding: ${StyleConstants.defaultPadding};
 `;
 
 export class SearchPage extends React.PureComponent {

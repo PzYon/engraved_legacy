@@ -12,6 +12,7 @@ import {TextField} from "./fields/TextField";
 import {FormButtonContainer, FormContainer, FormFieldContainer} from "./Form.StyledComponents";
 import {FormButton} from "./FormButton";
 import {IButton} from "./IButton";
+import Code = marked.Tokens.Code;
 
 export interface IFormProps {
     item: IItem | undefined;
@@ -51,6 +52,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
                 <FormFieldContainer>
                     <SelectField
                         label={"Item Kind"}
+                        value={item.itemKind}
+                        valueLabel={item.itemKind}
                         onValueChange={(value: ItemKind) => this.setNewState("itemKind", value)}
                         options={Form.getItemKindOptions()}
                         defaultKey={item.itemKind}
@@ -107,40 +110,45 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
         switch (item.itemKind) {
             case ItemKind.Url:
+                const urlItem: IUrlItem = item as IUrlItem;
                 return (
                     <TextField
                         label={"URL"}
                         onValueChange={(value: string) => this.setNewState("url", value)}
-                        value={(item as IUrlItem).url}
+                        value={urlItem.url}
                         isReadOnly={this.props.isReadonly}
                     />
                 );
 
             case ItemKind.Note:
+                const noteItem: INoteItem = item as INoteItem;
                 return (
                     <MarkdownField
                         label={"Note"}
                         onValueChange={(value: string) => this.setNewState("note", value)}
-                        value={(item as INoteItem).note}
+                        value={noteItem.note}
                         isReadOnly={this.props.isReadonly}
                     />
                 );
 
             case ItemKind.Code:
+                const codeItem: ICodeItem = item as ICodeItem;
                 return [
                     <SelectField
                         options={Form.getCodeLanguageOptions()}
                         label={"Language"}
+                        value={codeItem.codeLanguage}
+                        valueLabel={Form.getCodeLanguageLabel(codeItem.codeLanguage)}
                         onValueChange={(value: string) => this.setNewState("codeLanguage", value)}
                         isReadOnly={this.props.isReadonly}
-                        defaultKey={(item as ICodeItem).codeLanguage}
+                        defaultKey={codeItem.codeLanguage}
                         key={"language"}
                     />,
                     <CodeField
                         label={"Code"}
-                        language={(item as ICodeItem).codeLanguage as CodeLanguage}
+                        language={codeItem.codeLanguage as CodeLanguage}
                         onValueChange={(value: string) => this.setNewState("code", value)}
-                        value={(item as ICodeItem).code}
+                        value={codeItem.code}
                         isReadOnly={this.props.isReadonly}
                         key={"code"}
                     />
@@ -167,29 +175,50 @@ export class Form extends React.Component<IFormProps, IFormState> {
     private static getItemKindOptions(): Array<ISelectFieldOptions<ItemKind>> {
         return Object.keys(ItemKind)
                      .map((itemKind: string) => {
+                         const kind: ItemKind = ItemKind[itemKind];
                          return {
-                             label: itemKind, // we use property name of enum (uppercase)
-                             value: ItemKind[itemKind] as ItemKind // we use actual value (lower case)
+                             label: this.getItemKindLabel(kind),
+                             value: kind
                          }
                      });
+    }
+
+    private static getItemKindLabel(kind: ItemKind | string): string {
+        switch (kind) {
+            case ItemKind.Code:
+                return "Code";
+            case ItemKind.Note:
+                return "Note";
+            case ItemKind.Url:
+                return "Url";
+            default:
+                return kind;
+        }
     }
 
     private static getCodeLanguageOptions(): Array<ISelectFieldOptions<CodeLanguage>> {
         return Object.keys(CodeLanguage)
                      .map((codeLanguage: string) => {
+                         const language: CodeLanguage = CodeLanguage[codeLanguage] as CodeLanguage;
                          return {
-                             label: this.getCodeLanguageLabel(codeLanguage),
-                             value: CodeLanguage[codeLanguage] as CodeLanguage // we use actual value (lower case)
+                             label: this.getCodeLanguageLabel(language),
+                             value: language
                          }
                      });
     }
 
-    private static getCodeLanguageLabel(codeLanguage: string): string {
-        switch (CodeLanguage[codeLanguage]) {
+    private static getCodeLanguageLabel(codeLanguage: CodeLanguage | string): string {
+        switch (codeLanguage) {
             case CodeLanguage.Json:
                 return "JSON";
             case CodeLanguage.CSharp:
                 return "C#";
+            case CodeLanguage.TypeScript:
+                return "TypeScript";
+            case CodeLanguage.JavaScript:
+                return "JavaScript";
+            case CodeLanguage.Markdown:
+                return "Markdown";
             default:
                 return codeLanguage;
         }

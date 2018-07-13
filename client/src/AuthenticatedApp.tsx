@@ -38,7 +38,7 @@ const HeaderSection = BaseSection.extend`
 
 const ContentSection = BaseSection.extend`
   min-height: calc(100vh - ${StyleConstants.headerHeightInPx}px);
-  background-color: ${StyleConstants.colors.contentBackground};
+  background-color: ${StyleConstants.colors.pageBackground};
   position: relative;  
 `;
 

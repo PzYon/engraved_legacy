@@ -11,10 +11,10 @@ const ContainerDiv = styled.div`
   width: calc(100% - 2px);
   text-align: left;
   font-size: 0.8rem;
-  border-right: 1px solid ${StyleConstants.colors.accent};
-  border-bottom: 1px solid ${StyleConstants.colors.accent};
-  border-left: 1px solid ${StyleConstants.colors.accent};
-  background-color: ${StyleConstants.colors.pageBackground};
+  border-right: 1px solid ${StyleConstants.colors.discreet};
+  border-bottom: 1px solid ${StyleConstants.colors.discreet};
+  border-left: 1px solid ${StyleConstants.colors.discreet};
+  background-color: ${StyleConstants.colors.discreet};
   box-shadow: ${StyleConstants.defaultBoxShadow};
 `;
 

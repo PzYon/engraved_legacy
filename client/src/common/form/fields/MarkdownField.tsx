@@ -18,7 +18,6 @@ const MarkupDiv = styled.div`
 `;
 
 export interface IMarkdownFieldProps extends IFieldProps<string> {
-    value: string; // move to base interface? seems to be defined on every sub-interface
 }
 
 interface IMarkdownFieldState {

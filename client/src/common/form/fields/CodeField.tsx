@@ -4,7 +4,6 @@ import {FieldWrapper} from "./FieldWrapper";
 import {IFieldProps} from "./IFieldProps";
 
 export interface ICodeFieldProps extends IFieldProps<string> {
-    value?: string;
     language: CodeLanguage
 }
 

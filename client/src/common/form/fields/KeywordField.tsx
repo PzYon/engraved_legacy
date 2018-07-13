@@ -12,7 +12,6 @@ import {FieldWrapper} from "./FieldWrapper";
 import {IFieldProps} from "./IFieldProps";
 
 export interface IKeywordFieldProps extends IFieldProps<IKeyword[]> {
-    value: IKeyword[];
 }
 
 interface IKeywordFieldState {
