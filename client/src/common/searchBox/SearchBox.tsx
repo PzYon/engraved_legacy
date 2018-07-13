@@ -14,7 +14,7 @@ const ContainerDiv = styled.div`
 `;
 
 const Input = styled.input`
-  font-size: ${StyleConstants.largeFontSize};
+  font-size: ${StyleConstants.font.large};
   border: 1px solid ${StyleConstants.colors.discreet};
   padding: ${StyleConstants.formElementPadding};
   margin-bottom: 0 !important;

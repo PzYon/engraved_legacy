@@ -16,7 +16,7 @@ const Root = styled.div`
 
 const Title = styled.span`
   font-weight: bold;
-  font-size: ${StyleConstants.largeFontSize};
+  font-size: ${StyleConstants.font.large};
   ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)}
 `;
 

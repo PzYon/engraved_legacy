@@ -14,7 +14,7 @@ const injectGlobalStyles = (): void => {
         button,
         select {
             font-size: 20px;
-            font-family: ${StyleConstants.fontFamily};
+            font-family: ${StyleConstants.font.family};
             color: ${StyleConstants.colors.font};
             background-color: white;
         }
@@ -33,7 +33,7 @@ injectGlobalStyles();
 
 ReactDOM.render(
     <App/>,
-    document.getElementById('root') as HTMLElement
+    document.getElementById("root") as HTMLElement
 );
 
 // registerServiceWorker();

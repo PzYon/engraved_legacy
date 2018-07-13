@@ -1,35 +1,38 @@
 const accentColor = "#0099CC";
 const discreetColor = "#DCDCDC";
 const darkColor = "#24292E";
+const whiteColor = "#FFFFFF";
 
 export const StyleConstants = {
     headerHeightInPx: 50,
     maxContentWidth: "1200px",
     defaultSpacing: "15px",
-    largeFontSize: "1.2rem",
-    formElementPadding: "4px",
-    fontFamily: "'IBM Plex Sans', sans-serif",
+    formElementPadding: "5px",
     defaultBoxShadow: `3px 3px 10px ${discreetColor}`,
+    font: {
+        large: "1.2rem",
+        family: "'IBM Plex Sans', sans-serif",
+    },
     colors: {
         font: darkColor,
         accent: accentColor,
         discreet: discreetColor,
-        pageBackground: "white",
+        pageBackground: whiteColor,
         header: {
             background: darkColor,
-            text: "white"
+            text: whiteColor
         },
         error: {
             background: "#D73A4A",
-            text: "white"
+            text: whiteColor
         },
         warning: {
             background: "#ffbb00",
-            text: "black"
+            text: darkColor
         },
         success: {
             background: "#006600",
-            text: "white"
+            text: whiteColor
         }
     }
 };
