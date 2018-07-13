@@ -1,4 +1,4 @@
-import {IItem, IKeyword, ItemKind} from "../../../shared/dist/index";
+import {IItem, IKeyword, ItemKind} from "engraved-shared";
 import {IRenderableItem} from "./IRenderableItem";
 
 export abstract class BaseItem implements IRenderableItem {

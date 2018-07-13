@@ -39,7 +39,7 @@ export class UserPage extends React.Component<RouteComponentProps<IRouterParams>
         return (
             <Page browserTitle={user.displayName} title={`Greetings ${user.displayName}`}>
                 <div>
-                    You're mail address is {user.mail} and you are a member since {moment(user.memberSince).fromNow()}.
+                    Your mail address is {user.mail} and you're a member since {moment(user.memberSince).fromNow()}.
                 </div>
             </Page>
         );

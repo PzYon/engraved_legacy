@@ -1,7 +1,7 @@
+import {IKeyword} from "engraved-shared";
 import {Express} from "express";
 import {Request, Response} from "express-serve-static-core";
 import {Db} from "mongodb";
-import {IKeyword} from "../../../shared/dist";
 import {BaseAuthenticatedController} from "./BaseAuthenticatedController";
 
 export class KeywordController extends BaseAuthenticatedController {

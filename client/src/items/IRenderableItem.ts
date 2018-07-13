@@ -1,4 +1,4 @@
-import {IItem} from "../../../shared/dist/index";
+import {IItem} from "engraved-shared";
 
 export interface IRenderableItem extends IItem {
 }

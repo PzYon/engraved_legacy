@@ -2,9 +2,7 @@ import {IItem, ItemSearchQuery, IUser} from "engraved-shared";
 import {Express} from "express";
 import {Request, Response} from "express-serve-static-core";
 import {Db} from "mongodb";
-import passport from "passport";
 import {BaseAuthenticatedController} from "./BaseAuthenticatedController";
-import {BaseController} from "./BaseController";
 
 export class ItemController extends BaseAuthenticatedController {
     public constructor(app: Express, db: Db) {
