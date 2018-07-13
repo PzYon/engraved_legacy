@@ -3,4 +3,5 @@ export interface IUser {
     mail: string;
     displayName: string;
     image: string;
+    memberSince: Date;
 }

@@ -71,7 +71,7 @@ export class EditItemPage extends React.Component<RouteComponentProps<IRouterPar
                                  <span>
                                     Successfully updated item
                                      &nbsp;
-                                     <Link to={`/${updatedItem._id}/edit`}>
+                                     <Link to={`/items/${updatedItem._id}/edit`}>
                                         {updatedItem.title}
                                     </Link>
                                  </span>

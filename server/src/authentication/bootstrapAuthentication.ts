@@ -55,7 +55,8 @@ const registerGoogleAuth = (dbService: DbService) => {
                                                dbService.ensureUser({
                                                                         displayName: profile.displayName,
                                                                         mail: profile.emails[0].value,
-                                                                        image: profile.photos[0].value
+                                                                        image: profile.photos[0].value,
+                                                                        memberSince: undefined
                                                                     })
                                                         .then((user: IUser) => {
                                                             done(null, user);

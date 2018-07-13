@@ -1,6 +1,6 @@
 {
   "name": "engraved-shared",
-  "version": "0.0.97",
+  "version": "0.0.100",
   "description": "",
   "main": "dist/index.js",
   "scripts": {

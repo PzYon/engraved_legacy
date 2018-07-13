@@ -134,12 +134,12 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
 
         if (searchText && searchText.startsWith("http://") || searchText.startsWith("https://")) {
             actions.push(new RedirectDropDownItem({
-                                                      url: `/create/${ItemKind.Url}/${encodeURIComponent(searchText)}`,
+                                                      url: `/items/create/${ItemKind.Url}/${encodeURIComponent(searchText)}`,
                                                       label: "Create URL"
                                                   }));
         } else if (searchText) {
             actions.push(new RedirectDropDownItem({
-                                                      url: `/create/${ItemKind.Note}/${encodeURIComponent(searchText)}`,
+                                                      url: `/items/create/${ItemKind.Note}/${encodeURIComponent(searchText)}`,
                                                       label: `Create note titled "${searchText}"`
                                                   }));
         }

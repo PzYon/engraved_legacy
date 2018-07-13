@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "private": true,
   "dependencies": {
-    "engraved-shared": "^0.0",
+    "engraved-shared": "0.0.100",
     "marked": "^0.4.0",
     "moment": "^2.22.1",
     "react": "^16.4.1",

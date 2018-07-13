@@ -49,7 +49,7 @@ export class ViewItemPage extends React.Component<RouteComponentProps<IRouterPar
                     buttons={[
                         {
                             nodeOrLabel: (
-                                <Link to={`${this.state.item._id}/edit`} key={this.state.item._id}>
+                                <Link to={`/items/${this.state.item._id}/edit`} key={this.state.item._id}>
                                     {"Edit"}
                                 </Link>
                             ),

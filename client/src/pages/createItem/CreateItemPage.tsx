@@ -70,7 +70,7 @@ export class CreateItemPage extends React.PureComponent<RouteComponentProps<IRou
                                  <span>
                                     Successfully created item
                                     &nbsp;
-                                    <Link to={`/${i._id}`}>
+                                    <Link to={`/items/${i._id}`}>
                                         {i.title}
                                     </Link>
                                  </span>

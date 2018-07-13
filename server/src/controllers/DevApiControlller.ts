@@ -33,6 +33,7 @@ export class DevApiController {
                                                     displayName: "Markus Doggweiler",
                                                     image: "https://lh5.googleusercontent.com/-R-eoewIwKTs/AAAAAAAAAAI/AAAAAAAAASg/LhdVPDRyOcg/photo.jpg?sz=50",
                                                     mail: "markus.doggweiler@gmail.com",
+                                                    memberSince: undefined
                                                 })
                                     .then((user: IUser) => {
                                         new DbService(this.db, user).insertItems(...createRandomItems(10, user),

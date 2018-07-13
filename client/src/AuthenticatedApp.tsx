@@ -12,6 +12,7 @@ import {Notifications} from "./notifications/Notifications";
 import {CreateItemPage} from "./pages/createItem/CreateItemPage";
 import {EditItemPage} from "./pages/editItem/EditItemPage";
 import {SearchPage} from "./pages/search/SearchPage";
+import {UserPage} from "./pages/user/UserPage";
 import {ViewItemPage} from "./pages/viewItem/ViewItemPage";
 import {StyleConstants} from "./styling/StyleConstants";
 
@@ -90,17 +91,22 @@ export class AuthenticatedApp extends React.Component<{}, IAppState> {
                             exact={true}
                         />
                         <Route
-                            path="/create/:itemKind?/:value?"
-                            component={CreateItemPage}
-                        />
-                        <Route
-                            path="/:itemId"
-                            component={ViewItemPage}
+                            path="/users/me"
+                            component={UserPage}
                             exact={true}
                         />
                         <Route
-                            path="/:itemId/edit"
+                            path="/items/create/:itemKind?/:value?"
+                            component={CreateItemPage}
+                        />
+                        <Route
+                            path="/items/:itemId/edit"
                             component={EditItemPage}
+                        />
+                        <Route
+                            path="/items/:itemId"
+                            component={ViewItemPage}
+                            exact={true}
                         />
                     </ContentSection>
                     <Notifications/>

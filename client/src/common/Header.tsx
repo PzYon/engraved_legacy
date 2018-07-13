@@ -18,7 +18,7 @@ const HeaderContainerDiv = styled.div`
 `;
 
 const AppTitle = styled.h1`
-  font-size: ${StyleConstants.headerHeightInPx * 0.7}px;
+  font-size: ${StyleConstants.headerHeightInPx * 0.5}px;
   margin: 0;
 
   ${StyleUtil.normalizeAnchors(StyleConstants.colors.header.text)}
@@ -60,10 +60,12 @@ export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
                     </Link>
                 </AppTitle>
                 <CurrentUserSpan>
-                    <CurrentUser
-                        user={this.props.currentUser}
-                        imageSizeInPx={StyleConstants.headerHeightInPx * 0.7}
-                    />
+                    <Link to={"/users/me"}>
+                        <CurrentUser
+                            user={this.props.currentUser}
+                            imageSizeInPx={StyleConstants.headerHeightInPx * 0.7}
+                        />
+                    </Link>
                 </CurrentUserSpan>
             </HeaderContainerDiv>
         );

@@ -28,6 +28,7 @@ export class DbService {
                        .updateOne(DbService.getItemByIdFilter(existingUser._id), {$set: existingUser})
                        .then((r: UpdateWriteOpResult) => existingUser);
         } else {
+            user.memberSince = new Date();
             return this.users
                        .insertOne(user)
                        .then((writeUserResult: InsertOneWriteOpResult) => writeUserResult.ops[0]);
