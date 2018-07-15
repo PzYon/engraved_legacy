@@ -28,7 +28,11 @@ export const SelectedKeywords: React.SFC<ISelectedKeywordsProps> = (props: ISele
     const keywords: IKeyword[] = props.selectedKeywords;
 
     if (!keywords || !keywords.length) {
-        return <ContainerDiv>&nbsp;</ContainerDiv>;
+        return (
+            <ContainerDiv>
+                &nbsp;
+            </ContainerDiv>
+        );
     }
 
     return (

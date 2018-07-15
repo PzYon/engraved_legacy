@@ -13,7 +13,7 @@ const injectGlobalStyles = (): void => {
         textarea,
         button,
         select {
-            font-size: 20px;
+            font-size: ${StyleConstants.font.regular};
             font-family: ${StyleConstants.font.family};
             color: ${StyleConstants.colors.font};
             background-color: white;
