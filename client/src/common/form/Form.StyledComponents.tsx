@@ -16,6 +16,10 @@ export const FormContainer = styled.div`
       box-shadow: ${StyleConstants.defaultBoxShadow};
     }
   }
+  
+  button {
+    border-color: ${StyleConstants.colors.accent};
+  }
 
   button:hover {
     outline: none;

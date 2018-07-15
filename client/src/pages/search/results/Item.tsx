@@ -8,7 +8,7 @@ import {StyleUtil} from "../../../styling/StyleUtil";
 
 const Root = styled.div`
   border: 1px solid ${StyleConstants.colors.discreet};
-  border-radius: 5px;
+  border-radius: ${StyleConstants.borderRadius};
   margin: ${StyleConstants.defaultSpacing} 0;
   padding: ${StyleConstants.defaultSpacing};
   box-shadow: ${StyleConstants.defaultBoxShadow};

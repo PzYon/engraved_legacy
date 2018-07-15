@@ -9,6 +9,7 @@ import "brace/mode/markdown";
 import "brace/mode/typescript";
 import "brace/theme/github";
 import * as React from "react";
+import {ReactNode} from "react";
 import AceEditor from "react-ace";
 import styled from "styled-components";
 import {StyleConstants} from "../../../styling/StyleConstants";
@@ -36,25 +37,36 @@ interface ICodeEditorProps {
     onValueChange: (value: string) => void;
 }
 
-export const CodeEditor: React.SFC<ICodeEditorProps> = (props: ICodeEditorProps) => {
-    return (
-        <CodeEditorContainer>
-            <AceEditor
-                mode={props.language}
-                theme="github"
-                width={"calc(100% - 2px)"}
-                minLines={5}
-                maxLines={50}
-                readOnly={props.isReadOnly}
-                showGutter={true}
-                showPrintMargin={false}
-                highlightActiveLine={true}
-                onChange={(value) => props.onValueChange(value)}
-                name="engraved-code-field"
-                value={props.value}
-                editorProps={{$blockScrolling: true}}
-                setOptions={{showLineNumbers: true}}
-            />
-        </CodeEditorContainer>
-    );
-};
+export class CodeEditor extends React.Component<ICodeEditorProps> {
+    public constructor(props: ICodeEditorProps) {
+        super(props);
+    }
+
+    public shouldComponentUpdate(nextProps: ICodeEditorProps) {
+        return false;
+    }
+
+    public render(): ReactNode {
+        return (
+            <CodeEditorContainer>
+                <AceEditor
+                    mode={this.props.language}
+                    theme="github"
+                    width={"calc(100% - 2px)"}
+                    minLines={5}
+                    maxLines={50}
+                    fontSize={14}
+                    readOnly={this.props.isReadOnly}
+                    showGutter={true}
+                    showPrintMargin={false}
+                    highlightActiveLine={true}
+                    onChange={(value) => this.props.onValueChange(value)}
+                    name="engraved-code-field"
+                    defaultValue={this.props.value}
+                    editorProps={{$blockScrolling: true}}
+                    setOptions={{showLineNumbers: true}}
+                />
+            </CodeEditorContainer>
+        );
+    }
+}

@@ -9,8 +9,8 @@ import {SelectedKeywords} from "./SelectedKeywords";
 
 const ContainerDiv = styled.div`
   position: relative;
-  ${(p: { isHighlight: boolean }) => p.isHighlight ? `box-shadow: ${StyleConstants.defaultBoxShadow};` : ""}
   width: 100%;
+  ${(p: { isHighlight: boolean }) => p.isHighlight ? `box-shadow: ${StyleConstants.defaultBoxShadow};` : ""}
 `;
 
 const Input = styled.input`
@@ -63,18 +63,20 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
                 innerRef={ref => this.node = ref}
                 isHighlight={this.state.hasFocus}
             >
-                <SelectedKeywords
-                    selectedKeywords={this.props.selectedKeywords}
-                    onKeywordSelect={this.props.onKeywordSelect}
-                />
-                <Input
-                    type="text"
-                    value={this.props.searchValue}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => this.props.onChange(e.target.value)}
-                    onFocus={() => this.setState({showDropDown: true, hidePlaceholder: true, hasFocus: true})}
-                    onBlur={() => this.setState({hasFocus: false})}
-                    placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
-                />
+                <div className={"search-box-without-dropdown"}>
+                    <SelectedKeywords
+                        selectedKeywords={this.props.selectedKeywords}
+                        onKeywordSelect={this.props.onKeywordSelect}
+                    />
+                    <Input
+                        type="text"
+                        value={this.props.searchValue}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => this.props.onChange(e.target.value)}
+                        onFocus={() => this.setState({showDropDown: true, hidePlaceholder: true, hasFocus: true})}
+                        onBlur={() => this.setState({hasFocus: false})}
+                        placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
+                    />
+                </div>
                 {
                     this.state.showDropDown
                     && (

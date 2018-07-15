@@ -1,6 +1,7 @@
 import {IKeyword, ItemKind, Util} from "engraved-shared";
 import * as React from "react";
 import {ReactNode} from "react";
+import styled from "styled-components";
 import {ErrorBoundary} from "../../common/ErrorBoundary";
 import {IRedirection} from "../../common/IRedirection";
 import {IDropDownItem} from "../../common/searchBox/dropDown/IDropDownItem";
@@ -9,6 +10,15 @@ import {KeywordDropDownItem} from "../../common/searchBox/dropDown/items/Keyword
 import {RedirectDropDownItem} from "../../common/searchBox/dropDown/items/RedirectDropDownItem";
 import {SearchBox} from "../../common/searchBox/SearchBox";
 import {ItemStore} from "../../items/ItemStore";
+import {StyleConstants} from "../../styling/StyleConstants";
+
+const WrapperDiv = styled.div`
+  .search-box-without-dropdown {
+    border-top-left-radius: ${StyleConstants.borderRadius};
+    border-top-right-radius: ${StyleConstants.borderRadius};
+    overflow: hidden;
+  }
+`;
 
 interface IGlobalSearchBoxState {
     searchValue: string;
@@ -35,13 +45,15 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
 
     public render(): ReactNode {
         return (
-            <SearchBox
-                selectedKeywords={ItemStore.instance.keywords}
-                onKeywordSelect={this.handleKeywordSelect}
-                dropDownItemGroups={this.getDropDownItemGroups()}
-                onChange={this.onChange}
-                searchValue={this.state.searchValue}
-            />
+            <WrapperDiv>
+                <SearchBox
+                    selectedKeywords={ItemStore.instance.keywords}
+                    onKeywordSelect={this.handleKeywordSelect}
+                    dropDownItemGroups={this.getDropDownItemGroups()}
+                    onChange={this.onChange}
+                    searchValue={this.state.searchValue}
+                />
+            </WrapperDiv>
         );
     }
 

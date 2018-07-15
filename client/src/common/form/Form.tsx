@@ -53,7 +53,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
                     <SelectField
                         label={"Item Kind"}
                         value={item.itemKind}
-                        valueLabel={item.itemKind}
+                        valueLabel={Form.getItemKindLabel(item.itemKind)}
                         onValueChange={(value: ItemKind) => this.setNewState("itemKind", value)}
                         options={Form.getItemKindOptions()}
                         defaultKey={item.itemKind}
