@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import {StyleConstants} from "../../styling/StyleConstants";
-import {StyleUtil} from "../../styling/StyleUtil";
+import { StyleConstants } from "../../styling/StyleConstants";
+import { StyleUtil } from "../../styling/StyleUtil";
 
 export const FormContainer = styled.div`
   input,
@@ -16,7 +16,7 @@ export const FormContainer = styled.div`
       box-shadow: ${StyleConstants.defaultBoxShadow};
     }
   }
-  
+
   button {
     border-color: ${StyleConstants.colors.accent};
   }
@@ -24,14 +24,20 @@ export const FormContainer = styled.div`
   button:hover {
     outline: none;
     box-shadow: ${StyleConstants.defaultBoxShadow};
-   }
+  }
 
   input,
   textarea {
     padding: ${StyleConstants.formElementPadding};
-    width: calc(100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px);
-    min-width: calc(100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px);
-    max-width: calc(100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px);
+    width: calc(
+      100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
+    );
+    min-width: calc(
+      100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
+    );
+    max-width: calc(
+      100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
+    );
   }
 
   select {
@@ -40,16 +46,14 @@ export const FormContainer = styled.div`
   }
 `;
 
-export const FormFieldContainer = styled.div` 
-`;
+export const FormFieldContainer = styled.div``;
 
 export const FormLabel = styled.label`
   display: block;
   padding-bottom: 0.7rem;
 `;
 
-export const BaseCell = styled.span`
-`;
+export const BaseCell = styled.span``;
 
 export const FormLabelSpan = BaseCell.extend`
   display: block;
@@ -62,8 +66,7 @@ export const FormFieldSpan = BaseCell.extend`
   width: 100%;
 `;
 
-export const Input = styled.input`
-`;
+export const Input = styled.input``;
 
 export const TextArea = styled.textarea`
   border: 0;
@@ -77,16 +80,14 @@ export const Select = styled.select`
 `;
 
 export const Button = styled.button`
-  background-color: ${(p: { isPrimary: boolean }) => p.isPrimary
-                                                     ? StyleConstants.colors.accent
-                                                     : StyleConstants.colors.pageBackground};
-  color: ${(p: { isPrimary: boolean }) => p.isPrimary
-                                          ? StyleConstants.colors.pageBackground
-                                          : StyleConstants.colors.accent};
+  background-color: ${(p: { isPrimary: boolean }) =>
+    p.isPrimary ? StyleConstants.colors.accent : StyleConstants.colors.pageBackground};
+  color: ${(p: { isPrimary: boolean }) =>
+    p.isPrimary ? StyleConstants.colors.pageBackground : StyleConstants.colors.accent};
   border: 1px solid ${StyleConstants.colors.accent};
   padding: 0.4rem 0.6rem;
   cursor: pointer;
-  ${StyleUtil.normalizeAnchors("inherit")}
+  ${StyleUtil.normalizeAnchors("inherit")};
 `;
 
 export const FormButtonContainer = styled.div`

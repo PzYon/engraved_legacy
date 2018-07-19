@@ -1,8 +1,8 @@
-import {IItem} from "engraved-shared";
-import {ReactNode} from "react";
+import { IItem } from "engraved-shared";
+import { ReactNode } from "react";
 
 export interface IButton {
-    onClick: (item: IItem) => void;
-    nodeOrLabel: ReactNode;
-    isPrimary?: boolean;
+  onClick: (item: IItem) => void;
+  nodeOrLabel: ReactNode;
+  isPrimary?: boolean;
 }

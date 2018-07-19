@@ -1,8 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
-import {AuthenticatedServerApi} from "../authentication/AuthenticatedServerApi";
-import {StyleConstants} from "../styling/StyleConstants";
-import {StyleUtil} from "../styling/StyleUtil";
+import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi";
+import { StyleConstants } from "../styling/StyleConstants";
+import { StyleUtil } from "../styling/StyleUtil";
 
 const RootDiv = styled.div`
   width: 100vw;
@@ -27,25 +27,22 @@ const TitleDiv = styled.div`
 
 const MessageDiv = styled.div`
   font-size: 25px;
-  
-  ${StyleUtil.normalizeAnchors("white")}
-  
-  a {
+
+  ${StyleUtil.normalizeAnchors("white")} a {
     font-weight: bold;
   }
 `;
 
 export const WelcomeScreen: React.SFC<{}> = () => {
-    return (
-        <RootDiv>
-            <InnerDiv>
-                <TitleDiv>
-                    engraved.
-                </TitleDiv>
-                <MessageDiv>
-                    <a href={AuthenticatedServerApi.authUrl}>Login</a> or <a href={AuthenticatedServerApi.authUrl}>signup</a> using your google account.
-                </MessageDiv>
-            </InnerDiv>
-        </RootDiv>
-    );
+  return (
+    <RootDiv>
+      <InnerDiv>
+        <TitleDiv>engraved.</TitleDiv>
+        <MessageDiv>
+          <a href={AuthenticatedServerApi.authUrl}>Login</a> or{" "}
+          <a href={AuthenticatedServerApi.authUrl}>signup</a> using your google account.
+        </MessageDiv>
+      </InnerDiv>
+    </RootDiv>
+  );
 };

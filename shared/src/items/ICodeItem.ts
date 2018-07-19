@@ -1,6 +1,6 @@
-import {IItem} from "./IItem";
+import { IItem } from "./IItem";
 
 export interface ICodeItem extends IItem {
-    code: string;
-    codeLanguage: string;
+  code: string;
+  codeLanguage: string;
 }

@@ -1,13 +1,13 @@
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 
 export enum NotificationKind {
-    Success,
-    Warning,
-    Error
+  Success,
+  Warning,
+  Error
 }
 
 export interface INotification {
-    id: string;
-    messageOrNode: ReactNode;
-    kind: NotificationKind
+  id: string;
+  messageOrNode: ReactNode;
+  kind: NotificationKind;
 }

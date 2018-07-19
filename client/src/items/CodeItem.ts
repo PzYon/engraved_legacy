@@ -1,15 +1,15 @@
-import {ICodeItem} from "engraved-shared";
-import {CodeLanguage} from "../common/form/fields/CodeEditor";
-import {BaseItem} from "./BaseItem";
+import { ICodeItem } from "engraved-shared";
+import { CodeLanguage } from "../common/form/fields/CodeEditor";
+import { BaseItem } from "./BaseItem";
 
 export class CodeItem extends BaseItem implements ICodeItem {
-    public code: string;
-    public codeLanguage: CodeLanguage;
+  public code: string;
+  public codeLanguage: CodeLanguage;
 
-    public constructor(codeItem: ICodeItem) {
-        super(codeItem);
+  public constructor(codeItem: ICodeItem) {
+    super(codeItem);
 
-        this.code = codeItem.code;
-        this.codeLanguage = codeItem.codeLanguage as CodeLanguage;
-    }
+    this.code = codeItem.code;
+    this.codeLanguage = codeItem.codeLanguage as CodeLanguage;
+  }
 }

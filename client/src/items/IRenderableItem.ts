@@ -1,4 +1,3 @@
-import {IItem} from "engraved-shared";
+import { IItem } from "engraved-shared";
 
-export interface IRenderableItem extends IItem {
-}
+export interface IRenderableItem extends IItem {}

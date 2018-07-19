@@ -9,10 +9,10 @@ import "brace/mode/markdown";
 import "brace/mode/typescript";
 import "brace/theme/github";
 import * as React from "react";
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 import AceEditor from "react-ace";
 import styled from "styled-components";
-import {StyleConstants} from "../../../styling/StyleConstants";
+import { StyleConstants } from "../../../styling/StyleConstants";
 
 const ace = brace;
 
@@ -23,50 +23,50 @@ const CodeEditorContainer = styled.div`
 `;
 
 export enum CodeLanguage {
-    Json = "json",
-    JavaScript = "javascript",
-    TypeScript = "typescript",
-    CSharp = "csharp",
-    Markdown = "markdown"
+  Json = "json",
+  JavaScript = "javascript",
+  TypeScript = "typescript",
+  CSharp = "csharp",
+  Markdown = "markdown"
 }
 
 interface ICodeEditorProps {
-    language: CodeLanguage;
-    isReadOnly: boolean;
-    value: string;
-    onValueChange: (value: string) => void;
+  language: CodeLanguage;
+  isReadOnly: boolean;
+  value: string;
+  onValueChange: (value: string) => void;
 }
 
 export class CodeEditor extends React.Component<ICodeEditorProps> {
-    public constructor(props: ICodeEditorProps) {
-        super(props);
-    }
+  public constructor(props: ICodeEditorProps) {
+    super(props);
+  }
 
-    public shouldComponentUpdate(nextProps: ICodeEditorProps) {
-        return false;
-    }
+  public shouldComponentUpdate(nextProps: ICodeEditorProps) {
+    return false;
+  }
 
-    public render(): ReactNode {
-        return (
-            <CodeEditorContainer>
-                <AceEditor
-                    mode={this.props.language}
-                    theme="github"
-                    width={"calc(100% - 2px)"}
-                    minLines={5}
-                    maxLines={50}
-                    fontSize={14}
-                    readOnly={this.props.isReadOnly}
-                    showGutter={true}
-                    showPrintMargin={false}
-                    highlightActiveLine={true}
-                    onChange={(value) => this.props.onValueChange(value)}
-                    name="engraved-code-field"
-                    defaultValue={this.props.value}
-                    editorProps={{$blockScrolling: true}}
-                    setOptions={{showLineNumbers: true}}
-                />
-            </CodeEditorContainer>
-        );
-    }
+  public render(): ReactNode {
+    return (
+      <CodeEditorContainer>
+        <AceEditor
+          mode={this.props.language}
+          theme="github"
+          width={"calc(100% - 2px)"}
+          minLines={5}
+          maxLines={50}
+          fontSize={14}
+          readOnly={this.props.isReadOnly}
+          showGutter={true}
+          showPrintMargin={false}
+          highlightActiveLine={true}
+          onChange={value => this.props.onValueChange(value)}
+          name="engraved-code-field"
+          defaultValue={this.props.value}
+          editorProps={{ $blockScrolling: true }}
+          setOptions={{ showLineNumbers: true }}
+        />
+      </CodeEditorContainer>
+    );
+  }
 }
