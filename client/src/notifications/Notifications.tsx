@@ -32,15 +32,17 @@ const ListItem = styled.li`
 `;
 
 const ListItemInner = styled.span`
-  display: block;
+  display: flex;
   max-width: calc(${StyleConstants.maxContentWidth} - ${StyleConstants.defaultSpacing} - ${StyleConstants.defaultSpacing});
   padding: ${StyleConstants.defaultSpacing};
   margin: auto;
   overflow: hidden;
 `;
 
+const MessageSpan = styled.span`
+`;
+
 const RemoverSpan = styled.span`
-  float: right;
   cursor: pointer;
 `;
 
@@ -87,9 +89,9 @@ export class Notifications extends React.PureComponent<{}, INotificationsState> 
                             return (
                                 <ListItem key={n.id} colors={Notifications.getColors(n.kind)}>
                                     <ListItemInner>
-                                        <span>
+                                        <MessageSpan>
                                             {n.messageOrNode}
-                                        </span>
+                                        </MessageSpan>
                                         <RemoverSpan onClick={() => this.removeNotification(n)}>
                                             x
                                         </RemoverSpan>
