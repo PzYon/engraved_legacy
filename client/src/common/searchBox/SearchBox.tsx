@@ -29,9 +29,10 @@ const Input = styled.input`
   height: calc(
     2.25rem - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding}
   );
-  width: calc(
-    100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
-  );
+
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
 
   &:focus {
     outline: none;
