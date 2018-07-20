@@ -7,8 +7,7 @@ const ContainerDiv = styled.div`
   text-align: left;
   font-size: 0.8rem;
   min-height: 1.7rem;
-  background-color: ${StyleConstants.colors.discreet};
-  height: 2.2rem;
+  height: 2.25rem;
 `;
 
 const SelectedKeywordSpan = styled.span`
@@ -16,6 +15,7 @@ const SelectedKeywordSpan = styled.span`
   margin: ${StyleConstants.formElementPadding};
   padding: ${StyleConstants.formElementPadding};
   background-color: ${StyleConstants.colors.pageBackground};
+  border: 1px solid ${StyleConstants.colors.discreet};
   color: ${StyleConstants.colors.font};
   cursor: pointer;
 `;

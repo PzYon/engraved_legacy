@@ -14,7 +14,21 @@ const TogglePreviewSpan = styled.span`
 `;
 
 const MarkupDiv = styled.div`
-  border: 1px solid ${StyleConstants.colors.accent};
+  border: 1px solid ${StyleConstants.colors.discreet};
+  background-color: ${StyleConstants.colors.ultraDiscreet};
+  padding: 0.3rem;
+
+  p,
+  h1,
+  h2,
+  h3 {
+    margin: 0.3rem 0;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1rem;
+  }
 `;
 
 export interface IMarkdownFieldProps extends IFieldProps<string> {}

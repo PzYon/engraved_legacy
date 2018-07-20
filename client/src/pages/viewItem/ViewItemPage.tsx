@@ -45,7 +45,7 @@ export class ViewItemPage extends React.Component<
     }
 
     return (
-      <Page browserTitle={this.state.item.title} title={"Item details"}>
+      <Page browserTitle={this.state.item.title} title={this.state.item.title}>
         <Form
           isReadonly={true}
           item={this.state.item}
@@ -57,7 +57,7 @@ export class ViewItemPage extends React.Component<
                   {"Edit"}
                 </Link>
               ),
-              onClick: (item: IItem) => void 0,
+              onClick: () => void 0,
               isPrimary: true
             }
           ]}

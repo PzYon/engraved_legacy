@@ -10,17 +10,24 @@ import { SelectedKeywords } from "./SelectedKeywords";
 const ContainerDiv = styled.div`
   position: relative;
   width: 100%;
+`;
+
+const InnerContainerDiv = styled.div`
+  background-color: ${StyleConstants.colors.ultraDiscreet};
+  border: 1px solid ${StyleConstants.colors.discreet};
+  overflow: hidden;
   ${(p: { isHighlight: boolean }) =>
     p.isHighlight ? `box-shadow: ${StyleConstants.defaultBoxShadow};` : ""};
 `;
 
 const Input = styled.input`
   font-size: ${StyleConstants.font.large};
-  border: 1px solid ${StyleConstants.colors.discreet};
   padding: ${StyleConstants.formElementPadding};
+  border: 0 !important;
+  border-top: 1px solid ${StyleConstants.colors.discreet} !important;
   margin-bottom: 0 !important;
   height: calc(
-    2.2rem - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding}
+    2.25rem - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding}
   );
   width: calc(
     100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
@@ -65,8 +72,8 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
 
   public render(): ReactNode {
     return (
-      <ContainerDiv innerRef={ref => (this.node = ref)} isHighlight={this.state.hasFocus}>
-        <div className={"search-box-without-dropdown"}>
+      <ContainerDiv innerRef={ref => (this.node = ref)}>
+        <InnerContainerDiv isHighlight={this.state.hasFocus} className={"search-box-inner"}>
           <SelectedKeywords
             selectedKeywords={this.props.selectedKeywords}
             onKeywordSelect={this.props.onKeywordSelect}
@@ -81,7 +88,7 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
             onBlur={() => this.setState({ hasFocus: false })}
             placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
           />
-        </div>
+        </InnerContainerDiv>
         {this.state.showDropDown && <DropDown groups={this.props.dropDownItemGroups} />}
       </ContainerDiv>
     );

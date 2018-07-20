@@ -58,12 +58,14 @@ export class Form extends React.Component<IFormProps, IFormState> {
             defaultKey={item.itemKind}
             isReadOnly={this.props.isReadonly}
           />
-          <TextField
-            label={"Title"}
-            onValueChange={(value: string) => this.setNewState("title", value)}
-            value={item.title}
-            isReadOnly={this.props.isReadonly}
-          />
+          {!this.props.isReadonly && (
+            <TextField
+              label={"Title"}
+              onValueChange={(value: string) => this.setNewState("title", value)}
+              value={item.title}
+              isReadOnly={this.props.isReadonly}
+            />
+          )}
           <MultiLineTextField
             label={"Description"}
             onValueChange={(value: string) => this.setNewState("description", value)}

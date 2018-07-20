@@ -1,7 +1,7 @@
 import { IKeyword, ItemKind, Util } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
 import { IRedirection } from "../../common/IRedirection";
 import { IDropDownItem } from "../../common/searchBox/dropDown/IDropDownItem";
@@ -13,10 +13,17 @@ import { ItemStore } from "../../items/ItemStore";
 import { StyleConstants } from "../../styling/StyleConstants";
 
 const WrapperDiv = styled.div`
-  .search-box-without-dropdown {
-    border-top-left-radius: ${StyleConstants.borderRadius};
-    border-top-right-radius: ${StyleConstants.borderRadius};
-    overflow: hidden;
+  .search-box-inner {
+    border-radius: ${StyleConstants.borderRadius};
+    border: 1px solid ${StyleConstants.colors.discreet};
+
+    ${(p: { showDropDown: boolean }) =>
+      p.showDropDown
+        ? css`
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+          `
+        : ""};
   }
 `;
 
@@ -44,12 +51,14 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   }
 
   public render(): ReactNode {
+    const dropDownItemGroups = this.getDropDownItemGroups();
+
     return (
-      <WrapperDiv>
+      <WrapperDiv showDropDown={dropDownItemGroups.length > 0 && this.state.showDropDown}>
         <SearchBox
           selectedKeywords={ItemStore.instance.keywords}
           onKeywordSelect={this.handleKeywordSelect}
-          dropDownItemGroups={this.getDropDownItemGroups()}
+          dropDownItemGroups={dropDownItemGroups}
           onChange={this.onChange}
           searchValue={this.state.searchValue}
           placeholder={"What can I do for you?"}

@@ -12,6 +12,7 @@ const CodeEditorContainer = styled.div`
   .CodeMirror {
     border: 1px solid ${StyleConstants.colors.discreet};
     font-size: 16px;
+    font-family: ${StyleConstants.font.codeFamily};
     width: calc(100% - 2px);
     height: auto;
   }

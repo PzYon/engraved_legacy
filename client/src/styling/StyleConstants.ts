@@ -1,5 +1,6 @@
 const accentColor = "#0099CC";
 const discreetColor = "#DDD";
+const ultraDiscreetColor = "#F7F7F7";
 const darkColor = "#24292E";
 const whiteColor = "#FFFFFF";
 
@@ -13,12 +14,14 @@ export const StyleConstants = {
   font: {
     regular: "18px",
     large: "1.2rem",
-    family: "'IBM Plex Sans', sans-serif"
+    family: "'IBM Plex Sans', sans-serif",
+    codeFamily: "'IBM Plex Mono', monospace"
   },
   colors: {
     font: darkColor,
     accent: accentColor,
     discreet: discreetColor,
+    ultraDiscreet: ultraDiscreetColor,
     pageBackground: whiteColor,
     header: {
       background: darkColor,

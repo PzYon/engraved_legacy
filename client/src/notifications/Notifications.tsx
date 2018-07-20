@@ -42,7 +42,9 @@ const ListItemInner = styled.span`
   overflow: hidden;
 `;
 
-const MessageSpan = styled.span``;
+const MessageSpan = styled.span`
+  flex-grow: 1;
+`;
 
 const RemoverSpan = styled.span`
   cursor: pointer;

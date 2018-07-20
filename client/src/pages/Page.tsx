@@ -6,6 +6,8 @@ import { StyleConstants } from "../styling/StyleConstants";
 
 const ContainerDiv = styled.div`
   padding: ${StyleConstants.defaultSpacing};
+  opacity: 0;
+  transition: opacity 0.8s;
 `;
 
 const H1 = styled.h2`
@@ -25,15 +27,24 @@ export interface IPageProps {
   browserTitle?: string;
 }
 
-export const Page: React.SFC<IPageProps> = (props: IPageProps) => {
-  document.title = props.browserTitle ? "engraved. | " + props.browserTitle : "engraved.";
+export class Page extends React.PureComponent<IPageProps> {
+  private containerEl: HTMLDivElement;
 
-  return (
-    <ContainerDiv>
-      <ErrorBoundary>
-        {props.title && <H1>{props.title}</H1>}
-        <ContentDiv>{props.children}</ContentDiv>
-      </ErrorBoundary>
-    </ContainerDiv>
-  );
-};
+  public componentDidMount(): void {
+    setTimeout(() => (this.containerEl.style.opacity = "1"));
+    document.title = this.props.browserTitle
+      ? "engraved. | " + this.props.browserTitle
+      : "engraved.";
+  }
+
+  public render(): ReactNode {
+    return (
+      <ContainerDiv innerRef={(r: HTMLDivElement) => (this.containerEl = r)}>
+        <ErrorBoundary>
+          {this.props.title && <H1>{this.props.title}</H1>}
+          <ContentDiv>{this.props.children}</ContentDiv>
+        </ErrorBoundary>
+      </ContainerDiv>
+    );
+  }
+}
