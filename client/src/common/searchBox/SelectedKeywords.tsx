@@ -8,6 +8,7 @@ const ContainerDiv = styled.div`
   font-size: 0.8rem;
   min-height: 1.7rem;
   background-color: ${StyleConstants.colors.discreet};
+  height: 2.2rem;
 `;
 
 const SelectedKeywordSpan = styled.span`

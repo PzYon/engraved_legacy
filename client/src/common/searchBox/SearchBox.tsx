@@ -19,6 +19,9 @@ const Input = styled.input`
   border: 1px solid ${StyleConstants.colors.discreet};
   padding: ${StyleConstants.formElementPadding};
   margin-bottom: 0 !important;
+  height: calc(
+    2.2rem - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding}
+  );
   width: calc(
     100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
   );
@@ -28,7 +31,7 @@ const Input = styled.input`
   }
 
   &::placeholder {
-    color: ${StyleConstants.colors.accent};
+    color: ${StyleConstants.colors.discreet};
   }
 `;
 

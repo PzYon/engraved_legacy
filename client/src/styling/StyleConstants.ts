@@ -1,5 +1,5 @@
 const accentColor = "#0099CC";
-const discreetColor = "#DCDCDC";
+const discreetColor = "#DDD";
 const darkColor = "#24292E";
 const whiteColor = "#FFFFFF";
 

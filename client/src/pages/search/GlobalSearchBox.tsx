@@ -52,6 +52,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
           dropDownItemGroups={this.getDropDownItemGroups()}
           onChange={this.onChange}
           searchValue={this.state.searchValue}
+          placeholder={"What can I do for you?"}
         />
       </WrapperDiv>
     );
