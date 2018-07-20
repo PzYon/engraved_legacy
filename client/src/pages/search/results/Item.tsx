@@ -1,10 +1,10 @@
-import {IItem, IKeyword} from "engraved-shared";
+import { IItem, IKeyword } from "engraved-shared";
 import * as moment from "moment";
 import * as React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {StyleConstants} from "../../../styling/StyleConstants";
-import {StyleUtil} from "../../../styling/StyleUtil";
+import { StyleConstants } from "../../../styling/StyleConstants";
+import { StyleUtil } from "../../../styling/StyleUtil";
 
 const Root = styled.div`
   border: 1px solid ${StyleConstants.colors.discreet};
@@ -17,7 +17,7 @@ const Root = styled.div`
 const Title = styled.span`
   font-weight: bold;
   font-size: ${StyleConstants.font.large};
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)}
+  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
 `;
 
 const AdditionalDetailsDiv = styled.div`
@@ -25,7 +25,7 @@ const AdditionalDetailsDiv = styled.div`
 `;
 
 const AuthorInfoSpan = styled.span`
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)}
+  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
 `;
 
 const Description = styled.p`
@@ -37,30 +37,23 @@ const Keywords = styled.p`
 `;
 
 export const Item: React.SFC<IItem> = (item: IItem) => (
-    <Root>
-        <Title>
-            <Link to={`/items/${item._id || ""}`}>
-                {item.itemKind}: {item.title}
-            </Link>
-        </Title>
-        <Description>
-            {item.description}
-        </Description>
-        <AdditionalDetailsDiv>
-            {
-                item.keywords
-                && item.keywords.length > 0
-                && (
-                    <Keywords>
-                        {item.keywords.map((k: IKeyword) => k.name).join(", ")}
-                    </Keywords>
-                )
-            }
-            <AuthorInfoSpan>
-                <Link to={`/items/${item._id || ""}/edit`}>edited</Link>
-                &nbsp;
-                {moment(item.editedOn).fromNow()}
-            </AuthorInfoSpan>
-        </AdditionalDetailsDiv>
-    </Root>
+  <Root>
+    <Title>
+      <Link to={`/items/${item._id || ""}`}>
+        {item.itemKind}: {item.title}
+      </Link>
+    </Title>
+    <Description>{item.description}</Description>
+    <AdditionalDetailsDiv>
+      {item.keywords &&
+        item.keywords.length > 0 && (
+          <Keywords>{item.keywords.map((k: IKeyword) => k.name).join(", ")}</Keywords>
+        )}
+      <AuthorInfoSpan>
+        <Link to={`/items/${item._id || ""}/edit`}>edited</Link>
+        &nbsp;
+        {moment(item.editedOn).fromNow()}
+      </AuthorInfoSpan>
+    </AdditionalDetailsDiv>
+  </Root>
 );

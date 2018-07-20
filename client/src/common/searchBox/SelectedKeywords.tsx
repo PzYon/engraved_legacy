@@ -1,7 +1,7 @@
-import {IKeyword} from "engraved-shared";
+import { IKeyword } from "engraved-shared";
 import * as React from "react";
 import styled from "styled-components";
-import {StyleConstants} from "../../styling/StyleConstants";
+import { StyleConstants } from "../../styling/StyleConstants";
 
 const ContainerDiv = styled.div`
   text-align: left;
@@ -20,33 +20,26 @@ const SelectedKeywordSpan = styled.span`
 `;
 
 interface ISelectedKeywordsProps {
-    selectedKeywords: IKeyword[];
-    onKeywordSelect: (keyword: IKeyword) => void;
+  selectedKeywords: IKeyword[];
+  onKeywordSelect: (keyword: IKeyword) => void;
 }
 
-export const SelectedKeywords: React.SFC<ISelectedKeywordsProps> = (props: ISelectedKeywordsProps) => {
-    const keywords: IKeyword[] = props.selectedKeywords;
+export const SelectedKeywords: React.SFC<ISelectedKeywordsProps> = (
+  props: ISelectedKeywordsProps
+) => {
+  const keywords: IKeyword[] = props.selectedKeywords;
 
-    if (!keywords || !keywords.length) {
-        return (
-            <ContainerDiv>
-                &nbsp;
-            </ContainerDiv>
-        );
-    }
+  if (!keywords || !keywords.length) {
+    return <ContainerDiv>&nbsp;</ContainerDiv>;
+  }
 
-    return (
-        <ContainerDiv>
-            {
-                keywords.map((keyword: IKeyword) => (
-                    <SelectedKeywordSpan
-                        key={keyword.name}
-                        onClick={() => props.onKeywordSelect(keyword)}
-                    >
-                        {keyword.name}
-                    </SelectedKeywordSpan>
-                ))
-            }
-        </ContainerDiv>
-    );
+  return (
+    <ContainerDiv>
+      {keywords.map((keyword: IKeyword) => (
+        <SelectedKeywordSpan key={keyword.name} onClick={() => props.onKeywordSelect(keyword)}>
+          {keyword.name}
+        </SelectedKeywordSpan>
+      ))}
+    </ContainerDiv>
+  );
 };

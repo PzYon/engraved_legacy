@@ -1,6 +1,5 @@
-import {IItem} from "./IItem";
+import { IItem } from "./IItem";
 
 export interface IUrlItem extends IItem {
-    url: string;
+  url: string;
 }
-

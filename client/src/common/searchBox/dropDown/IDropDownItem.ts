@@ -1,7 +1,7 @@
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 
 export interface IDropDownItem<T = {}> {
-    item: T;
-    key: string;
-    nodeOrLabel: ReactNode;
+  item: T;
+  key: string;
+  nodeOrLabel: ReactNode;
 }

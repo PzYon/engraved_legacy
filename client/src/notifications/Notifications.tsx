@@ -1,12 +1,12 @@
 import * as React from "react";
-import {ReactNode} from "react";
-import {Subscription} from "rxjs";
+import { ReactNode } from "react";
+import { Subscription } from "rxjs";
 import styled from "styled-components";
-import {ErrorBoundary} from "../common/ErrorBoundary";
-import {StyleConstants} from "../styling/StyleConstants";
-import {StyleUtil} from "../styling/StyleUtil";
-import {INotification, NotificationKind} from "./INotification";
-import {NotificationStore} from "./NotificationStore";
+import { ErrorBoundary } from "../common/ErrorBoundary";
+import { StyleConstants } from "../styling/StyleConstants";
+import { StyleUtil } from "../styling/StyleUtil";
+import { INotification, NotificationKind } from "./INotification";
+import { NotificationStore } from "./NotificationStore";
 
 const RootContainerDiv = styled.div`
   width: 100%;
@@ -28,93 +28,90 @@ const ListItem = styled.li`
   background-color: ${(props: { colors: any }) => props.colors.background};
   padding: 0;
   margin: 0;
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.success.text)}
+  ${StyleUtil.normalizeAnchors(StyleConstants.colors.success.text)};
 `;
 
 const ListItemInner = styled.span`
-  display: block;
-  max-width: calc(${StyleConstants.maxContentWidth} - ${StyleConstants.defaultSpacing} - ${StyleConstants.defaultSpacing});
+  display: flex;
+  max-width: calc(
+    ${StyleConstants.maxContentWidth} - ${StyleConstants.defaultSpacing} -
+      ${StyleConstants.defaultSpacing}
+  );
   padding: ${StyleConstants.defaultSpacing};
   margin: auto;
   overflow: hidden;
 `;
 
+const MessageSpan = styled.span``;
+
 const RemoverSpan = styled.span`
-  float: right;
   cursor: pointer;
 `;
 
 interface INotificationsState {
-    notifications: INotification[];
+  notifications: INotification[];
 }
 
 export class Notifications extends React.PureComponent<{}, INotificationsState> {
-    private notifications$Subscription: Subscription;
+  private notifications$Subscription: Subscription;
 
-    public constructor(props: {}) {
-        super(props);
+  public constructor(props: {}) {
+    super(props);
 
-        this.state = {
-            notifications: []
-        };
-    }
-
-    public componentDidMount(): void {
-        this.notifications$Subscription = NotificationStore.instance
-                                                           .notifications$
-                                                           .subscribe(n => this.setState({notifications: n}),
-                                                                      (error: Error) => ErrorBoundary.ensureError(this,
-                                                                                                                  error));
-    }
-
-    public componentWillUnmount(): void {
-        if (this.notifications$Subscription) {
-            this.notifications$Subscription.unsubscribe();
-        }
-    }
-
-    public render(): ReactNode {
-        const notifications: INotification[] = this.state.notifications;
-        if (!notifications || !notifications.length) {
-            return null;
-        }
-
-        return (
-            <RootContainerDiv>
-                <List>
-                    {
-                        notifications.map(n => {
-                            return (
-                                <ListItem key={n.id} colors={Notifications.getColors(n.kind)}>
-                                    <ListItemInner>
-                                        <span>
-                                            {n.messageOrNode}
-                                        </span>
-                                        <RemoverSpan onClick={() => this.removeNotification(n)}>
-                                            x
-                                        </RemoverSpan>
-                                    </ListItemInner>
-                                </ListItem>
-                            );
-                        })
-                    }
-                </List>
-            </RootContainerDiv>
-        );
-    }
-
-    private removeNotification = (n: INotification): void => {
-        NotificationStore.instance.removeNotification(n);
+    this.state = {
+      notifications: []
     };
+  }
 
-    private static getColors(kind: NotificationKind): any {
-        switch (kind) {
-            case NotificationKind.Success:
-                return StyleConstants.colors.success;
-            case NotificationKind.Warning:
-                return StyleConstants.colors.warning;
-            case NotificationKind.Error:
-                return StyleConstants.colors.error;
-        }
+  public componentDidMount(): void {
+    this.notifications$Subscription = NotificationStore.instance.notifications$.subscribe(
+      n => this.setState({ notifications: n }),
+      (error: Error) => ErrorBoundary.ensureError(this, error)
+    );
+  }
+
+  public componentWillUnmount(): void {
+    if (this.notifications$Subscription) {
+      this.notifications$Subscription.unsubscribe();
     }
+  }
+
+  public render(): ReactNode {
+    const notifications: INotification[] = this.state.notifications;
+    if (!notifications || !notifications.length) {
+      return null;
+    }
+
+    return (
+      <RootContainerDiv>
+        <List>
+          {notifications.map(n => {
+            return (
+              <ListItem key={n.id} colors={Notifications.getColors(n.kind)}>
+                <ListItemInner>
+                  <MessageSpan>{n.messageOrNode}</MessageSpan>
+                  <RemoverSpan onClick={() => this.removeNotification(n)}>x</RemoverSpan>
+                </ListItemInner>
+              </ListItem>
+            );
+          })}
+        </List>
+      </RootContainerDiv>
+    );
+  }
+
+  private removeNotification = (n: INotification): void => {
+    NotificationStore.instance.removeNotification(n);
+  };
+
+  private static getColors(kind: NotificationKind): any {
+    switch (kind) {
+      case NotificationKind.Success:
+        return StyleConstants.colors.success;
+      case NotificationKind.Warning:
+        return StyleConstants.colors.warning;
+      case NotificationKind.Error:
+        return StyleConstants.colors.error;
+    }
+  }
 }

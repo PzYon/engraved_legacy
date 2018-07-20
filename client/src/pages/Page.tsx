@@ -1,8 +1,8 @@
 import * as React from "react";
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
-import {ErrorBoundary} from "../common/ErrorBoundary";
-import {StyleConstants} from "../styling/StyleConstants";
+import { ErrorBoundary } from "../common/ErrorBoundary";
+import { StyleConstants } from "../styling/StyleConstants";
 
 const ContainerDiv = styled.div`
   padding: ${StyleConstants.defaultSpacing};
@@ -20,31 +20,20 @@ const ContentDiv = styled.div`
 `;
 
 export interface IPageProps {
-    children: ReactNode;
-    title?: string;
-    browserTitle?: string;
+  children: ReactNode;
+  title?: string;
+  browserTitle?: string;
 }
 
 export const Page: React.SFC<IPageProps> = (props: IPageProps) => {
-    document.title = props.browserTitle
-                     ? "engraved. | " + props.browserTitle
-                     : "engraved.";
+  document.title = props.browserTitle ? "engraved. | " + props.browserTitle : "engraved.";
 
-    return (
-        <ContainerDiv>
-            <ErrorBoundary>
-                {
-                    props.title
-                    && (
-                        <H1>
-                            {props.title}
-                        </H1>
-                    )
-                }
-                <ContentDiv>
-                    {props.children}
-                </ContentDiv>
-            </ErrorBoundary>
-        </ContainerDiv>
-    );
+  return (
+    <ContainerDiv>
+      <ErrorBoundary>
+        {props.title && <H1>{props.title}</H1>}
+        <ContentDiv>{props.children}</ContentDiv>
+      </ErrorBoundary>
+    </ContainerDiv>
+  );
 };

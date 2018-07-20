@@ -1,12 +1,12 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import {injectGlobal} from "styled-components";
-import {App} from "./App";
-import registerServiceWorker from './registerServiceWorker';
-import {StyleConstants} from "./styling/StyleConstants";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { injectGlobal } from "styled-components";
+import { App } from "./App";
+import registerServiceWorker from "./registerServiceWorker";
+import { StyleConstants } from "./styling/StyleConstants";
 
 const injectGlobalStyles = (): void => {
-    return injectGlobal`
+  return injectGlobal`
         body,
         html,
         input, 
@@ -31,9 +31,6 @@ const injectGlobalStyles = (): void => {
 
 injectGlobalStyles();
 
-ReactDOM.render(
-    <App/>,
-    document.getElementById("root") as HTMLElement
-);
+ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
 
 // registerServiceWorker();
