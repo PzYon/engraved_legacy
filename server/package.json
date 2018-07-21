@@ -7,6 +7,7 @@
     "build-watch": "tsc -w",
     "build": "tsc",
     "dev-server": "nodemon",
+    "lint": "tslint --project tsconfig.json",
     "start": "ts-node src/WebServer.ts",
     "test": "jest",
     "prod": "node ./dist/WebServer.js"
@@ -33,6 +34,7 @@
     "nodemon": "^1.17.5",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.14.0",
     "typescript": "^2.9.2"
   },
   "engines": {

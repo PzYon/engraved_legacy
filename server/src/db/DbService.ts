@@ -71,7 +71,7 @@ export class DbService {
       }
     }
 
-    if (item.user_id != this.currentUser._id) {
+    if (item.user_id !== this.currentUser._id.toString()) {
       throw new Error("This is not your item.");
     }
 
@@ -110,7 +110,7 @@ export class DbService {
 
     const allFromDb = await this.keywords.find({ name: { $in: all.map(k => k.name) } }).toArray();
 
-    let allFromDbNames = allFromDb.map((f: IKeyword) => f.name);
+    const allFromDbNames = allFromDb.map((f: IKeyword) => f.name);
     const allNotInDb: IKeyword[] = all
       .filter((k: IKeyword) => allFromDbNames.indexOf(k.name) === -1)
       .map((k: IKeyword) => {

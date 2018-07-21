@@ -36,7 +36,7 @@ export class AuthenticationController extends BaseController {
   }
 
   private static generateJwt(req: Request, res: Response): void {
-    const userId = (req as any).user._id;
+    const userId: string = (req as any).user._id;
 
     const accessToken = jwt.sign({}, Config.authentication.jwtSecret, {
       expiresIn: Config.authentication.jwtExpiration,

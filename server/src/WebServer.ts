@@ -9,7 +9,7 @@ import { ItemController } from "./controllers/ItemController";
 import { KeywordController } from "./controllers/KeywordController";
 import { UserController } from "./controllers/UserController";
 
-const configureDb = async function(client: MongoClient) {
+const configureDb = async (client: MongoClient) => {
   try {
     const db: Db = client.db();
     db.on("error", console.log);
@@ -22,7 +22,7 @@ const configureDb = async function(client: MongoClient) {
   }
 };
 
-const configureExpress = function(db: Db) {
+const configureExpress = (db: Db) => {
   const app: Express = express();
 
   app.use(json());
@@ -53,7 +53,7 @@ const configureExpress = function(db: Db) {
   app.listen(Config.webServer.apiPort, () => console.log("-> Express up and running"));
 };
 
-const bootstrap = async function(client: MongoClient) {
+const bootstrap = async (client: MongoClient) => {
   console.log("Connected to mongoDB");
 
   const db = await configureDb(client);

@@ -1,4 +1,4 @@
-import { IItem, ItemSearchQuery, IUser } from "engraved-shared";
+import { IItem, ItemSearchQuery } from "engraved-shared";
 import { Express } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { Db } from "mongodb";

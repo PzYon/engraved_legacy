@@ -6,12 +6,15 @@
   "scripts": {
     "copyPackageJson": "copyfiles package.json dist",
     "dev-shared": "npm run copyPackageJson && tsc -w",
+    "lint": "tslint --project tsconfig.json",
     "publishtonpm": "tsc && npm run copyPackageJson && cd dist && npm publish"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "copyfiles": "^2.0.0",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.14.0",
     "typescript": "^2.9.2"
   },
   "engines": {
