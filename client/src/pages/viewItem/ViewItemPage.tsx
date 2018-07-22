@@ -1,8 +1,11 @@
 import { ICodeItem, IItem, INoteItem, ItemKind, IUrlItem } from "engraved-shared";
+import * as moment from "moment";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { EnumUtil } from "../../common/EnumUtil";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
 import {
   FormButtonContainer,
@@ -10,8 +13,10 @@ import {
   FormFieldContainer
 } from "../../common/form/Form.StyledComponents";
 import { FormButton } from "../../common/form/FormButton";
+import { Icon } from "../../common/Icon";
 import { Keyword } from "../../common/Keyword";
 import { ItemStore } from "../../items/ItemStore";
+import { StyleConstants } from "../../styling/StyleConstants";
 import { Page } from "../Page";
 import { ViewCodeItem } from "./ViewCodeItem";
 import { ViewNoteItem } from "./ViewNoteItem";
@@ -26,6 +31,15 @@ interface IViewItemFormState {
   item: IItem | undefined;
   isClose: boolean;
 }
+
+const IconDiv = styled.div`
+  font-size: 0.7rem;
+  color: ${StyleConstants.colors.accent};
+`;
+
+const EditedSpan = styled.span`
+  padding-left: 0.5rem;
+`;
 
 export class ViewItemPage extends React.Component<
   RouteComponentProps<IRouterParams>,
@@ -64,6 +78,10 @@ export class ViewItemPage extends React.Component<
       <Page browserTitle={item.title} title={item.title}>
         <FormContainer>
           <FormFieldContainer>
+            <IconDiv>
+              <Icon iconName={EnumUtil.getItemKindIcon(item.itemKind)} />
+              <EditedSpan>edited {moment(item.editedOn).fromNow()}</EditedSpan>
+            </IconDiv>
             {item.keywords &&
               item.keywords.length > 0 && (
                 <p>{item.keywords.map(k => <Keyword key={k._id} keyword={k} />)}</p>

@@ -1,7 +1,8 @@
 import { IUrlItem } from "engraved-shared";
-import { ReactNode } from "react";
 import * as React from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
+import { Icon, IconName } from "../../common/Icon";
 import { StyleConstants } from "../../styling/StyleConstants";
 import { StyleUtil } from "../../styling/StyleUtil";
 import { IViewItemProps } from "./IViewItemProps";
@@ -19,7 +20,7 @@ const UrlInput = styled.input`
   max-width: calc(100% - 2.3rem - 2px) !important;
 `;
 
-const FavIconImg = styled.img`
+const IconAnchor = styled.a`
   position: absolute;
   background-color: ${StyleConstants.colors.ultraDiscreet};
   height: 1.5rem;
@@ -29,15 +30,32 @@ const FavIconImg = styled.img`
   transition: opacity 0.8s;
 `;
 
+const FallbackIconSpan = styled.span`
+  font-size: 1.4rem;
+  color: ${StyleConstants.colors.discreet};
+`;
+
 const ActionDiv = styled.div`
   ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
   font-size: 0.7rem;
 `;
 
-export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>> {
+interface IViewUrlItemState {
+  showFallbackIcon: boolean;
+}
+
+export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, IViewUrlItemState> {
   private inputEl: HTMLInputElement;
 
-  private imageEl: HTMLImageElement;
+  private imageAnchorEl: HTMLImageElement;
+
+  public constructor(props: IViewItemProps<IUrlItem>) {
+    super(props);
+
+    this.state = {
+      showFallbackIcon: false
+    };
+  }
 
   public render(): ReactNode {
     return (
@@ -48,13 +66,27 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>> {
             innerRef={r => (this.inputEl = r)}
             value={this.props.item.url}
           />
-          <a href={this.props.item.url} target="_blank">
-            <FavIconImg
-              innerRef={r => (this.imageEl = r)}
-              src={this.getFaviconUrl()}
-              onLoad={() => (this.imageEl.style.opacity = "1")}
-            />
-          </a>
+          <IconAnchor
+            innerRef={r => (this.imageAnchorEl = r)}
+            href={this.props.item.url}
+            target="_blank"
+          >
+            {!this.state.showFallbackIcon && (
+              <img
+                src={this.getFaviconUrl()}
+                onLoad={() => (this.imageAnchorEl.style.opacity = "1")}
+                onError={() => {
+                  this.setState({ showFallbackIcon: true });
+                  this.imageAnchorEl.style.opacity = "1";
+                }}
+              />
+            )}
+            {this.state.showFallbackIcon && (
+              <FallbackIconSpan>
+                <Icon iconName={IconName.Url} />
+              </FallbackIconSpan>
+            )}
+          </IconAnchor>
         </UrlInputDiv>
         <ActionDiv>
           <a href={this.props.item.url} target="_blank">

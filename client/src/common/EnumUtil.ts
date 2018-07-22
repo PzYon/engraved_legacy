@@ -1,6 +1,7 @@
 import { ItemKind } from "engraved-shared";
 import { CodeLanguage } from "./form/fields/CodeEditor";
 import { ISelectFieldOptions } from "./form/fields/SelectField";
+import { IconName } from "./Icon";
 
 export class EnumUtil {
   public static getItemKindOptions(): Array<ISelectFieldOptions<ItemKind>> {
@@ -50,6 +51,17 @@ export class EnumUtil {
         return "Markdown";
       default:
         return codeLanguage;
+    }
+  }
+
+  public static getItemKindIcon(itemKind: ItemKind): IconName {
+    switch (itemKind) {
+      case ItemKind.Note:
+        return IconName.Text;
+      case ItemKind.Code:
+        return IconName.Code;
+      case ItemKind.Url:
+        return IconName.Url;
     }
   }
 }
