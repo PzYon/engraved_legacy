@@ -14,9 +14,9 @@ const UrlInput = styled.input`
   border: 1px solid ${StyleConstants.colors.discreet};
   background-color: ${StyleConstants.colors.ultraDiscreet};
   padding: 0.3rem 0.3rem 0.3rem 2rem !important;
-  width: calc(100% - 2.3rem) !important;
-  min-width: calc(100% - 2.3rem) !important;
-  max-width: calc(100% - 2.3rem) !important;
+  width: calc(100% - 2.3rem - 2px) !important;
+  min-width: calc(100% - 2.3rem - 2px) !important;
+  max-width: calc(100% - 2.3rem - 2px) !important;
 `;
 
 const FavIconImg = styled.img`
@@ -48,11 +48,13 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>> {
             innerRef={r => (this.inputEl = r)}
             value={this.props.item.url}
           />
-          <FavIconImg
-            innerRef={r => (this.imageEl = r)}
-            src={this.getFaviconUrl()}
-            onLoad={() => (this.imageEl.style.opacity = "1")}
-          />
+          <a href={this.props.item.url} target="_blank">
+            <FavIconImg
+              innerRef={r => (this.imageEl = r)}
+              src={this.getFaviconUrl()}
+              onLoad={() => (this.imageEl.style.opacity = "1")}
+            />
+          </a>
         </UrlInputDiv>
         <ActionDiv>
           <a href={this.props.item.url} target="_blank">

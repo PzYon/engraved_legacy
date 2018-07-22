@@ -64,12 +64,10 @@ export class ViewItemPage extends React.Component<
       <Page browserTitle={item.title} title={item.title}>
         <FormContainer>
           <FormFieldContainer>
-            {item.keywords && (
-              <p>
-                {item.keywords.length &&
-                  item.keywords.map(k => <Keyword key={k._id} keyword={k} />)}
-              </p>
-            )}
+            {item.keywords &&
+              item.keywords.length > 0 && (
+                <p>{item.keywords.map(k => <Keyword key={k._id} keyword={k} />)}</p>
+              )}
             {item.description && <p>{item.description}</p>}
             {this.getItemSpecificFields()}
           </FormFieldContainer>
