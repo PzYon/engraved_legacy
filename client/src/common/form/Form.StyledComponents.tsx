@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+import * as React from "react";
 import styled from "styled-components";
 import { StyleConstants } from "../../styling/StyleConstants";
 import { StyleUtil } from "../../styling/StyleUtil";
@@ -91,7 +93,7 @@ export const Button = styled.button`
 `;
 
 export const FormButtonContainer = styled.div`
-  margin-top: 1rem;
+  margin-top: 1.8rem;
 
   button:not(:last-child) {
     margin-right: 1rem;

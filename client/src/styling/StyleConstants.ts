@@ -10,7 +10,7 @@ export const StyleConstants = {
   maxContentWidth: "1200px",
   defaultSpacing: "15px",
   formElementPadding: "5px",
-  defaultBoxShadow: `3px 3px 10px ${discreetColor}`,
+  defaultBoxShadow: `1px 1px 10px ${discreetColor}`,
   font: {
     regular: "18px",
     large: "1.2rem",

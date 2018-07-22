@@ -3,6 +3,8 @@ import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { EnumUtil } from "../../../common/EnumUtil";
+import { Keyword } from "../../../common/Keyword";
 import { StyleConstants } from "../../../styling/StyleConstants";
 import { StyleUtil } from "../../../styling/StyleUtil";
 
@@ -39,19 +41,19 @@ const Keywords = styled.p`
 export const Item: React.SFC<IItem> = (item: IItem) => (
   <Root>
     <Title>
-      <Link to={`/items/${item._id || ""}`}>
-        {item.itemKind}: {item.title}
-      </Link>
+      <Link to={`/items/${item._id || ""}`}>{item.title}</Link>
     </Title>
     <Description>{item.description}</Description>
     <AdditionalDetailsDiv>
       {item.keywords &&
         item.keywords.length > 0 && (
-          <Keywords>{item.keywords.map((k: IKeyword) => k.name).join(", ")}</Keywords>
+          <Keywords>
+            {item.keywords.map((k: IKeyword) => <Keyword key={k._id} keyword={k} />)}
+          </Keywords>
         )}
       <AuthorInfoSpan>
-        <Link to={`/items/${item._id || ""}/edit`}>edited</Link>
-        &nbsp;
+        {EnumUtil.getItemKindLabel(item.itemKind)}, last{" "}
+        <Link to={`/items/${item._id || ""}/edit`}>edit</Link>ed&nbsp;
         {moment(item.editedOn).fromNow()}
       </AuthorInfoSpan>
     </AdditionalDetailsDiv>

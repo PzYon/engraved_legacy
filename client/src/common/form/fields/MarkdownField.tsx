@@ -1,33 +1,19 @@
-import * as marked from "marked";
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { StyleConstants } from "../../../styling/StyleConstants";
 import { CodeEditor, CodeLanguage } from "./CodeEditor";
 import { FieldWrapper } from "./FieldWrapper";
 import { IFieldProps } from "./IFieldProps";
+import { Markdown } from "./Markdown";
 
-const TogglePreviewSpan = styled.span`
-  font-size: 0.6rem;
-  color: ${StyleConstants.colors.accent};
+const TogglePreviewLabel = styled.label`
+  font-size: 0.7rem;
   cursor: pointer;
-`;
+  display: inline-block;
 
-const MarkupDiv = styled.div`
-  border: 1px solid ${StyleConstants.colors.discreet};
-  background-color: ${StyleConstants.colors.ultraDiscreet};
-  padding: 0.3rem;
-
-  p,
-  h1,
-  h2,
-  h3 {
-    margin: 0.3rem 0;
-  }
-
-  ul {
-    margin: 0;
-    padding-left: 1rem;
+  input {
+    width: auto;
+    min-width: auto;
   }
 `;
 
@@ -53,12 +39,12 @@ export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMar
         doRender={!this.props.isReadOnly || !!this.props.value}
       >
         {!this.props.isReadOnly && (
-          <TogglePreviewSpan onClick={() => this.setState({ isPreview: !this.state.isPreview })}>
-            > {this.state.isPreview ? "back to edit-mode" : "show preview"}
-          </TogglePreviewSpan>
+          <TogglePreviewLabel onClick={() => this.setState({ isPreview: !this.state.isPreview })}>
+            <input type="checkbox" />Preview
+          </TogglePreviewLabel>
         )}
         {this.props.isReadOnly || this.state.isPreview ? (
-          <MarkupDiv dangerouslySetInnerHTML={{ __html: marked(this.props.value || "") }} />
+          <Markdown markdown={this.props.value} />
         ) : (
           <CodeEditor
             language={CodeLanguage.Markdown}

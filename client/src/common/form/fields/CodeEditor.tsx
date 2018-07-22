@@ -15,6 +15,7 @@ const CodeEditorContainer = styled.div`
     font-family: ${StyleConstants.font.codeFamily};
     width: calc(100% - 2px);
     height: auto;
+    margin-bottom: 10px;
   }
 `;
 

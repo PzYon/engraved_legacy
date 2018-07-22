@@ -24,7 +24,7 @@ const injectGlobalStyles = (): void => {
             padding: 0;
             overflow-x: hidden;
             overflow-y: scroll;
-            background-color: ${StyleConstants.colors.pageBackground};
+            background-color: ${StyleConstants.colors.ultraDiscreet};
         }
 `;
 };
