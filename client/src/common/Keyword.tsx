@@ -11,7 +11,7 @@ const ContainerSpan = styled.span`
   background-color: ${StyleConstants.colors.accent};
   color: white;
   font-size: 0.7rem;
-  padding: 3px;
+  padding: 3px 6px;
   margin: 5px 5px 5px 0;
   border-radius: ${StyleConstants.borderRadius};
   ${(props: IContainerSpanProps) => {

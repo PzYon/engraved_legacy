@@ -46,9 +46,7 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>> {
           <UrlInput
             readOnly={true}
             innerRef={r => (this.inputEl = r)}
-            value={
-              this.props.item.url + this.props.item.url + this.props.item.url + this.props.item.url
-            }
+            value={this.props.item.url}
           />
           <FavIconImg
             innerRef={r => (this.imageEl = r)}
