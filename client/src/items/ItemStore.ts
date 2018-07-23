@@ -11,9 +11,9 @@ import { BehaviorSubject, Observable, Observer, SubscriptionLike } from "rxjs";
 import { AjaxResponse } from "rxjs/ajax";
 import { map } from "rxjs/operators";
 import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi";
-import { CodeItem } from "./CodeItem";
-import { NoteItem } from "./NoteItem";
-import { UrlItem } from "./UrlItem";
+import { CodeItem } from "./code/CodeItem";
+import { NoteItem } from "./note/NoteItem";
+import { UrlItem } from "./url/UrlItem";
 
 export class ItemStore {
   private static cachedInstance: ItemStore;

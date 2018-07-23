@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Icon, IconName } from "../../common/Icon";
 import { StyleConstants } from "../../styling/StyleConstants";
 import { StyleUtil } from "../../styling/StyleUtil";
-import { IViewItemProps } from "./IViewItemProps";
+import { IViewItemProps } from "../IViewItemProps";
 
 const UrlInputDiv = styled.div`
   position: relative;
@@ -28,6 +28,10 @@ const IconAnchor = styled.a`
   top: 0.25rem;
   opacity: 0;
   transition: opacity 0.8s;
+`;
+
+const IconImage = styled.img`
+  height: 1.5rem;
 `;
 
 const FallbackIconSpan = styled.span`
@@ -72,7 +76,7 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
             target="_blank"
           >
             {!this.state.showFallbackIcon && (
-              <img
+              <IconImage
                 src={this.getFaviconUrl()}
                 onLoad={() => (this.imageAnchorEl.style.opacity = "1")}
                 onError={() => {

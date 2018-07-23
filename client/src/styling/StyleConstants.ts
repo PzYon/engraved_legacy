@@ -6,7 +6,7 @@ const whiteColor = "#FFFFFF";
 
 export const StyleConstants = {
   headerHeightInPx: 50,
-  borderRadius: "5px",
+  borderRadius: "3px",
   maxContentWidth: "1200px",
   defaultSpacing: "15px",
   formElementPadding: "5px",
@@ -15,7 +15,7 @@ export const StyleConstants = {
     regular: "18px",
     large: "1.2rem",
     family: "'IBM Plex Sans', sans-serif",
-    codeFamily: "'IBM Plex Mono', monospace"
+    codeFamily: "monospace"
   },
   colors: {
     font: darkColor,

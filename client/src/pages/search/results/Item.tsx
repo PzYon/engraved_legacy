@@ -3,9 +3,9 @@ import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { EnumUtil } from "../../../common/EnumUtil";
 import { Icon } from "../../../common/Icon";
 import { Keyword } from "../../../common/Keyword";
+import { ItemKindRegistrationManager } from "../../../items/ItemKindRegistrationManager";
 import { StyleConstants } from "../../../styling/StyleConstants";
 import { StyleUtil } from "../../../styling/StyleUtil";
 
@@ -56,7 +56,7 @@ const Keywords = styled.p`
 export const Item: React.SFC<IItem> = (item: IItem) => (
   <Root>
     <LeftDiv>
-      <Icon iconName={EnumUtil.getItemKindIcon(item.itemKind)} />
+      <Icon iconName={ItemKindRegistrationManager.getItemKindIcon(item.itemKind)} />
     </LeftDiv>
     <RightDiv>
       <Title>
@@ -71,7 +71,7 @@ export const Item: React.SFC<IItem> = (item: IItem) => (
             </Keywords>
           )}
         <AuthorInfoSpan>
-          {EnumUtil.getItemKindLabel(item.itemKind)}, last{" "}
+          {ItemKindRegistrationManager.getItemKindLabel(item.itemKind)}, last{" "}
           <Link to={`/items/${item._id || ""}/edit`}>edit</Link>ed&nbsp;
           {moment(item.editedOn).fromNow()}
         </AuthorInfoSpan>
