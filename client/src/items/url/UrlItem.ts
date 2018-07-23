@@ -1,5 +1,5 @@
 import { IUrlItem } from "engraved-shared";
-import { BaseItem } from "./BaseItem";
+import { BaseItem } from "../BaseItem";
 
 export class UrlItem extends BaseItem implements IUrlItem {
   public readonly url: string;

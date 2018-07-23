@@ -1,5 +1,5 @@
 import { INoteItem } from "engraved-shared";
-import { BaseItem } from "./BaseItem";
+import { BaseItem } from "../BaseItem";
 
 export class NoteItem extends BaseItem implements INoteItem {
   public note: string;
