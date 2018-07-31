@@ -8,7 +8,7 @@ import { IFieldProps } from "./IFieldProps";
 import { Markdown } from "./Markdown";
 
 const TogglePreviewSpan = styled.span`
-  font-size: 0.7rem;
+  font-size: ${StyleConstants.font.small};
   cursor: pointer;
   display: inline-block;
   color: ${StyleConstants.colors.accent};

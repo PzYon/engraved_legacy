@@ -5,7 +5,8 @@ import {
   INoteItem,
   ItemKind,
   ItemSearchQuery,
-  IUrlItem
+  IUrlItem,
+  Util
 } from "engraved-shared";
 import { BehaviorSubject, Observable, Observer, SubscriptionLike } from "rxjs";
 import { AjaxResponse } from "rxjs/ajax";
@@ -26,13 +27,27 @@ export class ItemStore {
   }
 
   public items$: BehaviorSubject<IItem[]> = new BehaviorSubject<IItem[]>([]);
+  public keywords$: BehaviorSubject<IKeyword[]> = new BehaviorSubject<IKeyword[]>([]);
 
   public searchText: string = "";
-  public keywords: IKeyword[] = [];
 
   private nextItemsSubscription: SubscriptionLike;
 
   private constructor() {}
+
+  public toggleKeyword(keyword: IKeyword): boolean {
+    const copy = [...this.keywords$.value];
+
+    const isNew: boolean = Util.toggleArrayValue(
+      copy,
+      keyword,
+      (k: IKeyword) => k._id === keyword._id
+    );
+
+    this.keywords$.next(copy);
+
+    return isNew;
+  }
 
   public addItem = (item: IItem): Observable<IItem> => {
     return AuthenticatedServerApi.post("items", item).pipe(map((r: AjaxResponse) => r.response));
@@ -58,7 +73,7 @@ export class ItemStore {
 
     const query: ItemSearchQuery = new ItemSearchQuery(
       this.searchText,
-      this.keywords.map(k => k.name).join(ItemSearchQuery.keywordsSeparator)
+      this.keywords$.value.map(k => k.name).join(ItemSearchQuery.keywordsSeparator)
     );
 
     console.log(`ItemStore: calling server @ "${query.toUrl()}"`);
@@ -71,7 +86,7 @@ export class ItemStore {
   };
 
   public resetAndLoad(): void {
-    this.keywords = [];
+    this.keywords$.next([]);
     this.searchText = "";
     this.loadItems();
   }

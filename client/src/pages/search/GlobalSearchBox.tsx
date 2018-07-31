@@ -33,6 +33,7 @@ interface IGlobalSearchBoxState {
   showDropDown: boolean;
   keywordDropDownItems: Array<IDropDownItem<IKeyword>>;
   actionDropDownItems: RedirectDropDownItem[];
+  selectedKeywords: IKeyword[];
 }
 
 export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
@@ -46,8 +47,15 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
       keywordSearchValue: "",
       showDropDown: true,
       actionDropDownItems: [],
-      keywordDropDownItems: []
+      keywordDropDownItems: [],
+      selectedKeywords: []
     };
+  }
+
+  public componentDidMount(): void {
+    ItemStore.instance.keywords$.subscribe(keywords =>
+      this.setState({ selectedKeywords: keywords })
+    );
   }
 
   public render(): ReactNode {
@@ -56,7 +64,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     return (
       <WrapperDiv showDropDown={dropDownItemGroups.length > 0 && this.state.showDropDown}>
         <SearchBox
-          selectedKeywords={ItemStore.instance.keywords}
+          selectedKeywords={ItemStore.instance.keywords$.value}
           onKeywordSelect={this.handleKeywordSelect}
           dropDownItemGroups={dropDownItemGroups}
           onChange={this.onChange}
@@ -109,7 +117,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   };
 
   private handleKeywordSelect = (keyword: IKeyword) => {
-    const isNew: boolean = Util.toggleArrayValue(ItemStore.instance.keywords, keyword);
+    const isNew: boolean = ItemStore.instance.toggleKeyword(keyword);
 
     if (isNew) {
       const i = this.state.searchValue.lastIndexOf(this.state.keywordSearchValue);
