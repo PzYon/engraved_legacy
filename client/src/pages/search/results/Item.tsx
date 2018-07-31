@@ -25,6 +25,10 @@ const Root = styled.div`
 
 const Paragraph = styled.p`
   margin: 0.4rem 0;
+
+  .ngrvd-keyword:first-of-type {
+    margin-left: 0;
+  }
 `;
 
 const MinorParagraph = Paragraph.extend`

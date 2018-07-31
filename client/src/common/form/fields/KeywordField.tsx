@@ -85,16 +85,42 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
       return [];
     }
 
-    return [
-      {
-        items: this.state.dropDownItems.length
-          ? this.state.dropDownItems
-          : [KeywordField.getCreateKeywordDropDownItem(this.state.searchValue)],
-        onSelectItem: (item: IDropDownItem<IKeyword>) => {
-          this.handleKeywordSelect(item.item);
-        }
-      }
-    ];
+    const groups: IDropDownItemGroup[] = [];
+
+    if (this.state.dropDownItems.length) {
+      groups.push({
+        title: "Keywords",
+        items: this.state.dropDownItems,
+        onSelectItem: this.handleGroupItemSelect
+      });
+    }
+
+    const isNewKeyword: boolean =
+      this.state.dropDownItems
+        .map(d => d.item.name.toLowerCase())
+        .indexOf(this.state.searchValue.toLowerCase()) === -1;
+
+    if (isNewKeyword) {
+      const name = this.state.searchValue;
+
+      groups.push({
+        title: "Actions",
+        items: [
+          {
+            item: { name: name, user_id: null },
+            nodeOrLabel: `Create keyword "${name}"`,
+            key: name
+          }
+        ],
+        onSelectItem: this.handleGroupItemSelect
+      });
+    }
+
+    return groups;
+  };
+
+  private handleGroupItemSelect = (item: IDropDownItem<IKeyword>) => {
+    this.handleKeywordSelect(item.item);
   };
 
   private handleKeywordSelect = (keyword: IKeyword): void => {
@@ -114,13 +140,5 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
     });
 
     this.props.onValueChange(keywords);
-  };
-
-  private static getCreateKeywordDropDownItem = (name: string): IDropDownItem<IKeyword> => {
-    return {
-      item: { name: name, user_id: null },
-      nodeOrLabel: `Create keyword "${name}"`,
-      key: name
-    };
   };
 }

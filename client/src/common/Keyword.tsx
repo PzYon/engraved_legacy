@@ -22,10 +22,6 @@ const ContainerSpan = styled.span`
         `
       : "";
   }};
-
-  &:first-of-type {
-    margin-left: 0;
-  }
 `;
 
 export interface IKeywordProps {
