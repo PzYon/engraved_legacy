@@ -49,9 +49,9 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
 
     return (
       <List>
-        {items.map((t: IItem) => (
-          <ListItem key={t._id}>
-            <Item {...t} />
+        {items.map((item: IItem) => (
+          <ListItem key={item._id}>
+            <Item item={item} />
           </ListItem>
         ))}
       </List>

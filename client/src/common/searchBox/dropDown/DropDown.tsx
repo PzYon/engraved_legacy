@@ -10,7 +10,8 @@ const ContainerDiv = styled.div`
   position: absolute;
   width: calc(100% - 2px);
   text-align: left;
-  font-size: 0.8rem;
+  font-size: ${StyleConstants.font.small};
+  z-index: 123;
   border-right: 1px solid ${StyleConstants.colors.discreet};
   border-bottom: 1px solid ${StyleConstants.colors.discreet};
   border-left: 1px solid ${StyleConstants.colors.discreet};

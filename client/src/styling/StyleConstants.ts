@@ -7,11 +7,12 @@ const whiteColor = "#FFFFFF";
 export const StyleConstants = {
   headerHeightInPx: 50,
   borderRadius: "3px",
-  maxContentWidth: "1200px",
+  maxContentWidth: "1000px",
   defaultSpacing: "15px",
   formElementPadding: "5px",
   defaultBoxShadow: `1px 1px 10px ${discreetColor}`,
   font: {
+    small: "0.8rem",
     regular: "18px",
     large: "1.2rem",
     family: "'IBM Plex Sans', sans-serif",

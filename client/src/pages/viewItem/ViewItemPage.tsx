@@ -1,10 +1,10 @@
 import { IItem } from "engraved-shared";
-import * as moment from "moment";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Edited } from "../../common/Edited";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
 import {
   FormButtonContainer,
@@ -13,7 +13,7 @@ import {
 } from "../../common/form/Form.StyledComponents";
 import { FormButton } from "../../common/form/FormButton";
 import { Icon } from "../../common/Icon";
-import { Keyword } from "../../common/Keyword";
+import { Keywords } from "../../common/Keywords";
 import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
 import { ItemStore } from "../../items/ItemStore";
 import { StyleConstants } from "../../styling/StyleConstants";
@@ -29,13 +29,32 @@ interface IViewItemFormState {
   isClose: boolean;
 }
 
-const IconDiv = styled.div`
-  font-size: 0.7rem;
-  color: ${StyleConstants.colors.accent};
+const ItemPropertiesContainer = styled.div`
+  display: flex;
+  align-items: stretch;
+  font-size: ${StyleConstants.font.small};
+
+  .ngrvd-icon {
+    font-size: ${StyleConstants.font.small};
+    color: ${StyleConstants.colors.accent};
+  }
 `;
 
-const EditedSpan = styled.span`
-  padding-left: 0.5rem;
+const ItemPropertyDiv = styled.div`
+  padding: 0.3rem 0.6rem;
+  border-left: 1px solid ${StyleConstants.colors.discreet};
+  border-top: 1px solid ${StyleConstants.colors.discreet};
+  border-bottom: 1px solid ${StyleConstants.colors.discreet};
+  display: flex;
+  align-items: center;
+
+  &:last-of-type {
+    border-right: 1px solid ${StyleConstants.colors.discreet};
+  }
+
+  &:empty {
+    display: none;
+  }
 `;
 
 export class ViewItemPage extends React.Component<
@@ -75,14 +94,17 @@ export class ViewItemPage extends React.Component<
       <Page browserTitle={item.title} title={item.title}>
         <FormContainer>
           <FormFieldContainer>
-            <IconDiv>
-              <Icon iconName={ItemKindRegistrationManager.getItemKindIcon(item.itemKind)} />
-              <EditedSpan>edited {moment(item.editedOn).fromNow()}</EditedSpan>
-            </IconDiv>
-            {item.keywords &&
-              item.keywords.length > 0 && (
-                <p>{item.keywords.map(k => <Keyword key={k._id} keyword={k} />)}</p>
-              )}
+            <ItemPropertiesContainer>
+              <ItemPropertyDiv>
+                <Icon iconName={ItemKindRegistrationManager.getItemKindIcon(item.itemKind)} />
+              </ItemPropertyDiv>
+              <ItemPropertyDiv>
+                <Edited {...item} />
+              </ItemPropertyDiv>
+              <ItemPropertyDiv>
+                <Keywords keywords={item.keywords} />
+              </ItemPropertyDiv>
+            </ItemPropertiesContainer>
             {item.description && <p>{item.description}</p>}
             {ItemKindRegistrationManager.resolve(item.itemKind).getViewFormFields(item)}
           </FormFieldContainer>

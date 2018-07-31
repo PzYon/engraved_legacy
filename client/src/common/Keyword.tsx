@@ -10,9 +10,10 @@ interface IContainerSpanProps {
 const ContainerSpan = styled.span`
   background-color: ${StyleConstants.colors.accent};
   color: white;
-  font-size: 0.7rem;
-  padding: 3px 6px;
-  margin: 5px 5px 5px 0;
+  font-size: ${StyleConstants.font.small};
+  padding: 0 9px;
+  margin: 3px;
+  word-wrap: break-word;
   border-radius: ${StyleConstants.borderRadius};
   ${(props: IContainerSpanProps) => {
     return props.hasOnClick
@@ -21,6 +22,10 @@ const ContainerSpan = styled.span`
         `
       : "";
   }};
+
+  &:first-of-type {
+    margin-left: 0;
+  }
 `;
 
 export interface IKeywordProps {
@@ -31,6 +36,7 @@ export interface IKeywordProps {
 export const Keyword: React.SFC<IKeywordProps> = (props: IKeywordProps) => {
   return (
     <ContainerSpan
+      className={"ngrvd-keyword"}
       hasOnClick={!!props.onClick}
       onClick={() => (props.onClick ? props.onClick(props.keyword) : void 0)}
     >

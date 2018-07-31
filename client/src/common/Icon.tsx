@@ -14,5 +14,5 @@ interface IIconProps {
 const IconSpan = styled.span``;
 
 export const Icon: React.SFC<IIconProps> = (props: IIconProps) => {
-  return <IconSpan className="oi" data-glyph={props.iconName} aria-hidden="true" />;
+  return <IconSpan className="ngrvd-icon oi" data-glyph={props.iconName} aria-hidden="true" />;
 };

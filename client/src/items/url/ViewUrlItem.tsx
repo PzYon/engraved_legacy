@@ -41,7 +41,7 @@ const FallbackIconSpan = styled.span`
 
 const ActionDiv = styled.div`
   ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
-  font-size: 0.7rem;
+  font-size: ${StyleConstants.font.small};
 `;
 
 interface IViewUrlItemState {

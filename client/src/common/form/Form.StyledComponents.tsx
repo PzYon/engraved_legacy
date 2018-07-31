@@ -60,7 +60,7 @@ export const BaseCell = styled.span``;
 export const FormLabelSpan = BaseCell.extend`
   display: block;
   padding-bottom: 0.2rem;
-  font-size: 0.7rem;
+  font-size: ${StyleConstants.font.small};
   color: ${StyleConstants.colors.accent};
 `;
 
