@@ -74,7 +74,8 @@ export class EditItemPage extends React.Component<
           </span>
         ),
         id: Util.createGuid(),
-        kind: NotificationKind.Success
+        kind: NotificationKind.Success,
+        timeToLiveInSeconds: 8
       });
       ItemStore.instance.resetAndLoad();
     });

@@ -10,4 +10,5 @@ export interface INotification {
   id: string;
   messageOrNode: ReactNode;
   kind: NotificationKind;
+  timeToLiveInSeconds?: number;
 }

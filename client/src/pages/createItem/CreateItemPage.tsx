@@ -72,7 +72,8 @@ export class CreateItemPage extends React.PureComponent<
             </span>
           ),
           kind: NotificationKind.Success,
-          id: Util.createGuid()
+          id: Util.createGuid(),
+          timeToLiveInSeconds: 8
         });
         ItemStore.instance.resetAndLoad();
       },
