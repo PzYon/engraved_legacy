@@ -7,12 +7,14 @@ interface IContainerSpanProps {
   hasOnClick: boolean;
 }
 
+export const KeywordMargin: string = "3px";
+
 const ContainerSpan = styled.span`
   background-color: ${StyleConstants.colors.accent};
   color: white;
   font-size: ${StyleConstants.font.small};
   padding: 0 9px;
-  margin: 3px;
+  margin: ${KeywordMargin};
   word-wrap: break-word;
   border-radius: ${StyleConstants.borderRadius};
   ${(props: IContainerSpanProps) => {

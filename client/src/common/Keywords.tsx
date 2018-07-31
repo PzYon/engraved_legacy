@@ -23,7 +23,7 @@ export const Keywords: React.SFC<IKeywordsProps> = (props: IKeywordsProps) => {
   }
 
   return (
-    <Container>
+    <Container className={"ngrvd-keywords"}>
       {props.keywords.map(k => (
         <Keyword key={k._id || k.name} keyword={k} onClick={props.onClick} />
       ))}

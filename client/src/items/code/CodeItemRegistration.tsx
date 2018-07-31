@@ -40,6 +40,10 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
     return <ViewCodeItem item={item} />;
   }
 
+  public getSpecificProperty(item: ICodeItem): React.ReactNode {
+    return <span>{CodeItemRegistration.getCodeLanguageLabel(item.codeLanguage)}</span>;
+  }
+
   public static getCodeLanguageOptions(): Array<ISelectFieldOptions<CodeLanguage>> {
     return Object.keys(CodeLanguage).map((codeLanguage: string) => {
       const language: CodeLanguage = CodeLanguage[codeLanguage] as CodeLanguage;

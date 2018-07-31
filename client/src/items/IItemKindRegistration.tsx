@@ -1,4 +1,4 @@
-import { IItem, ItemKind } from "engraved-shared";
+import { IItem, ItemKind, IUrlItem } from "engraved-shared";
 import { ReactNode } from "react";
 
 export interface IItemKindRegistration<TItemKind extends IItem = IItem> {
@@ -11,4 +11,6 @@ export interface IItemKindRegistration<TItemKind extends IItem = IItem> {
     isReadOnly: boolean,
     callback: (key: string, value: any) => void
   ): ReactNode;
+
+  getSpecificProperty(item: TItemKind): ReactNode;
 }

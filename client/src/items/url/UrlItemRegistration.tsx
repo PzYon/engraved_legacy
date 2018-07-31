@@ -25,4 +25,8 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
   public getViewFormFields(item: IUrlItem): React.ReactNode {
     return <ViewUrlItem item={item} />;
   }
+
+  public getSpecificProperty(item: IUrlItem): React.ReactNode {
+    return <a href={item.url}>{item.url}</a>;
+  }
 }

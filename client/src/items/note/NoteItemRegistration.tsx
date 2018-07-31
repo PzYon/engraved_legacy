@@ -25,4 +25,8 @@ export class NoteItemRegistration implements IItemKindRegistration<INoteItem> {
   public getViewFormFields(item: INoteItem): React.ReactNode {
     return <ViewNoteItem item={item} />;
   }
+
+  public getSpecificProperty(item: INoteItem): React.ReactNode {
+    return null;
+  }
 }

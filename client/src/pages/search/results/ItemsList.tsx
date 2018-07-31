@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import styled from "styled-components";
 import { ErrorBoundary } from "../../../common/ErrorBoundary";
 import { ItemStore } from "../../../items/ItemStore";
+import { StyleUtil } from "../../../styling/StyleUtil";
 import { Item } from "./Item";
 
 const List = styled.ul`
@@ -13,7 +14,9 @@ const List = styled.ul`
   padding: 0;
 `;
 
-const ListItem = styled.li``;
+const ListItem = styled.li`
+  overflow: hidden;
+`;
 
 interface IListOfItemsState {
   items: IItem[];

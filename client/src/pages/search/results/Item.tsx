@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Edited } from "../../../common/Edited";
 import { Icon } from "../../../common/Icon";
+import { KeywordMargin } from "../../../common/Keyword";
 import { Keywords } from "../../../common/Keywords";
 import { ItemKindRegistrationManager } from "../../../items/ItemKindRegistrationManager";
 import { ItemStore } from "../../../items/ItemStore";
@@ -21,21 +22,29 @@ const Root = styled.div`
   flex-flow: row;
   opacity: 0;
   transition: opacity 0.8s;
+  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
 `;
 
 const Paragraph = styled.p`
   margin: 0.4rem 0;
 
-  .ngrvd-keyword:first-of-type {
-    margin-left: 0;
+  .ngrvd-keywords {
+    margin-left: -${KeywordMargin};
   }
 `;
 
-const MinorParagraph = Paragraph.extend`
+const SpecificPropertiesParagraph = Paragraph.extend`
   font-size: ${StyleConstants.font.small};
 `;
 
-const LeftDiv = styled.span`
+const Property = styled.span`
+  :not(:last-of-type)::after {
+    content: "|";
+    margin: 0 0.4rem;
+  }
+`;
+
+const LeftDiv = styled.div`
   padding-top: 6px;
   width: 1.5rem;
   min-width: 1.5rem;
@@ -43,14 +52,14 @@ const LeftDiv = styled.span`
   color: ${StyleConstants.colors.accent};
 `;
 
-const RightDiv = styled.span`
+const RightDiv = styled.div`
   flex-grow: 1;
+  overflow: hidden;
 `;
 
 const Title = styled.span`
   font-weight: bold;
   font-size: ${StyleConstants.font.large};
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
 `;
 
 export interface IItemProps {
@@ -80,12 +89,21 @@ export class Item extends React.PureComponent<IItemProps> {
           <Paragraph>
             <Keywords keywords={item.keywords} onClick={Item.toggleSelectedKeyword} />
           </Paragraph>
-          <MinorParagraph>
-            <Edited {...item} />
-          </MinorParagraph>
+          <SpecificPropertiesParagraph>
+            <Property>
+              <Edited {...item} />
+            </Property>
+            {Item.getSpecificProperties(item)}
+          </SpecificPropertiesParagraph>
         </RightDiv>
       </Root>
     );
+  }
+
+  private static getSpecificProperties(item: IItem): ReactNode {
+    const p = ItemKindRegistrationManager.resolve(item.itemKind).getSpecificProperty(item);
+
+    return p ? <Property>{p}</Property> : null;
   }
 
   private static toggleSelectedKeyword(k: IKeyword) {
