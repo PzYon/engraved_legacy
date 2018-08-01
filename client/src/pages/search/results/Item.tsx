@@ -18,8 +18,6 @@ const Root = styled.div`
   margin: ${StyleConstants.defaultSpacing} 0;
   padding: ${StyleConstants.defaultSpacing};
   box-shadow: ${StyleConstants.defaultBoxShadow};
-  display: flex;
-  flex-flow: row;
   opacity: 0;
   transition: opacity 0.8s;
   ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
@@ -44,20 +42,7 @@ const Property = styled.span`
   }
 `;
 
-const LeftDiv = styled.div`
-  padding-top: 6px;
-  width: 1.5rem;
-  min-width: 1.5rem;
-  font-size: 0.9rem;
-  color: ${StyleConstants.colors.accent};
-`;
-
-const RightDiv = styled.div`
-  flex-grow: 1;
-  overflow: hidden;
-`;
-
-const Title = styled.span`
+const Title = styled.div`
   font-weight: bold;
   font-size: ${StyleConstants.font.large};
 `;
@@ -78,24 +63,22 @@ export class Item extends React.PureComponent<IItemProps> {
 
     return (
       <Root innerRef={r => (this.itemEl = r)}>
-        <LeftDiv>
-          <Icon iconName={ItemKindRegistrationManager.getItemKindIcon(item.itemKind)} />
-        </LeftDiv>
-        <RightDiv>
-          <Title>
-            <Link to={`/items/${item._id || ""}`}>{item.title}</Link>
-          </Title>
-          <Paragraph>{item.description}</Paragraph>
-          <Paragraph>
-            <Keywords keywords={item.keywords} onClick={Item.toggleSelectedKeyword} />
-          </Paragraph>
-          <SpecificPropertiesParagraph>
-            <Property>
-              <Edited {...item} />
-            </Property>
-            {Item.getSpecificProperties(item)}
-          </SpecificPropertiesParagraph>
-        </RightDiv>
+        <Title>
+          <Link to={`/items/${item._id || ""}`}>{item.title}</Link>
+        </Title>
+        <Paragraph>{item.description}</Paragraph>
+        <Paragraph>
+          <Keywords keywords={item.keywords} onClick={Item.toggleSelectedKeyword} />
+        </Paragraph>
+        <SpecificPropertiesParagraph>
+          <Property>
+            <Icon iconName={ItemKindRegistrationManager.getItemKindIcon(item.itemKind)} />
+          </Property>
+          <Property>
+            <Edited {...item} />
+          </Property>
+          {Item.getSpecificProperties(item)}
+        </SpecificPropertiesParagraph>
       </Root>
     );
   }

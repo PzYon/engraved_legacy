@@ -29,19 +29,18 @@ interface IViewItemFormState {
   isClose: boolean;
 }
 
-const ItemPropertiesContainer = styled.div`
+const SectionContainer = styled.div`
+  margin: 1rem 0;
+`;
+
+const ItemPropertiesContainer = SectionContainer.extend`
   display: flex;
   align-items: stretch;
   font-size: ${StyleConstants.font.small};
-
-  .ngrvd-icon {
-    font-size: ${StyleConstants.font.small};
-    color: ${StyleConstants.colors.accent};
-  }
 `;
 
 const ItemPropertyDiv = styled.div`
-  padding: 0.3rem 0.6rem;
+  padding: 0.2rem 0.4rem;
   border-left: 1px solid ${StyleConstants.colors.discreet};
   border-top: 1px solid ${StyleConstants.colors.discreet};
   border-bottom: 1px solid ${StyleConstants.colors.discreet};
@@ -105,8 +104,10 @@ export class ViewItemPage extends React.Component<
                 <Keywords keywords={item.keywords} />
               </ItemPropertyDiv>
             </ItemPropertiesContainer>
-            {item.description && <p>{item.description}</p>}
-            {ItemKindRegistrationManager.resolve(item.itemKind).getViewFormFields(item)}
+            {item.description && <SectionContainer>{item.description}</SectionContainer>}
+            <SectionContainer>
+              {ItemKindRegistrationManager.resolve(item.itemKind).getViewFormFields(item)}
+            </SectionContainer>
           </FormFieldContainer>
         </FormContainer>
         <FormButtonContainer>
