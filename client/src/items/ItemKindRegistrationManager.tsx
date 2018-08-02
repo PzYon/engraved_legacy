@@ -1,6 +1,5 @@
 import { IItem, ItemKind } from "engraved-shared";
 import { ISelectFieldOptions } from "../common/form/fields/SelectField";
-import { IconName } from "../common/Icon";
 import { CodeItemRegistration } from "./code/CodeItemRegistration";
 import { IItemKindRegistration } from "./IItemKindRegistration";
 import { NoteItemRegistration } from "./note/NoteItemRegistration";
@@ -37,17 +36,6 @@ export class ItemKindRegistrationManager {
         value: kind
       };
     });
-  }
-
-  public static getItemKindIcon(itemKind: ItemKind): IconName {
-    switch (itemKind) {
-      case ItemKind.Note:
-        return IconName.Text;
-      case ItemKind.Code:
-        return IconName.Code;
-      case ItemKind.Url:
-        return IconName.Url;
-    }
   }
 
   public static getItemKindLabel(kind: ItemKind | string): string {

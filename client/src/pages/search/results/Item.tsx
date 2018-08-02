@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Edited } from "../../../common/Edited";
-import { Icon } from "../../../common/Icon";
+import { ItemKindIcon } from "../../../common/ItemKindIcon";
 import { KeywordMargin } from "../../../common/Keyword";
 import { Keywords } from "../../../common/Keywords";
 import { ItemKindRegistrationManager } from "../../../items/ItemKindRegistrationManager";
@@ -36,9 +36,15 @@ const SpecificPropertiesParagraph = Paragraph.extend`
 `;
 
 const Property = styled.span`
+  word-break: break-word;
+
   :not(:last-of-type)::after {
-    content: "|";
+    content: "\\00B7";
     margin: 0 0.4rem;
+  }
+
+  .ngrvd-icon {
+    position: relative;
   }
 `;
 
@@ -72,7 +78,7 @@ export class Item extends React.PureComponent<IItemProps> {
         </Paragraph>
         <SpecificPropertiesParagraph>
           <Property>
-            <Icon iconName={ItemKindRegistrationManager.getItemKindIcon(item.itemKind)} />
+            <ItemKindIcon itemKind={item.itemKind} />
           </Property>
           <Property>
             <Edited {...item} />

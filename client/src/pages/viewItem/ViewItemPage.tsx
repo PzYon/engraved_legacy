@@ -12,7 +12,7 @@ import {
   FormFieldContainer
 } from "../../common/form/Form.StyledComponents";
 import { FormButton } from "../../common/form/FormButton";
-import { Icon } from "../../common/Icon";
+import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { Keywords } from "../../common/Keywords";
 import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
 import { ItemStore } from "../../items/ItemStore";
@@ -95,7 +95,7 @@ export class ViewItemPage extends React.Component<
           <FormFieldContainer>
             <ItemPropertiesContainer>
               <ItemPropertyDiv>
-                <Icon iconName={ItemKindRegistrationManager.getItemKindIcon(item.itemKind)} />
+                <ItemKindIcon itemKind={item.itemKind} />
               </ItemPropertyDiv>
               <ItemPropertyDiv>
                 <Edited {...item} />

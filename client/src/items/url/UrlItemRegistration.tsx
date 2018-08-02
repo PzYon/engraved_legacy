@@ -27,6 +27,21 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
   }
 
   public getSpecificProperty(item: IUrlItem): React.ReactNode {
-    return <a href={item.url}>{item.url}</a>;
+    return (
+      <span>
+        view on{" "}
+        <a href={item.url} title={item.url}>
+          {UrlItemRegistration.getHostName(item.url)}
+        </a>
+      </span>
+    );
+  }
+
+  private static getHostName(url: string): string {
+    const parser = document.createElement("a");
+    parser.href = url;
+
+    const hostname = parser.hostname.toLowerCase();
+    return hostname.indexOf("www.") === 0 ? hostname.substr(4, hostname.length - 1) : hostname;
   }
 }

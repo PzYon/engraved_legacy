@@ -1,8 +1,8 @@
-import { IUrlItem } from "engraved-shared";
+import { ItemKind, IUrlItem } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { Icon, IconName } from "../../common/Icon";
+import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { StyleConstants } from "../../styling/StyleConstants";
 import { StyleUtil } from "../../styling/StyleUtil";
 import { IViewItemProps } from "../IViewItemProps";
@@ -87,7 +87,7 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
             )}
             {this.state.showFallbackIcon && (
               <FallbackIconSpan>
-                <Icon iconName={IconName.Url} />
+                <ItemKindIcon itemKind={ItemKind.Url} />
               </FallbackIconSpan>
             )}
           </IconAnchor>
