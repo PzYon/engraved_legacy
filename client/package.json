@@ -5,6 +5,9 @@
   "dependencies": {
     "codemirror": "^5.39.0",
     "engraved-shared": "0.0.100",
+    "markdown-it": "^8.4.2",
+    "markdown-it-anchor": "^5.0.2",
+    "markdown-it-table-of-contents": "^0.4.0",
     "marked": "^0.4.0",
     "moment": "^2.22.1",
     "react": "^16.4.1",
@@ -24,6 +27,7 @@
   "devDependencies": {
     "@types/codemirror": "0.0.58",
     "@types/jest": "^22.2.3",
+    "@types/markdown-it": "0.0.4",
     "@types/marked": "^0.4.0",
     "@types/node": "10.1.2",
     "@types/react": "^16.4.6",
