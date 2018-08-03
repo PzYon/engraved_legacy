@@ -52,6 +52,7 @@ const Container = styled.div`
     display: block;
     background-color: white;
     border: 1px solid ${StyleConstants.colors.discreet};
+    overflow-y: auto;
   }
 `;
 

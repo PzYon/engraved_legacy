@@ -96,7 +96,7 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
           <a href={this.props.item.url} target="_blank">
             open
           </a>
-          &nbsp;|&nbsp;
+          &nbsp;&middot;&nbsp;
           <a href="javascript:void(0)" onClick={this.copyToClipBoard}>
             copy URL
           </a>

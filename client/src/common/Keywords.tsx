@@ -1,6 +1,7 @@
 import { IKeyword } from "engraved-shared";
 import * as React from "react";
 import styled from "styled-components";
+import { If } from "./If";
 import { Keyword } from "./Keyword";
 
 const Container = styled.span`
@@ -18,15 +19,18 @@ export interface IKeywordsProps {
 }
 
 export const Keywords: React.SFC<IKeywordsProps> = (props: IKeywordsProps) => {
-  if (!props.keywords || !props.keywords.length) {
-    return null;
-  }
-
   return (
-    <Container className={"ngrvd-keywords"}>
-      {props.keywords.map(k => (
-        <Keyword key={k._id || k.name} keyword={k} onClick={props.onClick} />
-      ))}
-    </Container>
+    <If
+      value={props.keywords}
+      render={() => {
+        return (
+          <Container className={"ngrvd-keywords"}>
+            {props.keywords.map(k => (
+              <Keyword key={k._id || k.name} keyword={k} onClick={props.onClick} />
+            ))}
+          </Container>
+        );
+      }}
+    />
   );
 };

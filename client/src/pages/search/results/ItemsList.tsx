@@ -4,8 +4,8 @@ import { ReactNode } from "react";
 import { Subscription } from "rxjs";
 import styled from "styled-components";
 import { ErrorBoundary } from "../../../common/ErrorBoundary";
+import { If } from "../../../common/If";
 import { ItemStore } from "../../../items/ItemStore";
-import { StyleUtil } from "../../../styling/StyleUtil";
 import { Item } from "./Item";
 
 const List = styled.ul`
@@ -45,19 +45,21 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
   }
 
   public render(): ReactNode {
-    const items: IItem[] = this.state.items;
-    if (!items || !items.length) {
-      return null;
-    }
-
     return (
-      <List>
-        {items.map((item: IItem) => (
-          <ListItem key={item._id}>
-            <Item item={item} />
-          </ListItem>
-        ))}
-      </List>
+      <If
+        value={this.state.items}
+        render={() => {
+          return (
+            <List>
+              {this.state.items.map((item: IItem) => (
+                <ListItem key={item._id}>
+                  <Item item={item} />
+                </ListItem>
+              ))}
+            </List>
+          );
+        }}
+      />
     );
   }
 }

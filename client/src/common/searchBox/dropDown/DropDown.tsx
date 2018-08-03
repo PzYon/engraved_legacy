@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import styled from "styled-components";
 import { StyleConstants } from "../../../styling/StyleConstants";
 import { StyleUtil } from "../../../styling/StyleUtil";
+import { If } from "../../If";
 import { IDropDownItem } from "./IDropDownItem";
 import { IDropDownItemGroup } from "./IDropDownItemGroup";
 
@@ -77,7 +78,7 @@ export class DropDown extends React.PureComponent<ISuggestionsProps, ISuggestion
         {groups.map((g: IDropDownItemGroup, index: number) => {
           return (
             <GroupContainerDiv key={g.title || index}>
-              {g.title && <GroupTitleDiv>{g.title}</GroupTitleDiv>}
+              <If value={g.title} render={() => <GroupTitleDiv>{g.title}</GroupTitleDiv>} />
               <GroupItemsList>
                 {g.items.map((i: IDropDownItem) => {
                   return (

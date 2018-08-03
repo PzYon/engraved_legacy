@@ -2,6 +2,7 @@ import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
 import { ErrorBoundary } from "../common/ErrorBoundary";
+import { If } from "../common/If";
 import { StyleConstants } from "../styling/StyleConstants";
 
 const ContainerDiv = styled.div`
@@ -10,7 +11,7 @@ const ContainerDiv = styled.div`
   transition: opacity 0.8s;
 `;
 
-const H1 = styled.h2`
+const Title = styled.h2`
   font-weight: bold;
   font-size: 1.5rem;
   color: ${StyleConstants.colors.accent};
@@ -41,7 +42,7 @@ export class Page extends React.PureComponent<IPageProps> {
     return (
       <ContainerDiv innerRef={(r: HTMLDivElement) => (this.containerEl = r)}>
         <ErrorBoundary>
-          {this.props.title && <H1>{this.props.title}</H1>}
+          <If value={this.props.title} render={() => <Title>{this.props.title}</Title>} />
           <ContentDiv>{this.props.children}</ContentDiv>
         </ErrorBoundary>
       </ContainerDiv>

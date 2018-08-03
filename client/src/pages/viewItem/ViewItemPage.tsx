@@ -12,6 +12,7 @@ import {
   FormFieldContainer
 } from "../../common/form/Form.StyledComponents";
 import { FormButton } from "../../common/form/FormButton";
+import { If } from "../../common/If";
 import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { Keywords } from "../../common/Keywords";
 import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
@@ -49,10 +50,6 @@ const ItemPropertyDiv = styled.div`
 
   &:last-of-type {
     border-right: 1px solid ${StyleConstants.colors.discreet};
-  }
-
-  &:empty {
-    display: none;
   }
 `;
 
@@ -100,11 +97,21 @@ export class ViewItemPage extends React.Component<
               <ItemPropertyDiv>
                 <Edited {...item} />
               </ItemPropertyDiv>
-              <ItemPropertyDiv>
-                <Keywords keywords={item.keywords} />
-              </ItemPropertyDiv>
+              <If
+                value={item.keywords}
+                render={() => {
+                  return (
+                    <ItemPropertyDiv>
+                      <Keywords keywords={item.keywords} />
+                    </ItemPropertyDiv>
+                  );
+                }}
+              />
             </ItemPropertiesContainer>
-            {item.description && <SectionContainer>{item.description}</SectionContainer>}
+            <If
+              value={item.description}
+              render={() => <SectionContainer>{item.description}</SectionContainer>}
+            />
             <SectionContainer>
               {ItemKindRegistrationManager.resolve(item.itemKind).getViewFormFields(item)}
             </SectionContainer>
