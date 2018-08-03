@@ -3,6 +3,7 @@ import * as React from "react";
 import { ChangeEvent, ReactNode } from "react";
 import styled from "styled-components";
 import { StyleConstants } from "../../styling/StyleConstants";
+import { If } from "../If";
 import { DropDown } from "./dropDown/DropDown";
 import { IDropDownItemGroup } from "./dropDown/IDropDownItemGroup";
 import { SelectedKeywords } from "./SelectedKeywords";
@@ -90,7 +91,15 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
             placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
           />
         </InnerContainerDiv>
-        {this.state.showDropDown && <DropDown groups={this.props.dropDownItemGroups} />}
+        <If
+          value={this.state.showDropDown}
+          render={() => (
+            <DropDown
+              groups={this.props.dropDownItemGroups}
+              onClose={() => this.setState({ showDropDown: false })}
+            />
+          )}
+        />
       </ContainerDiv>
     );
   }

@@ -49,8 +49,18 @@ const GroupItem = styled.li`
   }
 `;
 
+const Closer = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  color: ${StyleConstants.colors.accent};
+`;
+
 export interface ISuggestionsProps {
   groups: IDropDownItemGroup[];
+  onClose: () => void;
 }
 
 interface ISuggestionsState {
@@ -75,6 +85,7 @@ export class DropDown extends React.PureComponent<ISuggestionsProps, ISuggestion
 
     return (
       <ContainerDiv>
+        <Closer onClick={this.props.onClose}>x</Closer>
         {groups.map((g: IDropDownItemGroup, index: number) => {
           return (
             <GroupContainerDiv key={g.title || index}>
