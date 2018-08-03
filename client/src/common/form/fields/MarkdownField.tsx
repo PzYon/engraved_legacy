@@ -38,29 +38,23 @@ export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMar
       >
         <If
           value={!this.props.isReadOnly}
-          render={() => {
-            return (
-              <TogglePreviewSpan
-                onClick={() => this.setState({ isPreview: !this.state.isPreview })}
-              >
-                {this.state.isPreview ? "Back to edit mode" : "View preview"}
-              </TogglePreviewSpan>
-            );
-          }}
+          render={() => (
+            <TogglePreviewSpan onClick={() => this.setState({ isPreview: !this.state.isPreview })}>
+              {this.state.isPreview ? "Back to edit mode" : "View preview"}
+            </TogglePreviewSpan>
+          )}
         />
         <If
           value={this.props.isReadOnly || this.state.isPreview}
           render={() => <Markdown markdown={this.props.value} />}
-          renderElse={() => {
-            return (
-              <CodeEditor
-                language={CodeLanguage.Markdown}
-                onValueChange={this.props.onValueChange}
-                value={this.props.value}
-                isReadOnly={false}
-              />
-            );
-          }}
+          renderElse={() => (
+            <CodeEditor
+              language={CodeLanguage.Markdown}
+              onValueChange={this.props.onValueChange}
+              value={this.props.value}
+              isReadOnly={false}
+            />
+          )}
         />
       </FieldWrapper>
     );

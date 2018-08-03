@@ -2,10 +2,26 @@ import { ItemKind, IUrlItem } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
+import { If } from "../../common/If";
 import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { StyleConstants } from "../../styling/StyleConstants";
 import { StyleUtil } from "../../styling/StyleUtil";
 import { IViewItemProps } from "../IViewItemProps";
+
+const IconAnchor = styled.a`
+  position: absolute;
+  background-color: ${StyleConstants.colors.ultraDiscreet};
+  color: ${StyleConstants.colors.accent};
+  height: 1.5rem;
+  left: 0.25rem;
+  top: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.8s;
+  font-size: 0.7rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+`;
 
 const UrlInputDiv = styled.div`
   position: relative;
@@ -20,23 +36,8 @@ const UrlInput = styled.input`
   max-width: calc(100% - 2.3rem - 2px) !important;
 `;
 
-const IconAnchor = styled.a`
-  position: absolute;
-  background-color: ${StyleConstants.colors.ultraDiscreet};
-  height: 1.5rem;
-  left: 0.25rem;
-  top: 0.25rem;
-  opacity: 0;
-  transition: opacity 0.8s;
-`;
-
 const IconImage = styled.img`
   height: 1.5rem;
-`;
-
-const FallbackIconSpan = styled.span`
-  font-size: 1.4rem;
-  color: ${StyleConstants.colors.discreet};
 `;
 
 const ActionDiv = styled.div`
@@ -75,21 +76,20 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
             href={this.props.item.url}
             target="_blank"
           >
-            {!this.state.showFallbackIcon && (
-              <IconImage
-                src={this.getFaviconUrl()}
-                onLoad={() => (this.imageAnchorEl.style.opacity = "1")}
-                onError={() => {
-                  this.setState({ showFallbackIcon: true });
-                  this.imageAnchorEl.style.opacity = "1";
-                }}
-              />
-            )}
-            {this.state.showFallbackIcon && (
-              <FallbackIconSpan>
-                <ItemKindIcon itemKind={ItemKind.Url} />
-              </FallbackIconSpan>
-            )}
+            <If
+              value={!this.state.showFallbackIcon}
+              render={() => (
+                <IconImage
+                  src={this.getFaviconUrl()}
+                  onLoad={() => (this.imageAnchorEl.style.opacity = "1")}
+                  onError={() => {
+                    this.setState({ showFallbackIcon: true });
+                    this.imageAnchorEl.style.opacity = "1";
+                  }}
+                />
+              )}
+              renderElse={() => <ItemKindIcon itemKind={ItemKind.Url} />}
+            />
           </IconAnchor>
         </UrlInputDiv>
         <ActionDiv>

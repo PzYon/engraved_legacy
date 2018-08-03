@@ -1,4 +1,4 @@
-import { IItem, ItemKind, IUrlItem } from "engraved-shared";
+import { IItem, ItemKind } from "engraved-shared";
 import { ReactNode } from "react";
 
 export interface IItemKindRegistration<TItemKind extends IItem = IItem> {

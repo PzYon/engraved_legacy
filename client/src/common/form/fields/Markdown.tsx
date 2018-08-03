@@ -1,6 +1,6 @@
 import * as MarkdownIt from "markdown-it";
-import { ReactNode } from "react";
 import * as React from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
 import { StyleConstants } from "../../../styling/StyleConstants";
 import { StyleUtil } from "../../../styling/StyleUtil";

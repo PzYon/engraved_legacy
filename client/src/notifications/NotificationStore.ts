@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs/index";
+import { BehaviorSubject } from "rxjs";
 import { INotification } from "./INotification";
 
 export class NotificationStore {

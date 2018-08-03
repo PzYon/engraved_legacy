@@ -48,17 +48,15 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
     return (
       <If
         value={this.state.items}
-        render={() => {
-          return (
-            <List>
-              {this.state.items.map((item: IItem) => (
-                <ListItem key={item._id}>
-                  <Item item={item} />
-                </ListItem>
-              ))}
-            </List>
-          );
-        }}
+        render={() => (
+          <List>
+            {this.state.items.map((item: IItem) => (
+              <ListItem key={item._id}>
+                <Item item={item} />
+              </ListItem>
+            ))}
+          </List>
+        )}
       />
     );
   }

@@ -12,13 +12,11 @@ export interface IFieldWrapperProps {
 export const FieldWrapper: React.SFC<IFieldWrapperProps> = (props: IFieldWrapperProps) => (
   <If
     value={props.doRender}
-    render={() => {
-      return (
-        <FormLabel>
-          <FormLabelSpan>{props.label}</FormLabelSpan>
-          <FormFieldSpan>{props.children}</FormFieldSpan>
-        </FormLabel>
-      );
-    }}
+    render={() => (
+      <FormLabel>
+        <FormLabelSpan>{props.label}</FormLabelSpan>
+        <FormFieldSpan>{props.children}</FormFieldSpan>
+      </FormLabel>
+    )}
   />
 );

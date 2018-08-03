@@ -1,4 +1,4 @@
-import { IKeyword, ItemKind, Util } from "engraved-shared";
+import { IKeyword, ItemKind } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import styled, { css } from "styled-components";

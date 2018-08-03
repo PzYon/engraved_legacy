@@ -3,9 +3,7 @@ import * as React from "react";
 import { Simulate } from "react-dom/test-utils";
 import styled from "styled-components";
 import { StyleConstants } from "../../styling/StyleConstants";
-import { Keyword } from "../Keyword";
 import { Keywords } from "../Keywords";
-import keyDown = Simulate.keyDown;
 
 const ContainerDiv = styled.div`
   padding: ${StyleConstants.formElementPadding};

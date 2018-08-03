@@ -40,7 +40,7 @@ export const WelcomeScreen: React.SFC<{}> = () => {
         <TitleDiv>engraved.</TitleDiv>
         <MessageDiv>
           <a href={AuthenticatedServerApi.authUrl}>Login</a> or{" "}
-          <a href={AuthenticatedServerApi.authUrl}>signup</a> using your google account.
+          <a href={AuthenticatedServerApi.authUrl}>sign up</a> using your google account.
         </MessageDiv>
       </InnerDiv>
     </RootDiv>

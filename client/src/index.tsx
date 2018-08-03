@@ -6,6 +6,11 @@ import { StyleConstants } from "./styling/StyleConstants";
 
 const injectGlobalStyles = (): void => {
   return injectGlobal`
+        ::selection {
+          color: white;
+          background: ${StyleConstants.colors.accent};
+        }
+
         body,
         html,
         input, 

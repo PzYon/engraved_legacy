@@ -1,5 +1,5 @@
 import { IUser } from "engraved-shared";
-import { BehaviorSubject } from "rxjs/index";
+import { BehaviorSubject } from "rxjs";
 import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
 
 export class AuthStore {
