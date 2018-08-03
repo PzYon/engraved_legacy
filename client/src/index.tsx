@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import { injectGlobal } from "styled-components";
 import { App } from "./App";
 import { StyleConstants } from "./styling/StyleConstants";
+import { StyleUtil } from "./styling/StyleUtil";
 
 const injectGlobalStyles = (): void => {
   return injectGlobal`
@@ -10,6 +11,9 @@ const injectGlobalStyles = (): void => {
           color: white;
           background: ${StyleConstants.colors.accent};
         }
+        
+        
+        ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent, StyleConstants.colors.font)}
 
         body,
         html,

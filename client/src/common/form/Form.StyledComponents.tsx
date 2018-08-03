@@ -51,7 +51,7 @@ export const FormFieldContainer = styled.div``;
 
 export const FormLabel = styled.label`
   display: block;
-  padding-bottom: 0.7rem;
+  padding-bottom: 1rem;
 `;
 
 export const BaseCell = styled.span``;
@@ -60,8 +60,7 @@ export const FormLabelSpan = BaseCell.extend`
   display: block;
   padding-bottom: 0.2rem;
   font-size: ${StyleConstants.font.small};
-  color: ${StyleConstants.colors.accent};
-`;
+n`;
 
 export const FormFieldSpan = BaseCell.extend`
   width: 100%;

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import styled from "styled-components";
 import { StyleConstants } from "../../../styling/StyleConstants";
 import { StyleUtil } from "../../../styling/StyleUtil";
+import { Closer } from "../../Closer";
 import { If } from "../../If";
 import { IDropDownItem } from "./IDropDownItem";
 import { IDropDownItemGroup } from "./IDropDownItemGroup";
@@ -18,6 +19,11 @@ const ContainerDiv = styled.div`
   border-left: 1px solid ${StyleConstants.colors.discreet};
   background-color: ${StyleConstants.colors.discreet};
   box-shadow: ${StyleConstants.defaultBoxShadow};
+
+  .ngrvd-closer {
+    right: 0.3rem;
+    top: 0;
+  }
 `;
 
 const GroupContainerDiv = styled.div``;
@@ -49,15 +55,6 @@ const GroupItem = styled.li`
   }
 `;
 
-const Closer = styled.span`
-  position: absolute;
-  top: 0;
-  right: 0.5rem;
-  cursor: pointer;
-  font-weight: bold;
-  color: ${StyleConstants.colors.accent};
-`;
-
 export interface ISuggestionsProps {
   groups: IDropDownItemGroup[];
   onClose: () => void;
@@ -85,7 +82,9 @@ export class DropDown extends React.PureComponent<ISuggestionsProps, ISuggestion
 
     return (
       <ContainerDiv>
-        <Closer onClick={this.props.onClose}>x</Closer>
+        <Closer onClose={this.props.onClose} title={"Close"}>
+          x
+        </Closer>
         {groups.map((g: IDropDownItemGroup, index: number) => {
           return (
             <GroupContainerDiv key={g.title || index}>

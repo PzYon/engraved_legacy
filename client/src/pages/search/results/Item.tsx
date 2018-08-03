@@ -10,7 +10,6 @@ import { Keywords } from "../../../common/Keywords";
 import { ItemKindRegistrationManager } from "../../../items/ItemKindRegistrationManager";
 import { ItemStore } from "../../../items/ItemStore";
 import { StyleConstants } from "../../../styling/StyleConstants";
-import { StyleUtil } from "../../../styling/StyleUtil";
 
 const Root = styled.div`
   border: 1px solid ${StyleConstants.colors.discreet};
@@ -19,8 +18,7 @@ const Root = styled.div`
   padding: ${StyleConstants.defaultSpacing};
   box-shadow: ${StyleConstants.defaultBoxShadow};
   opacity: 0;
-  transition: opacity 0.8s;
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
+  transition: opacity 0.5s;
 `;
 
 const Paragraph = styled.p`

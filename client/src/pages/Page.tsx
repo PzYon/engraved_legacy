@@ -1,14 +1,16 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
+import { Closer } from "../common/Closer";
 import { ErrorBoundary } from "../common/ErrorBoundary";
 import { If } from "../common/If";
 import { StyleConstants } from "../styling/StyleConstants";
 
 const ContainerDiv = styled.div`
   padding: ${StyleConstants.defaultSpacing};
+  position: relative;
   opacity: 0;
-  transition: opacity 0.8s;
+  transition: opacity 0.5s;
 `;
 
 const Title = styled.h2`
@@ -26,6 +28,7 @@ export interface IPageProps {
   children: ReactNode;
   title?: string;
   browserTitle?: string;
+  noCloser?: boolean;
 }
 
 export class Page extends React.PureComponent<IPageProps> {
@@ -42,6 +45,12 @@ export class Page extends React.PureComponent<IPageProps> {
     return (
       <ContainerDiv innerRef={(r: HTMLDivElement) => (this.containerEl = r)}>
         <ErrorBoundary>
+          <If
+            value={!this.props.noCloser}
+            render={() => (
+              <Closer onClose={() => window.history.back()} title={"Back to previous page"} />
+            )}
+          />
           <If value={this.props.title} render={() => <Title>{this.props.title}</Title>} />
           <ContentDiv>{this.props.children}</ContentDiv>
         </ErrorBoundary>

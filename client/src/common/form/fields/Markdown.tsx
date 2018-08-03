@@ -3,7 +3,6 @@ import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
 import { StyleConstants } from "../../../styling/StyleConstants";
-import { StyleUtil } from "../../../styling/StyleUtil";
 
 const mdItToc = require("markdown-it-table-of-contents");
 const mdItAnchor = require("markdown-it-anchor");
@@ -13,7 +12,7 @@ const Container = styled.div`
   background-color: ${StyleConstants.colors.ultraDiscreet};
   padding: 0.7rem;
 
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)} p,
+  p,
   h1,
   h2,
   h3,

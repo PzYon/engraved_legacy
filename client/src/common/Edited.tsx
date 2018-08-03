@@ -3,11 +3,8 @@ import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { StyleConstants } from "../styling/StyleConstants";
-import { StyleUtil } from "../styling/StyleUtil";
 
 const ContainerSpan = styled.span`
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
   white-space: nowrap;
 `;
 

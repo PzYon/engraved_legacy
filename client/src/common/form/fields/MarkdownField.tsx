@@ -8,7 +8,7 @@ import { FieldWrapper } from "./FieldWrapper";
 import { IFieldProps } from "./IFieldProps";
 import { Markdown } from "./Markdown";
 
-const TogglePreviewSpan = styled.span`
+const TogglePreviewAnchor = styled.a`
   font-size: ${StyleConstants.font.small};
   cursor: pointer;
   display: inline-block;
@@ -39,9 +39,12 @@ export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMar
         <If
           value={!this.props.isReadOnly}
           render={() => (
-            <TogglePreviewSpan onClick={() => this.setState({ isPreview: !this.state.isPreview })}>
+            <TogglePreviewAnchor
+              onClick={() => this.setState({ isPreview: !this.state.isPreview })}
+              href={"javascript:void(0)"}
+            >
               {this.state.isPreview ? "Back to edit mode" : "View preview"}
-            </TogglePreviewSpan>
+            </TogglePreviewAnchor>
           )}
         />
         <If

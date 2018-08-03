@@ -21,9 +21,7 @@ const AppTitle = styled.h1`
   font-size: ${StyleConstants.headerHeightInPx * 0.5}px;
   margin: 0;
 
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.header.text)} a:hover {
-    color: ${StyleConstants.colors.accent};
-  }
+  ${StyleUtil.normalizeAnchors(StyleConstants.colors.header.text, StyleConstants.colors.accent)};
 `;
 
 const CurrentUserSpan = styled.span`

@@ -21,7 +21,7 @@ const SearchInnerContainerDiv = styled.div`
 export class SearchPage extends React.PureComponent {
   public render(): ReactNode {
     return (
-      <Page>
+      <Page noCloser={true}>
         <SearchContainerDiv key={"searchBox"}>
           <SearchInnerContainerDiv>
             <GlobalSearchBox />

@@ -1,7 +1,7 @@
 import { css, InterpolationValue } from "styled-components";
 
 export class StyleUtil {
-  public static normalizeAnchors(color: string): InterpolationValue[] {
+  public static normalizeAnchors(color: string, hoverColor?: string): InterpolationValue[] {
     return css`
       a,
       a:link,
@@ -9,6 +9,11 @@ export class StyleUtil {
       a:active {
         color: ${color};
         text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      a:hover {
+        color: ${hoverColor || color};
       }
     `;
   }

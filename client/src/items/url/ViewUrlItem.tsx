@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { If } from "../../common/If";
 import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { StyleConstants } from "../../styling/StyleConstants";
-import { StyleUtil } from "../../styling/StyleUtil";
 import { IViewItemProps } from "../IViewItemProps";
 
 const IconAnchor = styled.a`
@@ -16,7 +15,7 @@ const IconAnchor = styled.a`
   left: 0.25rem;
   top: 0.25rem;
   opacity: 0;
-  transition: opacity 0.8s;
+  transition: opacity 0.5s;
   font-size: 0.7rem;
   text-decoration: none;
   display: flex;
@@ -41,7 +40,6 @@ const IconImage = styled.img`
 `;
 
 const ActionDiv = styled.div`
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.accent)};
   font-size: ${StyleConstants.font.small};
 `;
 
