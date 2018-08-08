@@ -14,9 +14,9 @@
     "react-codemirror2": "^5.1.0",
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.2.2",
-    "react-scripts-ts": "^2.16.0",
+    "react-scripts-ts": "^2.17.0",
     "rxjs": "^6.2.2",
-    "styled-components": "^3.4.1"
+    "styled-components": "^3.4.2"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -31,7 +31,7 @@
     "@types/marked": "^0.4.0",
     "@types/node": "10.5.5",
     "@types/react": "^16.4.7",
-    "@types/react-dom": "^16.0.5",
+    "@types/react-dom": "^16.0.7",
     "@types/react-router-dom": "^4.3.0",
     "react-router": "latest",
     "typescript": "^3.0.1"
