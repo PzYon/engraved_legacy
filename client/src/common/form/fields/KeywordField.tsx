@@ -1,6 +1,7 @@
 import { IKeyword, Util } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
+import { Subscription } from "rxjs";
 import styled from "styled-components";
 import { ItemStore } from "../../../items/ItemStore";
 import { ErrorBoundary } from "../../ErrorBoundary";
@@ -24,15 +25,14 @@ const SearchBoxContainer = styled.div`
 `;
 
 export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywordFieldState> {
-  public constructor(props: IKeywordFieldProps) {
-    super(props);
+  private findTimer: any;
+  private findSubscription: Subscription;
 
-    this.state = {
-      dropDownItems: [],
-      searchValue: "",
-      showDropDown: true
-    };
-  }
+  public readonly state: IKeywordFieldState = {
+    dropDownItems: [],
+    searchValue: "",
+    showDropDown: true
+  };
 
   public render(): ReactNode {
     const keywords: IKeyword[] = this.props.value || [];
@@ -60,24 +60,37 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
   }
 
   private loadKeywordDropDownItems = (searchText: string): void => {
+    if (this.findTimer) {
+      clearTimeout(this.findTimer);
+    }
+
     if (!searchText) {
       this.setState({
         dropDownItems: [],
         showDropDown: false,
-        searchValue: searchText
+        searchValue: ""
       });
-    } else {
-      ItemStore.instance.searchKeywords(searchText).subscribe(
+
+      return;
+    }
+
+    this.setState({ searchValue: searchText });
+
+    this.findTimer = setTimeout(() => {
+      if (this.findSubscription) {
+        this.findSubscription.unsubscribe();
+      }
+
+      this.findSubscription = ItemStore.instance.searchKeywords(searchText).subscribe(
         (keywords: IKeyword[]) => {
           this.setState({
             dropDownItems: (keywords || []).map(k => new KeywordDropDownItem(k)),
-            showDropDown: true,
-            searchValue: searchText
+            showDropDown: true
           });
         },
         (error: Error) => ErrorBoundary.ensureError(this, error)
       );
-    }
+    }, 400);
   };
 
   private getDropDownItemGroups = (): IDropDownItemGroup[] => {
