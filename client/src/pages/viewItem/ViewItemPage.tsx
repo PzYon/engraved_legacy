@@ -5,7 +5,6 @@ import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Edited } from "../../common/Edited";
-import { ErrorBoundary } from "../../common/ErrorBoundary";
 import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import {
   FormButtonContainer,
@@ -19,16 +18,6 @@ import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationMan
 import { ItemStore } from "../../items/ItemStore";
 import { StyleConstants } from "../../styling/StyleConstants";
 import { Page } from "../Page";
-
-interface IRouterParams {
-  itemId: string;
-}
-
-interface IViewItemFormState {
-  itemId: string;
-  item: IItem | undefined;
-  isClose: boolean;
-}
 
 const SectionContainer = styled.div`
   margin: 1rem 0;
@@ -53,32 +42,46 @@ const ItemPropertyDiv = styled.div`
   }
 `;
 
+interface IRouterParams {
+  itemId: string;
+}
+
+interface IViewItemFormState {
+  itemId: string;
+  item: IItem | undefined;
+  isClose: boolean;
+  failedToLoad: boolean;
+}
+
 export class ViewItemPage extends React.Component<
   RouteComponentProps<IRouterParams>,
   IViewItemFormState
 > {
-  public constructor(props: RouteComponentProps<IRouterParams>) {
-    super(props);
-
-    this.state = {
-      item: undefined,
-      itemId: decodeURIComponent(this.props.match.params.itemId),
-      isClose: false
-    };
-  }
+  public readonly state: IViewItemFormState = {
+    item: undefined,
+    itemId: decodeURIComponent(this.props.match.params.itemId),
+    isClose: false,
+    failedToLoad: false
+  };
 
   public componentDidMount(): void {
-    ItemStore.instance.getLocalItemOrLoad(this.state.itemId).subscribe(
-      item => {
-        this.setState({ item: item });
-      },
-      (error: Error) => ErrorBoundary.ensureError(this, error)
-    );
+    ItemStore.instance
+      .getLocalItemOrLoad(this.state.itemId)
+      .subscribe(
+        item => this.setState({ item: item }),
+        () => this.setState({ failedToLoad: true })
+      );
   }
 
   public render(): ReactNode {
     if (this.state.isClose) {
       return <Redirect to="/" push={true} />;
+    }
+
+    if (this.state.failedToLoad) {
+      // todo: we could consider extending the NotFoundPage with
+      // to be able to read some stuff from the URL an react accordingly
+      return <Redirect to="/item-not-found" />;
     }
 
     const item: IItem = this.state.item;

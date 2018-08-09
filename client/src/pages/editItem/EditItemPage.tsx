@@ -21,34 +21,38 @@ interface IEditItemFormState {
   itemId: string;
   item: IItem | undefined;
   isSuccess: boolean;
+  failedToLoad: boolean;
 }
 
 export class EditItemPage extends React.Component<
   RouteComponentProps<IRouterParams>,
   IEditItemFormState
 > {
-  public constructor(props: RouteComponentProps<IRouterParams>) {
-    super(props);
-
-    this.state = {
-      item: undefined,
-      itemId: decodeURIComponent(this.props.match.params.itemId),
-      isSuccess: false
-    };
-  }
+  public readonly state: IEditItemFormState = {
+    item: undefined,
+    itemId: decodeURIComponent(this.props.match.params.itemId),
+    isSuccess: false,
+    failedToLoad: false
+  };
 
   public componentDidMount(): void {
     ItemStore.instance
       .getLocalItemOrLoad(this.state.itemId)
       .subscribe(
         item => this.setState({ item: item }),
-        (error: Error) => ErrorBoundary.ensureError(this, error)
+        () => this.setState({ failedToLoad: true })
       );
   }
 
   public render(): ReactNode {
     if (this.state.isSuccess) {
       return <Redirect to="/" push={true} />;
+    }
+
+    if (this.state.failedToLoad) {
+      // todo: we could consider extending the NotFoundPage with
+      // to be able to read some stuff from the URL an react accordingly
+      return <Redirect to="/item-not-found" />;
     }
 
     const item: IItem = this.state.item;

@@ -36,7 +36,14 @@ export class ItemController extends BaseAuthenticatedController {
   private getItemById = (req: Request, res: Response): void => {
     this.createDbService(req)
       .getItemById(req.params.itemId)
-      .then((item: IItem) => res.send(item));
+      .then((item: IItem) => {
+        if (item) {
+          res.send(item);
+        } else {
+          res.statusCode = 404;
+          res.send();
+        }
+      });
   };
 
   private searchItems = (req: Request, res: Response): void => {
