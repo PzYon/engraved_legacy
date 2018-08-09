@@ -31,4 +31,10 @@ export abstract class BaseAuthenticatedController extends BaseController {
       .route(Config.webServer.apiUrlPrefix + url)
       .post(BaseAuthenticatedController.authenticate(), callback);
   }
+
+  protected authenticatedDelete(url: string, callback: (req: Request, res: Response) => void) {
+    this.app
+      .route(Config.webServer.apiUrlPrefix + url)
+      .delete(BaseAuthenticatedController.authenticate(), callback);
+  }
 }

@@ -13,12 +13,15 @@ const ContainerDiv = styled.div`
   width: 100%;
 `;
 
-const InnerContainerDiv = styled.div`
+interface IInnerContainerDiv {
+  isHighlight: boolean;
+}
+
+const InnerContainerDiv = styled.div<IInnerContainerDiv>`
   background-color: ${StyleConstants.colors.ultraDiscreet};
   border: 1px solid ${StyleConstants.colors.discreet};
   overflow: hidden;
-  ${(p: { isHighlight: boolean }) =>
-    p.isHighlight ? `box-shadow: ${StyleConstants.defaultBoxShadow};` : ""};
+  ${p => (p.isHighlight ? `box-shadow: ${StyleConstants.defaultBoxShadow};` : "")};
 `;
 
 const Input = styled.input`

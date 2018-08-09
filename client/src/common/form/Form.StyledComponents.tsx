@@ -6,8 +6,7 @@ import { StyleUtil } from "../../styling/StyleUtil";
 export const FormContainer = styled.div`
   input,
   textarea,
-  select,
-  button {
+  select {
     border: 1px solid ${StyleConstants.colors.discreet};
     margin-bottom: 10px;
     vertical-align: top;
@@ -16,10 +15,6 @@ export const FormContainer = styled.div`
       outline: none;
       box-shadow: ${StyleConstants.defaultBoxShadow};
     }
-  }
-
-  button {
-    border-color: ${StyleConstants.colors.accent};
   }
 
   button:hover {
@@ -79,20 +74,27 @@ export const Select = styled.select`
   }
 `;
 
-export const Button = styled.button`
-  background-color: ${(p: { isPrimary: boolean }) =>
-    p.isPrimary ? StyleConstants.colors.accent : StyleConstants.colors.pageBackground};
-  color: ${(p: { isPrimary: boolean }) =>
-    p.isPrimary ? StyleConstants.colors.pageBackground : StyleConstants.colors.accent};
-  border: 1px solid ${StyleConstants.colors.accent};
+export interface IStyledButtonProps {
+  text: string;
+  background: string;
+  border: string;
+}
+
+export const Button = styled.button<IStyledButtonProps>`
+  background-color: ${p => p.background};
+  color: ${p => p.text};
+  border: 1px solid ${p => p.border};
   padding: 0.4rem 0.6rem;
   cursor: pointer;
   ${StyleUtil.normalizeAnchors("inherit")};
+
+  &:focus {
+    outline: none;
+    box-shadow: ${StyleConstants.defaultBoxShadow};
+  }
 `;
 
 export const FormButtonContainer = styled.div`
-  margin-top: 1.8rem;
-
   button:not(:last-child) {
     margin-right: 1rem;
   }

@@ -9,14 +9,21 @@ export class ItemController extends BaseAuthenticatedController {
     super(app, db);
 
     this.authenticatedGet("/items", this.searchItems);
+    this.authenticatedPost("/items", this.insertItem);
     this.authenticatedGet("/items/:itemId", this.getItemById);
     this.authenticatedPatch("/items/:itemId", this.updateItem);
-    this.authenticatedPost("/items", this.insertItem);
+    this.authenticatedDelete("/items/:itemId", this.deleteItem);
   }
 
   private insertItem = (req: Request, res: Response): void => {
     this.createDbService(req)
       .insertItem(req.body)
+      .then((item: IItem) => res.send(item));
+  };
+
+  private deleteItem = (req: Request, res: Response): void => {
+    this.createDbService(req)
+      .deleteItem(req.params.itemId)
       .then((item: IItem) => res.send(item));
   };
 

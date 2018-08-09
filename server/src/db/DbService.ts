@@ -96,6 +96,10 @@ export class DbService {
       .toArray();
   }
 
+  public deleteItem(id: string): Promise<any> {
+    return this.items.deleteOne(DbService.getItemByIdFilter(id));
+  }
+
   public getItemById(id: string): Promise<IItem> {
     return this.items.findOne(this.ensureCurrentUserId(DbService.getItemByIdFilter(id)));
   }
