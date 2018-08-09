@@ -1,6 +1,7 @@
 import { Express } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { Db } from "mongodb";
+import { IStats } from "../db/DbService";
 import { BaseAuthenticatedController } from "./BaseAuthenticatedController";
 
 export class UserController extends BaseAuthenticatedController {
@@ -8,9 +9,18 @@ export class UserController extends BaseAuthenticatedController {
     super(app, db);
 
     this.authenticatedGet("/users/me", this.getCurrentUser);
+    this.authenticatedGet("/users/me/stats", this.getStats);
   }
 
   private getCurrentUser = (req: Request, res: Response): void => {
     res.send(req.user);
+  };
+
+  private getStats = (req: Request, res: Response): void => {
+    this.createDbService(req)
+      .getMyStats()
+      .then((stats: IStats) => {
+        res.send(stats);
+      });
   };
 }

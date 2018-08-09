@@ -10,6 +10,8 @@ export { IKeyword } from "./IKeyword";
 
 export { IUser } from "./IUser";
 
+export { IStats } from "./IStats";
+
 export { ItemSearchQuery } from "./ItemSearchQuery";
 
 export { Util } from "./Util";

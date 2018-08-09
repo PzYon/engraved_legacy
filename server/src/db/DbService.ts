@@ -1,4 +1,4 @@
-import { IItem, IKeyword, ItemSearchQuery, IUser } from "engraved-shared";
+import { IItem, IKeyword, IStats, ItemSearchQuery, IUser } from "engraved-shared";
 import {
   Collection,
   Db,
@@ -43,6 +43,18 @@ export class DbService {
 
   public getUserById(id: string): Promise<IUser> {
     return this.users.findOne(DbService.getItemByIdFilter(id));
+  }
+
+  public getMyStats(): Promise<IStats> {
+    return Promise.all([
+      this.keywords.countDocuments(this.ensureCurrentUserId({}), {}),
+      this.items.countDocuments(this.ensureCurrentUserId({}), {})
+    ]).then(values => {
+      return {
+        keywordCount: values[0],
+        itemCount: values[1]
+      };
+    });
   }
 
   public searchKeywords(searchText: any): Promise<IKeyword[]> {
