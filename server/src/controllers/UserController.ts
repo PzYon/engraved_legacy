@@ -1,7 +1,7 @@
+import { IStats } from "engraved-shared";
 import { Express } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { Db } from "mongodb";
-import { IStats } from "../db/DbService";
 import { BaseAuthenticatedController } from "./BaseAuthenticatedController";
 
 export class UserController extends BaseAuthenticatedController {
