@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Edited } from "../../common/Edited";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
+import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import {
   FormButtonContainer,
   FormContainer,
   FormFieldContainer
 } from "../../common/form/Form.StyledComponents";
-import { FormButton } from "../../common/form/FormButton";
 import { If } from "../../common/If";
 import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { Keywords } from "../../common/Keywords";
@@ -119,19 +119,24 @@ export class ViewItemPage extends React.Component<
         </FormContainer>
         <FormButtonContainer>
           <FormButton
-            onClick={() => void 0}
-            nodeOrLabel={
-              <Link to={`/items/${item._id}/edit`} key={item._id}>
-                {"Edit"}
-              </Link>
-            }
-            isPrimary={true}
+            key={"Edit"}
+            button={{
+              onClick: void 0,
+              nodeOrLabel: (
+                <Link to={`/items/${item._id}/edit`} key={item._id}>
+                  {"Edit"}
+                </Link>
+              ),
+              buttonStyle: ButtonStyle.Primary
+            }}
           />
           <FormButton
             key={"Close"}
-            onClick={() => this.setState({ isClose: true })}
-            nodeOrLabel={"Close"}
-            isPrimary={false}
+            button={{
+              onClick: () => this.setState({ isClose: true }),
+              nodeOrLabel: "Close",
+              buttonStyle: ButtonStyle.Secondary
+            }}
           />
         </FormButtonContainer>
       </Page>

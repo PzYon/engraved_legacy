@@ -12,12 +12,16 @@ import { SearchBox } from "../../common/searchBox/SearchBox";
 import { ItemStore } from "../../items/ItemStore";
 import { StyleConstants } from "../../styling/StyleConstants";
 
-const WrapperDiv = styled.div`
+interface IWrapperDivProps {
+  showDropDown: boolean;
+}
+
+const WrapperDiv = styled.div<IWrapperDivProps>`
   .search-box-inner {
     border-radius: ${StyleConstants.borderRadius};
     border: 1px solid ${StyleConstants.colors.discreet};
 
-    ${(p: { showDropDown: boolean }) =>
+    ${p =>
       p.showDropDown
         ? css`
             border-bottom-left-radius: 0;

@@ -3,17 +3,19 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect } from "react-router";
 import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
+import { ConfirmableButton } from "./buttons/ConfirmableButton";
+import { ButtonStyle, FormButton } from "./buttons/FormButton";
+import { IButton } from "./buttons/IButton";
+import { IConfirmableButton } from "./buttons/IConfirmableButton";
 import { KeywordField } from "./fields/KeywordField";
 import { MultiLineTextField } from "./fields/MultiLineTextField";
 import { SelectField } from "./fields/SelectField";
 import { TextField } from "./fields/TextField";
 import { FormButtonContainer, FormContainer, FormFieldContainer } from "./Form.StyledComponents";
-import { FormButton } from "./FormButton";
-import { IButton } from "./IButton";
 
 export interface IFormProps {
   item: IItem | undefined;
-  buttons: IButton[];
+  buttons: Array<IButton | IConfirmableButton>;
   cancelButtonLabel?: string;
   isReadonly: boolean;
 }
@@ -78,19 +80,21 @@ export class Form extends React.Component<IFormProps, IFormState> {
           />
         </FormFieldContainer>
         <FormButtonContainer>
-          {this.props.buttons.map((b: IButton) => (
-            <FormButton
-              key={typeof b.nodeOrLabel === "string" ? b.nodeOrLabel : (item._id as any)}
-              onClick={() => b.onClick(item)}
-              nodeOrLabel={b.nodeOrLabel}
-              isPrimary={b.isPrimary}
-            />
-          ))}
+          {(this.props.buttons || []).map(
+            (b: IButton | IConfirmableButton, i: number) =>
+              Form.isConfirmationButton(b) ? (
+                <ConfirmableButton key={i} confirmableButton={b} />
+              ) : (
+                <FormButton key={i} button={b} />
+              )
+          )}
           <FormButton
             key={"Cancel"}
-            onClick={this.onClose}
-            nodeOrLabel={this.props.cancelButtonLabel || "Discard"}
-            isPrimary={false}
+            button={{
+              onClick: this.onClose,
+              nodeOrLabel: this.props.cancelButtonLabel || "Discard",
+              buttonStyle: ButtonStyle.Secondary
+            }}
           />
         </FormButtonContainer>
       </FormContainer>
@@ -119,4 +123,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
       return { item: { ...prevState.item, ...updateField } };
     });
   };
+
+  private static isConfirmationButton(b: any): b is IConfirmableButton {
+    return !!(b as IConfirmableButton).confirmationButtonNodeOrLabel;
+  }
 }

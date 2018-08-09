@@ -60,6 +60,10 @@ export class ItemStore {
     );
   };
 
+  public deleteItem = (itemId: string): Observable<any> => {
+    return AuthenticatedServerApi.delete("items/" + itemId).pipe(map((r: AjaxResponse) => null));
+  };
+
   public searchKeywords = (searchText: string): Observable<IKeyword[]> => {
     return AuthenticatedServerApi.get<IKeyword[]>(
       `keywords${searchText ? `?q=${searchText}` : ""}`

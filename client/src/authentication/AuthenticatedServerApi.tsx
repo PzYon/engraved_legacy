@@ -38,6 +38,12 @@ export class AuthenticatedServerApi {
       .pipe(this.handleError<AjaxResponse>());
   }
 
+  public static delete(url: string, headers: any = {}): Observable<AjaxResponse> {
+    return ajax
+      .delete(this.getAbsoluteUrl(url), { ...headers, ...this.getHeaders() })
+      .pipe(this.handleError<AjaxResponse>());
+  }
+
   private static getAbsoluteUrl(url: string) {
     return `${AuthenticatedServerApi.baseUrl}${url}`;
   }

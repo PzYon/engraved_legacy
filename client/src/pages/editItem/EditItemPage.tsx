@@ -4,6 +4,9 @@ import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
+import { ButtonStyle } from "../../common/form/buttons/FormButton";
+import { IButton } from "../../common/form/buttons/IButton";
+import { IConfirmableButton } from "../../common/form/buttons/IConfirmableButton";
 import { Form } from "../../common/form/Form";
 import { ItemStore } from "../../items/ItemStore";
 import { NotificationKind } from "../../notifications/INotification";
@@ -48,16 +51,32 @@ export class EditItemPage extends React.Component<
       return <Redirect to="/" push={true} />;
     }
 
-    if (!this.state.item) {
+    const item: IItem = this.state.item;
+    if (!item) {
       return null;
     }
 
     return (
-      <Page browserTitle={this.state.item.title + " | edit"} title={"Edit item"}>
+      <Page browserTitle={item.title + " | edit"} title={"Edit item"}>
         <Form
           isReadonly={false}
-          item={this.state.item}
-          buttons={[{ nodeOrLabel: "Update", onClick: this.updateItem, isPrimary: true }]}
+          item={item}
+          buttons={[
+            {
+              nodeOrLabel: "Update",
+              onClick: () => this.updateItem(item),
+              buttonStyle: ButtonStyle.Primary
+            } as IButton,
+            {
+              initialButtonNodeOrLabel: "Delete",
+              initialButtonStyle: ButtonStyle.Secondary,
+              confirmationDialogTitle: `Do you really want to delete "${item.title}"?`,
+              confirmationButtonNodeOrLabel: "Yep, delete it.",
+              confirmationButtonStyle: ButtonStyle.Red,
+              cancelButtonNodeOrLabel: "No, keep it.",
+              onClick: () => this.deleteItem(item)
+            } as IConfirmableButton
+          ]}
         />
       </Page>
     );
@@ -78,6 +97,18 @@ export class EditItemPage extends React.Component<
         timeToLiveInSeconds: 8
       });
       ItemStore.instance.resetAndLoad();
+    });
+  };
+
+  private deleteItem = (item: IItem): void => {
+    ItemStore.instance.deleteItem(item._id).subscribe(() => {
+      this.setState({ isSuccess: true });
+      NotificationStore.instance.addNotification({
+        id: Util.createGuid(),
+        kind: NotificationKind.Success,
+        timeToLiveInSeconds: 8,
+        messageOrNode: `"${item.title}" has been deleted.`
+      });
     });
   };
 }
