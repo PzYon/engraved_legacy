@@ -1,11 +1,11 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { StyleConstants } from "../../../styling/StyleConstants";
-import { If } from "../../If";
-import { CodeEditor, CodeLanguage } from "./CodeEditor";
-import { FieldWrapper } from "./FieldWrapper";
-import { IFieldProps } from "./IFieldProps";
+import { StyleConstants } from "../../../../styling/StyleConstants";
+import { If } from "../../../If";
+import { CodeEditor, CodeLanguage } from "../code/CodeEditor";
+import { FieldWrapper } from "../FieldWrapper";
+import { IFieldProps } from "../IFieldProps";
 import { Markdown } from "./Markdown";
 
 const TogglePreviewAnchor = styled.a`
@@ -32,10 +32,7 @@ export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMar
 
   public render(): ReactNode {
     return (
-      <FieldWrapper
-        label={this.props.label}
-        doRender={!this.props.isReadOnly || !!this.props.value}
-      >
+      <FieldWrapper label={this.props.label} validationError={this.props.validationMessage}>
         <If
           value={!this.props.isReadOnly}
           render={() => (

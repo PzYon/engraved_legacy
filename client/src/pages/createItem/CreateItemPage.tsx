@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
-import { ButtonStyle } from "../../common/form/buttons/FormButton";
+import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { Form } from "../../common/form/Form";
 import { ItemStore } from "../../items/ItemStore";
 import { NotificationKind } from "../../notifications/INotification";
@@ -55,13 +55,24 @@ export class CreateItemPage extends React.PureComponent<
         <Form
           isReadonly={false}
           item={this.state.item as IItem}
-          buttons={[
-            {
-              onClick: () => this.addItem(this.state.item as IItem),
-              nodeOrLabel: "Add",
-              buttonStyle: ButtonStyle.Primary
-            }
-          ]}
+          renderButtons={(
+            isDirty: boolean,
+            isValid: boolean,
+            validate: () => boolean,
+            item: IItem
+          ) => (
+            <FormButton
+              button={{
+                nodeOrLabel: "Add",
+                onClick: () => {
+                  if (isDirty && validate()) {
+                    this.addItem(item);
+                  }
+                },
+                buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
+              }}
+            />
+          )}
         />
       </Page>
     );
@@ -74,8 +85,7 @@ export class CreateItemPage extends React.PureComponent<
         NotificationStore.instance.addNotification({
           messageOrNode: (
             <span>
-              Successfully created item &nbsp;
-              <Link to={`/items/${i._id}`}>{i.title}</Link>
+              Successfully created item <Link to={`/items/${i._id}`}>{i.title}</Link>
             </span>
           ),
           kind: NotificationKind.Success,

@@ -3,14 +3,14 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { Subscription } from "rxjs";
 import styled from "styled-components";
-import { ItemStore } from "../../../items/ItemStore";
-import { ErrorBoundary } from "../../ErrorBoundary";
-import { IDropDownItem } from "../../searchBox/dropDown/IDropDownItem";
-import { IDropDownItemGroup } from "../../searchBox/dropDown/IDropDownItemGroup";
-import { KeywordDropDownItem } from "../../searchBox/dropDown/items/KeywordDropDownItem";
-import { SearchBox } from "../../searchBox/SearchBox";
-import { FieldWrapper } from "./FieldWrapper";
-import { IFieldProps } from "./IFieldProps";
+import { ItemStore } from "../../../../items/ItemStore";
+import { ErrorBoundary } from "../../../ErrorBoundary";
+import { IDropDownItem } from "../../../searchBox/dropDown/IDropDownItem";
+import { IDropDownItemGroup } from "../../../searchBox/dropDown/IDropDownItemGroup";
+import { KeywordDropDownItem } from "../../../searchBox/dropDown/items/KeywordDropDownItem";
+import { SearchBox } from "../../../searchBox/SearchBox";
+import { FieldWrapper } from "../FieldWrapper";
+import { IFieldProps } from "../IFieldProps";
 
 export interface IKeywordFieldProps extends IFieldProps<IKeyword[]> {}
 
@@ -38,10 +38,7 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
     const keywords: IKeyword[] = this.props.value || [];
 
     return (
-      <FieldWrapper
-        label={this.props.label}
-        doRender={!this.props.isReadOnly || keywords.length > 0}
-      >
+      <FieldWrapper label={this.props.label} validationError={this.props.validationMessage}>
         {this.props.isReadOnly ? (
           keywords.map(k => k.name).join(", ")
         ) : (

@@ -3,36 +3,44 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect } from "react-router";
 import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
-import { ConfirmableButton } from "./buttons/ConfirmableButton";
 import { ButtonStyle, FormButton } from "./buttons/FormButton";
-import { IButton } from "./buttons/IButton";
-import { IConfirmableButton } from "./buttons/IConfirmableButton";
-import { KeywordField } from "./fields/KeywordField";
-import { MultiLineTextField } from "./fields/MultiLineTextField";
-import { SelectField } from "./fields/SelectField";
-import { TextField } from "./fields/TextField";
+import { KeywordField } from "./fields/keyword/KeywordField";
+import { SelectField } from "./fields/select/SelectField";
+import { MultiLineTextField } from "./fields/text/MultiLineTextField";
+import { TextField } from "./fields/text/TextField";
 import { FormButtonContainer, FormContainer, FormFieldContainer } from "./Form.StyledComponents";
+import { FormValidator } from "./validation/FormValidator";
+import { IValidatedFields } from "./validation/IValidatedFields";
 
 export interface IFormProps {
   item: IItem | undefined;
-  buttons: Array<IButton | IConfirmableButton>;
-  cancelButtonLabel?: string;
+
   isReadonly: boolean;
+
+  renderButtons(
+    isDirty: boolean,
+    isValid: boolean,
+    validate: () => boolean,
+    item: IItem
+  ): ReactNode;
 }
 
 interface IFormState {
   item: IItem;
+  validatedFields: IValidatedFields;
+  isValid: boolean;
+  isDirty: boolean;
   isClose: boolean;
 }
 
 export class Form extends React.Component<IFormProps, IFormState> {
+  private readonly initialItemJson: string;
+
   public constructor(props: IFormProps) {
     super(props);
 
-    this.state = {
-      item: JSON.parse(JSON.stringify(props.item || {})),
-      isClose: false
-    };
+    this.initialItemJson = JSON.stringify(props.item);
+    this.state = this.createState(JSON.parse(this.initialItemJson), {});
   }
 
   public render(): ReactNode {
@@ -52,47 +60,51 @@ export class Form extends React.Component<IFormProps, IFormState> {
             label={"Item Kind"}
             value={item.itemKind}
             valueLabel={ItemKindRegistrationManager.getItemKindLabel(item.itemKind)}
-            onValueChange={(value: ItemKind) => this.setNewState("itemKind", value)}
+            onValueChange={(value: ItemKind) => this.onValueChange("itemKind", value)}
+            validationMessage={FormValidator.getValidationMessage(
+              this.state.validatedFields,
+              "itemKind"
+            )}
             options={ItemKindRegistrationManager.getItemKindOptions()}
             defaultKey={item.itemKind}
             isReadOnly={this.props.isReadonly}
           />
-          {!this.props.isReadonly && (
-            <TextField
-              label={"Title"}
-              onValueChange={(value: string) => this.setNewState("title", value)}
-              value={item.title}
-              isReadOnly={this.props.isReadonly}
-            />
-          )}
+          <TextField
+            label={"Title"}
+            onValueChange={(value: string) => this.onValueChange("title", value)}
+            validationMessage={FormValidator.getValidationMessage(
+              this.state.validatedFields,
+              "title"
+            )}
+            value={item.title}
+            isReadOnly={this.props.isReadonly}
+          />
           <MultiLineTextField
             label={"Description"}
-            onValueChange={(value: string) => this.setNewState("description", value)}
+            onValueChange={(value: string) => this.onValueChange("description", value)}
             value={item.description}
             isReadOnly={this.props.isReadonly}
           />
           {this.getKindSpecificFields(item)}
           <KeywordField
             label={"Keywords"}
-            onValueChange={(value: IKeyword[]) => this.setNewState("keywords", value)}
+            onValueChange={(value: IKeyword[]) => this.onValueChange("keywords", value)}
             value={item.keywords || []}
             isReadOnly={this.props.isReadonly}
           />
         </FormFieldContainer>
         <FormButtonContainer>
-          {(this.props.buttons || []).map(
-            (b: IButton | IConfirmableButton, i: number) =>
-              Form.isConfirmationButton(b) ? (
-                <ConfirmableButton key={i} confirmableButton={b} />
-              ) : (
-                <FormButton key={i} button={b} />
-              )
+          {this.props.renderButtons(
+            this.state.isDirty,
+            this.state.isValid,
+            () => this.validateItem(item),
+            item
           )}
           <FormButton
             key={"Cancel"}
             button={{
-              onClick: this.onClose,
-              nodeOrLabel: this.props.cancelButtonLabel || "Discard",
+              onClick: (): void => this.setState({ isClose: true }),
+              nodeOrLabel: this.state.isDirty ? "Discard" : "Close",
               buttonStyle: ButtonStyle.Secondary
             }}
           />
@@ -101,30 +113,57 @@ export class Form extends React.Component<IFormProps, IFormState> {
     );
   }
 
+  private validateItem(item: IItem): boolean {
+    const validatedFields = FormValidator.validateItem(item);
+    const isValid: boolean = Object.keys(validatedFields).length === 0;
+
+    this.setState({
+      validatedFields: validatedFields,
+      isValid: isValid
+    });
+
+    return isValid;
+  }
+
   private getKindSpecificFields(item: IItem): ReactNode {
     return !item
       ? null
       : ItemKindRegistrationManager.resolve(item.itemKind).getEditFormFields(
           item,
           this.props.isReadonly,
-          this.setNewState
+          this.state.validatedFields,
+          this.onValueChange
         );
   }
 
-  private onClose = (): void => {
-    this.setState({ isClose: true });
-  };
+  private onValueChange = (fieldName: string, value: any): void => {
+    this.setState((prevState: IFormState) => {
+      const updatedField: any = {};
+      updatedField[fieldName] = value;
+      const updatedItem = { ...prevState.item, ...updatedField };
 
-  private setNewState = (fieldName: string, value: any): void => {
-    this.setState(prevState => {
-      const updateField: any = {};
-      updateField[fieldName] = value;
+      const updatedValidations = { ...prevState.validatedFields };
 
-      return { item: { ...prevState.item, ...updateField } };
+      const validationMessage: string = FormValidator.validateField(updatedItem, fieldName);
+      if (validationMessage) {
+        updatedValidations[fieldName] = validationMessage;
+      } else {
+        delete updatedValidations[fieldName];
+      }
+
+      return this.createState(updatedItem, updatedValidations);
     });
   };
 
-  private static isConfirmationButton(b: any): b is IConfirmableButton {
-    return !!(b as IConfirmableButton).confirmationButtonNodeOrLabel;
+  private createState(item: IItem, validatedFields: IValidatedFields): IFormState {
+    return {
+      item: item,
+      validatedFields: validatedFields,
+      isClose: false,
+      isDirty: JSON.stringify(item) !== this.initialItemJson,
+      isValid: Object.keys(validatedFields).every((key: string) => {
+        return !validatedFields[key];
+      })
+    };
   }
 }

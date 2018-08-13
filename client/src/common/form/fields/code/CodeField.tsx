@@ -1,7 +1,7 @@
 import * as React from "react";
+import { FieldWrapper } from "../FieldWrapper";
+import { IFieldProps } from "../IFieldProps";
 import { CodeEditor, CodeLanguage } from "./CodeEditor";
-import { FieldWrapper } from "./FieldWrapper";
-import { IFieldProps } from "./IFieldProps";
 
 export interface ICodeFieldProps extends IFieldProps<string> {
   language: CodeLanguage;
@@ -9,7 +9,7 @@ export interface ICodeFieldProps extends IFieldProps<string> {
 
 export const CodeField: React.SFC<ICodeFieldProps> = (props: ICodeFieldProps) => {
   return (
-    <FieldWrapper label={props.label} doRender={!props.isReadOnly || !!props.value}>
+    <FieldWrapper label={props.label} validationError={props.validationMessage}>
       <CodeEditor
         language={props.language || CodeLanguage.Json}
         isReadOnly={props.isReadOnly}

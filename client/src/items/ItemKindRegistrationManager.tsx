@@ -1,5 +1,5 @@
 import { IItem, ItemKind } from "engraved-shared";
-import { ISelectFieldOptions } from "../common/form/fields/SelectField";
+import { ISelectFieldOptions } from "../common/form/fields/select/SelectField";
 import { CodeItemRegistration } from "./code/CodeItemRegistration";
 import { IItemKindRegistration } from "./IItemKindRegistration";
 import { NoteItemRegistration } from "./note/NoteItemRegistration";
