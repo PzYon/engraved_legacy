@@ -13,11 +13,11 @@ const ContainerDiv = styled.div`
   width: 100%;
 `;
 
-interface IInnerContainerDiv {
+interface IInnerContainerDivStyle {
   isHighlight: boolean;
 }
 
-const InnerContainerDiv = styled.div<IInnerContainerDiv>`
+const InnerContainerDiv = styled.div<IInnerContainerDivStyle>`
   background-color: ${StyleConstants.colors.ultraDiscreet};
   border: 1px solid ${StyleConstants.colors.discreet};
   overflow: hidden;
@@ -86,11 +86,24 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
           <Input
             type="text"
             value={this.props.searchValue}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => this.props.onChange(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              this.props.onChange(e.target.value);
+              this.setState({
+                showDropDown: true
+              });
+            }}
             onFocus={() =>
-              this.setState({ showDropDown: true, hidePlaceholder: true, hasFocus: true })
+              this.setState({
+                showDropDown: true,
+                hidePlaceholder: true,
+                hasFocus: true
+              })
             }
-            onBlur={() => this.setState({ hasFocus: false })}
+            onBlur={() =>
+              this.setState({
+                hasFocus: false
+              })
+            }
             placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
           />
         </InnerContainerDiv>
