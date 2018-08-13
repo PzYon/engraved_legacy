@@ -73,13 +73,13 @@ export const Select = styled.select`
   }
 `;
 
-export interface IStyledButtonProps {
+export interface IButtonStyle {
   text: string;
   background: string;
   border: string;
 }
 
-export const Button: any = styled.button<IStyledButtonProps>`
+export const Button: any = styled.button<IButtonStyle>`
   background-color: ${p => p.background};
   color: ${p => p.text};
   border: 1px solid ${p => p.border};

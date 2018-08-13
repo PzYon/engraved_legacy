@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import { StyleConstants } from "../../../styling/StyleConstants";
-import { Button, IStyledButtonProps } from "../Form.StyledComponents";
+import { Button, IButtonStyle } from "../Form.StyledComponents";
 import { IButton } from "./IButton";
 
 export enum ButtonStyle {
@@ -32,7 +32,7 @@ export class FormButton extends React.Component<IButtonProps> {
     );
   }
 
-  private getColors = (buttonStyle: ButtonStyle): IStyledButtonProps => {
+  private getColors = (buttonStyle: ButtonStyle): IButtonStyle => {
     switch (buttonStyle) {
       case ButtonStyle.Green:
         return {
