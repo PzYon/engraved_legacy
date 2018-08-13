@@ -1,5 +1,5 @@
 import { ICodeItem } from "engraved-shared";
-import { CodeLanguage } from "../../common/form/fields/CodeEditor";
+import { CodeLanguage } from "../../common/form/fields/code/CodeEditor";
 import { BaseItem } from "../BaseItem";
 
 export class CodeItem extends BaseItem implements ICodeItem {

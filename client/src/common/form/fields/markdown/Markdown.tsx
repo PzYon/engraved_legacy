@@ -2,7 +2,7 @@ import * as MarkdownIt from "markdown-it";
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { StyleConstants } from "../../../styling/StyleConstants";
+import { StyleConstants } from "../../../../styling/StyleConstants";
 
 const mdItToc = require("markdown-it-table-of-contents");
 const mdItAnchor = require("markdown-it-anchor");

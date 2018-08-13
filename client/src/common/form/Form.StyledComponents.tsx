@@ -8,7 +8,6 @@ export const FormContainer = styled.div`
   textarea,
   select {
     border: 1px solid ${StyleConstants.colors.discreet};
-    margin-bottom: 10px;
     vertical-align: top;
 
     &:focus {
@@ -49,16 +48,16 @@ export const FormLabel = styled.label`
   padding-bottom: 1rem;
 `;
 
-export const BaseCell = styled.span``;
-
-export const FormLabelSpan = BaseCell.extend`
-  display: block;
+export const FormLabelDiv = styled.div`
   padding-bottom: 0.2rem;
   font-size: ${StyleConstants.font.small};
 n`;
 
-export const FormFieldSpan = BaseCell.extend`
-  width: 100%;
+export const FormFieldDiv = styled.div``;
+
+export const FormValidationErrorDiv = styled.div`
+  color: ${StyleConstants.colors.error.background};
+  font-size: ${StyleConstants.font.small};
 `;
 
 export const Input = styled.input``;
@@ -80,11 +79,12 @@ export interface IStyledButtonProps {
   border: string;
 }
 
-export const Button = styled.button<IStyledButtonProps>`
+export const Button: any = styled.button<IStyledButtonProps>`
   background-color: ${p => p.background};
   color: ${p => p.text};
   border: 1px solid ${p => p.border};
   padding: 0.4rem 0.6rem;
+  min-width: 5rem;
   cursor: pointer;
   ${StyleUtil.normalizeAnchors("inherit")};
 

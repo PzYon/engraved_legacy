@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ChangeEvent, ReactNode } from "react";
-import { Select } from "../Form.StyledComponents";
-import { FieldWrapper } from "./FieldWrapper";
-import { IFieldProps } from "./IFieldProps";
+import { Select } from "../../Form.StyledComponents";
+import { FieldWrapper } from "../FieldWrapper";
+import { IFieldProps } from "../IFieldProps";
 
 export interface ISelectFieldOptions<T> {
   label: string;
@@ -18,7 +18,7 @@ export interface ISelectFieldProps<T> extends IFieldProps<T> {
 export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
   public render(): ReactNode {
     return (
-      <FieldWrapper label={this.props.label} doRender={!this.props.isReadOnly || this.props.value}>
+      <FieldWrapper label={this.props.label} validationError={this.props.validationMessage}>
         {this.props.isReadOnly ? (
           this.props.valueLabel
         ) : (

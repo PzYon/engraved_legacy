@@ -6,7 +6,7 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { UnControlled as CodeMirror } from "react-codemirror2";
 import styled from "styled-components";
-import { StyleConstants } from "../../../styling/StyleConstants";
+import { StyleConstants } from "../../../../styling/StyleConstants";
 
 const CodeEditorContainer = styled.div`
   .CodeMirror {
@@ -15,7 +15,6 @@ const CodeEditorContainer = styled.div`
     font-family: ${StyleConstants.font.codeFamily};
     width: calc(100% - 2px);
     height: auto;
-    margin-bottom: 10px;
   }
 `;
 

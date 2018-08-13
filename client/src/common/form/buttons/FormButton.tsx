@@ -8,7 +8,8 @@ export enum ButtonStyle {
   Primary,
   Secondary,
   Red,
-  Green
+  Green,
+  Disabled
 }
 
 export interface IButtonProps {
@@ -21,6 +22,9 @@ export class FormButton extends React.Component<IButtonProps> {
       <Button
         type="button"
         onClick={this.props.button.onClick}
+        {...(this.props.button.buttonStyle === ButtonStyle.Disabled
+          ? { disabled: "disabled" }
+          : null)}
         {...this.getColors(this.props.button.buttonStyle)}
       >
         {this.props.button.nodeOrLabel}
@@ -53,6 +57,12 @@ export class FormButton extends React.Component<IButtonProps> {
           text: StyleConstants.colors.accent,
           background: StyleConstants.colors.pageBackground,
           border: StyleConstants.colors.accent
+        };
+      case ButtonStyle.Disabled:
+        return {
+          text: StyleConstants.colors.font,
+          background: StyleConstants.colors.discreet,
+          border: StyleConstants.colors.font
         };
     }
   };
