@@ -7,7 +7,7 @@ const Container = styled.span`
   top: 1rem;
   right: 0.8rem;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 1rem;
   color: ${StyleConstants.colors.accent};
   transition: color 0.3s;
