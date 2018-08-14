@@ -14,9 +14,7 @@ const List = styled.ul`
   padding: 0;
 `;
 
-const ListItem = styled.li`
-  overflow: hidden;
-`;
+const ListItem = styled.li``;
 
 interface IListOfItemsState {
   items: IItem[];

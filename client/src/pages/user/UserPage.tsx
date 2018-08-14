@@ -10,7 +10,7 @@ import { If } from "../../common/If";
 import { Page } from "../Page";
 
 const Highlight = styled.span`
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 interface IRouterParams {
@@ -55,7 +55,7 @@ export class UserPage extends React.Component<RouteComponentProps<IRouterParams>
           value={this.state.stats}
           render={() => (
             <p>
-              You currently have <Highlight>{this.state.stats.itemCount}</Highlight> items and{" "}
+              You've created <Highlight>{this.state.stats.itemCount}</Highlight> items and{" "}
               <Highlight>{this.state.stats.keywordCount}</Highlight> keywords.
             </p>
           )}

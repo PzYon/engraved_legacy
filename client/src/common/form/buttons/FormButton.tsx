@@ -60,9 +60,9 @@ export class FormButton extends React.Component<IButtonProps> {
         };
       case ButtonStyle.Disabled:
         return {
-          text: StyleConstants.colors.font,
+          text: "white",
           background: StyleConstants.colors.discreet,
-          border: StyleConstants.colors.font
+          border: StyleConstants.colors.discreet
         };
     }
   };

@@ -21,15 +21,15 @@ const InnerDiv = styled.div`
 
 const TitleDiv = styled.div`
   font-size: 60px;
-  font-weight: bold;
+  font-weight: 500;
   margin-bottom: 20px;
 `;
 
 const MessageDiv = styled.div`
-  font-size: 25px;
+  font-size: ${StyleConstants.font.large};
 
   ${StyleUtil.normalizeAnchors("white")} a {
-    font-weight: bold;
+    font-weight: 500;
   }
 `;
 

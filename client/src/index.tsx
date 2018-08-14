@@ -21,8 +21,9 @@ const injectGlobalStyles = (): void => {
         textarea,
         button,
         select {
-            font-size: ${StyleConstants.font.regular};
             font-family: ${StyleConstants.font.family};
+            font-size: ${StyleConstants.font.regular};
+            font-weight: 400;
             color: ${StyleConstants.colors.font};
             background-color: white;
         }

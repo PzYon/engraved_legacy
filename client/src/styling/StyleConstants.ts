@@ -1,7 +1,7 @@
 const accentColor = "#0099CC";
-const discreetColor = "#DDD";
+const discreetColor = "#CCC";
 const ultraDiscreetColor = "#F7F7F7";
-const darkColor = "#24292E";
+const darkColor = "#20232A";
 const whiteColor = "#FFFFFF";
 
 export const StyleConstants = {
@@ -14,7 +14,8 @@ export const StyleConstants = {
   font: {
     small: "0.8rem",
     regular: "18px",
-    large: "1.2rem",
+    large: "1.3rem",
+    largest: "1.5rem",
     family: "'IBM Plex Sans', sans-serif",
     codeFamily: "monospace"
   },

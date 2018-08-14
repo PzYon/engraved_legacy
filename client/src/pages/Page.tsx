@@ -14,8 +14,8 @@ const ContainerDiv = styled.div`
 `;
 
 const Title = styled.h2`
-  font-weight: bold;
-  font-size: 1.5rem;
+  font-weight: 300;
+  font-size: ${StyleConstants.font.largest};
   color: ${StyleConstants.colors.accent};
   margin-top: 0;
 `;

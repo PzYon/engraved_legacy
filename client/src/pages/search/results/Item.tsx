@@ -14,7 +14,7 @@ import { StyleConstants } from "../../../styling/StyleConstants";
 const Root = styled.div`
   border: 1px solid ${StyleConstants.colors.discreet};
   border-radius: ${StyleConstants.borderRadius};
-  margin: ${StyleConstants.defaultSpacing} 0;
+  margin: 1.5rem 0;
   padding: ${StyleConstants.defaultSpacing};
   box-shadow: ${StyleConstants.defaultBoxShadow};
   opacity: 0;
@@ -22,11 +22,15 @@ const Root = styled.div`
 `;
 
 const Paragraph = styled.p`
-  margin: 0.4rem 0;
+  margin: 0.5rem 0;
 
   .ngrvd-keywords {
     margin-left: -${KeywordMargin};
   }
+`;
+
+const DescriptionParagraph = Paragraph.extend`
+  font-weight: 300;
 `;
 
 const SpecificPropertiesParagraph = Paragraph.extend`
@@ -47,7 +51,7 @@ const Property = styled.span`
 `;
 
 const Title = styled.div`
-  font-weight: bold;
+  font-weight: 400;
   font-size: ${StyleConstants.font.large};
 `;
 
@@ -70,7 +74,7 @@ export class Item extends React.PureComponent<IItemProps> {
         <Title>
           <Link to={`/items/${item._id || ""}`}>{item.title}</Link>
         </Title>
-        <Paragraph>{item.description}</Paragraph>
+        <DescriptionParagraph>{item.description}</DescriptionParagraph>
         <Paragraph>
           <Keywords keywords={item.keywords} onClick={Item.toggleSelectedKeyword} />
         </Paragraph>
