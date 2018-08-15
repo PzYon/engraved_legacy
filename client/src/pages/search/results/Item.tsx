@@ -76,7 +76,11 @@ export class Item extends React.PureComponent<IItemProps> {
         </Title>
         <DescriptionParagraph>{item.description}</DescriptionParagraph>
         <Paragraph>
-          <Keywords keywords={item.keywords} onClick={Item.toggleSelectedKeyword} />
+          <Keywords
+            keywords={item.keywords}
+            onClick={Item.toggleSelectedKeyword}
+            orderAlphabetically={true}
+          />
         </Paragraph>
         <SpecificPropertiesParagraph>
           <Property>

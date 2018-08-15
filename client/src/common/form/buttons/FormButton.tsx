@@ -20,7 +20,7 @@ export class FormButton extends React.Component<IButtonProps> {
   public render(): ReactNode {
     return (
       <Button
-        type="button"
+        className={"ngrvd-button"}
         onClick={this.props.button.onClick}
         {...(this.props.button.buttonStyle === ButtonStyle.Disabled
           ? { disabled: "disabled" }

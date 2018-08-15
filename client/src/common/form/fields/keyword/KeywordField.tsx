@@ -7,7 +7,6 @@ import { ItemStore } from "../../../../items/ItemStore";
 import { ErrorBoundary } from "../../../ErrorBoundary";
 import { IDropDownItem } from "../../../searchBox/dropDown/IDropDownItem";
 import { IDropDownItemGroup } from "../../../searchBox/dropDown/IDropDownItemGroup";
-import { KeywordDropDownItem } from "../../../searchBox/dropDown/items/KeywordDropDownItem";
 import { SearchBox } from "../../../searchBox/SearchBox";
 import { FieldWrapper } from "../FieldWrapper";
 import { IFieldProps } from "../IFieldProps";
@@ -16,7 +15,7 @@ export interface IKeywordFieldProps extends IFieldProps<IKeyword[]> {}
 
 interface IKeywordFieldState {
   searchValue: string;
-  dropDownItems: KeywordDropDownItem[];
+  dropDownItems: Array<IDropDownItem<IKeyword>>;
   showDropDown: boolean;
 }
 
@@ -81,7 +80,13 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
       this.findSubscription = ItemStore.instance.searchKeywords(searchText).subscribe(
         (keywords: IKeyword[]) => {
           this.setState({
-            dropDownItems: (keywords || []).map(k => new KeywordDropDownItem(k)),
+            dropDownItems: (keywords || []).map(k => {
+              return {
+                item: k,
+                key: k.name,
+                label: k.name
+              };
+            }),
             showDropDown: true
           });
         },
@@ -118,7 +123,7 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
         items: [
           {
             item: { name: name, user_id: null },
-            nodeOrLabel: `Create keyword "${name}"`,
+            label: `Create keyword "${name}"`,
             key: name
           }
         ],

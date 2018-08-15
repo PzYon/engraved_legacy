@@ -1,13 +1,12 @@
 import { IKeyword, ItemKind } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
+import { Redirect } from "react-router";
 import styled, { css } from "styled-components";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
 import { IRedirection } from "../../common/IRedirection";
 import { IDropDownItem } from "../../common/searchBox/dropDown/IDropDownItem";
 import { IDropDownItemGroup } from "../../common/searchBox/dropDown/IDropDownItemGroup";
-import { KeywordDropDownItem } from "../../common/searchBox/dropDown/items/KeywordDropDownItem";
-import { RedirectDropDownItem } from "../../common/searchBox/dropDown/items/RedirectDropDownItem";
 import { SearchBox } from "../../common/searchBox/SearchBox";
 import { ItemStore } from "../../items/ItemStore";
 import { StyleConstants } from "../../styling/StyleConstants";
@@ -36,8 +35,9 @@ interface IGlobalSearchBoxState {
   keywordSearchValue: string;
   showDropDown: boolean;
   keywordDropDownItems: Array<IDropDownItem<IKeyword>>;
-  actionDropDownItems: RedirectDropDownItem[];
+  actionDropDownItems: Array<IDropDownItem<IRedirection>>;
   selectedKeywords: IKeyword[];
+  redirectToUrl: string;
 }
 
 export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
@@ -52,7 +52,8 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
       showDropDown: true,
       actionDropDownItems: [],
       keywordDropDownItems: [],
-      selectedKeywords: []
+      selectedKeywords: [],
+      redirectToUrl: null
     };
   }
 
@@ -63,6 +64,10 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   }
 
   public render(): ReactNode {
+    if (this.state.redirectToUrl) {
+      return <Redirect to={this.state.redirectToUrl} push={true} />;
+    }
+
     const dropDownItemGroups = this.getDropDownItemGroups();
 
     return (
@@ -96,18 +101,22 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   };
 
   private getDropDownItemGroups = (): IDropDownItemGroup[] => {
-    const suggestionGroups: IDropDownItemGroup[] = [];
+    const dropDownGroups: IDropDownItemGroup[] = [];
 
     if (this.state.actionDropDownItems.length) {
-      suggestionGroups.push({
+      dropDownGroups.push({
         title: "Actions",
         items: this.state.actionDropDownItems,
-        onSelectItem: () => this.setState({ showDropDown: false })
+        onSelectItem: (item: IDropDownItem<IRedirection>) => {
+          this.setState({
+            redirectToUrl: item.item.url
+          });
+        }
       });
     }
 
     if (this.state.keywordDropDownItems.length) {
-      suggestionGroups.push({
+      dropDownGroups.push({
         title: "Keywords",
         items: this.state.keywordDropDownItems,
         onSelectItem: (item: IDropDownItem<IKeyword>) => {
@@ -116,7 +125,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
       });
     }
 
-    return suggestionGroups;
+    return dropDownGroups;
   };
 
   private handleKeywordSelect = (keyword: IKeyword) => {
@@ -154,7 +163,13 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
         (keywords: IKeyword[]) => {
           this.setState({
             keywordSearchValue: searchText,
-            keywordDropDownItems: (keywords || []).map(k => new KeywordDropDownItem(k)),
+            keywordDropDownItems: (keywords || []).map(k => {
+              return {
+                item: k,
+                label: k.name,
+                key: k.name
+              };
+            }),
             showDropDown: true
           });
         },
@@ -167,19 +182,23 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     const actions: Array<IDropDownItem<IRedirection>> = [];
 
     if ((searchText && searchText.startsWith("http://")) || searchText.startsWith("https://")) {
-      actions.push(
-        new RedirectDropDownItem({
-          url: `/items/create/${ItemKind.Url}/${encodeURIComponent(searchText)}`,
-          label: "Create URL"
-        })
-      );
+      const url = `/items/create/${ItemKind.Url}/${encodeURIComponent(searchText)}`;
+      actions.push({
+        item: {
+          url: url
+        },
+        key: url,
+        label: "Create URL"
+      });
     } else if (searchText) {
-      actions.push(
-        new RedirectDropDownItem({
-          url: `/items/create/${ItemKind.Note}/${encodeURIComponent(searchText)}`,
-          label: `Create note titled "${searchText}"`
-        })
-      );
+      const url = `/items/create/${ItemKind.Note}/${encodeURIComponent(searchText)}`;
+      actions.push({
+        item: {
+          url: url
+        },
+        key: url,
+        label: `Create note titled "${searchText}"`
+      });
     }
 
     this.setState({

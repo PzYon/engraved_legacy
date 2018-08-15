@@ -89,6 +89,10 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
   public componentDidMount(): void {
     this.keyUpSubscription = fromEvent(document, "keyup").subscribe(
       (keyboardEvent: KeyboardEvent) => {
+        if (!this.props.groups || !this.props.groups.length) {
+          return;
+        }
+
         switch (keyboardEvent.key) {
           case "ArrowUp":
             this.setState(this.getNextState(ArrowDirection.Up));
@@ -99,7 +103,9 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
             break;
 
           case "Enter":
-            this.state.activeGroup.onSelectItem(this.state.activeItem);
+            if (this.state.activeGroup && this.state.activeItem) {
+              this.state.activeGroup.onSelectItem(this.state.activeItem);
+            }
             break;
 
           case "Escape":
@@ -142,11 +148,7 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
                       onMouseEnter={() => this.setState({ activeItem: item })}
                       onMouseLeave={() => this.setState({ activeItem: null })}
                     >
-                      {typeof item.nodeOrLabel === "string" ? (
-                        <a href={"javascript: void(0);"}>{item.nodeOrLabel}</a>
-                      ) : (
-                        item.nodeOrLabel
-                      )}
+                      <a href={"javascript: void(0);"}>{item.label}</a>
                     </GroupItem>
                   );
                 })}
