@@ -69,32 +69,34 @@ export class EditItemPage extends React.Component<
             validate: () => boolean,
             updatedItem: IItem
           ) => {
-            return [
-              <FormButton
-                key={"Update"}
-                button={{
-                  nodeOrLabel: "Update",
-                  onClick: () => {
-                    if (isDirty && validate()) {
-                      this.updateItem(updatedItem);
-                    }
-                  },
-                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
-                }}
-              />,
-              <ConfirmableButton
-                key={"Delete"}
-                confirmableButton={{
-                  initialButtonNodeOrLabel: "Delete",
-                  initialButtonStyle: ButtonStyle.Secondary,
-                  confirmationDialogTitle: `Do you really want to delete "${updatedItem.title}"?`,
-                  confirmationButtonNodeOrLabel: "Yep, delete it.",
-                  confirmationButtonStyle: ButtonStyle.Red,
-                  cancelButtonNodeOrLabel: "No, keep it.",
-                  onClick: () => this.deleteItem(updatedItem)
-                }}
-              />
-            ];
+            return (
+              <>
+                <FormButton
+                  key={"Update"}
+                  button={{
+                    nodeOrLabel: "Update",
+                    onClick: () => {
+                      if (isDirty && validate()) {
+                        this.updateItem(updatedItem);
+                      }
+                    },
+                    buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
+                  }}
+                />
+                <ConfirmableButton
+                  key={"Delete"}
+                  confirmableButton={{
+                    initialButtonNodeOrLabel: "Delete",
+                    initialButtonStyle: ButtonStyle.Secondary,
+                    confirmationDialogTitle: `Do you really want to delete "${updatedItem.title}"?`,
+                    confirmationButtonNodeOrLabel: "Yep, delete it.",
+                    confirmationButtonStyle: ButtonStyle.Red,
+                    cancelButtonNodeOrLabel: "No, keep it.",
+                    onClick: () => this.deleteItem(updatedItem)
+                  }}
+                />
+              </>
+            );
           }}
         />
       </Page>

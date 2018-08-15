@@ -18,28 +18,30 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
     validatedFields: IValidatedFields,
     callback: (key: string, value: any) => void
   ): React.ReactNode {
-    return [
-      <SelectField
-        options={CodeItemRegistration.getCodeLanguageOptions()}
-        label={"Language"}
-        value={item.codeLanguage}
-        valueLabel={CodeItemRegistration.getCodeLanguageLabel(item.codeLanguage)}
-        onValueChange={(value: string) => callback("codeLanguage", value)}
-        validationMessage={FormValidator.getValidationMessage(validatedFields, "codeLanguage")}
-        isReadOnly={isReadOnly}
-        defaultKey={item.codeLanguage}
-        key={"language"}
-      />,
-      <CodeField
-        label={"Code"}
-        language={item.codeLanguage as CodeLanguage}
-        onValueChange={(value: string) => callback("code", value)}
-        validationMessage={FormValidator.getValidationMessage(validatedFields, "code")}
-        value={item.code}
-        isReadOnly={isReadOnly}
-        key={"code"}
-      />
-    ];
+    return (
+      <>
+        <SelectField
+          options={CodeItemRegistration.getCodeLanguageOptions()}
+          label={"Language"}
+          value={item.codeLanguage}
+          valueLabel={CodeItemRegistration.getCodeLanguageLabel(item.codeLanguage)}
+          onValueChange={(value: string) => callback("codeLanguage", value)}
+          validationMessage={FormValidator.getValidationMessage(validatedFields, "codeLanguage")}
+          isReadOnly={isReadOnly}
+          defaultKey={item.codeLanguage}
+          key={"language"}
+        />
+        <CodeField
+          label={"Code"}
+          language={item.codeLanguage as CodeLanguage}
+          onValueChange={(value: string) => callback("code", value)}
+          validationMessage={FormValidator.getValidationMessage(validatedFields, "code")}
+          value={item.code}
+          isReadOnly={isReadOnly}
+          key={"code"}
+        />
+      </>
+    );
   }
 
   public getFieldValidators(): IFieldValidators {

@@ -16,6 +16,7 @@ const Container = styled.span`
 export interface IKeywordsProps {
   keywords: IKeyword[];
   onClick?: (keyword: IKeyword) => void;
+  orderAlphabetically?: true;
 }
 
 export const Keywords: React.SFC<IKeywordsProps> = (props: IKeywordsProps) => {
@@ -24,9 +25,14 @@ export const Keywords: React.SFC<IKeywordsProps> = (props: IKeywordsProps) => {
       value={props.keywords}
       render={() => (
         <Container className={"ngrvd-keywords"}>
-          {props.keywords.map(k => (
-            <Keyword key={k._id || k.name} keyword={k} onClick={props.onClick} />
-          ))}
+          {props.keywords
+            .sort(
+              (a: IKeyword, b: IKeyword) =>
+                props.orderAlphabetically ? ((a.name as any) > (b.name as any) ? 1 : -1) : 0
+            )
+            .map(k => (
+              <Keyword key={k._id || k.name} keyword={k} onClick={props.onClick} />
+            ))}
         </Container>
       )}
     />

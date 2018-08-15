@@ -16,11 +16,6 @@ export const FormContainer = styled.div`
     }
   }
 
-  button:hover {
-    outline: none;
-    box-shadow: ${StyleConstants.defaultBoxShadow};
-  }
-
   input,
   textarea {
     padding: ${StyleConstants.formElementPadding};
@@ -79,23 +74,30 @@ export interface IButtonStyle {
   border: string;
 }
 
-export const Button: any = styled.button<IButtonStyle>`
+export const Button: any = styled.span<IButtonStyle>`
+  display: inline-block;
   background-color: ${p => p.background};
   color: ${p => p.text};
   border: 1px solid ${p => p.border};
   padding: 0.4rem 0.6rem;
   min-width: 5rem;
   cursor: pointer;
+  text-align: center;
   ${StyleUtil.normalizeAnchors("inherit")};
 
   &:focus {
     outline: none;
     box-shadow: ${StyleConstants.defaultBoxShadow};
   }
+
+  &:hover {
+    outline: none;
+    box-shadow: ${StyleConstants.defaultBoxShadow};
+  }
 `;
 
 export const FormButtonContainer = styled.div`
-  button:not(:last-child) {
-    margin-right: 1rem;
+  .ngrvd-button:not(:last-child) {
+    margin-right: ${StyleConstants.defaultSpacing};
   }
 `;
