@@ -1,4 +1,5 @@
 import { json } from "body-parser";
+import compression from "compression";
 import express, { Express } from "express";
 import { Db, MongoClient } from "mongodb";
 import * as path from "path";
@@ -25,6 +26,7 @@ const configureDb = async (client: MongoClient) => {
 const configureExpress = (db: Db) => {
   const app: Express = express();
 
+  app.use(compression());
   app.use(json());
 
   app.use((req, res, next) => {
