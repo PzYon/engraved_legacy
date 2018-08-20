@@ -1,7 +1,7 @@
 import * as MarkdownIt from "markdown-it";
 import * as React from "react";
 import { ReactNode } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { StyleConstants } from "../../../../styling/StyleConstants";
 import { DomUtil } from "../../../DomUtil";
 import { If } from "../../../If";
@@ -101,7 +101,11 @@ const TocDiv = styled.div`
   }
 `;
 
-const MarkupDiv = styled.div``;
+const MarkupDiv = styled.div`
+  .CodeMirror-gutters {
+    border-right-color: ${StyleConstants.colors.discreet};
+  }
+`;
 
 export interface IMarkdownProps {
   markdown: string;

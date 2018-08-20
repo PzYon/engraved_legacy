@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IUser } from "../../../shared/src";
 import { CurrentUser } from "../authentication/CurrentUser";
+import { ItemStore } from "../items/ItemStore";
 import { StyleConstants } from "../styling/StyleConstants";
 import { StyleUtil } from "../styling/StyleUtil";
 import { Typer } from "./Typer";
@@ -52,7 +53,15 @@ export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
     return (
       <HeaderContainerDiv>
         <AppTitle>
-          <Link to={"/"}>{this.state.title}</Link>
+          <Link
+            to={"/"}
+            onClick={() => {
+              ItemStore.instance.resetAndLoad();
+              return true;
+            }}
+          >
+            {this.state.title}
+          </Link>
         </AppTitle>
         <CurrentUserSpan>
           <Link to={"/users/me"}>

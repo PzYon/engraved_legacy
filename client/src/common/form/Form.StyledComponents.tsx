@@ -83,6 +83,7 @@ export const Button: any = styled.span<IButtonStyle>`
   min-width: 5rem;
   cursor: pointer;
   text-align: center;
+  border-radius: ${StyleConstants.borderRadius};
   ${StyleUtil.normalizeAnchors("inherit")};
 
   &:focus {
