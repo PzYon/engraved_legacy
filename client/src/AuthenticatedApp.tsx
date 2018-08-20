@@ -49,14 +49,10 @@ interface IAppState {
 }
 
 export class AuthenticatedApp extends React.Component<{}, IAppState> {
-  public constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      currentUser: null,
-      isLoading: true
-    };
-  }
+  public readonly state: IAppState = {
+    currentUser: null,
+    isLoading: true
+  };
 
   public componentDidMount(): void {
     AuthenticatedServerApi.get("users/me")

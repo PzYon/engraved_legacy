@@ -44,31 +44,27 @@ interface IGlobalSearchBoxState {
 export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
   private findOnTypeTimer: any;
 
-  private keywordsSubscription: Subscription;
+  private keywords$Subscription: Subscription;
 
-  public constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      searchValue: ItemStore.instance.searchText,
-      keywordSearchValue: "",
-      showDropDown: true,
-      actionDropDownItems: [],
-      keywordDropDownItems: [],
-      selectedKeywords: [],
-      redirectToUrl: null
-    };
-  }
+  public readonly state: IGlobalSearchBoxState = {
+    searchValue: ItemStore.instance.searchText,
+    keywordSearchValue: "",
+    showDropDown: true,
+    actionDropDownItems: [],
+    keywordDropDownItems: [],
+    selectedKeywords: [],
+    redirectToUrl: null
+  };
 
   public componentDidMount(): void {
-    this.keywordsSubscription = ItemStore.instance.keywords$.subscribe(keywords =>
+    this.keywords$Subscription = ItemStore.instance.keywords$.subscribe(keywords =>
       this.setState({ selectedKeywords: keywords })
     );
   }
 
   public componentWillUnmount(): void {
-    if (this.keywordsSubscription) {
-      this.keywordsSubscription.unsubscribe();
+    if (this.keywords$Subscription) {
+      this.keywords$Subscription.unsubscribe();
     }
   }
 

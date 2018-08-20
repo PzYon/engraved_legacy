@@ -23,11 +23,9 @@ interface IListOfItemsState {
 export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
   private items$Subscription: Subscription;
 
-  public constructor(props: {}) {
-    super(props);
-
-    this.state = { items: [] };
-  }
+  public readonly state: IListOfItemsState = {
+    items: []
+  };
 
   public componentDidMount(): void {
     this.items$Subscription = ItemStore.instance.items$.subscribe(
