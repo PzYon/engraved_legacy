@@ -40,7 +40,7 @@ export const FormFieldContainer = styled.div``;
 
 export const FormLabel = styled.label`
   display: block;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 `;
 
 export const FormLabelDiv = styled.div`
@@ -93,6 +93,12 @@ export const Button: any = styled.span<IButtonStyle>`
   &:hover {
     outline: none;
     box-shadow: ${StyleConstants.defaultBoxShadow};
+  }
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 `;
 

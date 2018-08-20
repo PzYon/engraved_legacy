@@ -4,11 +4,9 @@ import { StyleConstants } from "../styling/StyleConstants";
 
 const Container = styled.span`
   position: absolute;
-  top: 1rem;
   right: 0.8rem;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: ${StyleConstants.colors.accent};
   transition: color 0.3s;
 
