@@ -11,11 +11,11 @@ import { SearchBox } from "../../common/searchBox/SearchBox";
 import { ItemStore } from "../../items/ItemStore";
 import { StyleConstants } from "../../styling/StyleConstants";
 
-interface IWrapperDivProps {
+interface IWrapperDivStyle {
   showDropDown: boolean;
 }
 
-const WrapperDiv = styled.div<IWrapperDivProps>`
+const WrapperDiv = styled.div<IWrapperDivStyle>`
   .search-box-inner {
     border-radius: ${StyleConstants.borderRadius};
     border: 1px solid ${StyleConstants.colors.discreet};

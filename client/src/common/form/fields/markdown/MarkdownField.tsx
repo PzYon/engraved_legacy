@@ -1,12 +1,31 @@
 import * as React from "react";
 import { ReactNode } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { StyleConstants } from "../../../../styling/StyleConstants";
 import { If } from "../../../If";
 import { CodeEditor, CodeLanguage } from "../code/CodeEditor";
 import { FieldWrapper } from "../FieldWrapper";
 import { IFieldProps } from "../IFieldProps";
 import { Markdown } from "./Markdown";
+
+interface ITogglePreviewContainerStyle {
+  isPreview: boolean;
+}
+
+const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
+  border: 1px solid ${StyleConstants.colors.discreet};
+  background-color: ${StyleConstants.colors.ultraDiscreet};
+  border-bottom: 0;
+  padding: 0.2rem;
+
+  ${p =>
+    p.isPreview
+      ? css`
+          margin-bottom: 0.5rem;
+          border-bottom: 1px solid ${StyleConstants.colors.discreet};
+        `
+      : null};
+`;
 
 const TogglePreviewAnchor = styled.a`
   font-size: ${StyleConstants.font.small};
@@ -34,14 +53,16 @@ export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMar
     return (
       <FieldWrapper label={this.props.label} validationError={this.props.validationMessage}>
         <If
-          value={!this.props.isReadOnly}
+          value={!this.props.isReadOnly && this.props.value && this.props.value.trim().length > 0}
           render={() => (
-            <TogglePreviewAnchor
-              onClick={() => this.setState({ isPreview: !this.state.isPreview })}
-              href={"javascript:void(0)"}
-            >
-              {this.state.isPreview ? "Back to edit mode" : "View preview"}
-            </TogglePreviewAnchor>
+            <TogglePreviewContainer isPreview={this.state.isPreview}>
+              <TogglePreviewAnchor
+                onClick={() => this.setState({ isPreview: !this.state.isPreview })}
+                href={"javascript:void(0)"}
+              >
+                {this.state.isPreview ? "Back to edit mode" : "View preview"}
+              </TogglePreviewAnchor>
+            </TogglePreviewContainer>
           )}
         />
         <If

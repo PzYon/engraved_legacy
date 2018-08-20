@@ -1,31 +1,47 @@
 import * as MarkdownIt from "markdown-it";
 import * as React from "react";
 import { ReactNode } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { StyleConstants } from "../../../../styling/StyleConstants";
+import { DomUtil } from "../../../DomUtil";
+import { If } from "../../../If";
 
 const mdItToc = require("markdown-it-table-of-contents");
 const mdItAnchor = require("markdown-it-anchor");
 
-const Container = styled.div`
+const BaseContainer = styled.div`
+  padding: 0.7rem;
   border: 1px solid ${StyleConstants.colors.discreet};
   background-color: ${StyleConstants.colors.ultraDiscreet};
-  padding: 0.7rem;
+`;
 
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 0.5rem 0;
+interface ITocContainerStyle {
+  isExpanded: boolean;
+}
+
+const TocContainer = BaseContainer.extend<ITocContainerStyle>`
+  padding: 0.2rem 0.2rem 0.2rem 0.7rem;
+  margin-bottom: 0.5rem;
+
+  ul {
+    padding-left: 0.7rem;
   }
+`;
 
+const ContentContainer = BaseContainer.extend`
   h1,
   h2,
   h3 {
+    margin: 1rem 0;
     color: ${StyleConstants.colors.accent};
+  }
+
+  p,
+  h4,
+  h5,
+  h6,
+  li {
+    margin: 0.7rem 0;
   }
 
   h1 {
@@ -41,7 +57,7 @@ const Container = styled.div`
   }
 
   ul {
-    margin: 0;
+    margin: 0.7rem 0;
     padding-left: 1rem;
   }
 
@@ -53,12 +69,23 @@ const Container = styled.div`
     border: 1px solid ${StyleConstants.colors.discreet};
     overflow-y: auto;
   }
+
+  img {
+    max-width: 100%;
+  }
+
+  * > :first-child {
+    margin-top: 0 !important;
+  }
+
+  * > :last-child {
+    margin-bottom: 0 !important;
+  }
 `;
 
-const TocToggler = styled.div`
+const TocToggler = styled.a`
   color: ${StyleConstants.colors.accent};
   font-size: ${StyleConstants.font.small};
-  cursor: pointer;
 `;
 
 const TocDiv = styled.div`
@@ -96,6 +123,10 @@ export class Markdown extends React.PureComponent<IMarkdownProps, IMarkdownState
   }
 
   public render(): ReactNode {
+    if (!this.props.markdown || !this.props.markdown.trim()) {
+      return null;
+    }
+
     const md = `
   ${this.props.markdown || ""} 
   
@@ -115,13 +146,28 @@ export class Markdown extends React.PureComponent<IMarkdownProps, IMarkdownState
     const tocHtml = sections[1];
 
     return (
-      <Container>
-        <TocToggler onClick={() => this.setState({ isTocExpanded: !this.state.isTocExpanded })}>
-          {this.state.isTocExpanded ? "Hide TOC" : "Show TOC"}
-        </TocToggler>
-        {this.state.isTocExpanded && <TocDiv dangerouslySetInnerHTML={{ __html: tocHtml }} />}
-        <MarkupDiv dangerouslySetInnerHTML={{ __html: contentHtml }} />
-      </Container>
+      <>
+        <If
+          value={!DomUtil.isEmptyHtml(tocHtml)}
+          render={() => (
+            <TocContainer isExpanded={this.state.isTocExpanded}>
+              <TocToggler
+                href={"javascript: void(0);"}
+                onClick={() => this.setState({ isTocExpanded: !this.state.isTocExpanded })}
+              >
+                {this.state.isTocExpanded ? "Hide TOC" : "Show TOC"}
+              </TocToggler>
+              <If
+                value={this.state.isTocExpanded}
+                render={() => <TocDiv dangerouslySetInnerHTML={{ __html: tocHtml }} />}
+              />
+            </TocContainer>
+          )}
+        />
+        <ContentContainer>
+          <MarkupDiv dangerouslySetInnerHTML={{ __html: contentHtml }} />
+        </ContentContainer>
+      </>
     );
   }
 }

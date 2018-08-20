@@ -22,7 +22,7 @@ const ContainerDiv = styled.div`
   box-shadow: ${StyleConstants.defaultBoxShadow};
 
   .ngrvd-closer {
-    right: 0.3rem;
+    right: 0.4rem;
     top: 0;
   }
 `;

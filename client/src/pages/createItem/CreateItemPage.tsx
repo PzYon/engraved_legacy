@@ -63,7 +63,7 @@ export class CreateItemPage extends React.PureComponent<
           ) => (
             <FormButton
               button={{
-                nodeOrLabel: "Add",
+                nodeOrLabel: "Create",
                 onClick: () => {
                   if (isDirty && validate()) {
                     this.addItem(item);
