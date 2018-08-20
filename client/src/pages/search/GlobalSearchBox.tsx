@@ -2,6 +2,7 @@ import { IKeyword, ItemKind } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect } from "react-router";
+import { Subscription } from "rxjs";
 import styled, { css } from "styled-components";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
 import { IRedirection } from "../../common/IRedirection";
@@ -43,6 +44,8 @@ interface IGlobalSearchBoxState {
 export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
   private findOnTypeTimer: any;
 
+  private keywordsSubscription: Subscription;
+
   public constructor(props: {}) {
     super(props);
 
@@ -58,9 +61,15 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   }
 
   public componentDidMount(): void {
-    ItemStore.instance.keywords$.subscribe(keywords =>
+    this.keywordsSubscription = ItemStore.instance.keywords$.subscribe(keywords =>
       this.setState({ selectedKeywords: keywords })
     );
+  }
+
+  public componentWillUnmount(): void {
+    if (this.keywordsSubscription) {
+      this.keywordsSubscription.unsubscribe();
+    }
   }
 
   public render(): ReactNode {

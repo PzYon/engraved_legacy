@@ -61,7 +61,9 @@ export class ItemStore {
   };
 
   public deleteItem = (itemId: string): Observable<any> => {
-    return AuthenticatedServerApi.delete("items/" + itemId).pipe(map((r: AjaxResponse) => null));
+    return AuthenticatedServerApi.delete("items/" + itemId).pipe(
+      map((r: AjaxResponse) => this.deleteFromCache(itemId))
+    );
   };
 
   public searchKeywords = (searchText: string): Observable<IKeyword[]> => {
@@ -113,6 +115,7 @@ export class ItemStore {
     }
 
     return items.map((item: IItem) => {
+      // todo: consider moving this logic to ItemKindRegistration instead?
       switch (item.itemKind) {
         case ItemKind.Note:
           return new NoteItem(item as INoteItem);
@@ -127,17 +130,35 @@ export class ItemStore {
     });
   }
 
+  private deleteFromCache(id: string): void {
+    this.doWithCachedItem(id, (itemIndex: number, newItemsArray: IItem[]) => {
+      newItemsArray.splice(itemIndex, 1);
+      return newItemsArray;
+    });
+  }
+
   private updateCache(item: IItem): IItem {
-    const cachedItems = this.items$.value;
-    const cachedItemIndex: number = cachedItems.findIndex(i => i._id === item._id);
-
-    if (cachedItemIndex > -1) {
-      const updatedItems = [...cachedItems];
-      updatedItems[cachedItemIndex] = item;
-
-      this.items$.next([...updatedItems]);
-    }
+    this.doWithCachedItem(
+      item._id,
+      (itemIndex: number, newItemsArray: IItem[]): IItem[] => {
+        newItemsArray[itemIndex] = item;
+        return newItemsArray;
+      }
+    );
 
     return item;
+  }
+
+  private doWithCachedItem(
+    id: string,
+    callback: (itemIndex: number, newItemsArray: IItem[]) => IItem[]
+  ): void {
+    const cachedItems: IItem[] = this.items$.value;
+    const cachedItemIndex: number = cachedItems.findIndex(i => i._id === id);
+
+    if (cachedItemIndex > -1) {
+      const modifiedItems: IItem[] = callback(cachedItemIndex, [...cachedItems]);
+      this.items$.next(modifiedItems);
+    }
   }
 }

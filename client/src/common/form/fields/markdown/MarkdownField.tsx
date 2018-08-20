@@ -31,6 +31,7 @@ const TogglePreviewAnchor = styled.a`
   font-size: ${StyleConstants.font.small};
   cursor: pointer;
   display: inline-block;
+  padding-left: 0.7rem;
   color: ${StyleConstants.colors.accent};
 `;
 
