@@ -39,13 +39,11 @@ interface IHeaderState {
 }
 
 export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
-  public constructor(props: IHeaderProps) {
-    super(props);
+  public readonly state: IHeaderState = {
+    title: ""
+  };
 
-    this.state = {
-      title: ""
-    };
-
+  public componentDidMount(): void {
     new Typer("engraved.").startTyping((typedText: string) => this.setState({ title: typedText }));
   }
 

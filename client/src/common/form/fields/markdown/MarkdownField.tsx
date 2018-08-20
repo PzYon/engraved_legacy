@@ -42,13 +42,9 @@ interface IMarkdownFieldState {
 }
 
 export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMarkdownFieldState> {
-  public constructor(props: IMarkdownFieldProps) {
-    super(props);
-
-    this.state = {
-      isPreview: false
-    };
-  }
+  public readonly state: IMarkdownFieldState = {
+    isPreview: false
+  };
 
   public render(): ReactNode {
     return (

@@ -8,10 +8,9 @@ interface IErrorBoundaryState {
 }
 
 export class ErrorBoundary extends React.PureComponent<{}, IErrorBoundaryState> {
-  public constructor(props: {}) {
-    super(props);
-    this.state = { error: undefined };
-  }
+  public readonly state: IErrorBoundaryState = {
+    error: undefined
+  };
 
   public static ensureError(component: React.Component, error: Error) {
     component.setState(() => {

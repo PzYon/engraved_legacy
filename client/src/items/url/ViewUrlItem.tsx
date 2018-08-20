@@ -52,13 +52,9 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
 
   private imageAnchorEl: HTMLImageElement;
 
-  public constructor(props: IViewItemProps<IUrlItem>) {
-    super(props);
-
-    this.state = {
-      showFallbackIcon: false
-    };
-  }
+  public readonly state: IViewUrlItemState = {
+    showFallbackIcon: false
+  };
 
   public render(): ReactNode {
     return (

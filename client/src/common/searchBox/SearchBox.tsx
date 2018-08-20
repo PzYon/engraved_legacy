@@ -65,15 +65,11 @@ interface ISearchBoxState {
 export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState> {
   private node: HTMLDivElement;
 
-  public constructor(props: ISearchBoxProps) {
-    super(props);
-
-    this.state = {
-      showDropDown: true,
-      hidePlaceholder: false,
-      hasFocus: false
-    };
-  }
+  public readonly state: ISearchBoxState = {
+    showDropDown: true,
+    hidePlaceholder: false,
+    hasFocus: false
+  };
 
   public render(): ReactNode {
     return (

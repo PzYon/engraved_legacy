@@ -118,13 +118,9 @@ interface IMarkdownState {
 const tocSeparator = "---ngrvd-separator---";
 
 export class Markdown extends React.PureComponent<IMarkdownProps, IMarkdownState> {
-  public constructor(props: IMarkdownProps) {
-    super(props);
-
-    this.state = {
-      isTocExpanded: false
-    };
-  }
+  public readonly state: IMarkdownState = {
+    isTocExpanded: false
+  };
 
   public render(): ReactNode {
     if (!this.props.markdown || !this.props.markdown.trim()) {

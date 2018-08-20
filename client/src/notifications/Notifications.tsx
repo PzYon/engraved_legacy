@@ -57,13 +57,9 @@ interface INotificationsState {
 export class Notifications extends React.PureComponent<{}, INotificationsState> {
   private notifications$Subscription: Subscription;
 
-  public constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      notifications: []
-    };
-  }
+  public readonly state: INotificationsState = {
+    notifications: []
+  };
 
   public componentDidMount(): void {
     this.notifications$Subscription = NotificationStore.instance.notifications$.subscribe(
