@@ -77,14 +77,16 @@ export class ItemStore {
       this.nextItemsSubscription.unsubscribe();
     }
 
-    if (ItemStore.isInvalidSearchText(this.searchText)) {
+    const keywords: IKeyword[] = this.keywords$.value;
+
+    if (ItemStore.isInvalidSearchText(this.searchText) && keywords.length === 0) {
       this.items$.next([]);
       return;
     }
 
     const query: ItemSearchQuery = new ItemSearchQuery(
       this.searchText === "*" ? "" : this.searchText,
-      this.keywords$.value.map(k => k.name).join(ItemSearchQuery.keywordsSeparator)
+      keywords.map(k => k.name).join(ItemSearchQuery.keywordsSeparator)
     );
 
     console.log(`ItemStore: calling server @ "${query.toUrl()}"`);

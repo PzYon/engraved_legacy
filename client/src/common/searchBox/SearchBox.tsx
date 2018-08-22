@@ -54,6 +54,7 @@ export interface ISearchBoxProps {
   onChange: (value: string) => void;
   searchValue: string;
   placeholder?: string;
+  giveFocusOnLoad?: boolean;
 }
 
 interface ISearchBoxState {
@@ -63,7 +64,8 @@ interface ISearchBoxState {
 }
 
 export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState> {
-  private node: HTMLDivElement;
+  private container: HTMLDivElement;
+  private input: HTMLInputElement;
 
   public readonly state: ISearchBoxState = {
     showDropDown: true,
@@ -73,7 +75,7 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
 
   public render(): ReactNode {
     return (
-      <ContainerDiv innerRef={ref => (this.node = ref)}>
+      <ContainerDiv innerRef={ref => (this.container = ref)}>
         <InnerContainerDiv isHighlight={this.state.hasFocus} className={"search-box-inner"}>
           <SelectedKeywords
             selectedKeywords={this.props.selectedKeywords}
@@ -82,6 +84,7 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
           <Input
             type="text"
             value={this.props.searchValue}
+            innerRef={e => (this.input = e)}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               this.props.onChange(e.target.value);
               this.setState({
@@ -118,6 +121,11 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
 
   public componentDidMount(): void {
     document.addEventListener("mousedown", this.handleDocumentClick, false);
+
+    if (this.props.giveFocusOnLoad) {
+      this.input.focus();
+      this.input.select();
+    }
   }
 
   public componentWillUnmount(): void {
@@ -125,7 +133,7 @@ export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState>
   }
 
   private handleDocumentClick = (e: any): void => {
-    if (this.node && this.node.contains(e.target)) {
+    if (this.container && this.container.contains(e.target)) {
       return;
     }
 
