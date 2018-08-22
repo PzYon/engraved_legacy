@@ -109,8 +109,8 @@ export class EditItemPage extends React.Component<
       NotificationStore.instance.addNotification({
         messageOrNode: (
           <span>
-            Successfully updated item &nbsp;
-            <Link to={`/items/${updatedItem._id}/edit`}>{updatedItem.title}</Link>
+            Successfully updated{" "}
+            <Link to={`/items/${updatedItem._id}/edit`}>"{updatedItem.title}"</Link>
           </span>
         ),
         id: Util.createGuid(),

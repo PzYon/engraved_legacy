@@ -77,8 +77,13 @@ export class ItemStore {
       this.nextItemsSubscription.unsubscribe();
     }
 
+    if (ItemStore.isInvalidSearchText(this.searchText)) {
+      this.items$.next([]);
+      return;
+    }
+
     const query: ItemSearchQuery = new ItemSearchQuery(
-      this.searchText,
+      this.searchText === "*" ? "" : this.searchText,
       this.keywords$.value.map(k => k.name).join(ItemSearchQuery.keywordsSeparator)
     );
 
@@ -107,6 +112,10 @@ export class ItemStore {
     }
 
     return AuthenticatedServerApi.get(`items/${id}`);
+  }
+
+  public static isInvalidSearchText(searchText: string) {
+    return !searchText || searchText.trim().length === 0;
   }
 
   private transformItems(items: IItem[]): IItem[] {
