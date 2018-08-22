@@ -157,7 +157,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   };
 
   private setKeywordDropDownItems = (searchText: string): void => {
-    if (!searchText) {
+    if (ItemStore.isInvalidSearchText(searchText)) {
       this.setState({
         keywordSearchValue: "",
         keywordDropDownItems: [],
@@ -186,24 +186,26 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   private setActionDropDownItems = (searchText: string): void => {
     const actions: Array<IDropDownItem<IRedirection>> = [];
 
-    if ((searchText && searchText.startsWith("http://")) || searchText.startsWith("https://")) {
-      const url = `/items/create/${ItemKind.Url}/${encodeURIComponent(searchText)}`;
-      actions.push({
-        item: {
-          url: url
-        },
-        key: url,
-        label: "Create URL"
-      });
-    } else if (searchText) {
-      const url = `/items/create/${ItemKind.Note}/${encodeURIComponent(searchText)}`;
-      actions.push({
-        item: {
-          url: url
-        },
-        key: url,
-        label: `Create note titled "${searchText}"`
-      });
+    if (!ItemStore.isInvalidSearchText(searchText)) {
+      if (searchText.startsWith("http://") || searchText.startsWith("https://")) {
+        const url = `/items/create/${ItemKind.Url}/${encodeURIComponent(searchText)}`;
+        actions.push({
+          item: {
+            url: url
+          },
+          key: url,
+          label: "Create URL"
+        });
+      } else if (searchText) {
+        const url = `/items/create/${ItemKind.Note}/${encodeURIComponent(searchText)}`;
+        actions.push({
+          item: {
+            url: url
+          },
+          key: url,
+          label: `Create note titled "${searchText}"`
+        });
+      }
     }
 
     this.setState({

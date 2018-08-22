@@ -85,7 +85,7 @@ export class CreateItemPage extends React.PureComponent<
         NotificationStore.instance.addNotification({
           messageOrNode: (
             <span>
-              Successfully created item <Link to={`/items/${i._id}`}>{i.title}</Link>
+              Successfully created <Link to={`/items/${i._id}`}>"{i.title}"</Link>
             </span>
           ),
           kind: NotificationKind.Success,
