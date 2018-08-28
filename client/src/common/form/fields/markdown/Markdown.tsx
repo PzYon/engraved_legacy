@@ -32,6 +32,7 @@ const ContentContainer = BaseContainer.extend`
   h1,
   h2,
   h3 {
+    font-weight: 400;
     margin: 1rem 0;
     color: ${StyleConstants.colors.accent};
   }

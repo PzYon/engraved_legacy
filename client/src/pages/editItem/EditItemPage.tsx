@@ -18,7 +18,7 @@ interface IRouterParams {
 interface IEditItemFormState {
   itemId: string;
   item: IItem | undefined;
-  isSuccess: boolean;
+  backToHome: boolean;
   failedToLoad: boolean;
 }
 
@@ -29,7 +29,7 @@ export class EditItemPage extends React.Component<
   public readonly state: IEditItemFormState = {
     item: undefined,
     itemId: decodeURIComponent(this.props.match.params.itemId),
-    isSuccess: false,
+    backToHome: false,
     failedToLoad: false
   };
 
@@ -43,7 +43,7 @@ export class EditItemPage extends React.Component<
   }
 
   public render(): ReactNode {
-    if (this.state.isSuccess) {
+    if (this.state.backToHome) {
       return <Redirect to="/" push={true} />;
     }
 
@@ -72,12 +72,24 @@ export class EditItemPage extends React.Component<
             return (
               <>
                 <FormButton
-                  key={"Update"}
+                  key={"Save"}
                   button={{
-                    nodeOrLabel: "Update",
+                    nodeOrLabel: "Save",
                     onClick: () => {
                       if (isDirty && validate()) {
-                        this.updateItem(updatedItem);
+                        this.updateItem(updatedItem, false);
+                      }
+                    },
+                    buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
+                  }}
+                />
+                <FormButton
+                  key={"SaveAndClose"}
+                  button={{
+                    nodeOrLabel: "Save & Close",
+                    onClick: () => {
+                      if (isDirty && validate()) {
+                        this.updateItem(updatedItem, true);
                       }
                     },
                     buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
@@ -103,9 +115,12 @@ export class EditItemPage extends React.Component<
     );
   }
 
-  private updateItem = (item: IItem): void => {
+  private updateItem = (item: IItem, backToHome: boolean): void => {
     ItemStore.instance.updateItem(item).subscribe((updatedItem: IItem) => {
-      this.setState({ isSuccess: true });
+      if (backToHome) {
+        this.setState({ backToHome: true });
+      }
+
       NotificationStore.instance.addNotification({
         messageOrNode: (
           <span>
@@ -123,7 +138,7 @@ export class EditItemPage extends React.Component<
 
   private deleteItem = (item: IItem): void => {
     ItemStore.instance.deleteItem(item._id).subscribe(() => {
-      this.setState({ isSuccess: true });
+      this.setState({ backToHome: true });
       NotificationStore.instance.addNotification({
         id: Util.createGuid(),
         kind: NotificationKind.Success,
