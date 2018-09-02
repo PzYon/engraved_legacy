@@ -34,10 +34,6 @@ interface ICodeEditorProps {
 }
 
 export class CodeEditor extends React.Component<ICodeEditorProps> {
-  public constructor(props: ICodeEditorProps) {
-    super(props);
-  }
-
   public shouldComponentUpdate(nextProps: ICodeEditorProps) {
     return nextProps.language !== this.props.language;
   }

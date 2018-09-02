@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
-import { AuthStore } from "./AuthStore";
+import { AuthenticatedServerApi } from "./AuthenticatedServerApi";
+import { SilentAuthentication } from "./SilentAuthentication";
 
 interface IRouterParams {
   jwt: string;
@@ -9,25 +10,33 @@ interface IRouterParams {
 
 interface IAuthenticatedState {
   jwt: string;
+  doNotRedirect: boolean;
 }
 
 export class AuthenticationCallback extends React.PureComponent<
   RouteComponentProps<IRouterParams>,
   IAuthenticatedState
 > {
-  public constructor(props: RouteComponentProps<IRouterParams>) {
-    super(props);
+  public readonly state: IAuthenticatedState = {
+    doNotRedirect: true,
+    jwt: null
+  };
 
-    const jwt: string = decodeURIComponent(props.match.params.jwt);
+  public componentDidMount(): void {
+    const jwt: string = decodeURIComponent(this.props.match.params.jwt);
 
-    this.state = {
-      jwt: jwt
-    };
+    this.setState({
+      jwt: jwt,
+      doNotRedirect: SilentAuthentication.isCallback()
+    });
 
-    AuthStore.setToken(jwt);
+    AuthenticatedServerApi.setToken(jwt);
+
+    SilentAuthentication.cleanUp();
+    SilentAuthentication.schedule();
   }
 
   public render(): ReactNode {
-    return <Redirect to="/" push={false} />;
+    return this.state.doNotRedirect ? null : <Redirect to="/" push={false} />;
   }
 }

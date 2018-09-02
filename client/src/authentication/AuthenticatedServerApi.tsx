@@ -1,13 +1,24 @@
 import * as React from "react";
-import { ReactNode } from "react";
+import { BehaviorSubject } from "rxjs";
 import { ajax, AjaxResponse } from "rxjs/ajax";
 import { Observable } from "rxjs/internal/Observable";
-import { tap } from "rxjs/operators";
-import { NotificationKind } from "../notifications/INotification";
-import { NotificationStore } from "../notifications/NotificationStore";
-import { AuthStore } from "./AuthStore";
+import { IUser } from "../../../shared/src";
+import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
+import { SilentAuthentication } from "./SilentAuthentication";
 
 export class AuthenticatedServerApi {
+  public static currentUser$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
+
+  private static readonly tokenKey: string = "jwt";
+
+  public static getToken(): string {
+    return LocalStorageUtil.getValue<string>(this.tokenKey);
+  }
+
+  public static setToken(jwt: string): void {
+    LocalStorageUtil.setValue(jwt, this.tokenKey);
+  }
+
   private static get baseUrl(): string {
     return (
       (window.location.hostname === "localhost"
@@ -20,62 +31,38 @@ export class AuthenticatedServerApi {
     return AuthenticatedServerApi.baseUrl + "auth/google/init";
   }
 
-  public static get<T>(url: string, headers: any = {}): Observable<T> {
-    return ajax
-      .getJSON(this.getAbsoluteUrl(url), { ...headers, ...this.getHeaders() })
-      .pipe(this.handleError<T>());
-  }
-
-  public static post(url: string, value: any, headers: any = {}): Observable<AjaxResponse> {
-    return ajax
-      .post(this.getAbsoluteUrl(url), value, { ...headers, ...this.getHeaders() })
-      .pipe(this.handleError<AjaxResponse>());
-  }
-
-  public static patch(url: string, value: any, headers: any = {}): Observable<AjaxResponse> {
-    return ajax
-      .patch(this.getAbsoluteUrl(url), value, { ...headers, ...this.getHeaders() })
-      .pipe(this.handleError<AjaxResponse>());
-  }
-
-  public static delete(url: string, headers: any = {}): Observable<AjaxResponse> {
-    return ajax
-      .delete(this.getAbsoluteUrl(url), { ...headers, ...this.getHeaders() })
-      .pipe(this.handleError<AjaxResponse>());
+  private static get headers(): any {
+    return {
+      "Content-Type": "application/json",
+      Authorization: "JWT " + this.getToken()
+    };
   }
 
   private static getAbsoluteUrl(url: string) {
     return `${AuthenticatedServerApi.baseUrl}${url}`;
   }
 
-  private static getHeaders(): any {
-    return {
-      "Content-Type": "application/json",
-      Authorization: "JWT " + AuthStore.getToken()
-    };
-  }
-
-  private static handleError<T>() {
-    return tap(
-      (next: T) => next,
-      error => {
-        if ((error as any).status === 401) {
-          NotificationStore.instance.addNotification({
-            messageOrNode: this.getUnAuthenticatedMessage(),
-            id: "userIsUnauthenticated",
-            kind: NotificationKind.Warning
-          });
-        }
-      }
+  public static get<T>(url: string, headers: any = {}): Observable<T> {
+    return SilentAuthentication.wrap(() =>
+      ajax.getJSON(this.getAbsoluteUrl(url), { ...headers, ...this.headers })
     );
   }
 
-  private static getUnAuthenticatedMessage(): ReactNode {
-    return (
-      <span>
-        You are not authenticated or your token has expired. Click <a href={this.authUrl}>here</a>{" "}
-        to login.
-      </span>
+  public static post(url: string, value: any, headers: any = {}): Observable<AjaxResponse> {
+    return SilentAuthentication.wrap(() =>
+      ajax.post(this.getAbsoluteUrl(url), value, { ...headers, ...this.headers })
+    );
+  }
+
+  public static patch(url: string, value: any, headers: any = {}): Observable<AjaxResponse> {
+    return SilentAuthentication.wrap(() =>
+      ajax.patch(this.getAbsoluteUrl(url), value, { ...headers, ...this.headers })
+    );
+  }
+
+  public static delete(url: string, headers: any = {}): Observable<AjaxResponse> {
+    return SilentAuthentication.wrap(() =>
+      ajax.delete(this.getAbsoluteUrl(url), { ...headers, ...this.headers })
     );
   }
 }

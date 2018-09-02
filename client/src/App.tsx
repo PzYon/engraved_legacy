@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthenticatedApp } from "./AuthenticatedApp";
 import { AuthenticationCallback } from "./authentication/AuthenticationCallback";
 
-export const App: React.SFC<{}> = () => {
+export const App: React.SFC = () => {
   return (
     <Router>
       <Switch>
