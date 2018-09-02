@@ -5,7 +5,6 @@ import { ReactNode } from "react";
 import { RouteComponentProps } from "react-router";
 import styled from "styled-components";
 import { AuthenticatedServerApi } from "../../authentication/AuthenticatedServerApi";
-import { AuthStore } from "../../authentication/AuthStore";
 import { If } from "../../common/If";
 import { Page } from "../Page";
 
@@ -29,7 +28,7 @@ export class UserPage extends React.Component<RouteComponentProps<IRouterParams>
   };
 
   public componentDidMount(): void {
-    AuthStore.currentUser$.subscribe((user: IUser) => {
+    AuthenticatedServerApi.currentUser$.subscribe((user: IUser) => {
       this.setState({ user: user });
     });
 

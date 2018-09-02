@@ -2,10 +2,9 @@ import { IUser } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { tap } from "rxjs/operators";
+import { first, tap } from "rxjs/operators";
 import styled from "styled-components";
 import { AuthenticatedServerApi } from "./authentication/AuthenticatedServerApi";
-import { AuthStore } from "./authentication/AuthStore";
 import { Header } from "./common/Header";
 import { WelcomeScreen } from "./common/WelcomeScreen";
 import { Notifications } from "./notifications/Notifications";
@@ -48,7 +47,7 @@ interface IAppState {
   isLoading: boolean;
 }
 
-export class AuthenticatedApp extends React.Component<{}, IAppState> {
+export class AuthenticatedApp extends React.PureComponent<{}, IAppState> {
   public readonly state: IAppState = {
     currentUser: null,
     isLoading: true
@@ -56,10 +55,19 @@ export class AuthenticatedApp extends React.Component<{}, IAppState> {
 
   public componentDidMount(): void {
     AuthenticatedServerApi.get("users/me")
-      .pipe(tap(u => u, () => this.setState({ isLoading: false })))
+      .pipe(
+        first(),
+        tap(
+          u => u,
+          // error case
+          () => this.setState({ isLoading: false })
+        )
+      )
       .subscribe((currentUser: IUser) => {
-        AuthStore.currentUser$.next(currentUser);
-        this.setState({ currentUser: currentUser, isLoading: false });
+        AuthenticatedServerApi.currentUser$.next(currentUser);
+        if (this.state.currentUser === null || this.state.currentUser._id !== currentUser._id) {
+          this.setState({ currentUser: currentUser, isLoading: false });
+        }
       });
   }
 
