@@ -6,7 +6,7 @@ import { ErrorBoundary } from "../common/ErrorBoundary";
 import { If } from "../common/If";
 import { StyleConstants } from "../styling/StyleConstants";
 
-const ContainerDiv = styled.div`
+const ContainerSection = styled.section`
   padding: ${StyleConstants.defaultSpacing};
   position: relative;
   opacity: 0;
@@ -43,7 +43,7 @@ export class Page extends React.PureComponent<IPageProps> {
 
   public render(): ReactNode {
     return (
-      <ContainerDiv innerRef={(r: HTMLDivElement) => (this.containerEl = r)}>
+      <ContainerSection innerRef={(r: HTMLDivElement) => (this.containerEl = r)}>
         <ErrorBoundary>
           <If
             value={!this.props.noCloser}
@@ -54,7 +54,7 @@ export class Page extends React.PureComponent<IPageProps> {
           <If value={this.props.title} render={() => <Title>{this.props.title}</Title>} />
           <ContentDiv>{this.props.children}</ContentDiv>
         </ErrorBoundary>
-      </ContainerDiv>
+      </ContainerSection>
     );
   }
 }

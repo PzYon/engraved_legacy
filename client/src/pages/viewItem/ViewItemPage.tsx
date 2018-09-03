@@ -92,33 +92,35 @@ export class ViewItemPage extends React.Component<
     return (
       <Page browserTitle={item.title} title={item.title}>
         <FormContainer>
-          <FormFieldContainer>
-            <ItemPropertiesContainer>
-              <ItemPropertyDiv>
-                <ItemKindIcon itemKind={item.itemKind} />
-              </ItemPropertyDiv>
-              <ItemPropertyDiv>
-                <Edited {...item} />
-              </ItemPropertyDiv>
+          <article>
+            <FormFieldContainer>
+              <ItemPropertiesContainer>
+                <ItemPropertyDiv>
+                  <ItemKindIcon itemKind={item.itemKind} />
+                </ItemPropertyDiv>
+                <ItemPropertyDiv>
+                  <Edited {...item} />
+                </ItemPropertyDiv>
+                <If
+                  value={item.keywords}
+                  render={() => {
+                    return (
+                      <ItemPropertyDiv>
+                        <Keywords keywords={item.keywords} />
+                      </ItemPropertyDiv>
+                    );
+                  }}
+                />
+              </ItemPropertiesContainer>
               <If
-                value={item.keywords}
-                render={() => {
-                  return (
-                    <ItemPropertyDiv>
-                      <Keywords keywords={item.keywords} />
-                    </ItemPropertyDiv>
-                  );
-                }}
+                value={item.description}
+                render={() => <SectionContainer>{item.description}</SectionContainer>}
               />
-            </ItemPropertiesContainer>
-            <If
-              value={item.description}
-              render={() => <SectionContainer>{item.description}</SectionContainer>}
-            />
-            <SectionContainer>
-              {ItemKindRegistrationManager.resolve(item.itemKind).getViewFormFields(item)}
-            </SectionContainer>
-          </FormFieldContainer>
+              <SectionContainer>
+                {ItemKindRegistrationManager.resolve(item.itemKind).getViewFormFields(item)}
+              </SectionContainer>
+            </FormFieldContainer>
+          </article>
         </FormContainer>
         <FormButtonContainer>
           <FormButton

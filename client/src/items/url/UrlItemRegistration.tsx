@@ -43,12 +43,12 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
 
   public getSpecificProperty(item: IUrlItem): React.ReactNode {
     return (
-      <span>
+      <>
         view on{" "}
         <a href={item.url} title={item.url}>
           {UrlItemRegistration.getHostName(item.url)}
         </a>
-      </span>
+      </>
     );
   }
 

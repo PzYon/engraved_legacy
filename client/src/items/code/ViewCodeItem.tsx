@@ -9,7 +9,7 @@ export const ViewCodeItem: React.SFC<IViewItemProps<ICodeItem>> = (
   props: IViewItemProps<ICodeItem>
 ) => {
   return (
-    <div>
+    <>
       <FormLabelDiv>
         {CodeItemRegistration.getCodeLanguageLabel(props.item.codeLanguage)}
       </FormLabelDiv>
@@ -19,6 +19,6 @@ export const ViewCodeItem: React.SFC<IViewItemProps<ICodeItem>> = (
         value={props.item.code}
         onValueChange={() => void 0}
       />
-    </div>
+    </>
   );
 };

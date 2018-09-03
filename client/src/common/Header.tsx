@@ -9,7 +9,7 @@ import { StyleConstants } from "../styling/StyleConstants";
 import { StyleUtil } from "../styling/StyleUtil";
 import { Typer } from "./Typer";
 
-const HeaderContainerDiv = styled.div`
+const HeaderContainer = styled.header`
   margin: 0 ${StyleConstants.defaultSpacing};
   width: calc(100% - ${StyleConstants.defaultSpacing} - ${StyleConstants.defaultSpacing});
   display: flex;
@@ -49,7 +49,7 @@ export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
 
   public render(): ReactNode {
     return (
-      <HeaderContainerDiv>
+      <HeaderContainer>
         <AppTitle>
           <Link
             to={"/"}
@@ -69,7 +69,7 @@ export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
             />
           </Link>
         </CurrentUserSpan>
-      </HeaderContainerDiv>
+      </HeaderContainer>
     );
   }
 }

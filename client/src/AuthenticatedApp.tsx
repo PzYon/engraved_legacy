@@ -20,7 +20,7 @@ const AppRootDiv = styled.div`
   min-height: 100vh;
 `;
 
-const BaseSection = styled.section`
+const BaseContainer = styled.div`
   width: 100%;
   max-width: ${StyleConstants.maxContentWidth};
   margin: auto;
@@ -32,11 +32,11 @@ const HeaderContainerDiv = styled.div`
   color: ${StyleConstants.colors.header.background};
 `;
 
-const HeaderSection = BaseSection.extend`
+const HeaderContainer = BaseContainer.extend`
   height: ${StyleConstants.headerHeightInPx}px;
 `;
 
-const ContentSection = BaseSection.extend`
+const ContentContainer = BaseContainer.extend`
   min-height: calc(100vh - ${StyleConstants.headerHeightInPx}px);
   background-color: ${StyleConstants.colors.pageBackground};
   position: relative;
@@ -84,11 +84,11 @@ export class AuthenticatedApp extends React.PureComponent<{}, IAppState> {
       <Router>
         <AppRootDiv>
           <HeaderContainerDiv>
-            <HeaderSection>
+            <HeaderContainer>
               <Header currentUser={this.state.currentUser} />
-            </HeaderSection>
+            </HeaderContainer>
           </HeaderContainerDiv>
-          <ContentSection>
+          <ContentContainer>
             <Switch>
               <Route path="/" component={SearchPage} exact={true} />
               <Route path="/users/me" component={UserPage} exact={true} />
@@ -97,7 +97,7 @@ export class AuthenticatedApp extends React.PureComponent<{}, IAppState> {
               <Route path="/items/:itemId" component={ViewItemPage} exact={true} />
               <Route path="/" component={NotFoundPage} />
             </Switch>
-          </ContentSection>
+          </ContentContainer>
           <Notifications />
         </AppRootDiv>
       </Router>

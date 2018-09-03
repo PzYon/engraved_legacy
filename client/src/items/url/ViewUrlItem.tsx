@@ -58,7 +58,7 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
 
   public render(): ReactNode {
     return (
-      <div>
+      <>
         <UrlInputDiv>
           <UrlInput
             readOnly={true}
@@ -95,7 +95,7 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
             copy URL
           </a>
         </ActionDiv>
-      </div>
+      </>
     );
   }
 

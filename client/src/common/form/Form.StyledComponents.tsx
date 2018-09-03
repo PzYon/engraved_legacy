@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { StyleConstants } from "../../styling/StyleConstants";
 import { StyleUtil } from "../../styling/StyleUtil";
 
-export const FormContainer = styled.div`
+export const FormContainer = styled.section`
   input,
   textarea,
   select {
