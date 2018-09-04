@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
+    "build": "node ./update-packagejson.js && react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
@@ -39,5 +39,8 @@
   "engines": {
     "node": "8.11.2"
   },
-  "proxy": "http://localhost:3001/"
+  "proxy": "http://localhost:3001/",
+  "ngrvd": {
+    "buildDate": ""
+  }
 }
