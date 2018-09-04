@@ -1,8 +1,10 @@
+import * as moment from "moment";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IUser } from "../../../shared/src";
+import { ngrvd, version } from "../../package.json";
 import { CurrentUser } from "../authentication/CurrentUser";
 import { ItemStore } from "../items/ItemStore";
 import { StyleConstants } from "../styling/StyleConstants";
@@ -50,7 +52,7 @@ export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
   public render(): ReactNode {
     return (
       <HeaderContainer>
-        <AppTitle>
+        <AppTitle title={Header.getAppInfo()}>
           <Link
             to={"/"}
             onClick={() => {
@@ -71,5 +73,10 @@ export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
         </CurrentUserSpan>
       </HeaderContainer>
     );
+  }
+
+  private static getAppInfo(): string {
+    const buildDate = process.env.NODE_ENV === "development" ? new Date() : ngrvd.buildDate;
+    return "Version " + version + "  - Built " + moment(buildDate).fromNow();
   }
 }
