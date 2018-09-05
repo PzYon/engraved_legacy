@@ -1,4 +1,5 @@
 import { IItem, Util } from "engraved-shared";
+import * as moment from "moment";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
@@ -58,9 +59,13 @@ export class EditItemPage extends React.Component<
       return null;
     }
 
+    // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key
+    const reactKey = moment(item.editedOn || new Date()).format();
+
     return (
       <Page browserTitle={item.title + " | edit"} title={"Edit item"}>
         <Form
+          key={reactKey}
           isReadonly={false}
           item={item}
           renderButtons={(
@@ -121,6 +126,10 @@ export class EditItemPage extends React.Component<
         this.setState({ backToHome: true });
       }
 
+      ItemStore.instance.resetAndLoad();
+
+      this.setState({ item: updatedItem });
+
       NotificationStore.instance.addNotification({
         messageOrNode: (
           <span>
@@ -132,7 +141,6 @@ export class EditItemPage extends React.Component<
         kind: NotificationKind.Success,
         timeToLiveInSeconds: 8
       });
-      ItemStore.instance.resetAndLoad();
     });
   };
 

@@ -56,7 +56,7 @@ export class ItemStore {
   // we send the item to the server and then update it in the (client) cache
   public updateItem = (item: IItem): Observable<IItem> => {
     return AuthenticatedServerApi.patch("items/" + item._id, item).pipe(
-      map((r: AjaxResponse) => this.updateCache(item))
+      map((r: AjaxResponse) => this.updateCache(r.response as IItem))
     );
   };
 

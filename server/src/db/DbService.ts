@@ -92,7 +92,7 @@ export class DbService {
 
     return this.items
       .updateOne(DbService.getItemByIdFilter(id), { $set: item })
-      .then((r: UpdateWriteOpResult) => r.result);
+      .then((r: UpdateWriteOpResult) => this.getItemById(id));
   }
 
   public getItems(searchQuery: ItemSearchQuery): Promise<IItem[]> {
