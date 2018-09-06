@@ -1,11 +1,13 @@
 const accentColor = "#0099CC";
 const discreetColor = "#CCC";
 const ultraDiscreetColor = "#F7F7F7";
+const ultraUltraDiscreetColor = "#FAFAFA";
 const darkColor = "#20232A";
 const whiteColor = "#FFFFFF";
 
 export const StyleConstants = {
   headerHeightInPx: 50,
+  transitionTime: "0.5s",
   borderRadius: "3px",
   maxContentWidth: "1000px",
   defaultSpacing: "15px",
@@ -25,6 +27,7 @@ export const StyleConstants = {
     discreet: discreetColor,
     ultraDiscreet: ultraDiscreetColor,
     pageBackground: whiteColor,
+    rootPageBackground: ultraUltraDiscreetColor,
     header: {
       background: darkColor,
       text: whiteColor

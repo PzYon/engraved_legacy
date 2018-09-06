@@ -19,6 +19,7 @@ const Root = styled.div`
   box-shadow: ${StyleConstants.defaultBoxShadow};
   opacity: 0;
   transition: opacity 0.5s;
+  background-color: ${StyleConstants.colors.pageBackground};
 `;
 
 const Paragraph = styled.p`

@@ -38,7 +38,6 @@ const HeaderContainer = BaseContainer.extend`
 
 const ContentContainer = BaseContainer.extend`
   min-height: calc(100vh - ${StyleConstants.headerHeightInPx}px);
-  background-color: ${StyleConstants.colors.pageBackground};
   position: relative;
 `;
 

@@ -33,7 +33,7 @@ const injectGlobalStyles = (): void => {
             padding: 0;
             overflow-x: hidden;
             overflow-y: scroll;
-            background-color: white;
+            transition: background-color ease-in ${StyleConstants.transitionTime};
         }
 `;
 };
