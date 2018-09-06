@@ -10,7 +10,7 @@ const ContainerSection = styled.section`
   padding: ${StyleConstants.defaultSpacing};
   position: relative;
   opacity: 0;
-  transition: opacity 0.5s;
+  transition: opacity ${StyleConstants.transitionTime};
 `;
 
 const Title = styled.h2`
@@ -29,6 +29,7 @@ export interface IPageProps {
   title?: string;
   browserTitle?: string;
   noCloser?: boolean;
+  backgroundColor?: string;
 }
 
 export class Page extends React.PureComponent<IPageProps> {
@@ -39,6 +40,9 @@ export class Page extends React.PureComponent<IPageProps> {
     document.title = this.props.browserTitle
       ? "engraved. | " + this.props.browserTitle
       : "engraved.";
+
+    document.body.style.backgroundColor =
+      this.props.backgroundColor || StyleConstants.colors.pageBackground;
   }
 
   public render(): ReactNode {

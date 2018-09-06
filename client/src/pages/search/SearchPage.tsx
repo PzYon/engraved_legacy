@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
+import { StyleConstants } from "../../styling/StyleConstants";
 import { Page } from "../Page";
 import { GlobalSearchBox } from "./GlobalSearchBox";
 import { ItemsList } from "./results/ItemsList";
@@ -21,7 +22,7 @@ const SearchInnerContainerDiv = styled.div`
 export class SearchPage extends React.PureComponent {
   public render(): ReactNode {
     return (
-      <Page noCloser={true}>
+      <Page noCloser={true} backgroundColor={StyleConstants.colors.rootPageBackground}>
         <SearchContainerDiv key={"searchBox"}>
           <SearchInnerContainerDiv>
             <GlobalSearchBox />
