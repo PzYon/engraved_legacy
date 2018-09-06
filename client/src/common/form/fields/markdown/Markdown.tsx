@@ -137,7 +137,7 @@ export class Markdown extends React.PureComponent<IMarkdownProps, IMarkdownState
   
   `;
 
-    const completeHtml = new MarkdownIt()
+    const completeHtml = new MarkdownIt("default", { linkify: true })
       .use(mdItAnchor)
       .use(mdItToc)
       .render(md);
