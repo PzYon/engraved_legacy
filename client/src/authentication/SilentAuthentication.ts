@@ -7,12 +7,12 @@ export class SilentAuthentication {
     false
   );
 
+  private static lastActivityDate: Date;
+
   public static ensure(): void {
     if (SilentAuthentication.isWaitingForSilent$.value) {
       return;
     }
-
-    console.log("Authenticating silently...");
 
     SilentAuthentication.isWaitingForSilent$.next(true);
 
@@ -24,6 +24,7 @@ export class SilentAuthentication {
     (iframe as any).removeMe = () => {
       document.body.removeChild(iframe);
       SilentAuthentication.isWaitingForSilent$.next(false);
+
       console.log("Authenticated silently.");
     };
 
@@ -56,19 +57,43 @@ export class SilentAuthentication {
     return window.frameElement && (window.frameElement as any).removeMe;
   }
 
-  public static cleanUp(): void {
+  public static onAuthenticated(): void {
     if (SilentAuthentication.isCallback()) {
       (window.frameElement as any).removeMe();
     }
+
+    SilentAuthentication.schedule();
   }
 
-  public static schedule() {
+  private static schedule() {
+    if (!SilentAuthentication.lastActivityDate) {
+      this.lastActivityDate = new Date();
+
+      document.addEventListener("click", () => (this.lastActivityDate = new Date()));
+    }
+
     setTimeout(
       () => {
-        SilentAuthentication.ensure();
+        if (this.isBrowserActive()) {
+          SilentAuthentication.ensure();
+        }
       },
       // 60 minutes (token expiration time) - 1min
-      59 * 60 * 1000
+      SilentAuthentication.msFromMinutes(59)
     );
+  }
+
+  private static isBrowserActive() {
+    // when hosted on a free heroku dyno we don't want to keep it
+    // alive if a browser windows is left open somewhere on a desktop
+    // computer overnight. and even in other cases: if there's no activity
+    // we might as well do the silent authentication lazily.
+    return (
+      (new Date() as any) - (this.lastActivityDate as any) < SilentAuthentication.msFromMinutes(45)
+    );
+  }
+
+  private static msFromMinutes(minutes: number): number {
+    return minutes * 60 * 1000;
   }
 }

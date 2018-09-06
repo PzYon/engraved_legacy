@@ -32,8 +32,7 @@ export class AuthenticationCallback extends React.PureComponent<
 
     AuthenticatedServerApi.setToken(jwt);
 
-    SilentAuthentication.cleanUp();
-    SilentAuthentication.schedule();
+    SilentAuthentication.onAuthenticated();
   }
 
   public render(): ReactNode {
