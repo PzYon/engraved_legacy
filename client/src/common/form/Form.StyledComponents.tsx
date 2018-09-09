@@ -106,5 +106,6 @@ export const Button: any = styled.span<IButtonStyle>`
 export const FormButtonContainer = styled.div`
   .ngrvd-button:not(:last-child) {
     margin-right: ${StyleConstants.defaultSpacing};
+    margin-bottom: 10px;
   }
 `;

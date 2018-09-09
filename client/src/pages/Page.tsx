@@ -3,15 +3,9 @@ import { ReactNode } from "react";
 import styled from "styled-components";
 import { Closer } from "../common/Closer";
 import { ErrorBoundary } from "../common/ErrorBoundary";
+import { FaderContainer } from "../common/FaderContainer";
 import { If } from "../common/If";
 import { StyleConstants } from "../styling/StyleConstants";
-
-const ContainerSection = styled.section`
-  padding: ${StyleConstants.defaultSpacing};
-  position: relative;
-  opacity: 0;
-  transition: opacity ${StyleConstants.transitionTime};
-`;
 
 const Title = styled.h2`
   font-weight: 300;
@@ -33,10 +27,7 @@ export interface IPageProps {
 }
 
 export class Page extends React.PureComponent<IPageProps> {
-  private containerEl: HTMLDivElement;
-
   public componentDidMount(): void {
-    setTimeout(() => (this.containerEl.style.opacity = "1"));
     document.title = this.props.browserTitle
       ? "engraved. | " + this.props.browserTitle
       : "engraved.";
@@ -47,7 +38,7 @@ export class Page extends React.PureComponent<IPageProps> {
 
   public render(): ReactNode {
     return (
-      <ContainerSection innerRef={(r: HTMLDivElement) => (this.containerEl = r)}>
+      <FaderContainer style={{ padding: StyleConstants.defaultSpacing }}>
         <ErrorBoundary>
           <If
             value={!this.props.noCloser}
@@ -58,7 +49,7 @@ export class Page extends React.PureComponent<IPageProps> {
           <If value={this.props.title} render={() => <Title>{this.props.title}</Title>} />
           <ContentDiv>{this.props.children}</ContentDiv>
         </ErrorBoundary>
-      </ContainerSection>
+      </FaderContainer>
     );
   }
 }

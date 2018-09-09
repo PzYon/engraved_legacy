@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
 import * as React from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
 import { StyleConstants } from "../styling/StyleConstants";
+import { FaderContainer } from "./FaderContainer";
 
 const Filler = styled.div`
   position: fixed;
@@ -47,12 +48,14 @@ interface IDialogProps {
 
 export const Dialog: React.SFC<IDialogProps> = (props: IDialogProps) => {
   return (
-    <RootContainer>
-      <BackgroundContainer />
-      <InnerContainer>
-        <TitleContainer>{props.title}</TitleContainer>
-        <ChildrenContainer>{props.children}</ChildrenContainer>
-      </InnerContainer>
-    </RootContainer>
+    <FaderContainer style={{ position: "fixed", zIndex: 100 }}>
+      <RootContainer>
+        <BackgroundContainer />
+        <InnerContainer>
+          <TitleContainer>{props.title}</TitleContainer>
+          <ChildrenContainer>{props.children}</ChildrenContainer>
+        </InnerContainer>
+      </RootContainer>
+    </FaderContainer>
   );
 };

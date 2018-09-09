@@ -22,34 +22,47 @@ export class ConfirmableButton extends React.PureComponent<
 
   public render(): ReactNode {
     if (!this.state.showConfirmation) {
-      return (
+      return this.renderRegularButton();
+    }
+
+    return (
+      <>
+        {this.renderRegularButton()}
+        {this.renderConfirmationDialog()}
+      </>
+    );
+  }
+
+  private renderRegularButton() {
+    return (
+      <FormButton
+        button={{
+          buttonStyle: this.props.confirmableButton.initialButtonStyle,
+          nodeOrLabel: this.props.confirmableButton.initialButtonNodeOrLabel,
+          onClick: () => this.setState({ showConfirmation: true })
+        }}
+      />
+    );
+  }
+
+  private renderConfirmationDialog() {
+    return (
+      <Dialog title={this.props.confirmableButton.confirmationDialogTitle}>
         <FormButton
           button={{
-            buttonStyle: this.props.confirmableButton.initialButtonStyle,
-            nodeOrLabel: this.props.confirmableButton.initialButtonNodeOrLabel,
-            onClick: () => this.setState({ showConfirmation: true })
+            nodeOrLabel: this.props.confirmableButton.cancelButtonNodeOrLabel,
+            buttonStyle: ButtonStyle.Secondary,
+            onClick: () => this.setState({ showConfirmation: false })
           }}
         />
-      );
-    } else {
-      return (
-        <Dialog title={this.props.confirmableButton.confirmationDialogTitle}>
-          <FormButton
-            button={{
-              nodeOrLabel: this.props.confirmableButton.cancelButtonNodeOrLabel,
-              buttonStyle: ButtonStyle.Secondary,
-              onClick: () => this.setState({ showConfirmation: false })
-            }}
-          />
-          <FormButton
-            button={{
-              nodeOrLabel: this.props.confirmableButton.confirmationButtonNodeOrLabel,
-              buttonStyle: this.props.confirmableButton.confirmationButtonStyle,
-              onClick: this.props.confirmableButton.onClick
-            }}
-          />
-        </Dialog>
-      );
-    }
+        <FormButton
+          button={{
+            nodeOrLabel: this.props.confirmableButton.confirmationButtonNodeOrLabel,
+            buttonStyle: this.props.confirmableButton.confirmationButtonStyle,
+            onClick: this.props.confirmableButton.onClick
+          }}
+        />
+      </Dialog>
+    );
   }
 }
