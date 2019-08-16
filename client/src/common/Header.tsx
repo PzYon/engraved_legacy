@@ -42,11 +42,14 @@ interface IHeaderState {
 
 export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
   public readonly state: IHeaderState = {
-    title: ""
+    title: "|"
   };
 
   public componentDidMount(): void {
-    new Typer("engraved.").startTyping((typedText: string) => this.setState({ title: typedText }));
+    let counter = 0;
+    new Typer("engraved.").startTyping((typedText: string) =>
+      this.setState({ title: typedText + (counter++ % 2 === 0 ? "|" : "") })
+    );
   }
 
   public render(): ReactNode {
