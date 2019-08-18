@@ -14,18 +14,15 @@ export interface IFaderContainerProps {
 }
 
 export class FaderContainer extends React.PureComponent<IFaderContainerProps> {
-  private containerEl: HTMLDivElement;
+  private containerEl = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
-    setTimeout(() => (this.containerEl.style.opacity = "1"));
+    setTimeout(() => (this.containerEl.current.style.opacity = "1"));
   }
 
   public render(): ReactNode {
     return (
-      <ContainerSection
-        style={this.props.style}
-        innerRef={(r: HTMLDivElement) => (this.containerEl = r)}
-      >
+      <ContainerSection style={this.props.style} ref={this.containerEl}>
         {this.props.children}
       </ContainerSection>
     );

@@ -9,7 +9,7 @@ interface IIconProps {
 
 const IconSpan = styled.span``;
 
-export const ItemKindIcon: React.SFC<IIconProps> = (props: IIconProps) => {
+export const ItemKindIcon: React.FC<IIconProps> = (props: IIconProps) => {
   return (
     <IconSpan className={"ngrvd-icon"}>
       {ItemKindRegistrationManager.getItemKindLabel(props.itemKind)}

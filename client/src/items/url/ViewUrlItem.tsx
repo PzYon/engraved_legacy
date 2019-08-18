@@ -48,9 +48,9 @@ interface IViewUrlItemState {
 }
 
 export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, IViewUrlItemState> {
-  private inputEl: HTMLInputElement;
+  private inputEl = React.createRef<HTMLInputElement>();
 
-  private imageAnchorEl: HTMLImageElement;
+  private imageAnchorEl = React.createRef<HTMLAnchorElement>();
 
   public readonly state: IViewUrlItemState = {
     showFallbackIcon: false
@@ -60,25 +60,17 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
     return (
       <>
         <UrlInputDiv>
-          <UrlInput
-            readOnly={true}
-            innerRef={r => (this.inputEl = r)}
-            value={this.props.item.url}
-          />
-          <IconAnchor
-            innerRef={r => (this.imageAnchorEl = r)}
-            href={this.props.item.url}
-            target="_blank"
-          >
+          <UrlInput readOnly={true} ref={this.inputEl} value={this.props.item.url} />
+          <IconAnchor ref={this.imageAnchorEl} href={this.props.item.url} target="_blank">
             <If
               value={!this.state.showFallbackIcon}
               render={() => (
                 <IconImage
                   src={this.getFaviconUrl()}
-                  onLoad={() => (this.imageAnchorEl.style.opacity = "1")}
+                  onLoad={() => (this.imageAnchorEl.current.style.opacity = "1")}
                   onError={() => {
                     this.setState({ showFallbackIcon: true });
-                    this.imageAnchorEl.style.opacity = "1";
+                    this.imageAnchorEl.current.style.opacity = "1";
                   }}
                 />
               )}
@@ -107,7 +99,7 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
   }
 
   private copyToClipBoard = (): void => {
-    this.inputEl.select();
+    this.inputEl.current.select();
     document.execCommand("copy");
   };
 }

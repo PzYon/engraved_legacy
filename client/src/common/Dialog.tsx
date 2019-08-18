@@ -12,12 +12,12 @@ const Filler = styled.div`
   height: 100vh;
 `;
 
-const RootContainer = Filler.extend`
+const RootContainer = styled(Filler)`
   z-index: 100;
   display: flex;
 `;
 
-const BackgroundContainer = Filler.extend`
+const BackgroundContainer = styled(Filler)`
   z-index: 101;
   background-color: ${StyleConstants.colors.accent};
   opacity: 0.6;
@@ -46,7 +46,7 @@ interface IDialogProps {
   children: ReactNode;
 }
 
-export const Dialog: React.SFC<IDialogProps> = (props: IDialogProps) => {
+export const Dialog: React.FC<IDialogProps> = (props: IDialogProps) => {
   return (
     <FaderContainer style={{ position: "fixed", zIndex: 100 }}>
       <RootContainer>

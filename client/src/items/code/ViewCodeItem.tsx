@@ -5,7 +5,7 @@ import { FormLabelDiv } from "../../common/form/Form.StyledComponents";
 import { IViewItemProps } from "../IViewItemProps";
 import { CodeItemRegistration } from "./CodeItemRegistration";
 
-export const ViewCodeItem: React.SFC<IViewItemProps<ICodeItem>> = (
+export const ViewCodeItem: React.FC<IViewItemProps<ICodeItem>> = (
   props: IViewItemProps<ICodeItem>
 ) => {
   return (

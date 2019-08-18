@@ -13,7 +13,7 @@ export interface IFieldWrapperProps {
   validationError: string;
 }
 
-export const FieldWrapper: React.SFC<IFieldWrapperProps> = (props: IFieldWrapperProps) => (
+export const FieldWrapper: React.FC<IFieldWrapperProps> = (props: IFieldWrapperProps) => (
   <FormLabel>
     <FormLabelDiv>{props.label}</FormLabelDiv>
     <FormFieldDiv>{props.children}</FormFieldDiv>

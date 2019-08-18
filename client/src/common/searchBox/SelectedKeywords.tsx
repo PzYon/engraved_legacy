@@ -16,7 +16,7 @@ interface ISelectedKeywordsProps {
   onKeywordSelect: (keyword: IKeyword) => void;
 }
 
-export const SelectedKeywords: React.SFC<ISelectedKeywordsProps> = (
+export const SelectedKeywords: React.FC<ISelectedKeywordsProps> = (
   props: ISelectedKeywordsProps
 ) => {
   const keywords: IKeyword[] = props.selectedKeywords;

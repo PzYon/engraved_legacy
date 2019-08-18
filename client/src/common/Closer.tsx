@@ -20,7 +20,7 @@ export interface ICloserProps {
   title: string;
 }
 
-export const Closer: React.SFC<ICloserProps> = (props: ICloserProps) => {
+export const Closer: React.FC<ICloserProps> = (props: ICloserProps) => {
   return (
     <Container className={"ngrvd-closer"} onClick={props.onClose}>
       x

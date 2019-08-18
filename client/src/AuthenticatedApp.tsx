@@ -32,11 +32,11 @@ const HeaderContainerDiv = styled.div`
   color: ${StyleConstants.colors.header.background};
 `;
 
-const HeaderContainer = BaseContainer.extend`
+const HeaderContainer = styled(BaseContainer)`
   height: ${StyleConstants.headerHeightInPx}px;
 `;
 
-const ContentContainer = BaseContainer.extend`
+const ContentContainer = styled(BaseContainer)`
   min-height: calc(100vh - ${StyleConstants.headerHeightInPx}px);
   position: relative;
 `;

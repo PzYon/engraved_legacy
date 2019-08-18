@@ -1,7 +1,7 @@
 import { css, InterpolationValue } from "styled-components";
 
 export class StyleUtil {
-  public static normalizeAnchors(color: string, hoverColor?: string): InterpolationValue[] {
+  public static normalizeAnchors(color: string, hoverColor?: string) {
     return css`
       a,
       a:link,
@@ -18,7 +18,7 @@ export class StyleUtil {
     `;
   }
 
-  public static getEllipsis(): InterpolationValue[] {
+  public static getEllipsis() {
     return css`
       white-space: nowrap;
       overflow: hidden;

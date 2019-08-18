@@ -6,9 +6,6 @@ import { StyleConstants } from "../../../../styling/StyleConstants";
 import { DomUtil } from "../../../DomUtil";
 import { If } from "../../../If";
 
-const mdItToc = require("markdown-it-table-of-contents");
-const mdItAnchor = require("markdown-it-anchor");
-
 const BaseContainer = styled.div`
   padding: 0.7rem;
   border: 1px solid ${StyleConstants.colors.discreet};
@@ -19,7 +16,7 @@ interface ITocContainerStyle {
   isExpanded: boolean;
 }
 
-const TocContainer = BaseContainer.extend<ITocContainerStyle>`
+const TocContainer = styled(BaseContainer)<ITocContainerStyle>`
   padding: 0.2rem 0.2rem 0.2rem 0.7rem;
   margin-bottom: 0.5rem;
 
@@ -28,7 +25,7 @@ const TocContainer = BaseContainer.extend<ITocContainerStyle>`
   }
 `;
 
-const ContentContainer = BaseContainer.extend`
+const ContentContainer = styled(BaseContainer)`
   h1,
   h2,
   h3 {
@@ -138,8 +135,8 @@ export class Markdown extends React.PureComponent<IMarkdownProps, IMarkdownState
   `;
 
     const completeHtml = new MarkdownIt("default", { linkify: true })
-      .use(mdItAnchor)
-      .use(mdItToc)
+      .use(require("markdown-it-anchor").default)
+      .use(require("markdown-it-table-of-contents"))
       .render(md);
 
     const sections = completeHtml.split(tocSeparator);

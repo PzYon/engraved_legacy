@@ -1,12 +1,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { injectGlobal } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import { App } from "./App";
 import { StyleConstants } from "./styling/StyleConstants";
 import { StyleUtil } from "./styling/StyleUtil";
 
-const injectGlobalStyles = (): void => {
-  return injectGlobal`
+const createGlobalStyles = (): any => {
+  return createGlobalStyle`
         ::selection {
           color: white;
           background: ${StyleConstants.colors.accent};
@@ -38,8 +38,14 @@ const injectGlobalStyles = (): void => {
 `;
 };
 
-injectGlobalStyles();
+const GlobalStyle = createGlobalStyles();
 
-ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
+ReactDOM.render(
+  <>
+    <GlobalStyle />
+    <App />
+  </>,
+  document.getElementById("root") as HTMLElement
+);
 
 // registerServiceWorker();

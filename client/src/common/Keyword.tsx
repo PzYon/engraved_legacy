@@ -31,7 +31,7 @@ export interface IKeywordProps {
   onClick?: (keyword: IKeyword) => void;
 }
 
-export const Keyword: React.SFC<IKeywordProps> = (props: IKeywordProps) => {
+export const Keyword: React.FC<IKeywordProps> = (props: IKeywordProps) => {
   return (
     <ContainerSpan
       className={"ngrvd-keyword"}

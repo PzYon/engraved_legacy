@@ -30,11 +30,11 @@ const Paragraph = styled.p`
   }
 `;
 
-const DescriptionParagraph = Paragraph.extend`
+const DescriptionParagraph = styled(Paragraph)`
   font-weight: 300;
 `;
 
-const SpecificPropertiesParagraph = Paragraph.extend`
+const SpecificPropertiesParagraph = styled(Paragraph)`
   font-size: ${StyleConstants.font.small};
 `;
 
@@ -61,17 +61,17 @@ export interface IItemProps {
 }
 
 export class Item extends React.PureComponent<IItemProps> {
-  private itemEl: HTMLDivElement;
+  private itemEl = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
-    setTimeout(() => (this.itemEl.style.opacity = "1"));
+    setTimeout(() => (this.itemEl.current.style.opacity = "1"));
   }
 
   public render(): ReactNode {
     const item: IItem = this.props.item;
 
     return (
-      <Root innerRef={r => (this.itemEl = r)}>
+      <Root ref={this.itemEl}>
         <Title>
           <Link to={`/items/${item._id || ""}`}>{item.title}</Link>
         </Title>

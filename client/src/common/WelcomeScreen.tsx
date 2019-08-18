@@ -33,7 +33,7 @@ const MessageDiv = styled.div`
   }
 `;
 
-export const WelcomeScreen: React.SFC<{}> = () => {
+export const WelcomeScreen: React.FC<{}> = () => {
   return (
     <RootDiv>
       <InnerDiv>

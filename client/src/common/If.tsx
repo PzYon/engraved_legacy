@@ -9,7 +9,7 @@ export interface IOnlyIfNotNullProps<T = {}> {
   renderElse?: () => ReactNode;
 }
 
-export const If: React.SFC<IOnlyIfNotNullProps> = (props: IOnlyIfNotNullProps): any => {
+export const If: React.FC<IOnlyIfNotNullProps> = (props: IOnlyIfNotNullProps): any => {
   const v: any = props.value;
 
   const isIf: boolean = props.condition

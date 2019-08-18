@@ -19,7 +19,7 @@ export interface IKeywordsProps {
   orderAlphabetically?: true;
 }
 
-export const Keywords: React.SFC<IKeywordsProps> = (props: IKeywordsProps) => {
+export const Keywords: React.FC<IKeywordsProps> = (props: IKeywordsProps) => {
   return (
     <If
       value={props.keywords}

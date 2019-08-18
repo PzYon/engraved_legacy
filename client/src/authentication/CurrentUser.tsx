@@ -17,7 +17,7 @@ interface ICurrentUserProps {
   imageSizeInPx: number;
 }
 
-export const CurrentUser: React.SFC<ICurrentUserProps> = (props: ICurrentUserProps) => {
+export const CurrentUser: React.FC<ICurrentUserProps> = (props: ICurrentUserProps) => {
   if (!props.user) {
     return null;
   }

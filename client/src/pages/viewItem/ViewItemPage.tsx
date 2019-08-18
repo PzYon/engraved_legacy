@@ -23,7 +23,7 @@ const SectionContainer = styled.div`
   margin: 1rem 0;
 `;
 
-const ItemPropertiesContainer = SectionContainer.extend`
+const ItemPropertiesContainer = styled(SectionContainer)`
   display: flex;
   align-items: stretch;
   font-size: ${StyleConstants.font.small};
