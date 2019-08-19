@@ -64,7 +64,11 @@ export class Item extends React.PureComponent<IItemProps> {
   private itemEl = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
-    setTimeout(() => (this.itemEl.current.style.opacity = "1"));
+    setTimeout(() => {
+      if (this.itemEl.current) {
+        this.itemEl.current.style.opacity = "1";
+      }
+    });
   }
 
   public render(): ReactNode {

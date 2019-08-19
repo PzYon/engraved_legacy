@@ -4,6 +4,7 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
+import { Subscription } from "rxjs";
 import { ConfirmableButton } from "../../common/form/buttons/ConfirmableButton";
 import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { Form } from "../../common/form/Form";
@@ -34,13 +35,21 @@ export class EditItemPage extends React.Component<
     failedToLoad: false
   };
 
+  private itemSub: Subscription;
+
   public componentDidMount(): void {
-    ItemStore.instance
+    this.itemSub = ItemStore.instance
       .getLocalItemOrLoad(this.state.itemId)
       .subscribe(
         item => this.setState({ item: item }),
         () => this.setState({ failedToLoad: true })
       );
+  }
+
+  public componentWillUnmount(): void {
+    if (this.itemSub) {
+      this.itemSub.unsubscribe();
+    }
   }
 
   public render(): ReactNode {
