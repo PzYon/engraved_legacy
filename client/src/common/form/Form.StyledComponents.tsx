@@ -46,7 +46,7 @@ export const FormLabel = styled.label`
 export const FormLabelDiv = styled.div`
   padding-bottom: 0.2rem;
   font-size: ${StyleConstants.font.small};
-n`;
+`;
 
 export const FormFieldDiv = styled.div``;
 

@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "codemirror": "^5.48.2",
-    "engraved-shared": "0.0.101",
+    "engraved-shared": "0.0.102",
     "markdown-it": "^9.1.0",
     "markdown-it-anchor": "^5.2.4",
     "markdown-it-table-of-contents": "^0.4.4",

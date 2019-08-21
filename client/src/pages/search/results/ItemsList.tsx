@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import styled from "styled-components";
 import { ErrorBoundary } from "../../../common/ErrorBoundary";
 import { If } from "../../../common/If";
+import { LoadMore } from "../../../common/LoadMore";
 import { ItemStore } from "../../../items/ItemStore";
 import { Item } from "./Item";
 
@@ -18,18 +19,20 @@ const ListItem = styled.li``;
 
 interface IListOfItemsState {
   items: IItem[];
+  noPagesLeft: boolean;
 }
 
 export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
   private items$Subscription: Subscription;
 
   public readonly state: IListOfItemsState = {
-    items: []
+    items: [],
+    noPagesLeft: false
   };
 
   public componentDidMount(): void {
     this.items$Subscription = ItemStore.instance.items$.subscribe(
-      t => this.setState({ items: t }),
+      items => this.setState({ items: items, noPagesLeft: ItemStore.instance.noPagesLeft }),
       (error: Error) => ErrorBoundary.ensureError(this, error)
     );
   }
@@ -45,13 +48,23 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
       <If
         value={this.state.items}
         render={() => (
-          <List>
-            {this.state.items.map((item: IItem) => (
-              <ListItem key={item._id}>
-                <Item item={item} />
-              </ListItem>
-            ))}
-          </List>
+          <>
+            <List>
+              {this.state.items.map((item: IItem) => (
+                <ListItem key={item._id}>
+                  <Item item={item} />
+                </ListItem>
+              ))}
+            </List>
+            <If
+              value={!this.state.noPagesLeft}
+              render={() => (
+                <LoadMore loadMore={() => ItemStore.instance.loadItems(true)}>
+                  Get next page
+                </LoadMore>
+              )}
+            />
+          </>
         )}
       />
     );

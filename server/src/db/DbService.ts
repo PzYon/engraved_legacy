@@ -102,10 +102,13 @@ export class DbService {
     console.log(`executing items query:`);
     console.log(query);
 
-    return this.items
-      .find(query)
-      .sort("editedOn", -1)
-      .toArray();
+    let cursor = this.items.find(query);
+
+    if (searchQuery.take > 0) {
+      cursor = cursor.skip(searchQuery.skip).limit(searchQuery.take);
+    }
+
+    return cursor.sort("editedOn", -1).toArray();
   }
 
   public deleteItem(id: string): Promise<any> {
@@ -180,7 +183,7 @@ export class DbService {
       ? DbService.createFulltextFilter(true, fullText, "title", "description")
       : null;
 
-    // todo: make this case insensitive to
+    // todo: make this case insensitive too
     const areKeywordsApplied = searchQuery.getKeywords().map((keyword: string) => {
       const keywordsContains: any = {};
       keywordsContains[`${Config.db.collections.keywords}.name`] = keyword;
