@@ -27,9 +27,16 @@ export class ItemStore {
   }
 
   public items$: BehaviorSubject<IItem[]> = new BehaviorSubject<IItem[]>([]);
+
   public keywords$: BehaviorSubject<IKeyword[]> = new BehaviorSubject<IKeyword[]>([]);
 
   public searchText: string = "";
+
+  public noPagesLeft: boolean = false;
+
+  private pageNumber: number = 0;
+
+  private readonly pageSize: number = 10;
 
   private nextItemsSubscription: SubscriptionLike;
 
@@ -72,7 +79,14 @@ export class ItemStore {
     );
   };
 
-  public loadItems = (): void => {
+  public loadItems = (isPaging?: boolean): void => {
+    if (!isPaging) {
+      this.pageNumber = 0;
+      this.noPagesLeft = false;
+    } else {
+      this.pageNumber++;
+    }
+
     if (this.nextItemsSubscription) {
       this.nextItemsSubscription.unsubscribe();
     }
@@ -86,21 +100,34 @@ export class ItemStore {
 
     const query: ItemSearchQuery = new ItemSearchQuery(
       this.searchText === "*" ? "" : this.searchText,
-      keywords.map(k => k.name).join(ItemSearchQuery.keywordsSeparator)
+      keywords.map(k => k.name).join(ItemSearchQuery.keywordsSeparator),
+      this.pageNumber * this.pageSize,
+      this.pageSize
     );
 
-    console.log(`ItemStore: calling server @ "${query.toUrl()}"`);
+    const urlQuery = query.toUrl();
 
-    this.nextItemsSubscription = AuthenticatedServerApi.get<IItem[]>(
-      `items?${query.toUrl()}`
-    ).subscribe((items: IItem[]) => {
-      this.items$.next(this.transformItems(items));
-    });
+    console.log(`ItemStore: calling server @ "${urlQuery}"`);
+
+    this.nextItemsSubscription = AuthenticatedServerApi.get<IItem[]>(`items?${urlQuery}`).subscribe(
+      (items: IItem[]) => {
+        if (!items || !items.length || items.length < this.pageSize) {
+          this.noPagesLeft = true;
+        }
+
+        const transformedItems = this.transformItems(items);
+
+        const allItems = isPaging ? [...this.items$.value, ...transformedItems] : transformedItems;
+
+        this.items$.next(allItems);
+      }
+    );
   };
 
   public resetAndLoad(): void {
     this.keywords$.next([]);
     this.searchText = "";
+    this.pageNumber = 0;
     this.loadItems();
   }
 

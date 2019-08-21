@@ -48,7 +48,14 @@ export class ItemController extends BaseAuthenticatedController {
 
   private searchItems = (req: Request, res: Response): void => {
     this.createDbService(req)
-      .getItems(new ItemSearchQuery(req.query.q, req.query.keywords))
+      .getItems(
+        new ItemSearchQuery(
+          req.query[ItemSearchQuery.freeTextParamName],
+          req.query[ItemSearchQuery.keywordsParamName],
+          Number(req.query[ItemSearchQuery.skipParamName] || 0),
+          Number(req.query[ItemSearchQuery.takeParamName] || 0)
+        )
+      )
       .then((items: IItem[]) => res.send(items));
   };
 }
