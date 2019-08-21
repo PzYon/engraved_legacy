@@ -1,6 +1,5 @@
 import * as moment from "moment";
 import * as React from "react";
-import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IUser } from "../../../shared/src";
@@ -9,7 +8,42 @@ import { CurrentUser } from "../authentication/CurrentUser";
 import { ItemStore } from "../items/ItemStore";
 import { StyleConstants } from "../styling/StyleConstants";
 import { StyleUtil } from "../styling/StyleUtil";
-import { Typer } from "./Typer";
+import { Typing } from "./Typing";
+
+export interface IHeaderProps {
+  currentUser: IUser;
+}
+
+export const Header = (props: IHeaderProps) => {
+  return (
+    <HeaderContainer>
+      <AppTitle title={getAppInfo()}>
+        <Link
+          to={"/"}
+          onClick={() => {
+            ItemStore.instance.resetAndLoad();
+            return true;
+          }}
+        >
+          <Typing textToType={"engraved."} />
+        </Link>
+      </AppTitle>
+      <CurrentUserSpan>
+        <Link to={"/users/me"}>
+          <CurrentUser
+            user={props.currentUser}
+            imageSizeInPx={StyleConstants.headerHeightInPx * 0.7}
+          />
+        </Link>
+      </CurrentUserSpan>
+    </HeaderContainer>
+  );
+};
+
+const getAppInfo = (): string => {
+  const buildDate = process.env.NODE_ENV === "development" ? new Date() : ngrvd.buildDate;
+  return "Version " + version + "  - Built " + moment(buildDate).fromNow();
+};
 
 const HeaderContainer = styled.header`
   margin: 0 ${StyleConstants.defaultSpacing};
@@ -31,55 +65,3 @@ const AppTitle = styled.h1`
 const CurrentUserSpan = styled.span`
   font-size: 0;
 `;
-
-export interface IHeaderProps {
-  currentUser: IUser;
-}
-
-interface IHeaderState {
-  title: string;
-}
-
-export class Header extends React.PureComponent<IHeaderProps, IHeaderState> {
-  public readonly state: IHeaderState = {
-    title: "|"
-  };
-
-  public componentDidMount(): void {
-    let counter = 0;
-    new Typer("engraved.").startTyping((typedText: string) =>
-      this.setState({ title: typedText + (counter++ % 2 === 0 ? "|" : "") })
-    );
-  }
-
-  public render(): ReactNode {
-    return (
-      <HeaderContainer>
-        <AppTitle title={Header.getAppInfo()}>
-          <Link
-            to={"/"}
-            onClick={() => {
-              ItemStore.instance.resetAndLoad();
-              return true;
-            }}
-          >
-            {this.state.title}
-          </Link>
-        </AppTitle>
-        <CurrentUserSpan>
-          <Link to={"/users/me"}>
-            <CurrentUser
-              user={this.props.currentUser}
-              imageSizeInPx={StyleConstants.headerHeightInPx * 0.7}
-            />
-          </Link>
-        </CurrentUserSpan>
-      </HeaderContainer>
-    );
-  }
-
-  private static getAppInfo(): string {
-    const buildDate = process.env.NODE_ENV === "development" ? new Date() : ngrvd.buildDate;
-    return "Version " + version + "  - Built " + moment(buildDate).fromNow();
-  }
-}
