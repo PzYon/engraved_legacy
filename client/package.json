@@ -3,9 +3,9 @@
   "version": "0.0.2",
   "private": true,
   "dependencies": {
-    "codemirror": "^5.48.2",
+    "codemirror": "^5.48.4",
     "date-fns": "^2.0.0",
-    "engraved-shared": "0.0.103",
+    "engraved-shared": "0.0.106",
     "markdown-it": "^9.1.0",
     "markdown-it-anchor": "^5.2.4",
     "markdown-it-table-of-contents": "^0.4.4",
@@ -21,6 +21,7 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "node ./update-packagejson.js && react-scripts-ts build",
+    "build-ts": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },

@@ -11,7 +11,7 @@ export class ItemSearchQuery {
 
   public constructor(
     private fullText: string,
-    private keywords: string[],
+    public keywords: string[],
     public skip?: number,
     public take?: number
   ) {}

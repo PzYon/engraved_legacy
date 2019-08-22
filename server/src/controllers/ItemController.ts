@@ -47,15 +47,17 @@ export class ItemController extends BaseAuthenticatedController {
   };
 
   private searchItems = (req: Request, res: Response): void => {
+    const keywords = req.query[ItemSearchQuery.keywordsParamName];
+
+    const query = new ItemSearchQuery(
+      req.query[ItemSearchQuery.freeTextParamName],
+      keywords ? (keywords as string).split(ItemSearchQuery.keywordsSeparator) : [],
+      Number(req.query[ItemSearchQuery.skipParamName] || 0),
+      Number(req.query[ItemSearchQuery.takeParamName] || 0)
+    );
+
     this.createDbService(req)
-      .getItems(
-        new ItemSearchQuery(
-          req.query[ItemSearchQuery.freeTextParamName],
-          req.query[ItemSearchQuery.keywordsParamName],
-          Number(req.query[ItemSearchQuery.skipParamName] || 0),
-          Number(req.query[ItemSearchQuery.takeParamName] || 0)
-        )
-      )
+      .getItems(query)
       .then((items: IItem[]) => res.send(items));
   };
 }

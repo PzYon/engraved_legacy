@@ -1,13 +1,15 @@
 {
   "name": "engraved-shared",
-  "version": "0.0.103",
+  "version": "0.0.106",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "copyPackageJson": "copyfiles package.json dist",
-    "dev-shared": "npm run copyPackageJson && tsc -w",
+    "copy-package-json": "copyfiles package.json dist",
+    "dev-shared": "npm run copy-package-json && tsc -w",
     "lint": "tslint --project tsconfig.json",
-    "publishtonpm": "tsc && npm run copyPackageJson && cd dist && npm publish"
+    "build": "tsc && npm run copy-package-json",
+    "validate": "npm run build && cd dist && npm link && cd ..\\..\\server && npm link engraved-shared && npm run build && cd ..\\client && npm link engraved-shared && npm run build-ts",
+    "publish-to-npm": "npm run build && cd dist && npm publish"
   },
   "author": "",
   "license": "ISC",

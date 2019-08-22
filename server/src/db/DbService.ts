@@ -184,7 +184,7 @@ export class DbService {
       : null;
 
     // todo: make this case insensitive too
-    const areKeywordsApplied = searchQuery.getKeywords().map((keyword: string) => {
+    const areKeywordsApplied = searchQuery.keywords.map((keyword: string) => {
       const keywordsContains: any = {};
       keywordsContains[`${Config.db.collections.keywords}.name`] = keyword;
       return keywordsContains;
