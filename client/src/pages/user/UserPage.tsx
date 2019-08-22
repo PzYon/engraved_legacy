@@ -1,10 +1,10 @@
 import { IStats, IUser } from "engraved-shared";
-import * as moment from "moment";
 import * as React from "react";
 import { ReactNode } from "react";
 import { RouteComponentProps } from "react-router";
 import styled from "styled-components";
 import { AuthenticatedServerApi } from "../../authentication/AuthenticatedServerApi";
+import { FormatDate } from "../../common/FormatDate";
 import { If } from "../../common/If";
 import { Page } from "../Page";
 
@@ -48,7 +48,10 @@ export class UserPage extends React.Component<RouteComponentProps<IRouterParams>
       <Page browserTitle={user.displayName} title={`Greetings ${user.displayName}`}>
         <p>
           Your mail address is <Highlight>{user.mail}</Highlight> and you signed up{" "}
-          <Highlight>{moment(user.memberSince).fromNow()}</Highlight>.
+          <Highlight>
+            <FormatDate value={user.memberSince} />
+          </Highlight>
+          .
         </p>
         <If
           value={this.state.stats}

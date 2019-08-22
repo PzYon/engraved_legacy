@@ -1,4 +1,3 @@
-import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -8,6 +7,7 @@ import { CurrentUser } from "../authentication/CurrentUser";
 import { ItemStore } from "../items/ItemStore";
 import { StyleConstants } from "../styling/StyleConstants";
 import { StyleUtil } from "../styling/StyleUtil";
+import { formatDate } from "./FormatDate";
 import { Typing } from "./Typing";
 
 export interface IHeaderProps {
@@ -42,7 +42,7 @@ export const Header = (props: IHeaderProps) => {
 
 const getAppInfo = (): string => {
   const buildDate = process.env.NODE_ENV === "development" ? new Date() : ngrvd.buildDate;
-  return "Version " + version + "  - Built " + moment(buildDate).fromNow();
+  return "Version " + version + "  - Built " + formatDate(buildDate);
 };
 
 const HeaderContainer = styled.header`

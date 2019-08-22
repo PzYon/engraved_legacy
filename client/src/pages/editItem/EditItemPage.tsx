@@ -1,5 +1,4 @@
 import { IItem, Util } from "engraved-shared";
-import * as moment from "moment";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
@@ -8,6 +7,7 @@ import { Subscription } from "rxjs";
 import { ConfirmableButton } from "../../common/form/buttons/ConfirmableButton";
 import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { Form } from "../../common/form/Form";
+import { DateFormat, formatDate } from "../../common/FormatDate";
 import { ItemStore } from "../../items/ItemStore";
 import { NotificationKind } from "../../notifications/INotification";
 import { NotificationStore } from "../../notifications/NotificationStore";
@@ -69,7 +69,7 @@ export class EditItemPage extends React.Component<
     }
 
     // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key
-    const reactKey = moment(item.editedOn || new Date()).format();
+    const reactKey = formatDate(item.editedOn || new Date(), DateFormat.ticks);
 
     return (
       <Page browserTitle={item.title + " | edit"} title={"Edit item"}>
