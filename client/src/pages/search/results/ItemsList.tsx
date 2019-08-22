@@ -35,6 +35,8 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
       items => this.setState({ items: items, noPagesLeft: ItemStore.instance.noPagesLeft }),
       (error: Error) => ErrorBoundary.ensureError(this, error)
     );
+
+    ItemsList.loadItems();
   }
 
   public componentWillUnmount(): void {
@@ -58,15 +60,15 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
             </List>
             <If
               value={!this.state.noPagesLeft}
-              render={() => (
-                <LoadMore loadMore={() => ItemStore.instance.loadItems(true)}>
-                  Get next page
-                </LoadMore>
-              )}
+              render={() => <LoadMore loadMore={ItemsList.loadItems} />}
             />
           </>
         )}
       />
     );
+  }
+
+  private static loadItems() {
+    ItemStore.instance.loadItems(true);
   }
 }

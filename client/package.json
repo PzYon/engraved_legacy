@@ -5,7 +5,7 @@
   "dependencies": {
     "codemirror": "^5.48.2",
     "date-fns": "^2.0.0",
-    "engraved-shared": "0.0.102",
+    "engraved-shared": "0.0.103",
     "markdown-it": "^9.1.0",
     "markdown-it-anchor": "^5.2.4",
     "markdown-it-table-of-contents": "^0.4.4",

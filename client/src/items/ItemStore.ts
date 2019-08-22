@@ -42,6 +42,10 @@ export class ItemStore {
 
   private constructor() {}
 
+  public static isInvalidSearchText(searchText: string) {
+    return !searchText || searchText.trim().length === 0;
+  }
+
   public toggleKeyword(keyword: IKeyword): boolean {
     const copy = [...this.keywords$.value];
 
@@ -91,21 +95,7 @@ export class ItemStore {
       this.nextItemsSubscription.unsubscribe();
     }
 
-    const keywords: IKeyword[] = this.keywords$.value;
-
-    if (ItemStore.isInvalidSearchText(this.searchText) && keywords.length === 0) {
-      this.items$.next([]);
-      return;
-    }
-
-    const query: ItemSearchQuery = new ItemSearchQuery(
-      this.searchText === "*" ? "" : this.searchText,
-      keywords.map(k => k.name).join(ItemSearchQuery.keywordsSeparator),
-      this.pageNumber * this.pageSize,
-      this.pageSize
-    );
-
-    const urlQuery = query.toUrl();
+    const urlQuery = this.createQuery().toUrl();
 
     console.log(`ItemStore: calling server @ "${urlQuery}"`);
 
@@ -143,8 +133,13 @@ export class ItemStore {
     return AuthenticatedServerApi.get(`items/${id}`);
   }
 
-  public static isInvalidSearchText(searchText: string) {
-    return !searchText || searchText.trim().length === 0;
+  private createQuery(): ItemSearchQuery {
+    return new ItemSearchQuery(
+      this.searchText,
+      this.keywords$.value.map(k => k.name),
+      this.pageNumber * this.pageSize,
+      this.pageSize
+    );
   }
 
   private transformItems(items: IItem[]): IItem[] {

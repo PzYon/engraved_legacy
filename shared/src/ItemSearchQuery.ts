@@ -11,7 +11,7 @@ export class ItemSearchQuery {
 
   public constructor(
     private fullText: string,
-    private keywords: string,
+    private keywords: string[],
     public skip?: number,
     public take?: number
   ) {}
@@ -20,17 +20,16 @@ export class ItemSearchQuery {
     return this.fullText ? this.fullText.trim() : "";
   }
 
-  public getKeywords(): string[] {
-    return !this.keywords ? [] : this.keywords.split(ItemSearchQuery.keywordsSeparator);
-  }
-
   public toUrl(): string {
     const keyValuePairs: {} = {};
 
     keyValuePairs[ItemSearchQuery.freeTextParamName] = this.getFullText();
-    keyValuePairs[ItemSearchQuery.keywordsParamName] = this.getKeywords().join(
-      ItemSearchQuery.keywordsSeparator
-    );
+
+    if (this.keywords && this.keywords.length) {
+      keyValuePairs[ItemSearchQuery.keywordsParamName] = this.keywords.join(
+        ItemSearchQuery.keywordsSeparator
+      );
+    }
 
     if (this.take > 0) {
       keyValuePairs[ItemSearchQuery.takeParamName] = this.take;
