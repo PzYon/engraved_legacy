@@ -60,7 +60,7 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
             </List>
             <If
               value={!this.state.noPagesLeft}
-              render={() => <LoadMore loadMore={ItemsList.loadItems} />}
+              render={() => <LoadMore loadMore={() => ItemsList.loadItems(true)} />}
             />
           </>
         )}
@@ -68,7 +68,7 @@ export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
     );
   }
 
-  private static loadItems() {
-    ItemStore.instance.loadItems(true);
+  private static loadItems(isPaging?: boolean) {
+    ItemStore.instance.loadItems(isPaging);
   }
 }

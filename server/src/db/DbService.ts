@@ -102,13 +102,13 @@ export class DbService {
     console.log(`executing items query:`);
     console.log(query);
 
-    let cursor = this.items.find(query);
+    let cursor = this.items.find(query).sort({ editedOn: -1 });
 
     if (searchQuery.take > 0) {
       cursor = cursor.skip(searchQuery.skip).limit(searchQuery.take);
     }
 
-    return cursor.sort("editedOn", -1).toArray();
+    return cursor.toArray();
   }
 
   public deleteItem(id: string): Promise<any> {
