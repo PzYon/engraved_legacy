@@ -34,7 +34,6 @@ const Input = styled.input`
   padding: ${StyleConstants.formElementPadding};
   border: 0 !important;
   border-top: 1px solid ${StyleConstants.colors.discreet} !important;
-  font-size: ${StyleConstants.font.large};
 
   &:focus {
     outline: none;
