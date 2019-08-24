@@ -9,7 +9,7 @@ const Container = styled.span`
   flex-flow: wrap;
 
   .ngrvd-keyword {
-    line-height: 1.5rem;
+    line-height: 1.4rem;
   }
 `;
 

@@ -25,18 +25,16 @@ const InnerContainerDiv = styled.div<IInnerContainerDivStyle>`
 `;
 
 const Input = styled.input`
-  font-size: ${StyleConstants.font.large};
-  padding: ${StyleConstants.formElementPadding};
-  border: 0 !important;
-  border-top: 1px solid ${StyleConstants.colors.discreet} !important;
-  margin-bottom: 0 !important;
-  height: calc(
-    2.25rem - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding}
-  );
-
+  box-sizing: border-box;
+  height: 42px;
   width: 100% !important;
   min-width: 100% !important;
   max-width: 100% !important;
+  margin-bottom: 0 !important;
+  padding: ${StyleConstants.formElementPadding};
+  border: 0 !important;
+  border-top: 1px solid ${StyleConstants.colors.discreet} !important;
+  font-size: ${StyleConstants.font.large};
 
   &:focus {
     outline: none;
