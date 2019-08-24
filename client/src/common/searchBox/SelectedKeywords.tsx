@@ -6,9 +6,10 @@ import { StyleConstants } from "../../styling/StyleConstants";
 import { Keywords } from "../Keywords";
 
 const ContainerDiv = styled.div`
+  box-sizing: border-box;
+  min-height: 41px;
   padding: ${StyleConstants.formElementPadding};
   text-align: left;
-  line-height: 1.3rem;
 `;
 
 interface ISelectedKeywordsProps {
