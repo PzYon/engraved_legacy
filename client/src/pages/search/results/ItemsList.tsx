@@ -1,13 +1,48 @@
 import { IItem } from "engraved-shared";
 import * as React from "react";
-import { ReactNode } from "react";
-import { Subscription } from "rxjs";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ErrorBoundary } from "../../../common/ErrorBoundary";
 import { If } from "../../../common/If";
 import { LoadMore } from "../../../common/LoadMore";
 import { ItemStore } from "../../../items/ItemStore";
 import { Item } from "./Item";
+
+export const ItemsList = () => {
+  const [items, setItems] = useState([]);
+  const [noPagesLeft, setNoPagesLeft] = useState(false);
+
+  useEffect(() => {
+    const items$Subscription = ItemStore.instance.items$.subscribe(loadedItems => {
+      setItems(loadedItems);
+      setNoPagesLeft(ItemStore.instance.noPagesLeft);
+    });
+
+    ItemStore.instance.loadItems(false);
+
+    return items$Subscription.unsubscribe;
+  }, []);
+
+  return (
+    <If
+      value={items}
+      render={() => (
+        <>
+          <List>
+            {items.map((item: IItem) => (
+              <ListItem key={item._id}>
+                <Item item={item} />
+              </ListItem>
+            ))}
+          </List>
+          <If
+            value={!noPagesLeft}
+            render={() => <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />}
+          />
+        </>
+      )}
+    />
+  );
+};
 
 const List = styled.ul`
   list-style-type: none;
@@ -16,59 +51,3 @@ const List = styled.ul`
 `;
 
 const ListItem = styled.li``;
-
-interface IListOfItemsState {
-  items: IItem[];
-  noPagesLeft: boolean;
-}
-
-export class ItemsList extends React.PureComponent<{}, IListOfItemsState> {
-  private items$Subscription: Subscription;
-
-  public readonly state: IListOfItemsState = {
-    items: [],
-    noPagesLeft: false
-  };
-
-  public componentDidMount(): void {
-    this.items$Subscription = ItemStore.instance.items$.subscribe(
-      items => this.setState({ items: items, noPagesLeft: ItemStore.instance.noPagesLeft }),
-      (error: Error) => ErrorBoundary.ensureError(this, error)
-    );
-
-    ItemsList.loadItems();
-  }
-
-  public componentWillUnmount(): void {
-    if (this.items$Subscription) {
-      this.items$Subscription.unsubscribe();
-    }
-  }
-
-  public render(): ReactNode {
-    return (
-      <If
-        value={this.state.items}
-        render={() => (
-          <>
-            <List>
-              {this.state.items.map((item: IItem) => (
-                <ListItem key={item._id}>
-                  <Item item={item} />
-                </ListItem>
-              ))}
-            </List>
-            <If
-              value={!this.state.noPagesLeft}
-              render={() => <LoadMore loadMore={() => ItemsList.loadItems(true)} />}
-            />
-          </>
-        )}
-      />
-    );
-  }
-
-  private static loadItems(isPaging?: boolean) {
-    ItemStore.instance.loadItems(isPaging);
-  }
-}
