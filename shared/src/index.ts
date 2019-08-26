@@ -12,6 +12,10 @@ export { IUser } from "./IUser";
 
 export { IStats } from "./IStats";
 
+export { ISorting } from "./ISorting";
+
 export { ItemSearchQuery } from "./ItemSearchQuery";
+
+export { SortDirection } from "./SortDirection";
 
 export { Util } from "./Util";

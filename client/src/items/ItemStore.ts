@@ -3,9 +3,11 @@ import {
   IItem,
   IKeyword,
   INoteItem,
+  ISorting,
   ItemKind,
   ItemSearchQuery,
   IUrlItem,
+  SortDirection,
   Util
 } from "engraved-shared";
 import { BehaviorSubject, Observable, Observer, SubscriptionLike } from "rxjs";
@@ -33,6 +35,11 @@ export class ItemStore {
   public searchText: string = "";
 
   public noPagesLeft: boolean = false;
+
+  public sorting: ISorting = {
+    propName: "editedOn",
+    direction: SortDirection.Descending
+  };
 
   private pageNumber: number = 0;
 
@@ -138,7 +145,8 @@ export class ItemStore {
       this.searchText,
       this.keywords$.value.map(k => k.name),
       this.pageNumber * this.pageSize,
-      this.pageSize
+      this.pageSize,
+      this.sorting
     );
   }
 

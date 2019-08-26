@@ -1,4 +1,4 @@
-import { IItem, IKeyword, IStats, ItemSearchQuery, IUser } from "engraved-shared";
+import { IItem, IKeyword, IStats, ItemSearchQuery, IUser, SortDirection } from "engraved-shared";
 import {
   Collection,
   Db,
@@ -102,7 +102,13 @@ export class DbService {
     console.log(`executing items query:`);
     console.log(query);
 
-    let cursor = this.items.find(query).sort({ editedOn: -1 });
+    let cursor = this.items
+      .find(query)
+      .collation({ locale: "en" })
+      .sort({
+        [searchQuery.sorting.propName]:
+          searchQuery.sorting.direction === SortDirection.Descending ? -1 : 1
+      });
 
     if (searchQuery.take > 0) {
       cursor = cursor.skip(searchQuery.skip).limit(searchQuery.take);

@@ -1,4 +1,4 @@
-import { IItem, ItemSearchQuery } from "engraved-shared";
+import { IItem, ItemSearchQuery, SortDirection } from "engraved-shared";
 import { Express } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { Db } from "mongodb";
@@ -53,7 +53,11 @@ export class ItemController extends BaseAuthenticatedController {
       req.query[ItemSearchQuery.freeTextParamName],
       keywords ? (keywords as string).split(ItemSearchQuery.keywordsSeparator) : [],
       Number(req.query[ItemSearchQuery.skipParamName] || 0),
-      Number(req.query[ItemSearchQuery.takeParamName] || 0)
+      Number(req.query[ItemSearchQuery.takeParamName] || 0),
+      {
+        direction: req.query[ItemSearchQuery.sortingDirectionParamName],
+        propName: req.query[ItemSearchQuery.sortingPropParamName]
+      }
     );
 
     this.createDbService(req)
