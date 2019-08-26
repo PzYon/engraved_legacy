@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { If } from "../../../common/If";
 import { LoadMore } from "../../../common/LoadMore";
 import { ItemStore } from "../../../items/ItemStore";
+import { Sorting } from "../Sorting";
 import { Item } from "./Item";
 
 export const ItemsList = () => {
@@ -19,7 +20,7 @@ export const ItemsList = () => {
 
     ItemStore.instance.loadItems(false);
 
-    return items$Subscription.unsubscribe;
+    return () => items$Subscription.unsubscribe();
   }, []);
 
   return (
@@ -27,6 +28,12 @@ export const ItemsList = () => {
       value={items}
       render={() => (
         <>
+          <Sorting
+            options={[
+              { label: "Edited On", value: "editedOn" },
+              { label: "Title", value: "title" }
+            ]}
+          />
           <List>
             {items.map((item: IItem) => (
               <ListItem key={item._id}>

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ChangeEvent, ReactNode } from "react";
-import { Select } from "../../Form.StyledComponents";
 import { FieldWrapper } from "../FieldWrapper";
 import { IFieldProps } from "../IFieldProps";
+import { SelectInner } from "./SelectInner";
 
 export interface ISelectFieldOptions<T> {
   label: string;
@@ -22,13 +22,11 @@ export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
         {this.props.isReadOnly ? (
           this.props.valueLabel
         ) : (
-          <Select defaultValue={this.props.defaultKey} onChange={this.onChange}>
-            {this.props.options.map((o: ISelectFieldOptions<any>) => (
-              <option value={o.value} key={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </Select>
+          <SelectInner
+            defaultKey={this.props.defaultKey}
+            onValueChange={this.onChange}
+            options={this.props.options}
+          />
         )}
       </FieldWrapper>
     );

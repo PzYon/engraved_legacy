@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Edited } from "../../../common/Edited";
 import { ItemKindIcon } from "../../../common/ItemKindIcon";
-import { KeywordMargin } from "../../../common/Keyword";
 import { Keywords } from "../../../common/Keywords";
+import { PillMargin } from "../../../common/Pill";
 import { ItemKindRegistrationManager } from "../../../items/ItemKindRegistrationManager";
 import { ItemStore } from "../../../items/ItemStore";
 import { StyleConstants } from "../../../styling/StyleConstants";
@@ -26,7 +26,7 @@ const Paragraph = styled.p`
   margin: 0.5rem 0;
 
   .ngrvd-keywords {
-    margin-left: -${KeywordMargin};
+    margin-left: -${PillMargin};
   }
 `;
 
