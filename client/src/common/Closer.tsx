@@ -4,11 +4,13 @@ import { StyleConstants } from "../styling/StyleConstants";
 
 const Container = styled.span`
   position: absolute;
-  right: 0.8rem;
+  right: ${StyleConstants.defaultSpacing};
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: ${StyleConstants.font.largest};
+  font-weight: 300;
   color: ${StyleConstants.colors.accent};
   transition: color 0.3s;
+  transform: rotate(45deg);
 
   &:hover {
     color: ${StyleConstants.colors.font};
@@ -22,6 +24,6 @@ export interface ICloserProps {
 
 export const Closer: React.FC<ICloserProps> = (props: ICloserProps) => (
   <Container className={"ngrvd-closer"} onClick={props.onClose}>
-    x
+    +
   </Container>
 );

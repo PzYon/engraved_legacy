@@ -16,7 +16,7 @@ const IconAnchor = styled.a`
   top: 0.25rem;
   opacity: 0;
   transition: opacity 0.5s;
-  font-size: 0.7rem;
+  font-size: ${StyleConstants.font.small};
   text-decoration: none;
   display: flex;
   align-items: center;

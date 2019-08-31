@@ -13,6 +13,7 @@ interface ITogglePreviewContainerStyle {
 }
 
 const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
+  display: flex;
   border: 1px solid ${StyleConstants.colors.discreet};
   background-color: ${StyleConstants.colors.ultraDiscreet};
   border-bottom: 0;
@@ -31,7 +32,6 @@ const TogglePreviewAnchor = styled.a`
   font-size: ${StyleConstants.font.small};
   cursor: pointer;
   display: inline-block;
-  padding-left: 0.7rem;
   color: ${StyleConstants.colors.accent};
 `;
 

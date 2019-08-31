@@ -11,7 +11,7 @@ import { StyleConstants } from "../../../../styling/StyleConstants";
 const CodeEditorContainer = styled.div`
   .CodeMirror {
     border: 1px solid ${StyleConstants.colors.discreet};
-    font-size: 16px;
+    font-size: ${StyleConstants.font.small};
     font-family: ${StyleConstants.font.codeFamily};
     width: calc(100% - 2px);
     height: auto;

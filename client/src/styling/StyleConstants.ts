@@ -12,12 +12,12 @@ export const StyleConstants = {
   maxContentWidth: "1000px",
   defaultSpacing: "15px",
   formElementPadding: "5px",
-  defaultBoxShadow: `1px 1px 10px ${discreetColor}`,
+  defaultBoxShadow: `0 1px 6px 0 rgba(32, 33, 36, .28)`,
   font: {
-    small: "0.8rem",
+    small: "14px",
     regular: "18px",
-    large: "1.3rem",
-    largest: "1.5rem",
+    large: "25px",
+    largest: "36px",
     family: "'IBM Plex Sans', sans-serif",
     codeFamily: "monospace"
   },

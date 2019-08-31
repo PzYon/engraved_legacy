@@ -22,6 +22,7 @@ const ContainerDiv = styled.div`
   box-shadow: ${StyleConstants.defaultBoxShadow};
 
   .ngrvd-closer {
+    font-size: ${StyleConstants.font.large};
     right: 0.4rem;
     top: 0;
   }
@@ -37,7 +38,7 @@ const GroupItemsList = styled.ul`
 
 const GroupTitleDiv = styled.div`
   font-weight: 300;
-  font-size: 1.2rem;
+  font-size: ${StyleConstants.font.regular};
   padding: ${StyleConstants.formElementPadding};
 `;
 

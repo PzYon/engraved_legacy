@@ -11,7 +11,7 @@ const Title = styled.h2`
   font-weight: 300;
   font-size: ${StyleConstants.font.largest};
   color: ${StyleConstants.colors.accent};
-  margin-top: 0;
+  margin: 0 0 ${StyleConstants.defaultSpacing} 0;
 `;
 
 const ContentDiv = styled.div`
