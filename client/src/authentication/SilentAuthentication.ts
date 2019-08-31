@@ -31,7 +31,8 @@ export class SilentAuthentication {
     document.body.appendChild(iframe);
   }
 
-  public static wrap<T>(action: () => Observable<T>): Observable<T> {
+  // return value of this function should be T too, but then it doesn't compile
+  public static wrap<T>(action: () => Observable<T>): Observable<any> {
     const waitUntilAuthenticated: () => Observable<T> = () => {
       return SilentAuthentication.isWaitingForSilent$.pipe(
         filter((isWaiting: boolean) => isWaiting === false),

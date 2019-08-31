@@ -1,6 +1,6 @@
 {
   "name": "engraved-shared",
-  "version": "0.0.108",
+  "version": "0.0.109",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -15,9 +15,9 @@
   "license": "ISC",
   "devDependencies": {
     "copyfiles": "^2.1.1",
-    "tslint": "^5.10.0",
+    "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.2"
   },
   "engines": {
     "node": "8.11.2"
