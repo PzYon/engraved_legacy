@@ -1,3 +1,4 @@
+import { darken } from "polished";
 import * as React from "react";
 import { ReactNode } from "react";
 import { StyleConstants } from "../../../styling/StyleConstants";
@@ -60,7 +61,7 @@ export class FormButton extends React.Component<IButtonProps> {
         };
       case ButtonStyle.Disabled:
         return {
-          text: "white",
+          text: StyleConstants.colors.font,
           background: StyleConstants.colors.discreet,
           border: StyleConstants.colors.discreet
         };

@@ -1,3 +1,4 @@
+import { darken, lighten } from "polished";
 import * as React from "react";
 import styled from "styled-components";
 import { StyleConstants } from "../../styling/StyleConstants";
@@ -74,9 +75,13 @@ export interface IButtonStyle {
   border: string;
 }
 
-export const Button: any = styled.span<IButtonStyle>`
+export const Button: any = styled.button<IButtonStyle>`
   display: inline-block;
-  background-color: ${p => p.background};
+  background-image: linear-gradient(
+    -180deg,
+    ${p => lighten(0.05, p.background)},
+    ${p => darken(0.05, p.background)} 90%
+  );
   color: ${p => p.text};
   border: 1px solid ${p => p.border};
   padding: 0.4rem 0.6rem;
@@ -86,12 +91,8 @@ export const Button: any = styled.span<IButtonStyle>`
   border-radius: ${StyleConstants.borderRadius};
   ${StyleUtil.normalizeAnchors("inherit")};
 
+  &:hover:enabled,
   &:focus {
-    outline: none;
-    box-shadow: ${StyleConstants.defaultBoxShadow};
-  }
-
-  &:hover {
     outline: none;
     box-shadow: ${StyleConstants.defaultBoxShadow};
   }

@@ -10,7 +10,7 @@ export interface IKeywordProps {
 export const Keyword: React.FC<IKeywordProps> = (props: IKeywordProps) => (
   <Pill
     className={"ngrvd-keyword"}
-    onClick={() => (props.onClick ? props.onClick(props.keyword) : void 0)}
+    onClick={props.onClick ? () => props.onClick(props.keyword) : null}
     label={props.keyword.name}
   />
 );

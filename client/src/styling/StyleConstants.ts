@@ -17,7 +17,7 @@ export const StyleConstants = {
     small: "14px",
     regular: "18px",
     large: "25px",
-    largest: "36px",
+    largest: "34px",
     family: "'IBM Plex Sans', sans-serif",
     codeFamily: "monospace"
   },

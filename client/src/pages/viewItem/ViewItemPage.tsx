@@ -103,13 +103,11 @@ export class ViewItemPage extends React.Component<
                 </ItemPropertyDiv>
                 <If
                   value={item.keywords}
-                  render={() => {
-                    return (
-                      <ItemPropertyDiv>
-                        <Keywords keywords={item.keywords} />
-                      </ItemPropertyDiv>
-                    );
-                  }}
+                  render={() => (
+                    <ItemPropertyDiv>
+                      <Keywords onClick={null} keywords={item.keywords} />
+                    </ItemPropertyDiv>
+                  )}
                 />
               </ItemPropertiesContainer>
               <If

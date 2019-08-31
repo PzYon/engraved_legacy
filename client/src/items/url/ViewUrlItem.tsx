@@ -41,6 +41,7 @@ const IconImage = styled.img`
 
 const ActionDiv = styled.div`
   font-size: ${StyleConstants.font.small};
+  margin-top: ${StyleConstants.formElementPadding};
 `;
 
 interface IViewUrlItemState {
