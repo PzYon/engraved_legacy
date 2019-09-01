@@ -1,3 +1,5 @@
+import rgba from "polished/lib/color/rgba";
+
 const accentColor = "#0099CC";
 const discreetColor = "#CCC";
 const ultraDiscreetColor = "#F7F7F7";
@@ -12,7 +14,9 @@ export const StyleConstants = {
   maxContentWidth: "1000px",
   defaultSpacing: "15px",
   formElementPadding: "5px",
-  defaultBoxShadow: `0 1px 6px 0 rgba(32, 33, 36, .28)`,
+  bigBoxShadow: `0px 1px 20px 15px ${rgba(darkColor, 0.2)}`,
+  defaultBoxShadow: `0 1px 6px 0 ${rgba(darkColor, 0.2)}`,
+  discreetBoxShadow: `inset 0 -1px 0 ${rgba(darkColor, 0.2)}`,
   font: {
     small: "14px",
     regular: "18px",

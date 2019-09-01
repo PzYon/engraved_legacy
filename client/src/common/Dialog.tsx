@@ -30,6 +30,7 @@ const InnerContainer = styled.div`
   padding: 1rem;
   background-color: white;
   border-radius: ${StyleConstants.borderRadius};
+  box-shadow: ${StyleConstants.bigBoxShadow};
 `;
 
 const TitleContainer = styled.div`
