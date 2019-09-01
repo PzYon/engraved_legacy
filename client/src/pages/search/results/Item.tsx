@@ -36,6 +36,7 @@ const DescriptionParagraph = styled(Paragraph)`
 
 const SpecificPropertiesParagraph = styled(Paragraph)`
   font-size: ${StyleConstants.font.small};
+  margin-bottom: 0;
 `;
 
 const Property = styled.span`
@@ -52,8 +53,9 @@ const Property = styled.span`
 `;
 
 const Title = styled.div`
-  font-weight: 400;
+  font-weight: 300;
   font-size: ${StyleConstants.font.large};
+  line-height: 20px;
 `;
 
 export interface IItemProps {
@@ -79,7 +81,7 @@ export class Item extends React.PureComponent<IItemProps> {
         <Title>
           <Link to={`/items/${item._id || ""}`}>{item.title}</Link>
         </Title>
-        <DescriptionParagraph>{item.description}</DescriptionParagraph>
+        {item.description && <DescriptionParagraph>{item.description}</DescriptionParagraph>}
         <Paragraph>
           <Keywords
             keywords={item.keywords}

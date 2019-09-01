@@ -91,7 +91,10 @@ export const Button: any = styled.button<IButtonStyle>`
   border-radius: ${StyleConstants.borderRadius};
   ${StyleUtil.normalizeAnchors("inherit")};
 
-  &:hover:enabled,
+  &:hover:disabled {
+    cursor: default;
+  }
+
   &:focus {
     outline: none;
     box-shadow: ${StyleConstants.defaultBoxShadow};

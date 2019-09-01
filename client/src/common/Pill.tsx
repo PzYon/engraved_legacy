@@ -42,9 +42,7 @@ const ContainerSpan = styled.span`
     return props.hasOnClick
       ? css`
           cursor: pointer;
-          &:hover {
-            box-shadow: ${StyleConstants.defaultBoxShadow};
-          }
+          box-shadow: ${StyleConstants.discreetBoxShadow};
         `
       : "";
   }};
