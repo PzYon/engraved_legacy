@@ -56,7 +56,7 @@ const HeaderContainer = styled.header`
 
 const AppTitle = styled.h1`
   font-size: ${StyleConstants.headerHeightInPx * 0.5}px;
-  font-weight: 400;
+  font-weight: ${StyleConstants.font.weight.normal};
   margin: 0;
 
   ${StyleUtil.normalizeAnchors(StyleConstants.colors.header.text, StyleConstants.colors.accent)};

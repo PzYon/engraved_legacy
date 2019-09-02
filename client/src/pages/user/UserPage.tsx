@@ -6,10 +6,11 @@ import styled from "styled-components";
 import { AuthenticatedServerApi } from "../../authentication/AuthenticatedServerApi";
 import { FormatDate } from "../../common/FormatDate";
 import { If } from "../../common/If";
+import { StyleConstants } from "../../styling/StyleConstants";
 import { Page } from "../Page";
 
 const Highlight = styled.span`
-  font-weight: 500;
+  font-weight: ${StyleConstants.font.weight.bold};
 `;
 
 interface IRouterParams {

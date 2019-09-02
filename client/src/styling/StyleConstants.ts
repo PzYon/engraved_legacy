@@ -23,7 +23,11 @@ export const StyleConstants = {
     large: "25px",
     largest: "34px",
     family: "'IBM Plex Sans', sans-serif",
-    codeFamily: "monospace"
+    codeFamily: "monospace",
+    weight: {
+      normal: 400,
+      bold: 500
+    }
   },
   colors: {
     font: darkColor,

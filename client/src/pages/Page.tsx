@@ -8,7 +8,7 @@ import { If } from "../common/If";
 import { StyleConstants } from "../styling/StyleConstants";
 
 const Title = styled.h2`
-  font-weight: 300;
+  font-weight: ${StyleConstants.font.weight.normal};
   font-size: ${StyleConstants.font.largest};
   color: ${StyleConstants.colors.accent};
   margin: 0 0 ${StyleConstants.defaultSpacing} 0;

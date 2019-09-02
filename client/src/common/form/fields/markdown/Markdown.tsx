@@ -17,7 +17,8 @@ interface ITocContainerStyle {
 }
 
 const TocContainer = styled(BaseContainer)<ITocContainerStyle>`
-  padding: 0.2rem 0.2rem 0.2rem 0.7rem;
+  display: flex;
+  padding: 0.2rem;
   margin-bottom: 0.5rem;
 
   ul {
@@ -29,7 +30,7 @@ const ContentContainer = styled(BaseContainer)`
   h1,
   h2,
   h3 {
-    font-weight: 400;
+    font-weight: ${StyleConstants.font.weight.normal};
     margin: 1rem 0;
     color: ${StyleConstants.colors.accent};
   }

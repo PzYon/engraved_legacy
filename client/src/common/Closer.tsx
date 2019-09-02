@@ -7,7 +7,7 @@ const Container = styled.span`
   right: ${StyleConstants.defaultSpacing};
   cursor: pointer;
   font-size: ${StyleConstants.font.largest};
-  font-weight: 300;
+  font-weight: ${StyleConstants.font.weight.normal};
   color: ${StyleConstants.colors.accent};
   transition: color 0.3s;
   transform: rotate(45deg);
