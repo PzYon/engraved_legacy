@@ -36,6 +36,8 @@ export class ItemStore {
 
   public noPagesLeft: boolean = false;
 
+  public isFirstLoad: boolean = true;
+
   public sorting: ISorting = {
     propName: "editedOn",
     direction: SortDirection.Descending
@@ -112,6 +114,10 @@ export class ItemStore {
           this.noPagesLeft = true;
         }
 
+        // not happy with this approach, but i believe the whole
+        // ItemStore needs to be refactored sooner or later.
+        this.isFirstLoad = false;
+
         const transformedItems = this.transformItems(items);
 
         const allItems = isPaging ? [...this.items$.value, ...transformedItems] : transformedItems;
@@ -179,13 +185,10 @@ export class ItemStore {
   }
 
   private updateCache(item: IItem): IItem {
-    this.doWithCachedItem(
-      item._id,
-      (itemIndex: number, newItemsArray: IItem[]): IItem[] => {
-        newItemsArray[itemIndex] = item;
-        return newItemsArray;
-      }
-    );
+    this.doWithCachedItem(item._id, (itemIndex: number, newItemsArray: IItem[]): IItem[] => {
+      newItemsArray[itemIndex] = item;
+      return newItemsArray;
+    });
 
     return item;
   }

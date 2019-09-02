@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { If } from "../../../common/If";
 import { LoadMore } from "../../../common/LoadMore";
 import { ItemStore } from "../../../items/ItemStore";
+import { StyleConstants } from "../../../styling/StyleConstants";
 import { Sorting } from "../Sorting";
 import { Item } from "./Item";
 
@@ -26,6 +27,15 @@ export const ItemsList = () => {
   return (
     <If
       value={items}
+      renderElse={() => {
+        return (
+          !ItemStore.instance.isFirstLoad && (
+            <NoItemsFound>
+              No items found. You might want to search for something else.
+            </NoItemsFound>
+          )
+        );
+      }}
       render={() => (
         <>
           <Sorting
@@ -58,3 +68,10 @@ const List = styled.ul`
 `;
 
 const ListItem = styled.li``;
+
+const NoItemsFound = styled.div`
+  margin-top: 80px;
+  text-align: center;
+  font-size: ${StyleConstants.font.size.large};
+  color: ${StyleConstants.colors.discreet};
+`;
