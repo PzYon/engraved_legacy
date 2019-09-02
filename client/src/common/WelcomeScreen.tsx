@@ -26,7 +26,7 @@ const TitleDiv = styled.div`
 `;
 
 const MessageDiv = styled.div`
-  font-size: ${StyleConstants.font.large};
+  font-size: ${StyleConstants.font.size.large};
 
   ${StyleUtil.normalizeAnchors("white")} a {
     font-weight: ${StyleConstants.font.weight.bold};

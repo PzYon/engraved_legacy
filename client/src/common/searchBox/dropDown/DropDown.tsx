@@ -13,7 +13,7 @@ const ContainerDiv = styled.div`
   position: absolute;
   width: calc(100% - 2px);
   text-align: left;
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
   z-index: 123;
   border-right: 1px solid ${StyleConstants.colors.discreet};
   border-bottom: 1px solid ${StyleConstants.colors.discreet};
@@ -22,7 +22,7 @@ const ContainerDiv = styled.div`
   box-shadow: ${StyleConstants.defaultBoxShadow};
 
   .ngrvd-closer {
-    font-size: ${StyleConstants.font.large};
+    font-size: ${StyleConstants.font.size.large};
     right: 0.4rem;
     top: 0;
   }
@@ -38,7 +38,7 @@ const GroupItemsList = styled.ul`
 
 const GroupTitleDiv = styled.div`
   font-weight: ${StyleConstants.font.weight.normal};
-  font-size: ${StyleConstants.font.regular};
+  font-size: ${StyleConstants.font.size.regular};
   padding: ${StyleConstants.formElementPadding};
 `;
 

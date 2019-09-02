@@ -33,7 +33,7 @@ const ContainerSpan = styled.span`
   background-color: ${(props: IContainerSpanProps) =>
     props.isSecondary ? StyleConstants.colors.discreet : StyleConstants.colors.accent};
   color: white;
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
   padding: 0 9px;
   margin: ${PillMargin};
   word-wrap: break-word;

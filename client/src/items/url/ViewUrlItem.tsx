@@ -16,7 +16,7 @@ const IconAnchor = styled.a`
   top: 0.25rem;
   opacity: 0;
   transition: opacity 0.5s;
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -40,7 +40,7 @@ const IconImage = styled.img`
 `;
 
 const ActionDiv = styled.div`
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
   margin-top: ${StyleConstants.formElementPadding};
 `;
 

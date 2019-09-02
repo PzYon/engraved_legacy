@@ -84,7 +84,7 @@ const ContentContainer = styled(BaseContainer)`
 
 const TocToggler = styled.a`
   color: ${StyleConstants.colors.accent};
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
 `;
 
 const TocDiv = styled.div`

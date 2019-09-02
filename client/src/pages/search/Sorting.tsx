@@ -57,12 +57,12 @@ const sortTogglerValues: ITogglerValue[] = [
 
 const Root = styled.div`
   margin-top: ${StyleConstants.defaultSpacing};
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
   text-align: right;
 
   .ngrvd-closer,
   select {
-    font-size: ${StyleConstants.font.small};
+    font-size: ${StyleConstants.font.size.small};
   }
 
   .ngrvd-closer {
