@@ -31,7 +31,7 @@ const Paragraph = styled.p`
 `;
 
 const DescriptionParagraph = styled(Paragraph)`
-  font-weight: 300;
+  font-weight: ${StyleConstants.font.weight.normal};
 `;
 
 const SpecificPropertiesParagraph = styled(Paragraph)`
@@ -53,9 +53,9 @@ const Property = styled.span`
 `;
 
 const Title = styled.div`
-  font-weight: 300;
+  margin-top: -5px;
+  font-weight: ${StyleConstants.font.weight.normal};
   font-size: ${StyleConstants.font.large};
-  line-height: 20px;
 `;
 
 export interface IItemProps {

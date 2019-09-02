@@ -21,7 +21,7 @@ const InnerDiv = styled.div`
 
 const TitleDiv = styled.div`
   font-size: 60px;
-  font-weight: 500;
+  font-weight: ${StyleConstants.font.weight.bold};
   margin-bottom: 20px;
 `;
 
@@ -29,7 +29,7 @@ const MessageDiv = styled.div`
   font-size: ${StyleConstants.font.large};
 
   ${StyleUtil.normalizeAnchors("white")} a {
-    font-weight: 500;
+    font-weight: ${StyleConstants.font.weight.bold};
   }
 `;
 

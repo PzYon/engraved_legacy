@@ -37,7 +37,7 @@ const GroupItemsList = styled.ul`
 `;
 
 const GroupTitleDiv = styled.div`
-  font-weight: 300;
+  font-weight: ${StyleConstants.font.weight.normal};
   font-size: ${StyleConstants.font.regular};
   padding: ${StyleConstants.formElementPadding};
 `;

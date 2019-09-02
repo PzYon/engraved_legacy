@@ -23,7 +23,7 @@ const createGlobalStyles = (): any => {
         select {
             font-family: ${StyleConstants.font.family};
             font-size: ${StyleConstants.font.regular};
-            font-weight: 400;
+            font-weight:  ${StyleConstants.font.weight.normal};
             color: ${StyleConstants.colors.font};
             background-color: white;
         }
