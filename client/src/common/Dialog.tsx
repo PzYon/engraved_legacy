@@ -34,7 +34,7 @@ const InnerContainer = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  font-size: ${StyleConstants.font.large};
+  font-size: ${StyleConstants.font.size.large};
   color: ${StyleConstants.colors.accent};
 `;
 

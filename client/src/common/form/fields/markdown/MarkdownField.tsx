@@ -29,7 +29,7 @@ const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
 `;
 
 const TogglePreviewAnchor = styled.a`
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
   cursor: pointer;
   display: inline-block;
   color: ${StyleConstants.colors.accent};

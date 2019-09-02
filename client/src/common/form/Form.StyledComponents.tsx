@@ -46,14 +46,14 @@ export const FormLabel = styled.label`
 
 export const FormLabelDiv = styled.div`
   padding-bottom: 0.2rem;
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
 `;
 
 export const FormFieldDiv = styled.div``;
 
 export const FormValidationErrorDiv = styled.div`
   color: ${StyleConstants.colors.error.background};
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
 `;
 
 export const Input = styled.input``;

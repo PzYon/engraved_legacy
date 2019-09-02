@@ -6,7 +6,7 @@ const Container = styled.span`
   position: absolute;
   right: ${StyleConstants.defaultSpacing};
   cursor: pointer;
-  font-size: ${StyleConstants.font.largest};
+  font-size: ${StyleConstants.font.size.largest};
   font-weight: ${StyleConstants.font.weight.normal};
   color: ${StyleConstants.colors.accent};
   transition: color 0.3s;

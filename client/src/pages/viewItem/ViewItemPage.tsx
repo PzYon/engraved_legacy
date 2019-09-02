@@ -26,7 +26,7 @@ const SectionContainer = styled.div`
 const ItemPropertiesContainer = styled(SectionContainer)`
   display: flex;
   align-items: stretch;
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
 `;
 
 const ItemPropertyDiv = styled.div`

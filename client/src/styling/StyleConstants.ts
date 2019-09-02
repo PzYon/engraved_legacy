@@ -18,12 +18,14 @@ export const StyleConstants = {
   defaultBoxShadow: `0 1px 6px 0 ${rgba(darkColor, 0.2)}`,
   discreetBoxShadow: `inset 0 -1px 0 ${rgba(darkColor, 0.2)}`,
   font: {
-    small: "14px",
-    regular: "18px",
-    large: "25px",
-    largest: "34px",
     family: "'IBM Plex Sans', sans-serif",
     codeFamily: "monospace",
+    size: {
+      small: "14px",
+      regular: "18px",
+      large: "25px",
+      largest: "34px"
+    },
     weight: {
       normal: 400,
       bold: 500

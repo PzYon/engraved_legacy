@@ -35,7 +35,7 @@ const DescriptionParagraph = styled(Paragraph)`
 `;
 
 const SpecificPropertiesParagraph = styled(Paragraph)`
-  font-size: ${StyleConstants.font.small};
+  font-size: ${StyleConstants.font.size.small};
   margin-bottom: 0;
 `;
 
@@ -55,7 +55,7 @@ const Property = styled.span`
 const Title = styled.div`
   margin-top: -5px;
   font-weight: ${StyleConstants.font.weight.normal};
-  font-size: ${StyleConstants.font.large};
+  font-size: ${StyleConstants.font.size.large};
 `;
 
 export interface IItemProps {
