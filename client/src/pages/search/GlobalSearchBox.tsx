@@ -5,12 +5,13 @@ import { Redirect } from "react-router";
 import { Subscription } from "rxjs";
 import styled, { css } from "styled-components";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
-import { IRedirection } from "../../common/IRedirection";
+import { IAction } from "../../common/IAction";
 import { IDropDownItem } from "../../common/searchBox/dropDown/IDropDownItem";
 import { IDropDownItemGroup } from "../../common/searchBox/dropDown/IDropDownItemGroup";
 import { SearchBox } from "../../common/searchBox/SearchBox";
 import { ItemStore } from "../../items/ItemStore";
 import { StyleConstants } from "../../styling/StyleConstants";
+import { Item } from "./results/Item";
 
 interface IWrapperDivStyle {
   showDropDown: boolean;
@@ -36,7 +37,7 @@ interface IGlobalSearchBoxState {
   keywordSearchValue: string;
   showDropDown: boolean;
   keywordDropDownItems: Array<IDropDownItem<IKeyword>>;
-  actionDropDownItems: Array<IDropDownItem<IRedirection>>;
+  actionDropDownItems: Array<IDropDownItem<IAction>>;
   selectedKeywords: IKeyword[];
   redirectToUrl: string;
 }
@@ -113,10 +114,14 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
       dropDownGroups.push({
         title: "Actions",
         items: this.state.actionDropDownItems,
-        onSelectItem: (item: IDropDownItem<IRedirection>) => {
-          this.setState({
-            redirectToUrl: item.item.url
-          });
+        onSelectItem: (item: IDropDownItem<IAction>) => {
+          if (item.item.url) {
+            this.setState({
+              redirectToUrl: item.item.url
+            });
+          } else if (item.item.onClick) {
+            item.item.onClick();
+          }
         }
       });
     }
@@ -185,7 +190,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   };
 
   private setActionDropDownItems = (searchText: string): void => {
-    const actions: Array<IDropDownItem<IRedirection>> = [];
+    const actions: Array<IDropDownItem<IAction>> = [];
 
     if (!ItemStore.isInvalidSearchText(searchText)) {
       if (searchText.startsWith("http://") || searchText.startsWith("https://")) {
@@ -205,6 +210,31 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
           },
           key: url,
           label: `Create note titled "${searchText}"`
+        });
+        actions.push({
+          item: {
+            onClick: () => {
+              ItemStore.instance.searchText = "";
+              ItemStore.instance.loadItems();
+              this.setState({ searchValue: "" }, () => this.setActionDropDownItems(""));
+            }
+          },
+          key: "clear_search_text",
+          label: `Clear search text`
+        });
+      }
+
+      if (this.state.selectedKeywords.length > 0) {
+        actions.push({
+          item: {
+            onClick: () => {
+              ItemStore.instance.keywords$.next([]);
+              ItemStore.instance.loadItems();
+              this.setActionDropDownItems("");
+            }
+          },
+          key: "clear_keywords",
+          label: `Clear keywords`
         });
       }
     }

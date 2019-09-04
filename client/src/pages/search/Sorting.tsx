@@ -56,7 +56,7 @@ const sortTogglerValues: ITogglerValue[] = [
 ];
 
 const Root = styled.div`
-  margin-top: ${StyleConstants.defaultSpacing};
+  margin: 1.5rem 0;
   font-size: ${StyleConstants.font.size.small};
   text-align: right;
 

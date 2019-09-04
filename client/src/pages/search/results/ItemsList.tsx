@@ -70,7 +70,7 @@ const List = styled.ul`
 const ListItem = styled.li``;
 
 const NoItemsFound = styled.div`
-  margin-top: 80px;
+  margin-top: 100px;
   text-align: center;
   font-size: ${StyleConstants.font.size.large};
   color: ${StyleConstants.colors.discreet};
