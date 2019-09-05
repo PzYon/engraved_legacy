@@ -1,8 +1,7 @@
-import { darken } from "polished";
 import * as React from "react";
 import { ReactNode } from "react";
 import { StyleConstants } from "../../../styling/StyleConstants";
-import { Button, IButtonStyle } from "../Form.StyledComponents";
+import { Button, IButtonStyle, LinkLikeButton } from "../Form.StyledComponents";
 import { IButton } from "./IButton";
 
 export enum ButtonStyle {
@@ -10,6 +9,7 @@ export enum ButtonStyle {
   Secondary,
   Red,
   Green,
+  LinkLike,
   Disabled
 }
 
@@ -19,17 +19,23 @@ export interface IButtonProps {
 
 export class FormButton extends React.Component<IButtonProps> {
   public render(): ReactNode {
+    const ButtonElement =
+      this.props.button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
+
     return (
-      <Button
+      <ButtonElement
         className={"ngrvd-button"}
         onClick={this.props.button.onClick}
         {...(this.props.button.buttonStyle === ButtonStyle.Disabled
           ? { disabled: "disabled" }
           : null)}
         {...this.getColors(this.props.button.buttonStyle)}
+        {...(this.props.button.fontSize
+          ? { style: { fontSize: this.props.button.fontSize } }
+          : null)}
       >
         {this.props.button.nodeOrLabel}
-      </Button>
+      </ButtonElement>
     );
   }
 
@@ -58,6 +64,12 @@ export class FormButton extends React.Component<IButtonProps> {
           text: StyleConstants.colors.accent,
           background: StyleConstants.colors.pageBackground,
           border: StyleConstants.colors.accent
+        };
+      case ButtonStyle.LinkLike:
+        return {
+          text: StyleConstants.colors.accent,
+          background: "none",
+          border: "none"
         };
       case ButtonStyle.Disabled:
         return {

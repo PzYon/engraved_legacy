@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { StyleConstants } from "../../../../styling/StyleConstants";
 import { DomUtil } from "../../../DomUtil";
 import { If } from "../../../If";
+import { ButtonStyle, FormButton } from "../../buttons/FormButton";
 
 const BaseContainer = styled.div`
   padding: 0.7rem;
@@ -17,8 +18,7 @@ interface ITocContainerStyle {
 }
 
 const TocContainer = styled(BaseContainer)<ITocContainerStyle>`
-  display: flex;
-  padding: 0.2rem;
+  padding: 0.2rem 0.7rem;
   margin-bottom: 0.5rem;
 
   ul {
@@ -80,11 +80,6 @@ const ContentContainer = styled(BaseContainer)`
   * > :last-child {
     margin-bottom: 0 !important;
   }
-`;
-
-const TocToggler = styled.a`
-  color: ${StyleConstants.colors.accent};
-  font-size: ${StyleConstants.font.size.small};
 `;
 
 const TocDiv = styled.div`
@@ -150,12 +145,14 @@ export class Markdown extends React.PureComponent<IMarkdownProps, IMarkdownState
           value={!DomUtil.isEmptyHtml(tocHtml)}
           render={() => (
             <TocContainer isExpanded={this.state.isTocExpanded}>
-              <TocToggler
-                href={"javascript: void(0);"}
-                onClick={() => this.setState({ isTocExpanded: !this.state.isTocExpanded })}
-              >
-                {this.state.isTocExpanded ? "Hide TOC" : "Show TOC"}
-              </TocToggler>
+              <FormButton
+                button={{
+                  onClick: () => this.setState({ isTocExpanded: !this.state.isTocExpanded }),
+                  nodeOrLabel: this.state.isTocExpanded ? "Hide TOC" : "Show TOC",
+                  buttonStyle: ButtonStyle.LinkLike,
+                  fontSize: StyleConstants.font.size.small
+                }}
+              />
               <If
                 value={this.state.isTocExpanded}
                 render={() => <TocDiv dangerouslySetInnerHTML={{ __html: tocHtml }} />}

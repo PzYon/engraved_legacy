@@ -2,6 +2,7 @@ import { ItemKind, IUrlItem } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
+import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { If } from "../../common/If";
 import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { StyleConstants } from "../../styling/StyleConstants";
@@ -84,9 +85,14 @@ export class ViewUrlItem extends React.PureComponent<IViewItemProps<IUrlItem>, I
             open
           </a>
           &nbsp;&middot;&nbsp;
-          <a href="javascript:void(0)" onClick={this.copyToClipBoard}>
-            copy URL
-          </a>
+          <FormButton
+            button={{
+              fontSize: StyleConstants.font.size.small,
+              buttonStyle: ButtonStyle.LinkLike,
+              onClick: this.copyToClipBoard,
+              nodeOrLabel: "copy URL"
+            }}
+          />
         </ActionDiv>
       </>
     );

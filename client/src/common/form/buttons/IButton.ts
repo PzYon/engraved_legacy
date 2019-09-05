@@ -5,4 +5,5 @@ export interface IButton {
   onClick: () => void;
   buttonStyle: ButtonStyle;
   nodeOrLabel: ReactNode;
+  fontSize?: string;
 }

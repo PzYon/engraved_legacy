@@ -149,7 +149,7 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
                       onMouseEnter={() => this.setState({ activeItem: item })}
                       onMouseLeave={() => this.setState({ activeItem: null })}
                     >
-                      <a href={"javascript: void(0);"}>{item.label}</a>
+                      {item.label}
                     </GroupItem>
                   );
                 })}

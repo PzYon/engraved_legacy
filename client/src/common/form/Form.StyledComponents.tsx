@@ -75,6 +75,18 @@ export interface IButtonStyle {
   border: string;
 }
 
+export const LinkLikeButton = styled.button`
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  color: ${StyleConstants.colors.accent};
+  padding: 0;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 export const Button: any = styled.button<IButtonStyle>`
   display: inline-block;
   background-image: linear-gradient(

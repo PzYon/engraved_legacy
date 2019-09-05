@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import styled, { css } from "styled-components";
 import { StyleConstants } from "../../../../styling/StyleConstants";
 import { If } from "../../../If";
+import { ButtonStyle, FormButton } from "../../buttons/FormButton";
 import { CodeEditor, CodeLanguage } from "../code/CodeEditor";
 import { FieldWrapper } from "../FieldWrapper";
 import { IFieldProps } from "../IFieldProps";
@@ -17,7 +18,7 @@ const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
   border: 1px solid ${StyleConstants.colors.discreet};
   background-color: ${StyleConstants.colors.ultraDiscreet};
   border-bottom: 0;
-  padding: 0.2rem;
+  padding: 0.2rem 0.7rem;
 
   ${p =>
     p.isPreview
@@ -26,13 +27,6 @@ const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
           border-bottom: 1px solid ${StyleConstants.colors.discreet};
         `
       : null};
-`;
-
-const TogglePreviewAnchor = styled.a`
-  font-size: ${StyleConstants.font.size.small};
-  cursor: pointer;
-  display: inline-block;
-  color: ${StyleConstants.colors.accent};
 `;
 
 export interface IMarkdownFieldProps extends IFieldProps<string> {}
@@ -53,12 +47,14 @@ export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMar
           value={!this.props.isReadOnly && this.props.value && this.props.value.trim().length > 0}
           render={() => (
             <TogglePreviewContainer isPreview={this.state.isPreview}>
-              <TogglePreviewAnchor
-                onClick={() => this.setState({ isPreview: !this.state.isPreview })}
-                href={"javascript:void(0)"}
-              >
-                {this.state.isPreview ? "Back to edit mode" : "View preview"}
-              </TogglePreviewAnchor>
+              <FormButton
+                button={{
+                  fontSize: StyleConstants.font.size.small,
+                  buttonStyle: ButtonStyle.LinkLike,
+                  onClick: () => this.setState({ isPreview: !this.state.isPreview }),
+                  nodeOrLabel: this.state.isPreview ? "Back to edit mode" : "View preview"
+                }}
+              />
             </TogglePreviewContainer>
           )}
         />
