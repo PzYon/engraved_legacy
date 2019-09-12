@@ -9,17 +9,16 @@ import { Keywords } from "../../../common/Keywords";
 import { PillMargin } from "../../../common/Pill";
 import { ItemKindRegistrationManager } from "../../../items/ItemKindRegistrationManager";
 import { ItemStore } from "../../../items/ItemStore";
-import { StyleConstants } from "../../../styling/StyleConstants";
 
 const Root = styled.div`
-  border: 1px solid ${StyleConstants.colors.discreet};
-  border-radius: ${StyleConstants.borderRadius};
+  border: 1px solid ${p => p.theme.colors.discreet};
+  border-radius: ${p => p.theme.borderRadius};
   margin: 1.5rem 0;
-  padding: ${StyleConstants.defaultSpacing};
-  box-shadow: ${StyleConstants.defaultBoxShadow};
+  padding: ${p => p.theme.defaultSpacing};
+  box-shadow: ${p => p.theme.defaultBoxShadow};
   opacity: 0;
   transition: opacity 0.5s;
-  background-color: ${StyleConstants.colors.pageBackground};
+  background-color: ${p => p.theme.colors.pageBackground};
 `;
 
 const Paragraph = styled.p`
@@ -31,11 +30,11 @@ const Paragraph = styled.p`
 `;
 
 const DescriptionParagraph = styled(Paragraph)`
-  font-weight: ${StyleConstants.font.weight.normal};
+  font-weight: ${p => p.theme.font.weight.normal};
 `;
 
 const SpecificPropertiesParagraph = styled(Paragraph)`
-  font-size: ${StyleConstants.font.size.small};
+  font-size: ${p => p.theme.font.size.small};
   margin-bottom: 0;
 `;
 
@@ -54,8 +53,8 @@ const Property = styled.span`
 
 const Title = styled.div`
   margin-top: -5px;
-  font-weight: ${StyleConstants.font.weight.normal};
-  font-size: ${StyleConstants.font.size.large};
+  font-weight: ${p => p.theme.font.weight.normal};
+  font-size: ${p => p.theme.font.size.large};
 `;
 
 export interface IItemProps {

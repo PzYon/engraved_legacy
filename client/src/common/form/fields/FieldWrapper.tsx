@@ -1,9 +1,9 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import {
-  FormFieldDiv,
+  FormField,
+  FormFieldWrapperRoot,
   FormLabel,
-  FormLabelDiv,
   FormValidationErrorDiv
 } from "../Form.StyledComponents";
 
@@ -14,12 +14,12 @@ export interface IFieldWrapperProps {
 }
 
 export const FieldWrapper: React.FC<IFieldWrapperProps> = (props: IFieldWrapperProps) => (
-  <FormLabel>
-    <FormLabelDiv>{props.label}</FormLabelDiv>
-    <FormFieldDiv>{props.children}</FormFieldDiv>
+  <FormFieldWrapperRoot>
+    <FormLabel>{props.label}</FormLabel>
+    <FormField>{props.children}</FormField>
     <FormValidationErrorDiv>
       {props.validationError}
       &nbsp;
     </FormValidationErrorDiv>
-  </FormLabel>
+  </FormFieldWrapperRoot>
 );

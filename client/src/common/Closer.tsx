@@ -1,19 +1,18 @@
 import * as React from "react";
 import styled from "styled-components";
-import { StyleConstants } from "../styling/StyleConstants";
 
 const Container = styled.span`
   position: absolute;
-  right: ${StyleConstants.defaultSpacing};
+  right: ${p => p.theme.defaultSpacing};
   cursor: pointer;
-  font-size: ${StyleConstants.font.size.largest};
-  font-weight: ${StyleConstants.font.weight.normal};
-  color: ${StyleConstants.colors.accent};
+  font-size: ${p => p.theme.font.size.largest};
+  font-weight: ${p => p.theme.font.weight.normal};
+  color: ${p => p.theme.colors.accent};
   transition: color 0.3s;
   transform: rotate(45deg);
 
   &:hover {
-    color: ${StyleConstants.colors.font};
+    color: ${p => p.theme.colors.text};
   }
 `;
 

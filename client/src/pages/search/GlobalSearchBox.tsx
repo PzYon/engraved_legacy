@@ -10,8 +10,6 @@ import { IDropDownItem } from "../../common/searchBox/dropDown/IDropDownItem";
 import { IDropDownItemGroup } from "../../common/searchBox/dropDown/IDropDownItemGroup";
 import { SearchBox } from "../../common/searchBox/SearchBox";
 import { ItemStore } from "../../items/ItemStore";
-import { StyleConstants } from "../../styling/StyleConstants";
-import { Item } from "./results/Item";
 
 interface IWrapperDivStyle {
   showDropDown: boolean;
@@ -19,8 +17,8 @@ interface IWrapperDivStyle {
 
 const WrapperDiv = styled.div<IWrapperDivStyle>`
   .search-box-inner {
-    border-radius: ${StyleConstants.borderRadius};
-    border: 1px solid ${StyleConstants.colors.discreet};
+    border-radius: ${p => p.theme.borderRadius};
+    border: 1px solid ${p => p.theme.colors.discreet};
 
     ${p =>
       p.showDropDown

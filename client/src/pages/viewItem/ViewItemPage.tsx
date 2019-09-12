@@ -16,7 +16,6 @@ import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { Keywords } from "../../common/Keywords";
 import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
 import { ItemStore } from "../../items/ItemStore";
-import { StyleConstants } from "../../styling/StyleConstants";
 import { Page } from "../Page";
 
 const SectionContainer = styled.div`
@@ -26,19 +25,19 @@ const SectionContainer = styled.div`
 const ItemPropertiesContainer = styled(SectionContainer)`
   display: flex;
   align-items: stretch;
-  font-size: ${StyleConstants.font.size.small};
+  font-size: ${p => p.theme.font.size.small};
 `;
 
 const ItemPropertyDiv = styled.div`
   padding: 0.2rem 0.4rem;
-  border-left: 1px solid ${StyleConstants.colors.discreet};
-  border-top: 1px solid ${StyleConstants.colors.discreet};
-  border-bottom: 1px solid ${StyleConstants.colors.discreet};
+  border-left: 1px solid ${p => p.theme.colors.discreet};
+  border-top: 1px solid ${p => p.theme.colors.discreet};
+  border-bottom: 1px solid ${p => p.theme.colors.discreet};
   display: flex;
   align-items: center;
 
   &:last-of-type {
-    border-right: 1px solid ${StyleConstants.colors.discreet};
+    border-right: 1px solid ${p => p.theme.colors.discreet};
   }
 `;
 

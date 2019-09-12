@@ -1,14 +1,12 @@
 import { IKeyword } from "engraved-shared";
 import * as React from "react";
-import { Simulate } from "react-dom/test-utils";
 import styled from "styled-components";
-import { StyleConstants } from "../../styling/StyleConstants";
 import { Keywords } from "../Keywords";
 
 const ContainerDiv = styled.div`
   box-sizing: border-box;
   min-height: 41px;
-  padding: ${StyleConstants.formElementPadding};
+  padding: ${p => p.theme.formElementPadding};
   text-align: left;
 `;
 

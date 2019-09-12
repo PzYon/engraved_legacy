@@ -1,16 +1,15 @@
 import * as MarkdownIt from "markdown-it";
 import * as React from "react";
-import { ReactNode } from "react";
 import styled from "styled-components";
-import { StyleConstants } from "../../../../styling/StyleConstants";
 import { DomUtil } from "../../../DomUtil";
+import { useFlag, useTheme } from "../../../Hooks";
 import { If } from "../../../If";
 import { ButtonStyle, FormButton } from "../../buttons/FormButton";
 
 const BaseContainer = styled.div`
   padding: 0.7rem;
-  border: 1px solid ${StyleConstants.colors.discreet};
-  background-color: ${StyleConstants.colors.ultraDiscreet};
+  border: 1px solid ${p => p.theme.colors.discreet};
+  background-color: ${p => p.theme.colors.ultraDiscreet};
 `;
 
 interface ITocContainerStyle {
@@ -30,9 +29,9 @@ const ContentContainer = styled(BaseContainer)`
   h1,
   h2,
   h3 {
-    font-weight: ${StyleConstants.font.weight.normal};
+    font-weight: ${p => p.theme.font.weight.normal};
     margin: 1rem 0;
-    color: ${StyleConstants.colors.accent};
+    color: ${p => p.theme.colors.accent};
   }
 
   p,
@@ -64,8 +63,8 @@ const ContentContainer = styled(BaseContainer)`
     width: calc(100% - 1.4rem - 2px);
     padding: 0.7rem;
     display: block;
-    background-color: white;
-    border: 1px solid ${StyleConstants.colors.discreet};
+    background-color: ${p => p.theme.colors.pageBackground};
+    border: 1px solid ${p => p.theme.colors.discreet};
     overflow-y: auto;
   }
 
@@ -97,7 +96,7 @@ const TocDiv = styled.div`
 
 const MarkupDiv = styled.div`
   .CodeMirror-gutters {
-    border-right-color: ${StyleConstants.colors.discreet};
+    border-right-color: ${p => p.theme.colors.discreet};
   }
 `;
 
@@ -105,24 +104,18 @@ export interface IMarkdownProps {
   markdown: string;
 }
 
-interface IMarkdownState {
-  isTocExpanded: boolean;
-}
-
 const tocSeparator = "---ngrvd-separator---";
 
-export class Markdown extends React.PureComponent<IMarkdownProps, IMarkdownState> {
-  public readonly state: IMarkdownState = {
-    isTocExpanded: false
-  };
+export const Markdown = (props: IMarkdownProps) => {
+  const [isTocExpanded, toggleIsTocExpanded] = useFlag(false);
+  const theme = useTheme();
 
-  public render(): ReactNode {
-    if (!this.props.markdown || !this.props.markdown.trim()) {
-      return null;
-    }
+  if (!props.markdown || !props.markdown.trim()) {
+    return null;
+  }
 
-    const md = `
-  ${this.props.markdown || ""} 
+  const md = `
+  ${props.markdown || ""} 
   
   ${tocSeparator} 
   
@@ -130,40 +123,39 @@ export class Markdown extends React.PureComponent<IMarkdownProps, IMarkdownState
   
   `;
 
-    const completeHtml = new MarkdownIt("default", { linkify: true })
-      .use(require("markdown-it-anchor").default)
-      .use(require("markdown-it-table-of-contents"))
-      .render(md);
+  const completeHtml = new MarkdownIt("default", { linkify: true })
+    .use(require("markdown-it-anchor").default)
+    .use(require("markdown-it-table-of-contents"))
+    .render(md);
 
-    const sections = completeHtml.split(tocSeparator);
-    const contentHtml = sections[0];
-    const tocHtml = sections[1];
+  const sections = completeHtml.split(tocSeparator);
+  const contentHtml = sections[0];
+  const tocHtml = sections[1];
 
-    return (
-      <>
-        <If
-          value={!DomUtil.isEmptyHtml(tocHtml)}
-          render={() => (
-            <TocContainer isExpanded={this.state.isTocExpanded}>
-              <FormButton
-                button={{
-                  onClick: () => this.setState({ isTocExpanded: !this.state.isTocExpanded }),
-                  nodeOrLabel: this.state.isTocExpanded ? "Hide TOC" : "Show TOC",
-                  buttonStyle: ButtonStyle.LinkLike,
-                  fontSize: StyleConstants.font.size.small
-                }}
-              />
-              <If
-                value={this.state.isTocExpanded}
-                render={() => <TocDiv dangerouslySetInnerHTML={{ __html: tocHtml }} />}
-              />
-            </TocContainer>
-          )}
-        />
-        <ContentContainer>
-          <MarkupDiv dangerouslySetInnerHTML={{ __html: contentHtml }} />
-        </ContentContainer>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <If
+        value={!DomUtil.isEmptyHtml(tocHtml)}
+        render={() => (
+          <TocContainer isExpanded={isTocExpanded}>
+            <FormButton
+              button={{
+                onClick: toggleIsTocExpanded,
+                nodeOrLabel: isTocExpanded ? "Hide TOC" : "Show TOC",
+                buttonStyle: ButtonStyle.LinkLike,
+                fontSize: theme.font.size.small
+              }}
+            />
+            <If
+              value={isTocExpanded}
+              render={() => <TocDiv dangerouslySetInnerHTML={{ __html: tocHtml }} />}
+            />
+          </TocContainer>
+        )}
+      />
+      <ContentContainer>
+        <MarkupDiv dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      </ContentContainer>
+    </>
+  );
+};

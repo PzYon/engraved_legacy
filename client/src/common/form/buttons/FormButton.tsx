@@ -1,6 +1,6 @@
 import * as React from "react";
-import { ReactNode } from "react";
-import { StyleConstants } from "../../../styling/StyleConstants";
+import { ITheme } from "../../../styling/ITheme";
+import { useTheme } from "../../Hooks";
 import { Button, IButtonStyle, LinkLikeButton } from "../Form.StyledComponents";
 import { IButton } from "./IButton";
 
@@ -17,66 +17,62 @@ export interface IButtonProps {
   button: IButton;
 }
 
-export class FormButton extends React.Component<IButtonProps> {
-  public render(): ReactNode {
-    const ButtonElement =
-      this.props.button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
+export const FormButton = (props: IButtonProps) => {
+  const theme = useTheme();
 
-    return (
-      <ButtonElement
-        className={"ngrvd-button"}
-        onClick={this.props.button.onClick}
-        {...(this.props.button.buttonStyle === ButtonStyle.Disabled
-          ? { disabled: "disabled" }
-          : null)}
-        {...this.getColors(this.props.button.buttonStyle)}
-        {...(this.props.button.fontSize
-          ? { style: { fontSize: this.props.button.fontSize } }
-          : null)}
-      >
-        {this.props.button.nodeOrLabel}
-      </ButtonElement>
-    );
+  const ButtonElement = props.button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
+
+  return (
+    <ButtonElement
+      type={"button"}
+      className={"ngrvd-button"}
+      onClick={props.button.onClick}
+      {...(props.button.buttonStyle === ButtonStyle.Disabled ? { disabled: "disabled" } : null)}
+      {...(props.button.fontSize ? { style: { fontSize: props.button.fontSize } } : null)}
+      {...getColors(props.button.buttonStyle, theme)}
+    >
+      {props.button.nodeOrLabel}
+    </ButtonElement>
+  );
+};
+
+const getColors = (buttonStyle: ButtonStyle, theme: ITheme): IButtonStyle => {
+  switch (buttonStyle) {
+    case ButtonStyle.Green:
+      return {
+        text: theme.colors.success.text,
+        background: theme.colors.success.background,
+        border: theme.colors.success.background
+      };
+    case ButtonStyle.Red:
+      return {
+        text: theme.colors.error.text,
+        background: theme.colors.error.background,
+        border: theme.colors.error.background
+      };
+    case ButtonStyle.Primary:
+      return {
+        text: theme.colors.accentContrast,
+        background: theme.colors.accent,
+        border: theme.colors.accent
+      };
+    case ButtonStyle.Secondary:
+      return {
+        text: theme.colors.accent,
+        background: theme.colors.accentContrast,
+        border: theme.colors.accent
+      };
+    case ButtonStyle.LinkLike:
+      return {
+        text: theme.colors.accent,
+        background: "none",
+        border: "none"
+      };
+    case ButtonStyle.Disabled:
+      return {
+        text: theme.colors.text,
+        background: theme.colors.discreet,
+        border: theme.colors.discreet
+      };
   }
-
-  private getColors = (buttonStyle: ButtonStyle): IButtonStyle => {
-    switch (buttonStyle) {
-      case ButtonStyle.Green:
-        return {
-          text: StyleConstants.colors.success.text,
-          background: StyleConstants.colors.success.background,
-          border: StyleConstants.colors.success.background
-        };
-      case ButtonStyle.Red:
-        return {
-          text: StyleConstants.colors.error.text,
-          background: StyleConstants.colors.error.background,
-          border: StyleConstants.colors.error.background
-        };
-      case ButtonStyle.Primary:
-        return {
-          text: StyleConstants.colors.pageBackground,
-          background: StyleConstants.colors.accent,
-          border: StyleConstants.colors.accent
-        };
-      case ButtonStyle.Secondary:
-        return {
-          text: StyleConstants.colors.accent,
-          background: StyleConstants.colors.pageBackground,
-          border: StyleConstants.colors.accent
-        };
-      case ButtonStyle.LinkLike:
-        return {
-          text: StyleConstants.colors.accent,
-          background: "none",
-          border: "none"
-        };
-      case ButtonStyle.Disabled:
-        return {
-          text: StyleConstants.colors.font,
-          background: StyleConstants.colors.discreet,
-          border: StyleConstants.colors.discreet
-        };
-    }
-  };
-}
+};

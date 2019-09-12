@@ -1,59 +1,58 @@
 import { darken, lighten } from "polished";
 import * as React from "react";
 import styled from "styled-components";
-import { StyleConstants } from "../../styling/StyleConstants";
 import { StyleUtil } from "../../styling/StyleUtil";
 
 export const FormContainer = styled.section`
   input,
   textarea,
   select {
-    border: 1px solid ${StyleConstants.colors.discreet};
+    border: 1px solid ${p => p.theme.colors.discreet};
     vertical-align: top;
 
     &:focus {
       outline: none;
-      box-shadow: ${StyleConstants.defaultBoxShadow};
+      box-shadow: ${p => p.theme.defaultBoxShadow};
     }
   }
 
   input,
   textarea {
-    padding: ${StyleConstants.formElementPadding};
+    padding: ${p => p.theme.formElementPadding};
     width: calc(
-      100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
+      100% - ${p => p.theme.formElementPadding} - ${p => p.theme.formElementPadding} - 2px
     );
     min-width: calc(
-      100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
+      100% - ${p => p.theme.formElementPadding} - ${p => p.theme.formElementPadding} - 2px
     );
     max-width: calc(
-      100% - ${StyleConstants.formElementPadding} - ${StyleConstants.formElementPadding} - 2px
+      100% - ${p => p.theme.formElementPadding} - ${p => p.theme.formElementPadding} - 2px
     );
   }
 
   select {
     width: 100%;
-    padding: ${StyleConstants.formElementPadding} 0;
+    padding: ${p => p.theme.formElementPadding} 0;
   }
 `;
 
 export const FormFieldContainer = styled.div``;
 
-export const FormLabel = styled.label`
+export const FormFieldWrapperRoot = styled.div`
   display: block;
   padding-bottom: 0.5rem;
 `;
 
-export const FormLabelDiv = styled.div`
+export const FormLabel = styled.label`
   padding-bottom: 0.2rem;
-  font-size: ${StyleConstants.font.size.small};
+  font-size: ${p => p.theme.font.size.small};
 `;
 
-export const FormFieldDiv = styled.div``;
+export const FormField = styled.div``;
 
 export const FormValidationErrorDiv = styled.div`
-  color: ${StyleConstants.colors.error.background};
-  font-size: ${StyleConstants.font.size.small};
+  color: ${p => p.theme.colors.error.background};
+  font-size: ${p => p.theme.font.size.small};
 `;
 
 export const Input = styled.input``;
@@ -79,7 +78,7 @@ export const LinkLikeButton = styled.button`
   cursor: pointer;
   border: 0;
   background-color: transparent;
-  color: ${StyleConstants.colors.accent};
+  color: ${p => p.theme.colors.accent};
   padding: 0;
 
   &:focus {
@@ -100,7 +99,7 @@ export const Button: any = styled.button<IButtonStyle>`
   min-width: 5rem;
   cursor: pointer;
   text-align: center;
-  border-radius: ${StyleConstants.borderRadius};
+  border-radius: ${p => p.theme.borderRadius};
   ${StyleUtil.normalizeAnchors("inherit")};
 
   &:hover:disabled {
@@ -109,7 +108,7 @@ export const Button: any = styled.button<IButtonStyle>`
 
   &:focus {
     outline: none;
-    box-shadow: ${StyleConstants.defaultBoxShadow};
+    box-shadow: ${p => p.theme.defaultBoxShadow};
   }
 
   a {
@@ -121,7 +120,7 @@ export const Button: any = styled.button<IButtonStyle>`
 
 export const FormButtonContainer = styled.div`
   .ngrvd-button:not(:last-child) {
-    margin-right: ${StyleConstants.defaultSpacing};
+    margin-right: ${p => p.theme.defaultSpacing};
     margin-bottom: 10px;
   }
 `;

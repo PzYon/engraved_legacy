@@ -1,12 +1,61 @@
 import * as React from "react";
-import { ReactNode } from "react";
-import { Subscription } from "rxjs";
+import { useState } from "react";
 import styled from "styled-components";
 import { ErrorBoundary } from "../common/ErrorBoundary";
-import { StyleConstants } from "../styling/StyleConstants";
+import { useDidMount, useTheme } from "../common/Hooks";
+import { ITheme } from "../styling/ITheme";
 import { StyleUtil } from "../styling/StyleUtil";
 import { INotification, NotificationKind } from "./INotification";
 import { NotificationStore } from "./NotificationStore";
+
+export const Notifications = () => {
+  const theme = useTheme();
+  const [notifications, setNotifications] = useState<INotification[]>([]);
+
+  useDidMount(() => {
+    const notifications$Subscription = NotificationStore.instance.notifications$.subscribe(
+      setNotifications,
+      // ErrorBoundary.ensureError => how to deal with hooks?
+      (error: Error) => ErrorBoundary.ensureError(null, error)
+    );
+
+    return () => notifications$Subscription.unsubscribe();
+  });
+
+  if (!notifications || !notifications.length) {
+    return null;
+  }
+
+  return (
+    <RootContainerDiv>
+      <List>
+        {notifications.map(n => (
+          <ListItem key={n.id} colors={getColors(theme, n.kind)}>
+            <ListItemInner>
+              <MessageSpan>{n.messageOrNode}</MessageSpan>
+              <RemoverSpan onClick={() => removeNotification(n)}>x</RemoverSpan>
+            </ListItemInner>
+          </ListItem>
+        ))}
+      </List>
+    </RootContainerDiv>
+  );
+};
+
+const removeNotification = (n: INotification): void => {
+  NotificationStore.instance.removeNotification(n);
+};
+
+const getColors = (theme: ITheme, kind: NotificationKind): any => {
+  switch (kind) {
+    case NotificationKind.Success:
+      return theme.colors.success;
+    case NotificationKind.Warning:
+      return theme.colors.warning;
+    case NotificationKind.Error:
+      return theme.colors.error;
+  }
+};
 
 const RootContainerDiv = styled.div`
   width: 100%;
@@ -28,16 +77,16 @@ const ListItem = styled.li`
   background-color: ${(props: { colors: any }) => props.colors.background};
   padding: 0;
   margin: 0;
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.success.text)};
+  ${p => StyleUtil.normalizeAnchors(p.theme.colors.success.text)};
 `;
 
 const ListItemInner = styled.span`
   display: flex;
   max-width: calc(
-    ${StyleConstants.maxContentWidth} - ${StyleConstants.defaultSpacing} -
-      ${StyleConstants.defaultSpacing}
+    ${p => p.theme.maxContentWidth} - ${p => p.theme.defaultSpacing} -
+      ${p => p.theme.defaultSpacing}
   );
-  padding: ${StyleConstants.defaultSpacing};
+  padding: ${p => p.theme.defaultSpacing};
   margin: auto;
   overflow: hidden;
 `;
@@ -49,67 +98,3 @@ const MessageSpan = styled.span`
 const RemoverSpan = styled.span`
   cursor: pointer;
 `;
-
-interface INotificationsState {
-  notifications: INotification[];
-}
-
-export class Notifications extends React.PureComponent<{}, INotificationsState> {
-  private notifications$Subscription: Subscription;
-
-  public readonly state: INotificationsState = {
-    notifications: []
-  };
-
-  public componentDidMount(): void {
-    this.notifications$Subscription = NotificationStore.instance.notifications$.subscribe(
-      n => this.setState({ notifications: n }),
-      (error: Error) => ErrorBoundary.ensureError(this, error)
-    );
-  }
-
-  public componentWillUnmount(): void {
-    if (this.notifications$Subscription) {
-      this.notifications$Subscription.unsubscribe();
-    }
-  }
-
-  public render(): ReactNode {
-    const notifications: INotification[] = this.state.notifications;
-    if (!notifications || !notifications.length) {
-      return null;
-    }
-
-    return (
-      <RootContainerDiv>
-        <List>
-          {notifications.map(n => {
-            return (
-              <ListItem key={n.id} colors={Notifications.getColors(n.kind)}>
-                <ListItemInner>
-                  <MessageSpan>{n.messageOrNode}</MessageSpan>
-                  <RemoverSpan onClick={() => this.removeNotification(n)}>x</RemoverSpan>
-                </ListItemInner>
-              </ListItem>
-            );
-          })}
-        </List>
-      </RootContainerDiv>
-    );
-  }
-
-  private removeNotification = (n: INotification): void => {
-    NotificationStore.instance.removeNotification(n);
-  };
-
-  private static getColors(kind: NotificationKind): any {
-    switch (kind) {
-      case NotificationKind.Success:
-        return StyleConstants.colors.success;
-      case NotificationKind.Warning:
-        return StyleConstants.colors.warning;
-      case NotificationKind.Error:
-        return StyleConstants.colors.error;
-    }
-  }
-}

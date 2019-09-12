@@ -1,6 +1,5 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
-import { StyleConstants } from "../styling/StyleConstants";
 
 export interface IPillProps<T> {
   onClick?: () => void;
@@ -31,18 +30,19 @@ interface IContainerSpanProps {
 
 const ContainerSpan = styled.span`
   background-color: ${(props: IContainerSpanProps) =>
-    props.isSecondary ? StyleConstants.colors.discreet : StyleConstants.colors.accent};
-  color: white;
-  font-size: ${StyleConstants.font.size.small};
+    props.isSecondary ? p => p.theme.colors.discreet : p => p.theme.colors.accent};
+  color: ${(props: IContainerSpanProps) =>
+    props.isSecondary ? p => p.theme.colors.text : p => p.theme.colors.accentContrast};
+  font-size: ${p => p.theme.font.size.small};
   padding: 0 9px;
   margin: ${PillMargin};
   word-wrap: break-word;
-  border-radius: ${StyleConstants.borderRadius};
+  border-radius: ${p => p.theme.borderRadius};
   ${(props: IContainerSpanProps) => {
     return props.hasOnClick
       ? css`
           cursor: pointer;
-          box-shadow: ${StyleConstants.discreetBoxShadow};
+          box-shadow: ${p => p.theme.discreetBoxShadow};
         `
       : "";
   }};
