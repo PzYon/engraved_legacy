@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ReactNode } from "react";
 
-export interface IOnlyIfNotNullProps<T = {}> {
+export interface IIFProps<T = {}> {
   value: T;
   children?: ReactNode;
   condition?: (value: T) => boolean;
@@ -9,7 +9,7 @@ export interface IOnlyIfNotNullProps<T = {}> {
   renderElse?: () => ReactNode;
 }
 
-export const If: React.FC<IOnlyIfNotNullProps> = (props: IOnlyIfNotNullProps): any => {
+export const If: React.FC<IIFProps> = (props: IIFProps): any => {
   const v: any = props.value;
 
   const isIf: boolean = props.condition

@@ -7,14 +7,13 @@ const ImageContainer = styled.span`
   font-size: 0;
 
   img {
-    height: ${(p: { imageSizeInPx: number }) => p.imageSizeInPx + "px"};
+    height: ${p => p.theme.headerHeightInPx * 0.7}px;
     border-radius: 50%;
   }
 `;
 
 interface ICurrentUserProps {
   user: IUser;
-  imageSizeInPx: number;
 }
 
 export const CurrentUser: React.FC<ICurrentUserProps> = (props: ICurrentUserProps) => {
@@ -22,12 +21,11 @@ export const CurrentUser: React.FC<ICurrentUserProps> = (props: ICurrentUserProp
     return null;
   }
 
+  const title = props.user.displayName + " | " + props.user.mail;
+
   return (
-    <ImageContainer
-      title={props.user.displayName + " | " + props.user.mail}
-      imageSizeInPx={props.imageSizeInPx}
-    >
-      <img src={props.user.image} />
+    <ImageContainer title={title}>
+      <img src={props.user.image} alt={title} />
     </ImageContainer>
   );
 };

@@ -2,10 +2,10 @@ import { IItem } from "engraved-shared";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useDidMount } from "../../../common/Hooks";
 import { If } from "../../../common/If";
 import { LoadMore } from "../../../common/LoadMore";
 import { ItemStore } from "../../../items/ItemStore";
-import { StyleConstants } from "../../../styling/StyleConstants";
 import { Sorting } from "../Sorting";
 import { Item } from "./Item";
 
@@ -13,7 +13,7 @@ export const ItemsList = () => {
   const [items, setItems] = useState([]);
   const [noPagesLeft, setNoPagesLeft] = useState(false);
 
-  useEffect(() => {
+  useDidMount(() => {
     const items$Subscription = ItemStore.instance.items$.subscribe(loadedItems => {
       setItems(loadedItems);
       setNoPagesLeft(ItemStore.instance.noPagesLeft);
@@ -22,7 +22,7 @@ export const ItemsList = () => {
     ItemStore.instance.loadItems(false);
 
     return () => items$Subscription.unsubscribe();
-  }, []);
+  });
 
   return (
     <If
@@ -54,6 +54,7 @@ export const ItemsList = () => {
           <If
             value={!noPagesLeft}
             render={() => <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />}
+            renderElse={() => <UserMessage>That's all, you reached the end...</UserMessage>}
           />
         </>
       )}
@@ -69,9 +70,12 @@ const List = styled.ul`
 
 const ListItem = styled.li``;
 
-const NoItemsFound = styled.div`
-  margin-top: 100px;
+const UserMessage = styled.div`
   text-align: center;
-  font-size: ${StyleConstants.font.size.large};
-  color: ${StyleConstants.colors.discreet};
+  font-size: ${p => p.theme.font.size.large};
+  color: ${p => p.theme.colors.discreet};
+`;
+
+const NoItemsFound = styled(UserMessage)`
+  margin-top: 100px;
 `;

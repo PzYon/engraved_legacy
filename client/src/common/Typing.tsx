@@ -1,8 +1,7 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDidMount, useFlag, useTheme } from "./Hooks";
 import { Typer } from "./Typer";
-
-const blinkDurationMs = 600;
 
 interface ITypingProps {
   textToType: string;
@@ -10,27 +9,26 @@ interface ITypingProps {
 
 export const Typing: React.FC<ITypingProps> = (props: ITypingProps) => {
   const [currentValue, setCurrentValue] = useState("");
-  const [isCursorVisible, setIsCursorVisible] = useState(true);
+  const [isCursorVisible, toggleIsCursorVisible] = useFlag(true);
+  const theme = useTheme();
 
-  useEffect(() => {
+  useDidMount(() => {
     let isVisible = isCursorVisible;
-    const cursorInterval = setInterval(() => {
-      isVisible = !isVisible;
-      setIsCursorVisible(isVisible);
-    }, blinkDurationMs);
 
-    setTimeout(() => {
-      new Typer(props.textToType).startTyping(
-        (typedText: string) => setCurrentValue(typedText),
-        () => setTimeout(() => setIsCursorVisible(false), blinkDurationMs)
-      );
+    const toggleCursor = (show?: boolean) => {
+      isVisible = show === true || show === false ? show : !isVisible;
+      toggleIsCursorVisible(isVisible);
+    };
 
-      setIsCursorVisible(true);
-      clearInterval(cursorInterval);
-    }, blinkDurationMs * 2);
-  }, []);
+    const typer = new Typer(props.textToType, setCurrentValue, toggleCursor);
+    typer.start();
+
+    return typer.end;
+  });
 
   return (
-    <span style={isCursorVisible ? { borderRight: "2px solid white" } : null}>{currentValue}</span>
+    <span style={isCursorVisible ? { borderRight: `2px solid ${theme.colors.header.text}` } : null}>
+      {currentValue}
+    </span>
   );
 };

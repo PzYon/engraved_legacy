@@ -5,7 +5,6 @@ import { IUser } from "../../../shared/src";
 import { ngrvd, version } from "../../package.json";
 import { CurrentUser } from "../authentication/CurrentUser";
 import { ItemStore } from "../items/ItemStore";
-import { StyleConstants } from "../styling/StyleConstants";
 import { StyleUtil } from "../styling/StyleUtil";
 import { formatDate } from "./FormatDate";
 import { Typing } from "./Typing";
@@ -30,10 +29,7 @@ export const Header = (props: IHeaderProps) => {
       </AppTitle>
       <CurrentUserSpan>
         <Link to={"/users/me"}>
-          <CurrentUser
-            user={props.currentUser}
-            imageSizeInPx={StyleConstants.headerHeightInPx * 0.7}
-          />
+          <CurrentUser user={props.currentUser} />
         </Link>
       </CurrentUserSpan>
     </HeaderContainer>
@@ -46,8 +42,8 @@ const getAppInfo = (): string => {
 };
 
 const HeaderContainer = styled.header`
-  margin: 0 ${StyleConstants.defaultSpacing};
-  width: calc(100% - ${StyleConstants.defaultSpacing} - ${StyleConstants.defaultSpacing});
+  margin: 0 ${p => p.theme.defaultSpacing};
+  width: calc(100% - ${p => p.theme.defaultSpacing} - ${p => p.theme.defaultSpacing});
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,11 +51,11 @@ const HeaderContainer = styled.header`
 `;
 
 const AppTitle = styled.h1`
-  font-size: ${StyleConstants.headerHeightInPx * 0.5}px;
-  font-weight: ${StyleConstants.font.weight.normal};
+  font-size: ${p => p.theme.headerHeightInPx * 0.5}px;
+  font-weight: ${p => p.theme.font.weight.normal};
   margin: 0;
 
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.header.text, StyleConstants.colors.accent)};
+  ${p => StyleUtil.normalizeAnchors(p.theme.colors.header.text, p.theme.colors.accent)};
 `;
 
 const CurrentUserSpan = styled.span`

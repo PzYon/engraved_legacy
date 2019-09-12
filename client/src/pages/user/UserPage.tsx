@@ -1,69 +1,73 @@
-import { IStats, IUser } from "engraved-shared";
 import * as React from "react";
-import { ReactNode } from "react";
+import { useState } from "react";
 import { RouteComponentProps } from "react-router";
 import styled from "styled-components";
 import { AuthenticatedServerApi } from "../../authentication/AuthenticatedServerApi";
 import { FormatDate } from "../../common/FormatDate";
+import { useDidMount } from "../../common/Hooks";
 import { If } from "../../common/If";
-import { StyleConstants } from "../../styling/StyleConstants";
+import { ThemePicker } from "../../styling/ThemePicker";
 import { Page } from "../Page";
-
-const Highlight = styled.span`
-  font-weight: ${StyleConstants.font.weight.bold};
-`;
 
 interface IRouterParams {
   itemId: string;
 }
 
-interface IUserPageState {
-  user: IUser;
-  stats: IStats;
-}
+export const UserPage = (props: RouteComponentProps<IRouterParams>) => {
+  const [user, setUser] = useState(null);
+  const [stats, setStats] = useState(null);
 
-export class UserPage extends React.Component<RouteComponentProps<IRouterParams>, IUserPageState> {
-  public readonly state: IUserPageState = {
-    user: null,
-    stats: null
-  };
+  useDidMount(() => {
+    const sub1 = AuthenticatedServerApi.currentUser$.subscribe(setUser);
+    const sub2 = AuthenticatedServerApi.get("users/me/stats").subscribe(setStats);
 
-  public componentDidMount(): void {
-    AuthenticatedServerApi.currentUser$.subscribe((user: IUser) => {
-      this.setState({ user: user });
-    });
+    return () => {
+      sub1.unsubscribe();
+      sub2.unsubscribe();
+    };
+  });
 
-    // todo: i guess this should be moved somewhere else...
-    AuthenticatedServerApi.get("users/me/stats").subscribe((stats: IStats) => {
-      this.setState({ stats: stats });
-    });
+  if (!user) {
+    return null;
   }
 
-  public render(): ReactNode {
-    const user: IUser = this.state.user;
-    if (!user) {
-      return null;
-    }
+  return (
+    <Page browserTitle={user.displayName} title={`Greetings ${user.displayName}`}>
+      <p>
+        Your mail address is <Highlight>{user.mail}</Highlight> and you signed up{" "}
+        <Highlight>
+          <FormatDate value={user.memberSince} />
+        </Highlight>
+        .
+      </p>
+      <If
+        value={stats}
+        render={() => (
+          <p>
+            You've created <Highlight>{stats.itemCount}</Highlight> items and{" "}
+            <Highlight>{stats.keywordCount}</Highlight> keywords.
+          </p>
+        )}
+      />
+      <UserSettingsContainer>
+        <UserSettingsTitle>Your Settings</UserSettingsTitle>
+        <ThemePicker />
+      </UserSettingsContainer>
+    </Page>
+  );
+};
 
-    return (
-      <Page browserTitle={user.displayName} title={`Greetings ${user.displayName}`}>
-        <p>
-          Your mail address is <Highlight>{user.mail}</Highlight> and you signed up{" "}
-          <Highlight>
-            <FormatDate value={user.memberSince} />
-          </Highlight>
-          .
-        </p>
-        <If
-          value={this.state.stats}
-          render={() => (
-            <p>
-              You've created <Highlight>{this.state.stats.itemCount}</Highlight> items and{" "}
-              <Highlight>{this.state.stats.keywordCount}</Highlight> keywords.
-            </p>
-          )}
-        />
-      </Page>
-    );
-  }
+const Highlight = styled.span`
+  font-weight: ${p => p.theme.font.weight.bold};
+`;
+
+const UserSettingsContainer = styled.section`
+    border-top: 1px solid ${p => p.theme.colors.discreet};
+    margin-top: ${p => p.theme.defaultSpacing};
+    padding-top: ${p => p.theme.defaultSpacing};
 }
+`;
+
+const UserSettingsTitle = styled.div`
+  font-size: ${p => p.theme.font.size.large};
+`;

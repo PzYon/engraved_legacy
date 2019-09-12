@@ -2,7 +2,6 @@ import { IKeyword } from "engraved-shared";
 import * as React from "react";
 import { ChangeEvent, ReactNode } from "react";
 import styled from "styled-components";
-import { StyleConstants } from "../../styling/StyleConstants";
 import { If } from "../If";
 import { DropDown } from "./dropDown/DropDown";
 import { IDropDownItemGroup } from "./dropDown/IDropDownItemGroup";
@@ -18,10 +17,10 @@ interface IInnerContainerDivStyle {
 }
 
 const InnerContainerDiv = styled.div<IInnerContainerDivStyle>`
-  background-color: ${StyleConstants.colors.ultraDiscreet};
-  border: 1px solid ${StyleConstants.colors.discreet};
+  background-color: ${p => p.theme.colors.ultraDiscreet};
+  border: 1px solid ${p => p.theme.colors.discreet};
   overflow: hidden;
-  ${p => (p.isHighlight ? `box-shadow: ${StyleConstants.defaultBoxShadow};` : "")};
+  ${p => (p.isHighlight ? `box-shadow: ${p.theme.defaultBoxShadow};` : "")};
 `;
 
 const Input = styled.input`
@@ -31,16 +30,16 @@ const Input = styled.input`
   min-width: 100% !important;
   max-width: 100% !important;
   margin-bottom: 0 !important;
-  padding: ${StyleConstants.formElementPadding};
+  padding: ${p => p.theme.formElementPadding};
   border: 0 !important;
-  border-top: 1px solid ${StyleConstants.colors.discreet} !important;
+  border-top: 1px solid ${p => p.theme.colors.discreet} !important;
 
   &:focus {
     outline: none;
   }
 
   &::placeholder {
-    color: ${StyleConstants.colors.discreet};
+    color: ${p => p.theme.colors.discreet};
   }
 `;
 

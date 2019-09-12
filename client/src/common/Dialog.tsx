@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { StyleConstants } from "../styling/StyleConstants";
 import { FaderContainer } from "./FaderContainer";
 
 const Filler = styled.div`
@@ -19,23 +18,23 @@ const RootContainer = styled(Filler)`
 
 const BackgroundContainer = styled(Filler)`
   z-index: 101;
-  background-color: ${StyleConstants.colors.accent};
+  background-color: ${p => p.theme.colors.accent};
   opacity: 0.6;
 `;
 
 const InnerContainer = styled.div`
   z-index: 102;
-  max-width: ${StyleConstants.maxContentWidth};
+  max-width: ${p => p.theme.maxContentWidth};
   margin: auto auto;
   padding: 1rem;
-  background-color: white;
-  border-radius: ${StyleConstants.borderRadius};
-  box-shadow: ${StyleConstants.bigBoxShadow};
+  background-color: ${p => p.theme.colors.pageBackground};
+  border-radius: ${p => p.theme.borderRadius};
+  box-shadow: ${p => p.theme.bigBoxShadow};
 `;
 
 const TitleContainer = styled.div`
-  font-size: ${StyleConstants.font.size.large};
-  color: ${StyleConstants.colors.accent};
+  font-size: ${p => p.theme.font.size.large};
+  color: ${p => p.theme.colors.accent};
 `;
 
 const ChildrenContainer = styled.div`

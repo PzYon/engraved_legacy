@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChangeEvent, ReactNode } from "react";
+import { ReactNode } from "react";
 import { FieldWrapper } from "../FieldWrapper";
 import { IFieldProps } from "../IFieldProps";
 import { SelectInner } from "./SelectInner";
@@ -12,7 +12,7 @@ export interface ISelectFieldOptions<T> {
 export interface ISelectFieldProps<T> extends IFieldProps<T> {
   options: Array<ISelectFieldOptions<T>>;
   defaultKey?: string;
-  valueLabel: string;
+  valueLabel?: string;
 }
 
 export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
@@ -24,19 +24,11 @@ export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
         ) : (
           <SelectInner
             defaultKey={this.props.defaultKey}
-            onValueChange={this.onChange}
+            onValueChange={this.props.onValueChange}
             options={this.props.options}
           />
         )}
       </FieldWrapper>
     );
   }
-
-  private onChange = (event: ChangeEvent<HTMLSelectElement>): void => {
-    const option: ISelectFieldOptions<any> = this.props.options.find(
-      o => o.value === event.target.value
-    ) as any;
-
-    this.props.onValueChange(option ? option.value : null);
-  };
 }

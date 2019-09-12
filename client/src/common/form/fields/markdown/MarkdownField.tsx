@@ -1,7 +1,6 @@
 import * as React from "react";
-import { ReactNode } from "react";
 import styled, { css } from "styled-components";
-import { StyleConstants } from "../../../../styling/StyleConstants";
+import { useFlag, useTheme } from "../../../Hooks";
 import { If } from "../../../If";
 import { ButtonStyle, FormButton } from "../../buttons/FormButton";
 import { CodeEditor, CodeLanguage } from "../code/CodeEditor";
@@ -9,14 +8,53 @@ import { FieldWrapper } from "../FieldWrapper";
 import { IFieldProps } from "../IFieldProps";
 import { Markdown } from "./Markdown";
 
+export interface IMarkdownFieldProps extends IFieldProps<string> {}
+
+export const MarkdownField = (props: IMarkdownFieldProps) => {
+  const [isPreview, toggleIsPreview] = useFlag(false);
+  const theme = useTheme();
+
+  return (
+    <FieldWrapper label={props.label} validationError={props.validationMessage}>
+      <If
+        value={!props.isReadOnly && props.value && props.value.trim().length > 0}
+        render={() => (
+          <TogglePreviewContainer isPreview={isPreview}>
+            <FormButton
+              button={{
+                buttonStyle: ButtonStyle.LinkLike,
+                onClick: toggleIsPreview,
+                nodeOrLabel: isPreview ? "Back to edit mode" : "View preview",
+                fontSize: theme.font.size.small
+              }}
+            />
+          </TogglePreviewContainer>
+        )}
+      />
+      <If
+        value={props.isReadOnly || isPreview}
+        render={() => <Markdown markdown={props.value} />}
+        renderElse={() => (
+          <CodeEditor
+            language={CodeLanguage.Markdown}
+            onValueChange={props.onValueChange}
+            value={props.value}
+            isReadOnly={false}
+          />
+        )}
+      />
+    </FieldWrapper>
+  );
+};
+
 interface ITogglePreviewContainerStyle {
   isPreview: boolean;
 }
 
 const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
   display: flex;
-  border: 1px solid ${StyleConstants.colors.discreet};
-  background-color: ${StyleConstants.colors.ultraDiscreet};
+  border: 1px solid ${p => p.theme.colors.discreet};
+  background-color: ${p => p.theme.colors.ultraDiscreet};
   border-bottom: 0;
   padding: 0.2rem 0.7rem;
 
@@ -24,53 +62,7 @@ const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
     p.isPreview
       ? css`
           margin-bottom: 0.5rem;
-          border-bottom: 1px solid ${StyleConstants.colors.discreet};
+          border-bottom: 1px solid ${p.theme.colors.discreet};
         `
       : null};
 `;
-
-export interface IMarkdownFieldProps extends IFieldProps<string> {}
-
-interface IMarkdownFieldState {
-  isPreview: boolean;
-}
-
-export class MarkdownField extends React.PureComponent<IMarkdownFieldProps, IMarkdownFieldState> {
-  public readonly state: IMarkdownFieldState = {
-    isPreview: false
-  };
-
-  public render(): ReactNode {
-    return (
-      <FieldWrapper label={this.props.label} validationError={this.props.validationMessage}>
-        <If
-          value={!this.props.isReadOnly && this.props.value && this.props.value.trim().length > 0}
-          render={() => (
-            <TogglePreviewContainer isPreview={this.state.isPreview}>
-              <FormButton
-                button={{
-                  fontSize: StyleConstants.font.size.small,
-                  buttonStyle: ButtonStyle.LinkLike,
-                  onClick: () => this.setState({ isPreview: !this.state.isPreview }),
-                  nodeOrLabel: this.state.isPreview ? "Back to edit mode" : "View preview"
-                }}
-              />
-            </TogglePreviewContainer>
-          )}
-        />
-        <If
-          value={this.props.isReadOnly || this.state.isPreview}
-          render={() => <Markdown markdown={this.props.value} />}
-          renderElse={() => (
-            <CodeEditor
-              language={CodeLanguage.Markdown}
-              onValueChange={this.props.onValueChange}
-              value={this.props.value}
-              isReadOnly={false}
-            />
-          )}
-        />
-      </FieldWrapper>
-    );
-  }
-}

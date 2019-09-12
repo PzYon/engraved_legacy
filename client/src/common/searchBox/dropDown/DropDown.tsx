@@ -2,7 +2,7 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { fromEvent, Subscription } from "rxjs";
 import styled, { css } from "styled-components";
-import { StyleConstants } from "../../../styling/StyleConstants";
+import { ITheme } from "../../../styling/ITheme";
 import { StyleUtil } from "../../../styling/StyleUtil";
 import { Closer } from "../../Closer";
 import { If } from "../../If";
@@ -13,16 +13,16 @@ const ContainerDiv = styled.div`
   position: absolute;
   width: calc(100% - 2px);
   text-align: left;
-  font-size: ${StyleConstants.font.size.small};
+  font-size: ${p => p.theme.font.size.small};
   z-index: 123;
-  border-right: 1px solid ${StyleConstants.colors.discreet};
-  border-bottom: 1px solid ${StyleConstants.colors.discreet};
-  border-left: 1px solid ${StyleConstants.colors.discreet};
-  background-color: ${StyleConstants.colors.discreet};
-  box-shadow: ${StyleConstants.defaultBoxShadow};
+  border-right: 1px solid ${p => p.theme.colors.discreet};
+  border-bottom: 1px solid ${p => p.theme.colors.discreet};
+  border-left: 1px solid ${p => p.theme.colors.discreet};
+  background-color: ${p => p.theme.colors.formElementBackground};
+  box-shadow: ${p => p.theme.defaultBoxShadow};
 
   .ngrvd-closer {
-    font-size: ${StyleConstants.font.size.large};
+    font-size: ${p => p.theme.font.size.large};
     right: 0.4rem;
     top: 0;
   }
@@ -37,28 +37,28 @@ const GroupItemsList = styled.ul`
 `;
 
 const GroupTitleDiv = styled.div`
-  font-weight: ${StyleConstants.font.weight.normal};
-  font-size: ${StyleConstants.font.size.regular};
-  padding: ${StyleConstants.formElementPadding};
+  font-weight: ${p => p.theme.font.weight.normal};
+  font-size: ${p => p.theme.font.size.regular};
+  padding: ${p => p.theme.formElementPadding};
 `;
 
 interface IGroupItemStyle {
   isActive: boolean;
+  theme?: ITheme;
 }
 
 const GroupItem = styled.li<IGroupItemStyle>`
-  padding: ${StyleConstants.formElementPadding};
+  padding: ${p => p.theme.formElementPadding};
 
   ${StyleUtil.getEllipsis()}
-  ${StyleUtil.normalizeAnchors(StyleConstants.colors.font)}
+  ${p => StyleUtil.normalizeAnchors(p.theme.colors.text)}
 
   ${(p: IGroupItemStyle) =>
     p.isActive
       ? css`
-          background-color: ${StyleConstants.colors.accent};
-          color: white;
+          background-color: ${p.theme.colors.accent};
+          color: ${p.theme.colors.accentContrast};
           cursor: pointer;
-          ${StyleUtil.normalizeAnchors("white")};
         `
       : null}
   }
@@ -132,31 +132,25 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
 
     return (
       <ContainerDiv>
-        <Closer onClose={this.props.onClose} title={"Close"}>
-          x
-        </Closer>
-        {groups.map((group: IDropDownItemGroup, index: number) => {
-          return (
-            <GroupContainerDiv key={group.title || index}>
-              <If value={group.title} render={() => <GroupTitleDiv>{group.title}</GroupTitleDiv>} />
-              <GroupItemsList>
-                {group.items.map((item: IDropDownItem) => {
-                  return (
-                    <GroupItem
-                      key={item.key}
-                      isActive={this.state.activeItem === item}
-                      onClick={() => group.onSelectItem(item)}
-                      onMouseEnter={() => this.setState({ activeItem: item })}
-                      onMouseLeave={() => this.setState({ activeItem: null })}
-                    >
-                      {item.label}
-                    </GroupItem>
-                  );
-                })}
-              </GroupItemsList>
-            </GroupContainerDiv>
-          );
-        })}
+        <Closer onClose={this.props.onClose} title={"Close"} />
+        {groups.map((group: IDropDownItemGroup, index: number) => (
+          <GroupContainerDiv key={group.title || index}>
+            <If value={group.title} render={() => <GroupTitleDiv>{group.title}</GroupTitleDiv>} />
+            <GroupItemsList>
+              {group.items.map((item: IDropDownItem) => (
+                <GroupItem
+                  key={item.key}
+                  isActive={this.state.activeItem === item}
+                  onClick={() => group.onSelectItem(item)}
+                  onMouseEnter={() => this.setState({ activeItem: item })}
+                  onMouseLeave={() => this.setState({ activeItem: null })}
+                >
+                  {item.label}
+                </GroupItem>
+              ))}
+            </GroupItemsList>
+          </GroupContainerDiv>
+        ))}
       </ContainerDiv>
     );
   }

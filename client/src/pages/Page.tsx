@@ -4,18 +4,18 @@ import styled from "styled-components";
 import { Closer } from "../common/Closer";
 import { ErrorBoundary } from "../common/ErrorBoundary";
 import { FaderContainer } from "../common/FaderContainer";
+import { useDidMount, useTheme } from "../common/Hooks";
 import { If } from "../common/If";
-import { StyleConstants } from "../styling/StyleConstants";
 
 const Title = styled.h2`
-  font-weight: ${StyleConstants.font.weight.normal};
-  font-size: ${StyleConstants.font.size.largest};
-  color: ${StyleConstants.colors.accent};
-  margin: 0 0 ${StyleConstants.defaultSpacing} 0;
+  font-weight: ${p => p.theme.font.weight.normal};
+  font-size: ${p => p.theme.font.size.largest};
+  color: ${p => p.theme.colors.accent};
+  margin: 0 0 ${p => p.theme.defaultSpacing} 0;
 `;
 
 const ContentDiv = styled.div`
-  margin: ${StyleConstants.defaultSpacing} 0;
+  margin: ${p => p.theme.defaultSpacing} 0;
 `;
 
 export interface IPageProps {
@@ -26,30 +26,26 @@ export interface IPageProps {
   backgroundColor?: string;
 }
 
-export class Page extends React.PureComponent<IPageProps> {
-  public componentDidMount(): void {
-    document.title = this.props.browserTitle
-      ? "engraved. | " + this.props.browserTitle
-      : "engraved.";
+export const Page = (props: IPageProps) => {
+  const theme = useTheme();
 
-    document.body.style.backgroundColor =
-      this.props.backgroundColor || StyleConstants.colors.pageBackground;
-  }
+  useDidMount(() => {
+    document.title = props.browserTitle ? "engraved. | " + props.browserTitle : "engraved.";
+    document.body.style.backgroundColor = props.backgroundColor || theme.colors.pageBackground;
+  });
 
-  public render(): ReactNode {
-    return (
-      <FaderContainer style={{ padding: StyleConstants.defaultSpacing }}>
-        <ErrorBoundary>
-          <If
-            value={!this.props.noCloser}
-            render={() => (
-              <Closer onClose={() => window.history.back()} title={"Back to previous page"} />
-            )}
-          />
-          <If value={this.props.title} render={() => <Title>{this.props.title}</Title>} />
-          <ContentDiv>{this.props.children}</ContentDiv>
-        </ErrorBoundary>
-      </FaderContainer>
-    );
-  }
-}
+  return (
+    <FaderContainer style={{ padding: theme.defaultSpacing }}>
+      <ErrorBoundary>
+        <If
+          value={!props.noCloser}
+          render={() => (
+            <Closer onClose={() => window.history.back()} title={"Back to previous page"} />
+          )}
+        />
+        <If value={props.title} render={() => <Title>{props.title}</Title>} />
+        <ContentDiv>{props.children}</ContentDiv>
+      </ErrorBoundary>
+    </FaderContainer>
+  );
+};
