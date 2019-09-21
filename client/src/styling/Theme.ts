@@ -53,10 +53,10 @@ export const createTheme = (themeStyle: ThemeStyle): ITheme => {
       accent: accentColor,
       accentContrast: whiteColor,
       discreet: discreetColor,
-      ultraDiscreet: isNonDark ? ultraDiscreetColor : "#333",
-      pageBackground: isNonDark ? whiteColor : "#444",
+      ultraDiscreet: isNonDark ? ultraDiscreetColor : "#555",
+      pageBackground: isNonDark ? whiteColor : "#3A3A3A",
       rootPageBackground: isNonDark ? ultraUltraDiscreetColor : "#333",
-      formElementBackground: isNonDark ? whiteColor : "#666",
+      formElementBackground: isNonDark ? whiteColor : "#444",
       header: {
         background: darkColor,
         text: whiteColor
