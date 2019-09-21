@@ -4,7 +4,7 @@ import "codemirror/mode/javascript/javascript.js";
 import "codemirror/mode/markdown/markdown.js";
 import "codemirror/theme/material.css";
 import * as React from "react";
-import { UnControlled as CodeMirror } from "react-codemirror2";
+import { Controlled as CodeMirror } from "react-codemirror2";
 import styled from "styled-components";
 import { ThemeStyle } from "../../../../styling/ThemeStyle";
 import { useTheme } from "../../../Hooks";
@@ -16,14 +16,14 @@ interface ICodeEditorProps {
   onValueChange: (value: string) => void;
 }
 
-export const CodeEditor = React.memo((props: ICodeEditorProps) => {
+export const CodeEditor = (props: ICodeEditorProps) => {
   const theme = useTheme();
 
   return (
     <CodeEditorContainer>
       <CodeMirror
         value={props.value}
-        onChange={(editor, data, value) => props.onValueChange(value)}
+        onBeforeChange={(editor, data, value) => props.onValueChange(value)}
         options={{
           theme: theme.themeStyle === ThemeStyle.Dark ? "material" : "default",
           lineNumbers: true,
@@ -35,7 +35,7 @@ export const CodeEditor = React.memo((props: ICodeEditorProps) => {
       />
     </CodeEditorContainer>
   );
-});
+};
 
 export enum CodeLanguage {
   Json = "json",
