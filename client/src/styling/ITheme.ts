@@ -1,3 +1,4 @@
+import { IColorPalette } from "./IColorPalette";
 import { ThemeStyle } from "./ThemeStyle";
 
 export interface ITheme {
@@ -26,14 +27,14 @@ export interface ITheme {
     };
   };
   colors: {
+    palette: IColorPalette;
     text: string;
     accent: string;
     accentContrast: string;
-    discreet: string;
-    ultraDiscreet: string;
     pageBackground: string;
     rootPageBackground: string;
     formElementBackground: string;
+    border: string;
     header: {
       background: string;
       text: string;

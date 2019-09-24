@@ -1,13 +1,36 @@
 import rgba from "polished/lib/color/rgba";
+import { IColorPalette } from "./IColorPalette";
 import { ITheme } from "./ITheme";
 import { ThemeStyle } from "./ThemeStyle";
 
-const accentColor = "#0099CC";
-const discreetColor = "#CCC";
-const ultraDiscreetColor = "#F7F7F7";
-const ultraUltraDiscreetColor = "#FAFAFA";
-const darkColor = "#20232A";
-const whiteColor = "#FFFFFF";
+const ACCENT = "#0099CC";
+const ACCENT_CONTRAST = "#FFF";
+const HEADER = "#252525";
+const HEADER_TEXT = "#FCFCFC";
+
+const LIGHT_COLOR_PALETTE: IColorPalette = {
+  primary: HEADER,
+  accent: ACCENT,
+  shades: {
+    zero: "#FFF",
+    lightest: HEADER_TEXT,
+    light: "#F8F8F8",
+    regular: "#E0E0E0",
+    dark: "#D8D8D8"
+  }
+};
+
+const DARK_COLOR_PALETTE: IColorPalette = {
+  primary: HEADER_TEXT,
+  accent: ACCENT,
+  shades: {
+    zero: "#333",
+    lightest: "#555",
+    light: "#444",
+    regular: "#3B3B3B",
+    dark: "#363636"
+  }
+};
 
 const getIsNonDark = (themeStyle: ThemeStyle): boolean => {
   switch (themeStyle) {
@@ -22,6 +45,7 @@ const getIsNonDark = (themeStyle: ThemeStyle): boolean => {
 
 export const createTheme = (themeStyle: ThemeStyle): ITheme => {
   const isNonDark = getIsNonDark(themeStyle);
+  const palette = isNonDark ? LIGHT_COLOR_PALETTE : DARK_COLOR_PALETTE;
 
   return {
     themeStyle: isNonDark ? ThemeStyle.Light : ThemeStyle.Dark,
@@ -31,9 +55,9 @@ export const createTheme = (themeStyle: ThemeStyle): ITheme => {
     maxContentWidth: "1000px",
     defaultSpacing: "15px",
     formElementPadding: "5px",
-    bigBoxShadow: `0px 1px 20px 15px ${rgba(darkColor, 0.2)}`,
-    defaultBoxShadow: `0 1px 6px 0 ${rgba(darkColor, 0.2)}`,
-    discreetBoxShadow: `inset 0 -1px 0 ${rgba(darkColor, 0.2)}`,
+    bigBoxShadow: `0px 1px 20px 15px ${rgba(palette.primary, 0.2)}`,
+    defaultBoxShadow: isNonDark ? `0 1px 6px 0 ${rgba(palette.primary, 0.2)}` : "none",
+    discreetBoxShadow: `inset 0 -1px 0 ${rgba(palette.primary, 0.2)}`,
     font: {
       family: "'IBM Plex Sans', sans-serif",
       codeFamily: "'Dank Mono', 'IBM Plex Mono', monospace",
@@ -49,29 +73,29 @@ export const createTheme = (themeStyle: ThemeStyle): ITheme => {
       }
     },
     colors: {
-      text: isNonDark ? darkColor : ultraUltraDiscreetColor,
-      accent: accentColor,
-      accentContrast: whiteColor,
-      discreet: discreetColor,
-      ultraDiscreet: isNonDark ? ultraDiscreetColor : "#555",
-      pageBackground: isNonDark ? whiteColor : "#3A3A3A",
-      rootPageBackground: isNonDark ? ultraUltraDiscreetColor : "#333",
-      formElementBackground: isNonDark ? whiteColor : "#444",
+      palette: palette,
+      text: palette.primary,
+      accent: palette.accent,
+      accentContrast: ACCENT_CONTRAST,
+      pageBackground: palette.shades.zero,
+      rootPageBackground: palette.shades.light,
+      formElementBackground: isNonDark ? palette.shades.lightest : palette.shades.regular,
+      border: isNonDark ? palette.shades.dark : palette.primary,
       header: {
-        background: darkColor,
-        text: whiteColor
+        background: HEADER,
+        text: HEADER_TEXT
       },
       error: {
         background: "#D73A4A",
-        text: whiteColor
+        text: HEADER_TEXT
       },
       warning: {
         background: "#ffbb00",
-        text: darkColor
+        text: HEADER
       },
       success: {
         background: "#006600",
-        text: whiteColor
+        text: HEADER_TEXT
       }
     }
   };

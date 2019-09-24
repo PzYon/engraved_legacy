@@ -73,7 +73,7 @@ const ListItem = styled.li``;
 const UserMessage = styled.div`
   text-align: center;
   font-size: ${p => p.theme.font.size.large};
-  color: ${p => p.theme.colors.discreet};
+  color: ${p => p.theme.colors.palette.shades.dark};
 `;
 
 const NoItemsFound = styled(UserMessage)`

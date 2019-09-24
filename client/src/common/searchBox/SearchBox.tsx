@@ -17,8 +17,8 @@ interface IInnerContainerDivStyle {
 }
 
 const InnerContainerDiv = styled.div<IInnerContainerDivStyle>`
-  background-color: ${p => p.theme.colors.ultraDiscreet};
-  border: 1px solid ${p => p.theme.colors.discreet};
+  background-color: ${p => p.theme.colors.palette.shades.light};
+  border: 1px solid ${p => p.theme.colors.border};
   overflow: hidden;
   ${p => (p.isHighlight ? `box-shadow: ${p.theme.defaultBoxShadow};` : "")};
 `;
@@ -32,14 +32,14 @@ const Input = styled.input`
   margin-bottom: 0 !important;
   padding: ${p => p.theme.formElementPadding};
   border: 0 !important;
-  border-top: 1px solid ${p => p.theme.colors.discreet} !important;
+  border-top: 1px solid ${p => p.theme.colors.border} !important;
 
   &:focus {
     outline: none;
   }
 
   &::placeholder {
-    color: ${p => p.theme.colors.discreet};
+    color: ${p => p.theme.colors.palette.shades.dark};
   }
 `;
 

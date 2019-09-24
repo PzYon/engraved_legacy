@@ -18,7 +18,7 @@ interface IWrapperDivStyle {
 const WrapperDiv = styled.div<IWrapperDivStyle>`
   .search-box-inner {
     border-radius: ${p => p.theme.borderRadius};
-    border: 1px solid ${p => p.theme.colors.discreet};
+    border: 1px solid ${p => p.theme.colors.border};
 
     ${p =>
       p.showDropDown

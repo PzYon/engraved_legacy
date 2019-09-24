@@ -67,7 +67,7 @@ export const ViewUrlItem = (props: IViewItemProps<IUrlItem>) => {
 
 const IconAnchor = styled.a`
   position: absolute;
-  background-color: ${p => p.theme.colors.ultraDiscreet};
+  background-color: ${p => p.theme.colors.palette.shades.light};
   color: ${p => p.theme.colors.accent};
   height: 1.5rem;
   left: 0.25rem;
@@ -85,8 +85,8 @@ const UrlInputDiv = styled.div`
 `;
 
 const UrlInput = styled.input`
-  border: 1px solid ${p => p.theme.colors.discreet};
-  background-color: ${p => p.theme.colors.ultraDiscreet};
+  border: 1px solid ${p => p.theme.colors.border};
+  background-color: ${p => p.theme.colors.palette.shades.light};
   padding: 0.3rem 0.3rem 0.3rem 2rem !important;
   width: calc(100% - 2.3rem - 2px) !important;
   min-width: calc(100% - 2.3rem - 2px) !important;

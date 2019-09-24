@@ -11,7 +11,7 @@ import { ItemKindRegistrationManager } from "../../../items/ItemKindRegistration
 import { ItemStore } from "../../../items/ItemStore";
 
 const Root = styled.div`
-  border: 1px solid ${p => p.theme.colors.discreet};
+  border: 1px solid ${p => p.theme.colors.border};
   border-radius: ${p => p.theme.borderRadius};
   margin: 1.5rem 0;
   padding: ${p => p.theme.defaultSpacing};

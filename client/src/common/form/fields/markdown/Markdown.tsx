@@ -68,8 +68,8 @@ export const Markdown = (props: IMarkdownProps) => {
 
 const BaseContainer = styled.div`
   padding: 0.7rem;
-  border: 1px solid ${p => p.theme.colors.discreet};
-  background-color: ${p => p.theme.colors.ultraDiscreet};
+  border: 1px solid ${p => p.theme.colors.border};
+  background-color: ${p => p.theme.colors.palette.shades.lightest};
 `;
 
 interface ITocContainerStyle {
@@ -124,7 +124,7 @@ const ContentContainer = styled(BaseContainer)`
     padding: 0.7rem;
     display: block;
     background-color: ${p => p.theme.colors.pageBackground};
-    border: 1px solid ${p => p.theme.colors.discreet};
+    border: 1px solid ${p => p.theme.colors.border};
     overflow-y: auto;
     font-family: ${p => p.theme.font.codeFamily};
   }
@@ -157,6 +157,6 @@ const TocDiv = styled.div`
 
 const MarkupDiv = styled.div`
   .CodeMirror-gutters {
-    border-right-color: ${p => p.theme.colors.discreet};
+    border-right-color: ${p => p.theme.colors.border};
   }
 `;
