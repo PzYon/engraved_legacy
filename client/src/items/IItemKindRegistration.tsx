@@ -18,4 +18,6 @@ export interface IItemKindRegistration<TItemKind extends IItem = IItem> {
   getFieldValidators(): IFieldValidators;
 
   getSpecificProperty(item: TItemKind): ReactNode;
+
+  getDefaultProperties(): Partial<TItemKind>;
 }

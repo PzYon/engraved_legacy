@@ -1,4 +1,4 @@
-import { IItem, ItemKind, Util } from "engraved-shared";
+import { IItem, ItemKind, IUrlItem, Util } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
 import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { Form } from "../../common/form/Form";
+import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
 import { ItemStore } from "../../items/ItemStore";
 import { NotificationKind } from "../../notifications/INotification";
 import { NotificationStore } from "../../notifications/NotificationStore";
@@ -35,13 +36,18 @@ export class CreateItemPage extends React.PureComponent<
     const value = decodeURIComponent(props.match.params.value);
     const itemKind = decodeURIComponent(props.match.params.itemKind) as ItemKind;
 
-    this.state = {
-      isSuccess: false,
-      item: {
+    const item = {
+      ...{
         title: itemKind !== ItemKind.Url ? value : undefined,
         url: itemKind === ItemKind.Url ? value : undefined,
         itemKind: itemKind
-      }
+      },
+      ...ItemKindRegistrationManager.resolve(itemKind).getDefaultProperties()
+    };
+
+    this.state = {
+      isSuccess: false,
+      item: item
     };
   }
 

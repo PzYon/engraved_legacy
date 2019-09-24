@@ -138,9 +138,14 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
   private onValueChange = (fieldName: string, value: any): void => {
     this.setState((prevState: IFormState) => {
+      const defaultValues =
+        fieldName === "itemKind"
+          ? ItemKindRegistrationManager.resolve(value as ItemKind).getDefaultProperties()
+          : {};
+
       const updatedField: any = {};
       updatedField[fieldName] = value;
-      const updatedItem = { ...prevState.item, ...updatedField };
+      const updatedItem = { ...defaultValues, ...prevState.item, ...updatedField };
 
       const updatedValidations = { ...prevState.validatedFields };
 

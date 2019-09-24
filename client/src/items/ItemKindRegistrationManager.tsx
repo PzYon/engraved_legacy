@@ -18,7 +18,7 @@ export class ItemKindRegistrationManager {
     const matches: IItemKindRegistration[] = this.registrations.filter(r => r.kind === itemKind);
 
     if (matches.length === 1) {
-      return matches[0];
+      return matches[0] as IItemKindRegistration<TItemKind>;
     }
 
     if (matches.length > 1) {

@@ -59,4 +59,8 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
     const hostname = parser.hostname.toLowerCase();
     return hostname.indexOf("www.") === 0 ? hostname.substr(4, hostname.length - 1) : hostname;
   }
+
+  public getDefaultProperties(): Partial<IUrlItem> {
+    return {};
+  }
 }

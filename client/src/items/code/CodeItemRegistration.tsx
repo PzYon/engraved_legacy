@@ -9,6 +9,8 @@ import { IValidatedFields } from "../../common/form/validation/IValidatedFields"
 import { IItemKindRegistration } from "../IItemKindRegistration";
 import { ViewCodeItem } from "./ViewCodeItem";
 
+const defaultLanguage = CodeLanguage.Json;
+
 export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
   public kind: ItemKind = ItemKind.Code;
 
@@ -18,17 +20,19 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
     validatedFields: IValidatedFields,
     callback: (key: string, value: any) => void
   ): React.ReactNode {
+    const language = item.codeLanguage || defaultLanguage;
+
     return (
       <>
         <SelectField
           options={CodeItemRegistration.getCodeLanguageOptions()}
           label={"Language"}
-          value={item.codeLanguage}
-          valueLabel={CodeItemRegistration.getCodeLanguageLabel(item.codeLanguage)}
+          value={language}
+          valueLabel={CodeItemRegistration.getCodeLanguageLabel(language)}
           onValueChange={(value: string) => callback("codeLanguage", value)}
           validationMessage={FormValidator.getValidationMessage(validatedFields, "codeLanguage")}
           isReadOnly={isReadOnly}
-          defaultKey={item.codeLanguage}
+          defaultKey={language}
           key={"language"}
         />
         <CodeField
@@ -92,5 +96,9 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
       default:
         return codeLanguage;
     }
+  }
+
+  public getDefaultProperties(): Partial<ICodeItem> {
+    return { codeLanguage: defaultLanguage };
   }
 }
