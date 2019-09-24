@@ -7,7 +7,7 @@ export const FormContainer = styled.section`
   input,
   textarea,
   select {
-    border: 1px solid ${p => p.theme.colors.discreet};
+    border: 1px solid ${p => p.theme.colors.border};
     vertical-align: top;
 
     &:focus {
@@ -63,6 +63,8 @@ export const TextArea = styled.textarea`
 `;
 
 export const Select = styled.select`
+  border: 1px solid ${p => p.theme.colors.border};
+
   option {
     padding: 0;
   }

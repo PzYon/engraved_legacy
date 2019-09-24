@@ -30,14 +30,14 @@ const ItemPropertiesContainer = styled(SectionContainer)`
 
 const ItemPropertyDiv = styled.div`
   padding: 0.2rem 0.4rem;
-  border-left: 1px solid ${p => p.theme.colors.discreet};
-  border-top: 1px solid ${p => p.theme.colors.discreet};
-  border-bottom: 1px solid ${p => p.theme.colors.discreet};
+  border-left: 1px solid ${p => p.theme.colors.border};
+  border-top: 1px solid ${p => p.theme.colors.border};
+  border-bottom: 1px solid ${p => p.theme.colors.border};
   display: flex;
   align-items: center;
 
   &:last-of-type {
-    border-right: 1px solid ${p => p.theme.colors.discreet};
+    border-right: 1px solid ${p => p.theme.colors.border};
   }
 `;
 

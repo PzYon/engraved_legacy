@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ThemeStyle } from "../styling/ThemeStyle";
 import { Pill } from "./Pill";
 
 export interface ITogglerValue {
@@ -41,5 +42,12 @@ const Root = styled.span`
   .ngrvd-sort-toggler {
     padding-top: 2px;
     padding-bottom: 2px;
+
+    ${p =>
+      p.theme.themeStyle === ThemeStyle.Dark
+        ? css`
+            border: 1px solid ${p.theme.colors.border};
+          `
+        : null}
   }
 `;

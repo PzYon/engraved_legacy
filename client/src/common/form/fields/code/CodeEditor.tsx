@@ -5,7 +5,7 @@ import "codemirror/mode/markdown/markdown.js";
 import "codemirror/theme/material.css";
 import * as React from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { ThemeStyle } from "../../../../styling/ThemeStyle";
 import { useTheme } from "../../../Hooks";
 
@@ -62,20 +62,15 @@ const getModeOptions = (language: CodeLanguage) => {
 
 const CodeEditorContainer = styled.div`
   .CodeMirror {
-    border: 1px solid ${p => p.theme.colors.discreet};
+    border: 1px solid ${p => p.theme.colors.border};
     font-size: ${p => p.theme.font.size.regular};
     font-family: ${p => p.theme.font.codeFamily};
     width: calc(100% - 2px);
     height: auto;
+    background-color: ${p => p.theme.colors.formElementBackground} !important;
 
-    ${p =>
-      p.theme.themeStyle === ThemeStyle.Dark
-        ? css`
-            .CodeMirror-linenumbers,
-            & {
-              background-color: ${p.theme.colors.formElementBackground} !important;
-            }
-          `
-        : null}
+    .CodeMirror-linenumbers {
+      background-color: ${p => p.theme.colors.palette.shades.light} !important;
+    }
   }
 `;

@@ -15,9 +15,9 @@ const ContainerDiv = styled.div`
   text-align: left;
   font-size: ${p => p.theme.font.size.small};
   z-index: 123;
-  border-right: 1px solid ${p => p.theme.colors.discreet};
-  border-bottom: 1px solid ${p => p.theme.colors.discreet};
-  border-left: 1px solid ${p => p.theme.colors.discreet};
+  border-right: 1px solid ${p => p.theme.colors.border};
+  border-bottom: 1px solid ${p => p.theme.colors.border};
+  border-left: 1px solid ${p => p.theme.colors.border};
   background-color: ${p => p.theme.colors.formElementBackground};
   box-shadow: ${p => p.theme.defaultBoxShadow};
 

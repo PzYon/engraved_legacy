@@ -71,8 +71,8 @@ const getColors = (buttonStyle: ButtonStyle, theme: ITheme): IButtonStyle => {
     case ButtonStyle.Disabled:
       return {
         text: theme.colors.text,
-        background: theme.colors.discreet,
-        border: theme.colors.discreet
+        background: theme.colors.palette.shades.lightest,
+        border: theme.colors.palette.shades.dark
       };
   }
 };

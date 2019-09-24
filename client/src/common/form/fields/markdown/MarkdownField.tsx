@@ -53,8 +53,8 @@ interface ITogglePreviewContainerStyle {
 
 const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
   display: flex;
-  border: 1px solid ${p => p.theme.colors.discreet};
-  background-color: ${p => p.theme.colors.ultraDiscreet};
+  border: 1px solid ${p => p.theme.colors.border};
+  background-color: ${p => p.theme.colors.palette.shades.light};
   border-bottom: 0;
   padding: 0.2rem 0.7rem;
 
@@ -62,7 +62,7 @@ const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
     p.isPreview
       ? css`
           margin-bottom: 0.5rem;
-          border-bottom: 1px solid ${p.theme.colors.discreet};
+          border-bottom: 1px solid ${p.theme.colors.border};
         `
       : null};
 `;

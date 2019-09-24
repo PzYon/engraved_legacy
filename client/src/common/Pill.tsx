@@ -30,7 +30,7 @@ interface IContainerSpanProps {
 
 const ContainerSpan = styled.span`
   background-color: ${(props: IContainerSpanProps) =>
-    props.isSecondary ? p => p.theme.colors.discreet : p => p.theme.colors.accent};
+    props.isSecondary ? p => p.theme.colors.palette.shades.dark : p => p.theme.colors.accent};
   color: ${(props: IContainerSpanProps) =>
     props.isSecondary ? p => p.theme.colors.text : p => p.theme.colors.accentContrast};
   font-size: ${p => p.theme.font.size.small};

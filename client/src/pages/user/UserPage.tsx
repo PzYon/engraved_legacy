@@ -62,7 +62,7 @@ const Highlight = styled.span`
 `;
 
 const UserSettingsContainer = styled.section`
-    border-top: 1px solid ${p => p.theme.colors.discreet};
+    border-top: 1px solid ${p => p.theme.colors.border};
     margin-top: ${p => p.theme.defaultSpacing};
     padding-top: ${p => p.theme.defaultSpacing};
 }
