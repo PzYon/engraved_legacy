@@ -1,5 +1,7 @@
 import { ICodeItem, ItemKind } from "engraved-shared";
 import * as React from "react";
+import { DomUtil } from "../../common/DomUtil";
+import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { CodeLanguage } from "../../common/form/fields/code/CodeEditor";
 import { CodeField } from "../../common/form/fields/code/CodeField";
 import { ISelectFieldOptions, SelectField } from "../../common/form/fields/select/SelectField";
@@ -65,10 +67,22 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
     return <ViewCodeItem item={item} />;
   }
 
-  public getSpecificProperty(item: ICodeItem): React.ReactNode {
-    return item.codeLanguage ? (
-      <span>{CodeItemRegistration.getCodeLanguageLabel(item.codeLanguage)}</span>
-    ) : null;
+  public getSpecificProperties(item: ICodeItem): React.ReactNode[] {
+    return item.codeLanguage
+      ? [
+          <span key={"codeLanguage"}>
+            {CodeItemRegistration.getCodeLanguageLabel(item.codeLanguage)}
+          </span>,
+          <FormButton
+            key={"copy"}
+            button={{
+              onClick: () => DomUtil.copyValueToClipBoard(item.code),
+              nodeOrLabel: "copy",
+              buttonStyle: ButtonStyle.LinkLike
+            }}
+          />
+        ]
+      : null;
   }
 
   public static getCodeLanguageOptions(): Array<ISelectFieldOptions<CodeLanguage>> {

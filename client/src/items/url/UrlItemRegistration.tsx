@@ -1,5 +1,7 @@
 import { ItemKind, IUrlItem } from "engraved-shared";
 import * as React from "react";
+import { DomUtil } from "../../common/DomUtil";
+import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { TextField } from "../../common/form/fields/text/TextField";
 import { FormValidator } from "../../common/form/validation/FormValidator";
 import { IFieldValidators } from "../../common/form/validation/IFieldValidators";
@@ -41,15 +43,23 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
     return <ViewUrlItem item={item} />;
   }
 
-  public getSpecificProperty(item: IUrlItem): React.ReactNode {
-    return (
-      <>
+  public getSpecificProperties(item: IUrlItem): React.ReactNode[] {
+    return [
+      <span key={"view"}>
         view on{" "}
         <a href={item.url} title={item.url}>
           {UrlItemRegistration.getHostName(item.url)}
         </a>
-      </>
-    );
+      </span>,
+      <FormButton
+        key={"copy"}
+        button={{
+          onClick: () => DomUtil.copyValueToClipBoard(item.url),
+          nodeOrLabel: "copy",
+          buttonStyle: ButtonStyle.LinkLike
+        }}
+      />
+    ];
   }
 
   private static getHostName(url: string): string {

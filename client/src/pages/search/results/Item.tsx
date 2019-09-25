@@ -36,6 +36,10 @@ const DescriptionParagraph = styled(Paragraph)`
 const SpecificPropertiesParagraph = styled(Paragraph)`
   font-size: ${p => p.theme.font.size.small};
   margin-bottom: 0;
+
+  button {
+    font-size: ${p => p.theme.font.size.small};
+  }
 `;
 
 const Property = styled.span`
@@ -102,9 +106,9 @@ export class Item extends React.PureComponent<IItemProps> {
   }
 
   private static getSpecificProperties(item: IItem): ReactNode {
-    const p = ItemKindRegistrationManager.resolve(item.itemKind).getSpecificProperty(item);
+    const props = ItemKindRegistrationManager.resolve(item.itemKind).getSpecificProperties(item);
 
-    return p ? <Property>{p}</Property> : null;
+    return props && props.length ? props.map((p, i) => <Property key={i}>{p}</Property>) : null;
   }
 
   private static toggleSelectedKeyword(k: IKeyword) {
