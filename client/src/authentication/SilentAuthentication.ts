@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, ObservableInput } from "rxjs";
-import { catchError, filter, flatMap } from "rxjs/operators";
+import { catchError, filter, first, flatMap } from "rxjs/operators";
 import { AuthenticatedServerApi } from "./AuthenticatedServerApi";
 
 export class SilentAuthentication {
@@ -36,6 +36,7 @@ export class SilentAuthentication {
     const waitUntilAuthenticated: () => Observable<T> = () => {
       return SilentAuthentication.isWaitingForSilent$.pipe(
         filter((isWaiting: boolean) => isWaiting === false),
+        first(),
         flatMap(action)
       );
     };

@@ -36,6 +36,7 @@ export class EditItemPage extends React.Component<
   };
 
   private itemSub: Subscription;
+  private updateItemSub: Subscription;
 
   public componentDidMount(): void {
     this.itemSub = ItemStore.instance
@@ -49,6 +50,10 @@ export class EditItemPage extends React.Component<
   public componentWillUnmount(): void {
     if (this.itemSub) {
       this.itemSub.unsubscribe();
+    }
+
+    if (this.updateItemSub) {
+      this.updateItemSub.unsubscribe();
     }
   }
 
@@ -130,15 +135,7 @@ export class EditItemPage extends React.Component<
   }
 
   private updateItem = (item: IItem, backToHome: boolean): void => {
-    ItemStore.instance.updateItem(item).subscribe((updatedItem: IItem) => {
-      if (backToHome) {
-        this.setState({ backToHome: true });
-      }
-
-      ItemStore.instance.resetAndLoad();
-
-      this.setState({ item: updatedItem });
-
+    this.updateItemSub = ItemStore.instance.updateItem(item).subscribe((updatedItem: IItem) => {
       NotificationStore.instance.addNotification({
         messageOrNode: (
           <span>
@@ -150,6 +147,8 @@ export class EditItemPage extends React.Component<
         kind: NotificationKind.Success,
         timeToLiveInSeconds: 8
       });
+
+      this.setState({ item: updatedItem, backToHome: backToHome });
     });
   };
 
