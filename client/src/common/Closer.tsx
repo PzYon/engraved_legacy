@@ -9,11 +9,17 @@ const Container = styled.span`
   font-weight: ${p => p.theme.font.weight.normal};
   color: ${p => p.theme.colors.accent};
   transition: color 0.3s;
-  transform: rotate(45deg);
+  user-select: none;
 
   &:hover {
     color: ${p => p.theme.colors.text};
   }
+`;
+
+const Inner = styled.span`
+  cursor: pointer;
+  transform: rotate(45deg);
+  display: inline-block;
 `;
 
 export interface ICloserProps {
@@ -21,8 +27,10 @@ export interface ICloserProps {
   title: string;
 }
 
+export const CloserInner = () => <Inner>+</Inner>;
+
 export const Closer: React.FC<ICloserProps> = (props: ICloserProps) => (
   <Container className={"ngrvd-closer"} onClick={props.onClose}>
-    +
+    <CloserInner />
   </Container>
 );

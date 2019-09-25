@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { CloserInner } from "../common/Closer";
 import { ErrorBoundary } from "../common/ErrorBoundary";
 import { useDidMount, useTheme } from "../common/Hooks";
 import { ITheme } from "../styling/ITheme";
@@ -33,7 +34,9 @@ export const Notifications = () => {
           <ListItem key={n.id} colors={getColors(theme, n.kind)}>
             <ListItemInner>
               <MessageSpan>{n.messageOrNode}</MessageSpan>
-              <RemoverSpan onClick={() => removeNotification(n)}>x</RemoverSpan>
+              <RemoverSpan onClick={() => removeNotification(n)}>
+                <CloserInner />
+              </RemoverSpan>
             </ListItemInner>
           </ListItem>
         ))}
