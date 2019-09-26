@@ -5,8 +5,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { first, tap } from "rxjs/operators";
 import styled from "styled-components";
 import { AuthenticatedServerApi } from "./authentication/AuthenticatedServerApi";
+import { AuthenticationCallback } from "./authentication/AuthenticationCallback";
 import { Header } from "./common/Header";
 import { useDidMount } from "./common/Hooks";
+import { LocalStorageUtil } from "./common/storage/LocalStorageUtil";
 import { WelcomeScreen } from "./common/WelcomeScreen";
 import { Notifications } from "./notifications/Notifications";
 import { CreateItemPage } from "./pages/createItem/CreateItemPage";
@@ -27,7 +29,10 @@ export const AuthenticatedApp = () => {
         tap(
           u => u,
           // error case
-          () => setIsLoading(false)
+          () => {
+            setIsLoading(false);
+            AuthenticationCallback.rememberCurrentUrlForRedirectionAfterAuthentication();
+          }
         )
       )
       .subscribe((user: IUser) => {
