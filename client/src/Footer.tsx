@@ -21,7 +21,7 @@ export const Footer = () => {
   const container = useRef<HTMLDivElement>(null);
 
   useDidMount(() => {
-    const timer = setTimeout(() => (container.current.className += " visible"), 5000);
+    const timer = setTimeout(() => (container.current.className += " visible"), 500);
     return () => clearTimeout(timer);
   });
 
