@@ -2,11 +2,10 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IUser } from "../../../shared/src";
-import { ngrvd, version } from "../../package.json";
 import { CurrentUser } from "../authentication/CurrentUser";
 import { ItemStore } from "../items/ItemStore";
 import { StyleUtil } from "../styling/StyleUtil";
-import { formatDate } from "./FormatDate";
+import { Util } from "../Util";
 import { Typing } from "./Typing";
 
 export interface IHeaderProps {
@@ -16,7 +15,7 @@ export interface IHeaderProps {
 export const Header = (props: IHeaderProps) => {
   return (
     <HeaderContainer>
-      <AppTitle title={getAppInfo()}>
+      <AppTitle title={Util.getAppInfo()}>
         <Link
           to={"/"}
           onClick={() => {
@@ -34,11 +33,6 @@ export const Header = (props: IHeaderProps) => {
       </CurrentUserSpan>
     </HeaderContainer>
   );
-};
-
-const getAppInfo = (): string => {
-  const buildDate = process.env.NODE_ENV === "development" ? new Date() : ngrvd.buildDate;
-  return "Version " + version + "  - Built " + formatDate(buildDate);
 };
 
 const HeaderContainer = styled.header`
