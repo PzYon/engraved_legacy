@@ -8,8 +8,8 @@ import { AuthenticatedServerApi } from "./authentication/AuthenticatedServerApi"
 import { AuthenticationCallback } from "./authentication/AuthenticationCallback";
 import { Header } from "./common/Header";
 import { useDidMount } from "./common/Hooks";
-import { LocalStorageUtil } from "./common/storage/LocalStorageUtil";
 import { WelcomeScreen } from "./common/WelcomeScreen";
+import { Footer } from "./Footer";
 import { Notifications } from "./notifications/Notifications";
 import { CreateItemPage } from "./pages/createItem/CreateItemPage";
 import { EditItemPage } from "./pages/editItem/EditItemPage";
@@ -61,16 +61,19 @@ export const AuthenticatedApp = () => {
             <Header currentUser={currentUser} />
           </HeaderContainer>
         </HeaderContainerDiv>
-        <ContentContainer>
-          <Switch>
-            <Route path="/" component={SearchPage} exact={true} />
-            <Route path="/users/me" component={UserPage} exact={true} />
-            <Route path="/items/create/:itemKind?/:value?" component={CreateItemPage} />
-            <Route path="/items/:itemId/edit" component={EditItemPage} />
-            <Route path="/items/:itemId" component={ViewItemPage} exact={true} />
-            <Route path="/" component={NotFoundPage} />
-          </Switch>
-        </ContentContainer>
+        <MainContainer>
+          <ContentContainer>
+            <Switch>
+              <Route path="/" component={SearchPage} exact={true} />
+              <Route path="/users/me" component={UserPage} exact={true} />
+              <Route path="/items/create/:itemKind?/:value?" component={CreateItemPage} />
+              <Route path="/items/:itemId/edit" component={EditItemPage} />
+              <Route path="/items/:itemId" component={ViewItemPage} exact={true} />
+              <Route path="/" component={NotFoundPage} />
+            </Switch>
+          </ContentContainer>
+          <Footer />
+        </MainContainer>
         <Notifications />
       </AppRootDiv>
     </Router>
@@ -97,7 +100,13 @@ const HeaderContainer = styled(BaseContainer)`
   height: ${p => p.theme.headerHeightInPx}px;
 `;
 
-const ContentContainer = styled(BaseContainer)`
+const MainContainer = styled(BaseContainer)`
+  display: flex;
+  flex-direction: column;
   min-height: calc(100vh - ${p => p.theme.headerHeightInPx}px);
   position: relative;
+`;
+
+const ContentContainer = styled.div`
+  flex-grow: 1;
 `;
