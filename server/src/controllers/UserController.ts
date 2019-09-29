@@ -1,4 +1,4 @@
-import { IStats } from "engraved-shared";
+import { IUserStats } from "engraved-shared";
 import { Express } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { Db } from "mongodb";
@@ -19,8 +19,8 @@ export class UserController extends BaseAuthenticatedController {
   private getStats = (req: Request, res: Response): void => {
     this.createDbService(req)
       .getMyStats()
-      .then((stats: IStats) => {
-        res.send(stats);
+      .then((stats: IUserStats) => {
+        res.send({ ...stats, ...process.env });
       });
   };
 }

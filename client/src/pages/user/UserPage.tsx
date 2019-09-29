@@ -1,3 +1,4 @@
+import { IUserStats } from "engraved-shared";
 import * as React from "react";
 import { useState } from "react";
 import { RouteComponentProps } from "react-router";
@@ -15,7 +16,7 @@ interface IRouterParams {
 
 export const UserPage = (props: RouteComponentProps<IRouterParams>) => {
   const [user, setUser] = useState(null);
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState<IUserStats>(null);
 
   useDidMount(() => {
     const sub1 = AuthenticatedServerApi.currentUser$.subscribe(setUser);

@@ -10,7 +10,8 @@ export { IKeyword } from "./IKeyword";
 
 export { IUser } from "./IUser";
 
-export { IStats } from "./IStats";
+export { IUserStats } from "./IUserStats";
+export { IAppStats } from "./IAppStats";
 
 export { ISorting } from "./ISorting";
 

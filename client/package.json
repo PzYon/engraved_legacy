@@ -5,7 +5,7 @@
   "dependencies": {
     "codemirror": "^5.49.0",
     "date-fns": "^2.3.0",
-    "engraved-shared": "0.0.109",
+    "engraved-shared": "0.0.111",
     "markdown-it": "^10.0.0",
     "markdown-it-anchor": "^5.2.4",
     "markdown-it-table-of-contents": "^0.4.4",
@@ -21,10 +21,11 @@
   },
   "scripts": {
     "start": "react-scripts-ts start",
-    "build": "node ./update-packagejson.js && react-scripts-ts build",
+    "build": "react-scripts-ts build",
     "build-ts": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "analyze": "npm webpack-bundle-analyzer 'build/static/js/*.js'"
   },
   "devDependencies": {
     "@types/codemirror": "^0.0.77",
