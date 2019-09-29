@@ -4,6 +4,7 @@ import express, { Express } from "express";
 import { Db, MongoClient } from "mongodb";
 import * as path from "path";
 import Config from "./Config";
+import { AppController } from "./controllers/AppController";
 import { AuthenticationController } from "./controllers/AuthenticationController";
 import { DevApiController } from "./controllers/DevApiControlller";
 import { ItemController } from "./controllers/ItemController";
@@ -43,6 +44,7 @@ const configureExpress = (db: Db) => {
   const itemController = new ItemController(app, db);
   const keywordController = new KeywordController(app, db);
   const userController = new UserController(app, db);
+  const appController = new AppController(app, db);
   const devApiController = new DevApiController(app, db);
 
   if (process.env.NODE_ENV === "production") {

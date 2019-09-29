@@ -1,4 +1,4 @@
-export interface IStats {
+export interface IUserStats {
   keywordCount: number;
   itemCount: number;
 }

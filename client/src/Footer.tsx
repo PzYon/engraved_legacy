@@ -1,8 +1,49 @@
+import { IAppStats } from "engraved-shared";
+import { useState } from "react";
 import * as React from "react";
-import { useRef } from "react";
 import styled from "styled-components";
+import { AuthenticatedServerApi } from "./authentication/AuthenticatedServerApi";
+import { formatDate } from "./common/FormatDate";
 import { useDidMount } from "./common/Hooks";
-import { Util } from "./Util";
+
+export const Footer = () => {
+  const [stats, setStats] = useState<IAppStats>(null);
+
+  useDidMount(() => {
+    const sub1 = AuthenticatedServerApi.get("app/stats").subscribe((s: IAppStats) => {
+      s.appVersion = s.appVersion || "vDev";
+      s.commitHash = s.commitHash || "2bc15f981007dd25daee3ef13bbe14802f821c5b"; // initial ;)
+      s.releaseDate = s.releaseDate || new Date().toISOString();
+
+      setStats(s);
+    });
+
+    return () => sub1.unsubscribe();
+  });
+
+  if (!stats) {
+    return null;
+  }
+
+  return (
+    <Container>
+      <span>
+        <a href={"https://github.com/PzYon/engraved/commit/" + stats.commitHash} onClick={void 0}>
+          {stats.appVersion}
+        </a>
+        {" | "}released {formatDate(stats.releaseDate)}
+      </span>
+      <span>
+        {formatLabel(stats.numberOfRegisteredUsers, "user")} |{" "}
+        {formatLabel(stats.totalNumberOfItems, "item")}
+      </span>
+    </Container>
+  );
+};
+
+const formatLabel = (n: number, label: string) => {
+  return `${n} ${label}${n === 1 ? "" : "s"}`;
+};
 
 const Container = styled.footer`
   display: flex;
@@ -10,30 +51,4 @@ const Container = styled.footer`
   padding: ${p => p.theme.defaultSpacing};
   font-size: ${p => p.theme.font.size.small};
   transition: opacity ease-in ${p => p.theme.transitionTime};
-  opacity: 0;
-
-  &.visible {
-    opacity: 1;
-  }
 `;
-
-export const Footer = () => {
-  const container = useRef<HTMLDivElement>(null);
-
-  useDidMount(() => {
-    const timer = setTimeout(() => (container.current.className += " visible"), 500);
-    return () => clearTimeout(timer);
-  });
-
-  return (
-    <Container ref={container}>
-      <span>{Util.getAppInfo()}</span>
-      <span>
-        View on{" "}
-        <a href={"https://github.com/PzYon/engraved"} onClick={void 0}>
-          GitHub
-        </a>
-      </span>
-    </Container>
-  );
-};

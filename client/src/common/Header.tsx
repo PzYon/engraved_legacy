@@ -5,7 +5,6 @@ import { IUser } from "../../../shared/src";
 import { CurrentUser } from "../authentication/CurrentUser";
 import { ItemStore } from "../items/ItemStore";
 import { StyleUtil } from "../styling/StyleUtil";
-import { Util } from "../Util";
 import { Typing } from "./Typing";
 
 export interface IHeaderProps {
@@ -15,7 +14,7 @@ export interface IHeaderProps {
 export const Header = (props: IHeaderProps) => {
   return (
     <HeaderContainer>
-      <AppTitle title={Util.getAppInfo()}>
+      <AppTitle>
         <Link
           to={"/"}
           onClick={() => {
