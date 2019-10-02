@@ -54,6 +54,7 @@ export const createTheme = (themeStyle: ThemeStyle): ITheme => {
     borderRadius: "3px",
     maxContentWidth: "1000px",
     defaultSpacing: "15px",
+    bigSpacing: "30px",
     formElementPadding: "5px",
     bigBoxShadow: `0px 1px 20px 15px ${rgba(palette.primary, 0.2)}`,
     defaultBoxShadow: isNonDark ? `0 1px 6px 0 ${rgba(palette.primary, 0.2)}` : "none",

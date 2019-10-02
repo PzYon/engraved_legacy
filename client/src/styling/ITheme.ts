@@ -8,6 +8,7 @@ export interface ITheme {
   borderRadius: string;
   maxContentWidth: string;
   defaultSpacing: string;
+  bigSpacing: string;
   formElementPadding: string;
   bigBoxShadow: string;
   defaultBoxShadow: string;
