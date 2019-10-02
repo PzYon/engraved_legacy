@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Edited } from "../../../common/Edited";
+import { If } from "../../../common/If";
 import { ItemKindIcon } from "../../../common/ItemKindIcon";
 import { Keywords } from "../../../common/Keywords";
 import { PillMargin } from "../../../common/Pill";
@@ -13,12 +14,15 @@ import { ItemStore } from "../../../items/ItemStore";
 const Root = styled.div`
   border: 1px solid ${p => p.theme.colors.border};
   border-radius: ${p => p.theme.borderRadius};
-  margin: 1.5rem 0;
   padding: ${p => p.theme.defaultSpacing};
   box-shadow: ${p => p.theme.defaultBoxShadow};
   opacity: 0;
   transition: opacity 0.5s;
   background-color: ${p => p.theme.colors.pageBackground};
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Paragraph = styled.p`
@@ -31,6 +35,10 @@ const Paragraph = styled.p`
 
 const DescriptionParagraph = styled(Paragraph)`
   font-weight: ${p => p.theme.font.weight.normal};
+`;
+
+const Grower = styled.div`
+  flex-grow: 1;
 `;
 
 const SpecificPropertiesParagraph = styled(Paragraph)`
@@ -84,14 +92,23 @@ export class Item extends React.PureComponent<IItemProps> {
         <Title>
           <Link to={`/items/${item._id || ""}`}>{item.title}</Link>
         </Title>
-        {item.description && <DescriptionParagraph>{item.description}</DescriptionParagraph>}
-        <Paragraph>
-          <Keywords
-            keywords={item.keywords}
-            onClick={Item.toggleSelectedKeyword}
-            orderAlphabetically={true}
-          />
-        </Paragraph>
+        <If
+          value={item.description}
+          render={() => <DescriptionParagraph>{item.description}</DescriptionParagraph>}
+        />
+        <Grower />
+        <If
+          value={item.keywords}
+          render={() => (
+            <Paragraph>
+              <Keywords
+                keywords={item.keywords}
+                onClick={Item.toggleSelectedKeyword}
+                orderAlphabetically={true}
+              />
+            </Paragraph>
+          )}
+        />
         <SpecificPropertiesParagraph>
           <Property>
             <ItemKindIcon itemKind={item.itemKind} />

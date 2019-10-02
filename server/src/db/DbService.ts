@@ -1,5 +1,4 @@
 import {
-  IAppStats,
   IItem,
   IKeyword,
   IUserStats,
@@ -18,15 +17,15 @@ import {
 import Config from "../Config";
 
 export class DbService {
-  public get keywords(): Collection {
+  public get keywords(): Collection<IKeyword> {
     return this.db.collection(Config.db.collections.keywords);
   }
 
-  public get users(): Collection {
+  public get users(): Collection<IUser> {
     return this.db.collection(Config.db.collections.users);
   }
 
-  public get items(): Collection {
+  public get items(): Collection<IItem> {
     return this.db.collection(Config.db.collections.items);
   }
 
@@ -45,7 +44,7 @@ export class DbService {
       user.memberSince = new Date();
       return this.users
         .insertOne(user)
-        .then((writeUserResult: InsertOneWriteOpResult) => writeUserResult.ops[0]);
+        .then((writeUserResult: InsertOneWriteOpResult<IUser>) => writeUserResult.ops[0]);
     }
   }
 
@@ -192,7 +191,7 @@ export class DbService {
   private saveItems(items: IItem[]) {
     return this.items
       .insertMany(items)
-      .then((writeItemsResult: InsertWriteOpResult) => writeItemsResult.ops);
+      .then((writeItemsResult: InsertWriteOpResult<IItem>) => writeItemsResult.ops);
   }
 
   private static transformQuery(searchQuery: ItemSearchQuery): any {

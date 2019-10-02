@@ -45,7 +45,7 @@ export class ItemStore {
 
   private pageNumber: number = 0;
 
-  private readonly pageSize: number = 10;
+  private readonly pageSize: number = 20;
 
   private nextItemsSubscription: SubscriptionLike;
 

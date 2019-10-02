@@ -1,6 +1,6 @@
 import { IItem } from "engraved-shared";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useDidMount } from "../../../common/Hooks";
 import { If } from "../../../common/If";
@@ -44,13 +44,15 @@ export const ItemsList = () => {
               { label: "Title", value: "title" }
             ]}
           />
-          <List>
-            {items.map((item: IItem) => (
-              <ListItem key={item._id}>
-                <Item item={item} />
-              </ListItem>
-            ))}
-          </List>
+          <ListContainer>
+            <List>
+              {items.map((item: IItem) => (
+                <ListItem key={item._id}>
+                  <Item item={item} />
+                </ListItem>
+              ))}
+            </List>
+          </ListContainer>
           <If
             value={!noPagesLeft}
             render={() => <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />}
@@ -62,10 +64,23 @@ export const ItemsList = () => {
   );
 };
 
+const ListContainer = styled.div`
+  margin-bottom: ${p => p.theme.bigSpacing};
+`;
+
 const List = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
+
+  display: grid;
+  grid-template-columns: repeat(2, 50fr);
+  grid-column-gap: ${p => p.theme.bigSpacing};
+  grid-row-gap: ${p => p.theme.bigSpacing};
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(1, 100%);
+  }
 `;
 
 const ListItem = styled.li``;

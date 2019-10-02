@@ -27,16 +27,18 @@ export const Footer = () => {
 
   return (
     <Container>
-      <span>
-        <a href={"https://github.com/PzYon/engraved/commit/" + stats.commitHash} onClick={void 0}>
-          {stats.appVersion}
-        </a>
-        {" | "}released {formatDate(stats.releaseDate)}
-      </span>
-      <span>
-        {formatLabel(stats.numberOfRegisteredUsers, "user")} |{" "}
-        {formatLabel(stats.totalNumberOfItems, "item")}
-      </span>
+      <Inner>
+        <span>
+          <a href={"https://github.com/PzYon/engraved/commit/" + stats.commitHash} onClick={void 0}>
+            {stats.appVersion}
+          </a>
+        </span>
+        <span>released {formatDate(stats.releaseDate)}</span>
+      </Inner>
+      <Inner>
+        <span>{formatLabel(stats.numberOfRegisteredUsers, "user")}</span>
+        <span>{formatLabel(stats.totalNumberOfItems, "item")}</span>
+      </Inner>
     </Container>
   );
 };
@@ -51,4 +53,11 @@ const Container = styled.footer`
   padding: ${p => p.theme.defaultSpacing};
   font-size: ${p => p.theme.font.size.small};
   transition: opacity ease-in ${p => p.theme.transitionTime};
+`;
+
+const Inner = styled.span`
+  span:not(:last-of-type)::after {
+    content: "\\00B7";
+    margin: 0 0.4rem;
+  }
 `;
