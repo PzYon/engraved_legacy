@@ -117,13 +117,14 @@ export class DbService {
     console.log(`executing items query:`);
     console.log(query);
 
-    let cursor = this.items
-      .find(query)
-      .collation({ locale: "en" })
-      .sort({
+    let cursor = this.items.find(query).collation({ locale: "en" });
+
+    if (searchQuery.sorting) {
+      cursor = cursor.sort({
         [searchQuery.sorting.propName]:
           searchQuery.sorting.direction === SortDirection.Descending ? -1 : 1
       });
+    }
 
     if (searchQuery.take > 0) {
       cursor = cursor.skip(searchQuery.skip).limit(searchQuery.take);
