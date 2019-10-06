@@ -3,12 +3,11 @@
   "version": "0.0.2",
   "dependencies": {},
   "scripts": {
-    "start": "npm run server:prod",
-    "server:prod": "cd server && npm run prod",
-    "server:build:prod": "cd server && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
-    "client:build:prod": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build && copyfiles -u 1 build/**/*.* ../server/dist/client",
-    "heroku-postbuild": "npm run server:build:prod && npm run client:build:prod",
-    "precommit": "pretty-quick --staged"
+    "start": "npm run shared:link && cd server && npm run prod",
+    "heroku-postbuild": "npm run shared:link && npm run server:build:prod && npm run client:build:prod",
+    "server:build:prod": "cd server && npm link engraved-shared && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "client:build:prod": "cd client && npm link engraved-shared && npm install && npm install --only=dev --no-shrinkwrap && npm run build && copyfiles -u 1 build/**/*.* ../server/dist/client",
+    "shared:link": "cd shared && npm install && npm install --only=dev --no-shrinkwrap && npm run build && cd dist && npm link && npm install && cd ../../"
   },
   "devDependencies": {
     "copyfiles": "^2.1.1",
@@ -21,5 +20,10 @@
   },
   "engines": {
     "node": "8.11.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
