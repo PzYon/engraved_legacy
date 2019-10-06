@@ -16,10 +16,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install, npm te
+      - name: npm install, npm test
         run: |
           cd shared
           npm i
+          npm test
           npm run build
           cd dist
           npm link
