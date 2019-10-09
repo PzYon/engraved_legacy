@@ -22,8 +22,10 @@ jobs:
           npm i
           npm test
           npm run build
-          cd dist
-          cd ../../server
+          cd ../client
+          npm i
+          npm run build
+          cd ../server
           npm i
           npm test
         env:

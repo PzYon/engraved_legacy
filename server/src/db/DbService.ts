@@ -149,6 +149,8 @@ export class DbService {
         return previousValue;
       }, []);
 
+    // TODO: filter terms for current user! -> add unit test!
+
     const allFromDb = await this.keywords.find({ name: { $in: all.map(k => k.name) } }).toArray();
 
     const allFromDbNames = allFromDb.map((f: IKeyword) => f.name);

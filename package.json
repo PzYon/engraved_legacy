@@ -3,11 +3,11 @@
   "version": "0.0.2",
   "dependencies": {},
   "scripts": {
-    "start": "npm run shared:link && cd server && npm run prod",
-    "heroku-postbuild": "npm run shared:link && npm run server:build:prod && npm run client:build:prod",
+    "start": "npm run shared:build && cd server && npm run prod",
+    "heroku-postbuild": "npm run shared:build && npm run server:build:prod && npm run client:build:prod",
     "server:build:prod": "cd server && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "client:build:prod": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build && copyfiles -u 1 build/**/*.* ../server/dist/client",
-    "shared:link": "cd shared && npm install && npm install --only=dev --no-shrinkwrap && npm run build && cd dist && cd ../../"
+    "shared:build": "cd shared && npm install && npm install --only=dev --no-shrinkwrap && npm run build && cd dist && cd ../../"
   },
   "devDependencies": {
     "copyfiles": "^2.1.1",
