@@ -23,9 +23,7 @@ jobs:
           npm test
           npm run build
           cd dist
-          npm link
           cd ../../server
-          npm link engraved-shared
           npm i
           npm test
         env:
