@@ -3,76 +3,54 @@ import { Db, InsertOneWriteOpResult, MongoClient } from "mongodb";
 import Config from "../Config";
 import { DbService } from "./DbService";
 
+let connection: MongoClient;
+let db: Db;
+let dbService: DbService;
+let currentUser: IUser;
+let anotherUser: IUser;
+
+async function dropTable(name: string) {
+  try {
+    await db.collection(name).drop();
+  } catch (err) {}
+}
+
+async function setUp() {
+  connection = await MongoClient.connect((global as any)["__MONGO_URI__"], {
+    useNewUrlParser: true
+  });
+
+  db = await connection.db((global as any)["__MONGO_DB_NAME__"]);
+
+  await db.collection(Config.db.collections.items).createIndex({ "$**": "text" });
+
+  let service = new DbService(db, null);
+
+  currentUser = await service.ensureUser({
+    displayName: "Mar Dog",
+    image: null,
+    mail: "mar.dog@dogmar.io",
+    memberSince: new Date()
+  });
+
+  anotherUser = await service.ensureUser({
+    displayName: "Another User",
+    image: null,
+    mail: "not.me@dogmar.io",
+    memberSince: new Date()
+  });
+
+  dbService = new DbService(db, currentUser);
+}
+
+async function tearDown() {
+  await dropTable(Config.db.collections.items);
+  await dropTable(Config.db.collections.keywords);
+  await dropTable(Config.db.collections.users);
+  await connection.close();
+}
+
 describe("DbService", () => {
-  let connection: MongoClient;
-  let db: Db;
-  let dbService: DbService;
-  let currentUser: IUser;
-  let anotherUser: IUser;
-
-  function createLotsOfSampleItems(): IItem[] {
-    const items = [];
-    for (let i = 0; i < 20; i++) {
-      items.push(createSampleItem("Foo " + i));
-    }
-
-    return items;
-  }
-
-  function createSampleItem(title: string = "Foo", userId: string = currentUser._id): IItem {
-    return {
-      keywords: [],
-      title: title,
-      editedOn: new Date(),
-      itemKind: ItemKind.Code,
-      description: null,
-      user_id: userId
-    };
-  }
-
-  async function dropTable(name: string) {
-    try {
-      await db.collection(name).drop();
-    } catch (err) {}
-  }
-
-  async function setUp() {
-    connection = await MongoClient.connect((global as any)["__MONGO_URI__"], {
-      useNewUrlParser: true
-    });
-
-    db = await connection.db((global as any)["__MONGO_DB_NAME__"]);
-
-    await db.collection(Config.db.collections.items).createIndex({ "$**": "text" });
-
-    let service = new DbService(db, null);
-
-    currentUser = await service.ensureUser({
-      displayName: "Mar Dog",
-      image: null,
-      mail: "mar.dog@dogmar.io",
-      memberSince: new Date()
-    });
-
-    anotherUser = await service.ensureUser({
-      displayName: "Another User",
-      image: null,
-      mail: "not.me@dogmar.io",
-      memberSince: new Date()
-    });
-
-    dbService = new DbService(db, currentUser);
-  }
-
-  async function tearDown() {
-    await dropTable(Config.db.collections.items);
-    await dropTable(Config.db.collections.keywords);
-    await dropTable(Config.db.collections.users);
-    await connection.close();
-    connection = null;
-    dbService = null;
-  }
-
   beforeEach(async () => await setUp());
   afterEach(async () => await tearDown());
 
@@ -133,7 +111,7 @@ describe("DbService", () => {
   });
 
   describe("getItems", () => {
-    it("page size", async () => {
+    it("with page size", async () => {
       await db.collection(Config.db.collections.items).insertMany(createLotsOfSampleItems());
 
       const pageSize = 3;
@@ -142,5 +120,60 @@ describe("DbService", () => {
 
       expect(items.length).toEqual(pageSize);
     });
+
+    it("with one keyword", async () => {
+      const title = "Me haZ keyW0rds";
+
+      await ensureItemsIncludingOneWithKeywords(title, "alpha");
+
+      const items = await dbService.getItems(new ItemSearchQuery(null, ["alpha"], 0, 10));
+
+      expect(items.length).toEqual(1);
+      expect(items[0].title).toEqual(title);
+    });
+
+    it("with two keywords", async () => {
+      const title = "Me haZ keyW0rds";
+
+      await ensureItemsIncludingOneWithKeywords(title, "alpha", "beta");
+
+      const items = await dbService.getItems(new ItemSearchQuery(null, ["alpha", "beta"], 0, 10));
+
+      expect(items.length).toEqual(1);
+      expect(items[0].title).toEqual(title);
+    });
   });
 });
+
+function createSampleItem(title: string = "Foo", userId: string = currentUser._id): IItem {
+  return {
+    keywords: [],
+    title: title,
+    editedOn: new Date(),
+    itemKind: ItemKind.Code,
+    description: null,
+    user_id: userId
+  };
+}
+
+function createLotsOfSampleItems(): IItem[] {
+  const items = [];
+  for (let i = 0; i < 20; i++) {
+    items.push(createSampleItem("Foo " + i));
+  }
+
+  return items;
+}
+
+async function ensureItemsIncludingOneWithKeywords(title: string, ...keywords: string[]) {
+  await db.collection(Config.db.collections.items).insertMany(createLotsOfSampleItems());
+  await db.collection<IItem>(Config.db.collections.items).insertOne({
+    user_id: currentUser._id,
+    itemKind: ItemKind.Code,
+    title: title,
+    keywords: (Array.isArray(keywords) ? keywords : [keywords]).map(k => ({
+      name: k,
+      user_id: currentUser._id
+    }))
+  });
+}
