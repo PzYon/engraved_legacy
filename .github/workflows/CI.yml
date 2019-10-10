@@ -1,4 +1,4 @@
-name: Unit Tests
+name: CI
 
 on: push
 
@@ -16,17 +16,25 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install, npm test
+      - name: Shared - Test and Build
         run: |
           cd shared
           npm i
           npm test
           npm run build
-          cd ../client
-          npm i
-          npm run build
-          cd ../server
+        env:
+          CI: true
+      - name: Server - Test
+        run: |
+          cd server
           npm i
           npm test
+        env:
+          CI: true
+      - name: Client - Build
+        run: |
+          cd client
+          npm i
+          npm run build
         env:
           CI: true
