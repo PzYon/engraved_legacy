@@ -72,7 +72,10 @@ const bootstrap = async (client: MongoClient) => {
 
 console.log("Connecting to mongoDB: " + Config.db.url);
 
-MongoClient.connect(Config.db.url)
+MongoClient.connect(Config.db.url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
   .then(bootstrap)
   .catch(e => {
     console.log("Failed to bootstrap the app:");

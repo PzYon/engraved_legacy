@@ -1,7 +1,8 @@
 import { IItem, ItemKind, ItemSearchQuery, IUser } from "engraved-shared";
-import { Db, InsertOneWriteOpResult, MongoClient } from "mongodb";
+import { Db, InsertOneWriteOpResult, MongoClient, ObjectId } from "mongodb";
 import Config from "../Config";
 import { DbService } from "./DbService";
+import { ObjectID } from "mongodb";
 
 let connection: MongoClient;
 let db: Db;
@@ -17,7 +18,8 @@ async function dropTable(name: string) {
 
 async function setUp() {
   connection = await MongoClient.connect((global as any)["__MONGO_URI__"], {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   });
 
   db = await connection.db((global as any)["__MONGO_DB_NAME__"]);
@@ -77,16 +79,87 @@ describe("DbService", () => {
     });
   });
 
+  describe("updateItem", () => {
+    it("updates item in DB", async () => {
+      const item = await insertSampleItem();
+
+      const itemToUpdate: IItem = item;
+      itemToUpdate.title = "Freddy New";
+      itemToUpdate.editedOn = null;
+
+      const updatedItem = await dbService.updateItem(
+        asStringId(item._id),
+        JSON.parse(JSON.stringify(itemToUpdate))
+      );
+
+      expect(updatedItem.editedOn).not.toBe(null);
+      expect(updatedItem._id).toEqual(itemToUpdate._id);
+
+      delete updatedItem.editedOn;
+      delete itemToUpdate.editedOn;
+
+      expect(updatedItem).toEqual(itemToUpdate);
+    });
+
+    it("throws on ID mismatch", async () => {
+      const item = await insertSampleItem();
+
+      expect(() => {
+        dbService.updateItem(new ObjectId().toHexString(), item);
+      }).toThrow();
+    });
+
+    it("doesn't update item from another user", async () => {
+      const otherItem = await createItemAsAnotherUser();
+      otherItem.title = "isch jetzt anderscht.";
+
+      expect(() => dbService.updateItem(asStringId(otherItem._id), otherItem)).toThrow();
+    });
+  });
+
+  describe("deleteItem", () => {
+    it("removes item from DB", async () => {
+      await db.collection(Config.db.collections.items).insertMany(createLotsOfSampleItems());
+      const countBeforeDelete: number = await db
+        .collection(Config.db.collections.items)
+        .countDocuments();
+      const allItems = await db
+        .collection<IItem>(Config.db.collections.items)
+        .find({})
+        .toArray();
+      const itemToDelete = allItems[0];
+
+      await dbService.deleteItem(itemToDelete._id);
+
+      const countAfterDelete: number = await db
+        .collection(Config.db.collections.items)
+        .countDocuments();
+
+      expect(countAfterDelete).toBe(countBeforeDelete - 1);
+    });
+
+    it("doesn't remove item from another user", async () => {
+      await db.collection(Config.db.collections.items).insertMany(createLotsOfSampleItems());
+      const itemToDelete = await createItemAsAnotherUser();
+
+      const countBeforeDelete: number = await db
+        .collection(Config.db.collections.items)
+        .countDocuments();
+      await dbService.deleteItem(itemToDelete._id);
+      const countAfterDelete: number = await db
+        .collection(Config.db.collections.items)
+        .countDocuments();
+
+      expect(countAfterDelete).toBe(countBeforeDelete);
+    });
+  });
+
   describe("getItemById", () => {
     it("retrieves item by ID", async () => {
-      const result: InsertOneWriteOpResult<any> = await db
-        .collection(Config.db.collections.items)
-        .insertOne(createSampleItem());
+      const item = await insertSampleItem();
 
       const count: number = await db.collection(Config.db.collections.items).countDocuments();
       expect(count).toBe(1);
-
-      const item: IItem = result.ops[0];
 
       const resultItem = await dbService.getItemById(item._id);
 
@@ -95,14 +168,7 @@ describe("DbService", () => {
     });
 
     it("doesn't return item from another user", async () => {
-      const sampleItem = createSampleItem();
-      sampleItem.user_id = anotherUser._id;
-
-      const result: InsertOneWriteOpResult<any> = await db
-        .collection(Config.db.collections.items)
-        .insertOne(sampleItem);
-
-      const item: IItem = result.ops[0];
+      const item = await createItemAsAnotherUser();
 
       const resultItem = await dbService.getItemById(item._id);
 
@@ -145,14 +211,14 @@ describe("DbService", () => {
   });
 });
 
-function createSampleItem(title: string = "Foo", userId: string = currentUser._id): IItem {
+function createSampleItem(title: string = "Foo", userId?: string): IItem {
   return {
     keywords: [],
     title: title,
     editedOn: new Date(),
     itemKind: ItemKind.Code,
     description: null,
-    user_id: userId
+    user_id: userId || currentUser._id
   };
 }
 
@@ -176,4 +242,27 @@ async function ensureItemsIncludingOneWithKeywords(title: string, ...keywords: s
       user_id: currentUser._id
     }))
   });
+}
+
+async function createItemAsAnotherUser(): Promise<IItem> {
+  const sampleItem = createSampleItem();
+  sampleItem.user_id = anotherUser._id;
+
+  const result: InsertOneWriteOpResult<any> = await db
+    .collection(Config.db.collections.items)
+    .insertOne(sampleItem);
+
+  return result.ops[0] as IItem;
+}
+
+async function insertSampleItem(title?: string, userId?: string) {
+  const result: InsertOneWriteOpResult<any> = await db
+    .collection(Config.db.collections.items)
+    .insertOne(createSampleItem(title, userId));
+
+  return result.ops[0];
+}
+
+function asStringId(value: string | number | ObjectId) {
+  return new ObjectId(value).toHexString();
 }

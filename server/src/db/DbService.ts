@@ -38,7 +38,7 @@ export class DbService {
       delete user.memberSince;
       existingUser = { ...existingUser, ...user };
       return this.users
-        .updateOne(DbService.getItemByIdFilter(existingUser._id), { $set: existingUser })
+        .updateOne(DbService.getDocumentByIdFilter(existingUser._id), { $set: existingUser })
         .then((r: UpdateWriteOpResult) => existingUser);
     } else {
       user.memberSince = new Date();
@@ -49,7 +49,7 @@ export class DbService {
   }
 
   public getUserById(id: string): Promise<IUser> {
-    return this.users.findOne(DbService.getItemByIdFilter(id));
+    return this.users.findOne(DbService.getDocumentByIdFilter(id));
   }
 
   public getMyStats(): Promise<IUserStats> {
@@ -89,16 +89,14 @@ export class DbService {
     });
   }
 
-  public updateItem(id: string, item: IItem): Promise<any> {
-    if (item._id) {
-      if (item._id !== id) {
-        throw new Error("ID mismatch!");
-      } else {
-        delete item._id;
-      }
+  public updateItem(id: string, item: IItem): Promise<IItem> {
+    if (item._id && item._id !== id) {
+      throw new Error("ID mismatch!");
     }
 
-    if (item.user_id !== this.currentUser._id.toString()) {
+    delete item._id;
+
+    if (item.user_id.toString() !== this.currentUser._id.toString()) {
       throw new Error("This is not your item.");
     }
 
@@ -106,8 +104,8 @@ export class DbService {
     item.editedOn = new Date();
 
     return this.items
-      .updateOne(DbService.getItemByIdFilter(id), { $set: item })
-      .then((r: UpdateWriteOpResult) => this.getItemById(id));
+      .updateOne(this.getItemByIdFilter(id), { $set: item })
+      .then(() => this.getItemById(id));
   }
 
   public getItems(searchQuery: ItemSearchQuery): Promise<IItem[]> {
@@ -134,11 +132,11 @@ export class DbService {
   }
 
   public deleteItem(id: string): Promise<any> {
-    return this.items.deleteOne(DbService.getItemByIdFilter(id));
+    return this.items.deleteOne(this.getItemByIdFilter(id));
   }
 
   public getItemById(id: string): Promise<IItem> {
-    return this.items.findOne(this.ensureCurrentUserId(DbService.getItemByIdFilter(id)));
+    return this.items.findOne(this.getItemByIdFilter(id));
   }
 
   public async insertItems(...items: IItem[]): Promise<IItem[]> {
@@ -260,11 +258,15 @@ export class DbService {
     return { $text: { $search: fullText } };
   }
 
-  private static getItemByIdFilter(id: string): any {
-    return { _id: new ObjectID(id) };
+  private getItemByIdFilter(id: string): any {
+    return this.ensureCurrentUserId(DbService.getDocumentByIdFilter(id));
   }
 
   private ensureCurrentUserId(query: any): any {
     return { ...query, ...{ user_id: new ObjectID(this.currentUser._id) } };
+  }
+
+  private static getDocumentByIdFilter(id: string): any {
+    return { _id: new ObjectID(id) };
   }
 }
