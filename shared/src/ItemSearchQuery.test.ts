@@ -2,7 +2,7 @@ import { ItemSearchQuery } from "./ItemSearchQuery";
 import { SortDirection } from "./SortDirection";
 
 describe("ItemSearchQuery", () => {
-  describe("fromObject", async () => {
+  describe("fromObject", () => {
     it("parses all parameters", async () => {
       const sourceQuery = new ItemSearchQuery("abc", ["foo", "bar"], 10, 5, {
         propName: "myProp",

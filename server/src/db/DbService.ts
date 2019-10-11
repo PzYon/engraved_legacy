@@ -77,9 +77,6 @@ export class DbService {
 
     query = this.ensureCurrentUserId(query);
 
-    console.log(`executing keywords query:`);
-    console.log(query);
-
     return this.keywords.find(query).toArray();
   }
 
@@ -109,11 +106,7 @@ export class DbService {
   }
 
   public getItems(searchQuery: ItemSearchQuery): Promise<IItem[]> {
-    let query = DbService.transformQuery(searchQuery);
-    query = this.ensureCurrentUserId(query);
-
-    console.log(`executing items query:`);
-    console.log(query);
+    const query = this.ensureCurrentUserId(DbService.transformQuery(searchQuery));
 
     let cursor = this.items.find(query).collation({ locale: "en" });
 
