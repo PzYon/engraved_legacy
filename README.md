@@ -1,5 +1,7 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components)
+<a href="https://github.com/PzYon/engraved/actions?workflow=CI"><img alt="GitHub Actions status" src="https://github.com/PzYon/engraved/workflows/CI/badge.svg"></a>
+
 
 # engraved.
 
