@@ -20,7 +20,7 @@ const ContentDiv = styled.div`
 
 export interface IPageProps {
   children: ReactNode;
-  title?: string;
+  title?: ReactNode;
   browserTitle?: string;
   noCloser?: boolean;
   backgroundColor?: string;

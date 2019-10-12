@@ -7,7 +7,6 @@ import { ButtonStyle, FormButton } from "./buttons/FormButton";
 import { KeywordField } from "./fields/keyword/KeywordField";
 import { SelectField } from "./fields/select/SelectField";
 import { MultiLineTextField } from "./fields/text/MultiLineTextField";
-import { TextField } from "./fields/text/TextField";
 import { FormButtonContainer, FormContainer, FormFieldContainer } from "./Form.StyledComponents";
 import { FormValidator } from "./validation/FormValidator";
 import { IValidatedFields } from "./validation/IValidatedFields";
@@ -69,16 +68,6 @@ export class Form extends React.Component<IFormProps, IFormState> {
             defaultKey={item.itemKind}
             isReadOnly={this.props.isReadonly}
           />
-          <TextField
-            label={"Title"}
-            onValueChange={(value: string) => this.onValueChange("title", value)}
-            validationMessage={FormValidator.getValidationMessage(
-              this.state.validatedFields,
-              "title"
-            )}
-            value={item.title}
-            isReadOnly={this.props.isReadonly}
-          />
           <MultiLineTextField
             label={"Description"}
             onValueChange={(value: string) => this.onValueChange("description", value)}
@@ -136,7 +125,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
         );
   }
 
-  private onValueChange = (fieldName: string, value: any): void => {
+  public onValueChange = (fieldName: string, value: any): void => {
     this.setState((prevState: IFormState) => {
       const defaultValues =
         fieldName === "itemKind"
