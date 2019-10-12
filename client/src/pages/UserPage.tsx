@@ -3,12 +3,12 @@ import * as React from "react";
 import { useState } from "react";
 import { RouteComponentProps } from "react-router";
 import styled from "styled-components";
-import { AuthenticatedServerApi } from "../../authentication/AuthenticatedServerApi";
-import { FormatDate } from "../../common/FormatDate";
-import { useDidMount } from "../../common/Hooks";
-import { If } from "../../common/If";
-import { ThemePicker } from "../../styling/ThemePicker";
-import { Page } from "../Page";
+import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi";
+import { FormatDate } from "../common/FormatDate";
+import { useDidMount } from "../common/Hooks";
+import { If } from "../common/If";
+import { ThemePicker } from "../styling/ThemePicker";
+import { Page } from "./Page";
 
 interface IRouterParams {
   itemId: string;

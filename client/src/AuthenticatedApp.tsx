@@ -11,12 +11,12 @@ import { useDidMount } from "./common/Hooks";
 import { WelcomeScreen } from "./common/WelcomeScreen";
 import { Footer } from "./Footer";
 import { Notifications } from "./notifications/Notifications";
-import { CreateItemPage } from "./pages/createItem/CreateItemPage";
-import { EditItemPage } from "./pages/editItem/EditItemPage";
-import { NotFoundPage } from "./pages/notFound/NotFoundPage";
+import { CreateItemPage } from "./pages/CreateItemPage";
+import { EditItemPage } from "./pages/EditItemPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 import { SearchPage } from "./pages/search/SearchPage";
-import { UserPage } from "./pages/user/UserPage";
-import { ViewItemPage } from "./pages/viewItem/ViewItemPage";
+import { UserPage } from "./pages/UserPage";
+import { ViewItemPage } from "./pages/ViewItemPage";
 
 export const AuthenticatedApp = () => {
   const [isLoading, setIsLoading] = useState(true);

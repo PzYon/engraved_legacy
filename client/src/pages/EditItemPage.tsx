@@ -4,14 +4,15 @@ import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { Subscription } from "rxjs";
-import { ConfirmableButton } from "../../common/form/buttons/ConfirmableButton";
-import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
-import { Form } from "../../common/form/Form";
-import { DateFormat, formatDate } from "../../common/FormatDate";
-import { ItemStore } from "../../items/ItemStore";
-import { NotificationKind } from "../../notifications/INotification";
-import { NotificationStore } from "../../notifications/NotificationStore";
-import { Page } from "../Page";
+import { ConfirmableButton } from "../common/form/buttons/ConfirmableButton";
+import { ButtonStyle, FormButton } from "../common/form/buttons/FormButton";
+import { Form } from "../common/form/Form";
+import { DateFormat, formatDate } from "../common/FormatDate";
+import { ItemStore } from "../items/ItemStore";
+import { NotificationKind } from "../notifications/INotification";
+import { NotificationStore } from "../notifications/NotificationStore";
+import { EditablePageTitle } from "./EditablePageTitle";
+import { Page } from "./Page";
 
 interface IRouterParams {
   itemId: string;
@@ -19,6 +20,7 @@ interface IRouterParams {
 
 interface IEditItemFormState {
   itemId: string;
+  currentTitle: string;
   item: IItem | undefined;
   backToHome: boolean;
   failedToLoad: boolean;
@@ -30,6 +32,7 @@ export class EditItemPage extends React.Component<
 > {
   public readonly state: IEditItemFormState = {
     item: undefined,
+    currentTitle: undefined,
     itemId: decodeURIComponent(this.props.match.params.itemId),
     backToHome: false,
     failedToLoad: false
@@ -37,12 +40,13 @@ export class EditItemPage extends React.Component<
 
   private itemSub: Subscription;
   private updateItemSub: Subscription;
+  private formRef: React.RefObject<Form> = React.createRef<Form>();
 
   public componentDidMount(): void {
     this.itemSub = ItemStore.instance
       .getLocalItemOrLoad(this.state.itemId)
       .subscribe(
-        item => this.setState({ item: item }),
+        item => this.setState({ item: item, currentTitle: item ? item.title : undefined }),
         () => this.setState({ failedToLoad: true })
       );
   }
@@ -77,8 +81,21 @@ export class EditItemPage extends React.Component<
     const reactKey = formatDate(item.editedOn || new Date(), DateFormat.ticks);
 
     return (
-      <Page browserTitle={item.title + " | edit"} title={"Edit item"}>
+      <Page
+        browserTitle={item.title + " | edit"}
+        title={
+          <EditablePageTitle
+            placeholder={"Enter your title"}
+            value={this.state.currentTitle}
+            onChange={(value: string) => {
+              this.setState({ currentTitle: value });
+              this.formRef.current.onValueChange("title", value);
+            }}
+          />
+        }
+      >
         <Form
+          ref={this.formRef}
           key={reactKey}
           isReadonly={false}
           item={item}
@@ -87,48 +104,46 @@ export class EditItemPage extends React.Component<
             isValid: boolean,
             validate: () => boolean,
             updatedItem: IItem
-          ) => {
-            return (
-              <>
-                <FormButton
-                  key={"Save"}
-                  button={{
-                    nodeOrLabel: "Save",
-                    onClick: () => {
-                      if (isDirty && validate()) {
-                        this.updateItem(updatedItem, false);
-                      }
-                    },
-                    buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
-                  }}
-                />
-                <FormButton
-                  key={"SaveAndClose"}
-                  button={{
-                    nodeOrLabel: "Save & Close",
-                    onClick: () => {
-                      if (isDirty && validate()) {
-                        this.updateItem(updatedItem, true);
-                      }
-                    },
-                    buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
-                  }}
-                />
-                <ConfirmableButton
-                  key={"Delete"}
-                  confirmableButton={{
-                    initialButtonNodeOrLabel: "Delete",
-                    initialButtonStyle: ButtonStyle.Secondary,
-                    confirmationDialogTitle: `Do you really want to delete "${updatedItem.title}"?`,
-                    confirmationButtonNodeOrLabel: "Yep, delete it.",
-                    confirmationButtonStyle: ButtonStyle.Red,
-                    cancelButtonNodeOrLabel: "No, keep it.",
-                    onClick: () => this.deleteItem(updatedItem)
-                  }}
-                />
-              </>
-            );
-          }}
+          ) => (
+            <>
+              <FormButton
+                key={"Save"}
+                button={{
+                  nodeOrLabel: "Save",
+                  onClick: () => {
+                    if (isDirty && validate()) {
+                      this.updateItem(updatedItem, false);
+                    }
+                  },
+                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
+                }}
+              />
+              <FormButton
+                key={"SaveAndClose"}
+                button={{
+                  nodeOrLabel: "Save & Close",
+                  onClick: () => {
+                    if (isDirty && validate()) {
+                      this.updateItem(updatedItem, true);
+                    }
+                  },
+                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
+                }}
+              />
+              <ConfirmableButton
+                key={"Delete"}
+                confirmableButton={{
+                  initialButtonNodeOrLabel: "Delete",
+                  initialButtonStyle: ButtonStyle.Secondary,
+                  confirmationDialogTitle: `Do you really want to delete "${updatedItem.title}"?`,
+                  confirmationButtonNodeOrLabel: "Yep, delete it.",
+                  confirmationButtonStyle: ButtonStyle.Red,
+                  cancelButtonNodeOrLabel: "No, keep it.",
+                  onClick: () => this.deleteItem(updatedItem)
+                }}
+              />
+            </>
+          )}
         />
       </Page>
     );

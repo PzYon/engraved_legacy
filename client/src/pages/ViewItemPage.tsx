@@ -4,19 +4,19 @@ import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Edited } from "../../common/Edited";
-import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
+import { Edited } from "../common/Edited";
+import { ButtonStyle, FormButton } from "../common/form/buttons/FormButton";
 import {
   FormButtonContainer,
   FormContainer,
   FormFieldContainer
-} from "../../common/form/Form.StyledComponents";
-import { If } from "../../common/If";
-import { ItemKindIcon } from "../../common/ItemKindIcon";
-import { Keywords } from "../../common/Keywords";
-import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
-import { ItemStore } from "../../items/ItemStore";
-import { Page } from "../Page";
+} from "../common/form/Form.StyledComponents";
+import { If } from "../common/If";
+import { ItemKindIcon } from "../common/ItemKindIcon";
+import { Keywords } from "../common/Keywords";
+import { ItemKindRegistrationManager } from "../items/ItemKindRegistrationManager";
+import { ItemStore } from "../items/ItemStore";
+import { Page } from "./Page";
 
 const SectionContainer = styled.div`
   margin: 1rem 0;

@@ -1,16 +1,17 @@
-import { IItem, ItemKind, IUrlItem, Util } from "engraved-shared";
+import { IItem, ItemKind, Util } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
-import { ErrorBoundary } from "../../common/ErrorBoundary";
-import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
-import { Form } from "../../common/form/Form";
-import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
-import { ItemStore } from "../../items/ItemStore";
-import { NotificationKind } from "../../notifications/INotification";
-import { NotificationStore } from "../../notifications/NotificationStore";
-import { Page } from "../Page";
+import { ErrorBoundary } from "../common/ErrorBoundary";
+import { ButtonStyle, FormButton } from "../common/form/buttons/FormButton";
+import { Form } from "../common/form/Form";
+import { ItemKindRegistrationManager } from "../items/ItemKindRegistrationManager";
+import { ItemStore } from "../items/ItemStore";
+import { NotificationKind } from "../notifications/INotification";
+import { NotificationStore } from "../notifications/NotificationStore";
+import { EditablePageTitle } from "./EditablePageTitle";
+import { Page } from "./Page";
 
 interface ICreateItemFormState {
   item: {
@@ -18,6 +19,7 @@ interface ICreateItemFormState {
     url?: string;
     itemKind: ItemKind;
   };
+  currentTitle: string;
   isSuccess: boolean;
 }
 
@@ -30,6 +32,8 @@ export class CreateItemPage extends React.PureComponent<
   RouteComponentProps<IRouterParams>,
   ICreateItemFormState
 > {
+  private formRef: React.RefObject<Form> = React.createRef<Form>();
+
   public constructor(props: RouteComponentProps<IRouterParams>) {
     super(props);
 
@@ -47,7 +51,8 @@ export class CreateItemPage extends React.PureComponent<
 
     this.state = {
       isSuccess: false,
-      item: item
+      item: item,
+      currentTitle: item.title
     };
   }
 
@@ -57,8 +62,21 @@ export class CreateItemPage extends React.PureComponent<
     }
 
     return (
-      <Page browserTitle={"create"} title={"Create a new item"}>
+      <Page
+        browserTitle={"create"}
+        title={
+          <EditablePageTitle
+            placeholder={"Enter your title"}
+            value={this.state.currentTitle}
+            onChange={(value: string) => {
+              this.setState({ currentTitle: value });
+              this.formRef.current.onValueChange("title", value);
+            }}
+          />
+        }
+      >
         <Form
+          ref={this.formRef}
           isReadonly={false}
           item={this.state.item as IItem}
           renderButtons={(
