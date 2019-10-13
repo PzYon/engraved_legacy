@@ -11,23 +11,19 @@ export class DevApiController {
   public constructor(app: Express, private db: Db) {
     app.route("/dev/add/items").get(this.addItems);
 
-    app.route("/dev/clear/items").get(
-      (req: Request, res: Response): any => {
-        return db
-          .collection(Config.db.collections.items)
-          .deleteMany({})
-          .then((i: DeleteWriteOpResultObject) => res.send(i.result));
-      }
-    );
+    app.route("/dev/clear/items").get((req: Request, res: Response): any => {
+      return db
+        .collection(Config.db.collections.items)
+        .deleteMany({})
+        .then((i: DeleteWriteOpResultObject) => res.send(i.result));
+    });
 
-    app.route("/dev/clear/keywords").get(
-      (req: Request, res: Response): any => {
-        return db
-          .collection(Config.db.collections.items)
-          .deleteMany({})
-          .then((i: DeleteWriteOpResultObject) => res.send(i.result));
-      }
-    );
+    app.route("/dev/clear/keywords").get((req: Request, res: Response): any => {
+      return db
+        .collection(Config.db.collections.items)
+        .deleteMany({})
+        .then((i: DeleteWriteOpResultObject) => res.send(i.result));
+    });
   }
 
   private addItems = (req: Request, res: Response): any => {

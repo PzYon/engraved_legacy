@@ -24,14 +24,14 @@ const SearchBoxContainer = styled.div`
 `;
 
 export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywordFieldState> {
-  private findTimer: any;
-  private findSubscription: Subscription;
-
   public readonly state: IKeywordFieldState = {
     dropDownItems: [],
     searchValue: "",
     showDropDown: true
   };
+
+  private findTimer: any;
+  private findSubscription: Subscription;
 
   public render(): ReactNode {
     const keywords: IKeyword[] = this.props.value || [];

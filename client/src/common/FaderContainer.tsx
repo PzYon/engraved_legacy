@@ -1,6 +1,5 @@
-import { CSSProperties } from "react";
 import * as React from "react";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import styled from "styled-components";
 
 const ContainerSection = styled.section`

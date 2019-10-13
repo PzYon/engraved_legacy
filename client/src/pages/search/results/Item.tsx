@@ -76,6 +76,17 @@ export interface IItemProps {
 export class Item extends React.PureComponent<IItemProps> {
   private itemEl = React.createRef<HTMLDivElement>();
 
+  private static getSpecificProperties(item: IItem): ReactNode {
+    const props = ItemKindRegistrationManager.resolve(item.itemKind).getSpecificProperties(item);
+
+    return props && props.length ? props.map((p, i) => <Property key={i}>{p}</Property>) : null;
+  }
+
+  private static toggleSelectedKeyword(k: IKeyword) {
+    ItemStore.instance.toggleKeyword(k);
+    ItemStore.instance.loadItems();
+  }
+
   public componentDidMount(): void {
     setTimeout(() => {
       if (this.itemEl.current) {
@@ -120,16 +131,5 @@ export class Item extends React.PureComponent<IItemProps> {
         </SpecificPropertiesParagraph>
       </Root>
     );
-  }
-
-  private static getSpecificProperties(item: IItem): ReactNode {
-    const props = ItemKindRegistrationManager.resolve(item.itemKind).getSpecificProperties(item);
-
-    return props && props.length ? props.map((p, i) => <Property key={i}>{p}</Property>) : null;
-  }
-
-  private static toggleSelectedKeyword(k: IKeyword) {
-    ItemStore.instance.toggleKeyword(k);
-    ItemStore.instance.loadItems();
   }
 }

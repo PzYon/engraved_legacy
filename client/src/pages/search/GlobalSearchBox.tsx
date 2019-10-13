@@ -41,10 +41,6 @@ interface IGlobalSearchBoxState {
 }
 
 export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
-  private findOnTypeTimer: any;
-
-  private keywords$Subscription: Subscription;
-
   public readonly state: IGlobalSearchBoxState = {
     searchValue: ItemStore.instance.searchText,
     keywordSearchValue: "",
@@ -54,6 +50,8 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     selectedKeywords: [],
     redirectToUrl: null
   };
+  private findOnTypeTimer: any;
+  private keywords$Subscription: Subscription;
 
   public componentDidMount(): void {
     this.keywords$Subscription = ItemStore.instance.keywords$.subscribe(keywords =>
