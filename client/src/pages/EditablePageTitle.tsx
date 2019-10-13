@@ -24,6 +24,7 @@ const Input = styled.input`
   color: ${p => p.theme.colors.accent};
   background-color: ${p => p.theme.colors.pageBackground};
   border: 1px solid ${p => p.theme.colors.pageBackground};
+  padding: 0;
 
   &:focus,
   &:hover {

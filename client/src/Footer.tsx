@@ -10,7 +10,7 @@ export const Footer = () => {
   const [stats, setStats] = useState<IAppStats>(null);
 
   useDidMount(() => {
-    const sub1 = AuthenticatedServerApi.get("app/stats").subscribe((s: IAppStats) => {
+    const sub = AuthenticatedServerApi.get("app/stats").subscribe((s: IAppStats) => {
       s.appVersion = s.appVersion || "vDev";
       s.commitHash = s.commitHash || "2bc15f981007dd25daee3ef13bbe14802f821c5b"; // initial ;)
       s.releaseDate = s.releaseDate || new Date().toISOString();
@@ -18,7 +18,7 @@ export const Footer = () => {
       setStats(s);
     });
 
-    return () => sub1.unsubscribe();
+    return () => sub.unsubscribe();
   });
 
   if (!stats) {
@@ -27,15 +27,22 @@ export const Footer = () => {
 
   return (
     <Container>
-      <Inner>
+      <Inner className={"ngrvd-left"}>
         <span>
           <a href={"https://github.com/PzYon/engraved/commit/" + stats.commitHash} onClick={void 0}>
             {stats.appVersion}
           </a>
         </span>
-        <span>released {formatDate(stats.releaseDate)}</span>
+        <span>Released {formatDate(stats.releaseDate)}</span>
+        <span>
+          Got{" "}
+          <a href={"https://github.com/PzYon/engraved/issues/new"} onClick={void 0}>
+            feedback
+          </a>
+          ?
+        </span>
       </Inner>
-      <Inner>
+      <Inner className={"ngrvd-right"}>
         <span>{formatLabel(stats.numberOfRegisteredUsers, "user")}</span>
         <span>{formatLabel(stats.totalNumberOfItems, "item")}</span>
       </Inner>
@@ -53,11 +60,29 @@ const Container = styled.footer`
   padding: ${p => p.theme.defaultSpacing};
   font-size: ${p => p.theme.font.size.small};
   transition: opacity ease-in ${p => p.theme.transitionTime};
+
+  @media (max-width: 900px) {
+    border-top: 1px solid ${p => p.theme.colors.border};
+    background-color: ${p => p.theme.colors.formElementBackground};
+    line-height: 1.3rem;
+
+    .ngrvd-right {
+      text-align: right;
+    }
+  }
 `;
 
 const Inner = styled.span`
-  span:not(:last-of-type)::after {
-    content: "\\00B7";
-    margin: 0 0.4rem;
+  @media (min-width: 901px) {
+    span:not(:last-of-type)::after {
+      content: "\\00B7";
+      margin: 0 0.4rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    span {
+      display: block;
+    }
   }
 `;
