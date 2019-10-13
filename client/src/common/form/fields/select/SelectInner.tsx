@@ -1,5 +1,5 @@
-import { ChangeEvent } from "react";
 import * as React from "react";
+import { ChangeEvent } from "react";
 import { Select } from "../../Form.StyledComponents";
 import { ISelectFieldOptions } from "./SelectField";
 

@@ -1,4 +1,4 @@
-import { css, InterpolationValue } from "styled-components";
+import { css } from "styled-components";
 
 export class StyleUtil {
   public static normalizeAnchors(color: string, hoverColor?: string) {

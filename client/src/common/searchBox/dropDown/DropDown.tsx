@@ -80,12 +80,12 @@ interface IDropDownState {
 }
 
 export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState> {
-  private keyUpSubscription: Subscription;
-
   public readonly state: IDropDownState = {
     activeItem: null,
     activeGroup: null
   };
+
+  private keyUpSubscription: Subscription;
 
   public componentDidMount(): void {
     this.keyUpSubscription = fromEvent(document, "keyup").subscribe(

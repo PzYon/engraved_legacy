@@ -2,7 +2,6 @@ import { IItem, ItemKind, ItemSearchQuery, IUser } from "engraved-shared";
 import { Db, InsertOneWriteOpResult, MongoClient, ObjectId } from "mongodb";
 import Config from "../Config";
 import { DbService } from "./DbService";
-import { ObjectID } from "mongodb";
 
 let connection: MongoClient;
 let db: Db;

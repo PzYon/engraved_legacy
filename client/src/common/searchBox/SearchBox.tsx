@@ -60,15 +60,14 @@ interface ISearchBoxState {
 }
 
 export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState> {
-  private container = React.createRef<HTMLDivElement>();
-
-  private input = React.createRef<HTMLInputElement>();
-
   public readonly state: ISearchBoxState = {
     showDropDown: true,
     hidePlaceholder: false,
     hasFocus: false
   };
+
+  private container = React.createRef<HTMLDivElement>();
+  private input = React.createRef<HTMLInputElement>();
 
   public render(): ReactNode {
     return (
