@@ -11,6 +11,10 @@ import { useDidMount } from "./common/Hooks";
 import { WelcomeScreen } from "./common/WelcomeScreen";
 import { Footer } from "./Footer";
 import { Notifications } from "./notifications/Notifications";
+import {
+  ContextualActionsLauncher,
+  ContextualActionsProvider
+} from "./pages/contextualActions/ContextualActionsLauncher";
 import { CreateItemPage } from "./pages/CreateItemPage";
 import { EditItemPage } from "./pages/EditItemPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -56,25 +60,30 @@ export const AuthenticatedApp = () => {
   return (
     <Router>
       <AppRootDiv>
-        <HeaderContainerDiv>
-          <HeaderContainer>
-            <Header currentUser={currentUser} />
-          </HeaderContainer>
-        </HeaderContainerDiv>
-        <MainContainer>
-          <ContentContainer>
-            <Switch>
-              <Route path="/" component={SearchPage} exact={true} />
-              <Route path="/users/me" component={UserPage} exact={true} />
-              <Route path="/items/create/:itemKind?/:value?" component={CreateItemPage} />
-              <Route path="/items/:itemId/edit" component={EditItemPage} />
-              <Route path="/items/:itemId" component={ViewItemPage} exact={true} />
-              <Route path="/" component={NotFoundPage} />
-            </Switch>
-          </ContentContainer>
-          <Footer />
-        </MainContainer>
-        <Notifications />
+        <ContextualActionsProvider>
+          <HeaderContainerDiv>
+            <HeaderContainer>
+              <Header currentUser={currentUser} />
+            </HeaderContainer>
+          </HeaderContainerDiv>
+          <MainContainer>
+            <ContentContainer>
+              <Switch>
+                <Route path="/" component={SearchPage} exact={true} />
+                <Route path="/users/me" component={UserPage} exact={true} />
+                <Route path="/items/create/:itemKind?/:value?" component={CreateItemPage} />
+                <Route path="/items/:itemId/edit" component={EditItemPage} />
+                <Route path="/items/:itemId" component={ViewItemPage} exact={true} />
+                <Route path="/" component={NotFoundPage} />
+              </Switch>
+            </ContentContainer>
+            <Footer />
+          </MainContainer>
+          <Notifications />
+          <div style={{ position: "fixed", right: "20px", top: "40vh" }}>
+            <ContextualActionsLauncher />
+          </div>
+        </ContextualActionsProvider>
       </AppRootDiv>
     </Router>
   );

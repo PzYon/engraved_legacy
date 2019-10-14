@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -16,6 +16,7 @@ import { ItemKindIcon } from "../common/ItemKindIcon";
 import { Keywords } from "../common/Keywords";
 import { ItemKindRegistrationManager } from "../items/ItemKindRegistrationManager";
 import { ItemStore } from "../items/ItemStore";
+import { ContextualActionsContext } from "./contextualActions/ContextualActionsLauncher";
 import { Page } from "./Page";
 
 export const ViewItemPage = (
@@ -27,6 +28,19 @@ export const ViewItemPage = (
   const [item, setItem] = useState();
   const [failedToLoad, setFailedToLoad] = useState(false);
   const [isClose, setIsClose] = useState(false);
+  const contextualActionsContext = useContext(ContextualActionsContext);
+
+  useDidMount(() => {
+    const key = "close";
+
+    contextualActionsContext.addAction({
+      key: key,
+      label: "Close item",
+      onClick: () => setIsClose(true)
+    });
+
+    return () => contextualActionsContext.removeAction(key);
+  });
 
   useDidMount(() => {
     const sub = ItemStore.instance
