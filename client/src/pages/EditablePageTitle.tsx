@@ -1,6 +1,9 @@
 import * as React from "react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useRef } from "react";
+import { Simulate } from "react-dom/test-utils";
 import styled from "styled-components";
+import { useDidMount } from "../common/Hooks";
+import input = Simulate.input;
 
 export interface IEditablePageTitleProps {
   placeholder: string;
@@ -9,8 +12,15 @@ export interface IEditablePageTitleProps {
 }
 
 export const EditablePageTitle = (props: IEditablePageTitleProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useDidMount(() => {
+    inputRef.current.focus();
+  });
+
   return (
     <Input
+      ref={inputRef}
       placeholder={props.placeholder}
       value={props.value}
       onChange={(e: ChangeEvent<HTMLInputElement>) => props.onChange(e.target.value)}
