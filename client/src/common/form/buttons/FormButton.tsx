@@ -1,6 +1,8 @@
+import { useContext, useEffect } from "react";
 import * as React from "react";
+import { ContextualActionsContext } from "../../../pages/contextualActions/ContextualActionsLauncher";
 import { ITheme } from "../../../styling/ITheme";
-import { useTheme } from "../../Hooks";
+import { useDidMount, useTheme } from "../../Hooks";
 import { Button, IButtonStyle, LinkLikeButton } from "../Form.StyledComponents";
 import { IButton } from "./IButton";
 
@@ -18,20 +20,38 @@ export interface IButtonProps {
 }
 
 export const FormButton = (props: IButtonProps) => {
+  const button = props.button;
+
   const theme = useTheme();
 
-  const ButtonElement = props.button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
+  const con = useContext(ContextualActionsContext);
+  useEffect(() => {
+    if (!button.useAsContextualAction || button.buttonStyle === ButtonStyle.Disabled) {
+      return void 0;
+    }
+
+    con.addAction({
+      key: button.key,
+      onClick: button.onClick,
+      label: button.nodeOrLabel
+    });
+
+    return () => con.removeAction(button.key);
+  }, [button.key, button.buttonStyle]);
+
+  const ButtonElement = button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
 
   return (
     <ButtonElement
+      key={button.key}
       type={"button"}
       className={"ngrvd-button"}
-      onClick={props.button.onClick}
-      {...(props.button.buttonStyle === ButtonStyle.Disabled ? { disabled: "disabled" } : null)}
-      {...(props.button.fontSize ? { style: { fontSize: props.button.fontSize } } : null)}
-      {...getColors(props.button.buttonStyle, theme)}
+      onClick={button.onClick}
+      {...(button.buttonStyle === ButtonStyle.Disabled ? { disabled: "disabled" } : null)}
+      {...(button.fontSize ? { style: { fontSize: button.fontSize } } : null)}
+      {...getColors(button.buttonStyle, theme)}
     >
-      {props.button.nodeOrLabel}
+      {button.nodeOrLabel}
     </ButtonElement>
   );
 };

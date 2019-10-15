@@ -115,7 +115,9 @@ export class EditItemPage extends React.Component<
                       this.updateItem(updatedItem, false);
                     }
                   },
-                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
+                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+                  key: "save",
+                  useAsContextualAction: true
                 }}
               />
               <FormButton
@@ -127,7 +129,9 @@ export class EditItemPage extends React.Component<
                       this.updateItem(updatedItem, true);
                     }
                   },
-                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled
+                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+                  key: "saveAndClose",
+                  useAsContextualAction: true
                 }}
               />
               <ConfirmableButton

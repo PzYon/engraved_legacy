@@ -105,7 +105,9 @@ export const ViewItemPage = (
                 {"Edit"}
               </Link>
             ),
-            buttonStyle: ButtonStyle.Primary
+            buttonStyle: ButtonStyle.Primary,
+            key: "edit",
+            useAsContextualAction: true
           }}
         />
         <FormButton
@@ -113,7 +115,9 @@ export const ViewItemPage = (
           button={{
             onClick: () => setIsClose(true),
             nodeOrLabel: "Close",
-            buttonStyle: ButtonStyle.Secondary
+            buttonStyle: ButtonStyle.Secondary,
+            key: "close",
+            useAsContextualAction: true
           }}
         />
       </FormButtonContainer>

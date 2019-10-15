@@ -49,7 +49,9 @@ export const Markdown = (props: IMarkdownProps) => {
                 onClick: toggleIsTocExpanded,
                 nodeOrLabel: isTocExpanded ? "Hide TOC" : "Show TOC",
                 buttonStyle: ButtonStyle.LinkLike,
-                fontSize: theme.font.size.small
+                fontSize: theme.font.size.small,
+                key: isTocExpanded ? "hideToc" : "showToc",
+                useAsContextualAction: true
               }}
             />
             <If

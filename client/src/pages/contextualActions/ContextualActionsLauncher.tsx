@@ -6,7 +6,7 @@ import { If } from "../../common/If";
 
 export interface IContextualAction {
   key: string;
-  label: string;
+  label: ReactNode;
   onClick: () => void;
 }
 
@@ -77,9 +77,9 @@ export const ContextualActionsPanel = (props: { closePanel: () => void }) => {
   return (
     <Panel>
       <ul>
-        {contextualActionsContext.actions.map(a => (
+        {contextualActionsContext.actions.map((a, i) => (
           <li
-            key={a.key}
+            key={a.key || i}
             onClick={() => {
               a.onClick();
               props.closePanel();

@@ -56,7 +56,8 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
         button={{
           onClick: () => DomUtil.copyValueToClipBoard(item.url),
           nodeOrLabel: "copy",
-          buttonStyle: ButtonStyle.LinkLike
+          buttonStyle: ButtonStyle.LinkLike,
+          key: "copy"
         }}
       />
     ];

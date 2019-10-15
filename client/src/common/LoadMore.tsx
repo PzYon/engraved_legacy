@@ -17,7 +17,8 @@ export const LoadMore: React.FC<ILoadMoreProps> = (props: ILoadMoreProps) => (
       button={{
         nodeOrLabel: "Load more",
         onClick: props.loadMore,
-        buttonStyle: ButtonStyle.Primary
+        buttonStyle: ButtonStyle.Primary,
+        key: "loadMore"
       }}
     />
   </Container>
