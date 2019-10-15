@@ -3,6 +3,8 @@ import * as React from "react";
 import styled from "styled-components";
 import { useFlag } from "../../common/Hooks";
 import { If } from "../../common/If";
+import { DropDown } from "../../common/searchBox/dropDown/DropDown";
+import { IDropDownItem } from "../../common/searchBox/dropDown/IDropDownItem";
 
 export interface IContextualAction {
   key: string;
@@ -76,24 +78,30 @@ export const ContextualActionsPanel = (props: { closePanel: () => void }) => {
 
   return (
     <Panel>
-      <ul>
-        {contextualActionsContext.actions.map((a, i) => (
-          <li
-            key={a.key || i}
-            onClick={() => {
-              a.onClick();
-              props.closePanel();
-            }}
-          >
-            {a.label}
-          </li>
-        ))}
-      </ul>
+      <DropDown
+        groups={[
+          {
+            onSelectItem: (item: IDropDownItem<IContextualAction>) => {
+              if (item && item.item.onClick) {
+                item.item.onClick();
+              }
+            },
+            items: contextualActionsContext.actions.map(a => ({
+              key: a.key,
+              label: a.label,
+              item: a
+            }))
+          }
+        ]}
+        onClose={props.closePanel}
+      />
     </Panel>
   );
 };
 
 const Panel = styled.div`
   width: 300px;
-  background-color: deeppink;
+  position: absolute;
+  right: 50px;
+  top: 0;
 `;
