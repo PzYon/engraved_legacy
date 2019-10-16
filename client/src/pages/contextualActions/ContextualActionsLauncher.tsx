@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useContext } from "react";
 import styled from "styled-components";
+import { Circle } from "../../common/Circle";
 import { useFlag } from "../../common/Hooks";
 import { If } from "../../common/If";
 import { ContextualActionsContext } from "./ContextualActionsContext";
@@ -14,7 +15,11 @@ export const ContextualActionsLauncher = () => {
     <>
       <If
         value={contextualActionsContext.actions}
-        render={() => <Container onClick={setIsOpen as any}>@</Container>}
+        render={() => (
+          <Circle diameter={24} onClick={setIsOpen as any}>
+            @
+          </Circle>
+        )}
       />
       <If
         value={isOpen && contextualActionsContext.actions}

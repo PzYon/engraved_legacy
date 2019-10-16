@@ -13,9 +13,12 @@ export const ContextualActionsPanel = (props: { closePanel: () => void }) => {
       <DropDown
         groups={[
           {
+            title: "Quick@ctions",
             onSelectItem: (item: IDropDownItem<IContextualAction>) => {
               if (item && item.item.onClick) {
                 item.item.onClick();
+              } else {
+                alert("Not implemented yet.");
               }
             },
             items: contextualActionsContext.actions.map(a => ({

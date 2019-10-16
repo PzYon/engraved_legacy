@@ -9,7 +9,7 @@ import { If } from "../../If";
 import { IDropDownItem } from "./IDropDownItem";
 import { IDropDownItemGroup } from "./IDropDownItemGroup";
 
-const ContainerDiv = styled.div`
+const ContainerDiv = styled.div<{ isFloating: boolean }>`
   position: absolute;
   width: calc(100% - 2px);
   text-align: left;
@@ -18,6 +18,14 @@ const ContainerDiv = styled.div`
   border-right: 1px solid ${p => p.theme.colors.border};
   border-bottom: 1px solid ${p => p.theme.colors.border};
   border-left: 1px solid ${p => p.theme.colors.border};
+
+  ${p =>
+    p.isFloating
+      ? css`
+          border-top: 1px solid ${p.theme.colors.border};
+        `
+      : null}
+  
   background-color: ${p => p.theme.colors.formElementBackground};
   box-shadow: ${p => p.theme.defaultBoxShadow};
 
@@ -72,6 +80,7 @@ enum ArrowDirection {
 export interface IDropDownProps {
   groups: IDropDownItemGroup[];
   onClose: () => void;
+  isFloating?: boolean;
 }
 
 interface IDropDownState {
@@ -131,7 +140,7 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
     }
 
     return (
-      <ContainerDiv>
+      <ContainerDiv isFloating={this.props.isFloating}>
         <Closer onClose={this.props.onClose} title={"Close"} />
         {groups.map((group: IDropDownItemGroup, index: number) => (
           <GroupContainerDiv key={group.title || index}>

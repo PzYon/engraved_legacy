@@ -20,17 +20,22 @@ export class ContextualActionsContextType implements IContextualActionsContext {
   ) {}
 
   public addAction = (action: IContextualAction): (() => void) => {
-    if (!this.containsAction(action)) {
-      this.actions = [...this.actions, action];
-      this.setActions(this.actions);
-      return () => this.removeAction(action.label);
-    } else {
+    if (this.containsAction(action)) {
       return void 0;
     }
+
+    console.log("adding action", action);
+
+    this.actions = [...this.actions, action];
+    this.setActions(this.actions);
+
+    return () => this.removeAction(action);
   };
 
-  private removeAction = (actionLabel: string): void => {
-    this.actions = this.actions.filter(a => a.label !== actionLabel);
+  private removeAction = (action: IContextualAction): void => {
+    console.log("removing action", action);
+
+    this.actions = this.actions.filter(a => a !== action);
     this.setActions(this.actions);
   };
 
