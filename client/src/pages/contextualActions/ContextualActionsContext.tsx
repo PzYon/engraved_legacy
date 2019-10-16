@@ -10,8 +10,7 @@ export const ContextualActionsContext = createContext<IContextualActionsContext>
 
 export interface IContextualActionsContext {
   actions: IContextualAction[];
-  addAction: (action: IContextualAction) => void;
-  removeAction: (actionKey: string) => void;
+  addAction: (action: IContextualAction) => () => void;
 }
 
 export class ContextualActionsContextType implements IContextualActionsContext {
@@ -20,14 +19,17 @@ export class ContextualActionsContextType implements IContextualActionsContext {
     private setActions: (actions: IContextualAction[]) => void
   ) {}
 
-  public addAction = (action: IContextualAction): void => {
+  public addAction = (action: IContextualAction): (() => void) => {
     if (!this.containsAction(action)) {
       this.actions = [...this.actions, action];
       this.setActions(this.actions);
+      return () => this.removeAction(action.label);
+    } else {
+      return void 0;
     }
   };
 
-  public removeAction = (actionLabel: string): void => {
+  private removeAction = (actionLabel: string): void => {
     this.actions = this.actions.filter(a => a.label !== actionLabel);
     this.setActions(this.actions);
   };

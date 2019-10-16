@@ -36,12 +36,10 @@ export const FormButton = (props: IButtonProps) => {
       return void 0;
     }
 
-    con.addAction({
+    return con.addAction({
       onClick: button.onClick,
       label: button.label
     });
-
-    return () => con.removeAction(button.label);
   }, [button.label, button.buttonStyle]);
 
   const ButtonElement = button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
