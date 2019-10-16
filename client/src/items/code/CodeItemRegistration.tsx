@@ -77,9 +77,8 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
             key={"copy"}
             button={{
               onClick: () => DomUtil.copyValueToClipBoard(item.code),
-              nodeOrLabel: "copy",
-              buttonStyle: ButtonStyle.LinkLike,
-              key: "copy"
+              label: "copy",
+              buttonStyle: ButtonStyle.LinkLike
             }}
           />
         ]

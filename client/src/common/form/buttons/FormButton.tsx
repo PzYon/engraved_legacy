@@ -1,9 +1,15 @@
 import * as React from "react";
 import { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ContextualActionsContext } from "../../../pages/contextualActions/ContextualActionsContext";
 import { ITheme } from "../../../styling/ITheme";
 import { useTheme } from "../../Hooks";
-import { Button, IButtonStyle, LinkLikeButton } from "../Form.StyledComponents";
+import {
+  Button,
+  FormButtonContainer,
+  IButtonStyle,
+  LinkLikeButton
+} from "../Form.StyledComponents";
 import { IButton } from "./IButton";
 
 export enum ButtonStyle {
@@ -31,19 +37,18 @@ export const FormButton = (props: IButtonProps) => {
     }
 
     con.addAction({
-      key: button.key,
       onClick: button.onClick,
-      label: button.nodeOrLabel
+      label: button.label
     });
 
-    return () => con.removeAction(button.key);
-  }, [button.key, button.buttonStyle]);
+    return () => con.removeAction(button.label);
+  }, [button.label, button.buttonStyle]);
 
   const ButtonElement = button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
 
   return (
     <ButtonElement
-      key={button.key}
+      key={button.label}
       type={"button"}
       className={"ngrvd-button"}
       onClick={button.onClick}
@@ -51,7 +56,7 @@ export const FormButton = (props: IButtonProps) => {
       {...(button.fontSize ? { style: { fontSize: button.fontSize } } : null)}
       {...getColors(button.buttonStyle, theme)}
     >
-      {button.nodeOrLabel}
+      {button.link ? <Link to={button.link}>{button.label}</Link> : button.label}
     </ButtonElement>
   );
 };

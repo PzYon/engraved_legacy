@@ -109,40 +109,38 @@ export class EditItemPage extends React.Component<
               <FormButton
                 key={"Save"}
                 button={{
-                  nodeOrLabel: "Save",
+                  label: "Save",
                   onClick: () => {
                     if (isDirty && validate()) {
                       this.updateItem(updatedItem, false);
                     }
                   },
                   buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
-                  key: "save",
                   useAsContextualAction: true
                 }}
               />
               <FormButton
                 key={"SaveAndClose"}
                 button={{
-                  nodeOrLabel: "Save & Close",
+                  label: "Save & Close",
                   onClick: () => {
                     if (isDirty && validate()) {
                       this.updateItem(updatedItem, true);
                     }
                   },
                   buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
-                  key: "saveAndClose",
                   useAsContextualAction: true
                 }}
               />
               <ConfirmableButton
                 key={"Delete"}
                 confirmableButton={{
-                  initialButtonNodeOrLabel: "Delete",
+                  initialButtonLabel: "Delete",
                   initialButtonStyle: ButtonStyle.Secondary,
                   confirmationDialogTitle: `Do you really want to delete "${updatedItem.title}"?`,
-                  confirmationButtonNodeOrLabel: "Yep, delete it.",
+                  confirmationButtonLabel: "Yep, delete it.",
                   confirmationButtonStyle: ButtonStyle.Red,
-                  cancelButtonNodeOrLabel: "No, keep it.",
+                  cancelButtonLabel: "No, keep it.",
                   onClick: () => this.deleteItem(updatedItem)
                 }}
               />

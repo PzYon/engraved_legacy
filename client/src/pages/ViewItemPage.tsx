@@ -34,7 +34,6 @@ export const ViewItemPage = (
     const key = "close";
 
     contextualActionsContext.addAction({
-      key: key,
       label: "Close item",
       onClick: () => setIsClose(true)
     });
@@ -100,13 +99,9 @@ export const ViewItemPage = (
           key={"Edit"}
           button={{
             onClick: void 0,
-            nodeOrLabel: (
-              <Link to={`/items/${item._id}/edit`} key={item._id}>
-                {"Edit"}
-              </Link>
-            ),
+            link: `/items/${item._id}/edit`,
+            label: "Edit",
             buttonStyle: ButtonStyle.Primary,
-            key: "edit",
             useAsContextualAction: true
           }}
         />
@@ -114,9 +109,8 @@ export const ViewItemPage = (
           key={"Close"}
           button={{
             onClick: () => setIsClose(true),
-            nodeOrLabel: "Close",
+            label: "Close",
             buttonStyle: ButtonStyle.Secondary,
-            key: "close",
             useAsContextualAction: true
           }}
         />

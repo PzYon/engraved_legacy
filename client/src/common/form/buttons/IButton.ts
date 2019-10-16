@@ -1,11 +1,10 @@
-import { ReactNode } from "react";
 import { ButtonStyle } from "./FormButton";
 
 export interface IButton {
   onClick: () => void;
+  link?: string;
   buttonStyle: ButtonStyle;
-  nodeOrLabel: ReactNode;
+  label: string;
   fontSize?: string;
   useAsContextualAction?: boolean;
-  key: string;
 }

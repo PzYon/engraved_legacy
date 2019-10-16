@@ -19,7 +19,7 @@ export const ContextualActionsPanel = (props: { closePanel: () => void }) => {
               }
             },
             items: contextualActionsContext.actions.map(a => ({
-              key: a.key,
+              key: a.label,
               label: a.label,
               item: a
             }))

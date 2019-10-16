@@ -93,9 +93,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
             key={"Cancel"}
             button={{
               onClick: (): void => this.setState({ isClose: true }),
-              nodeOrLabel: this.state.isDirty ? "Discard" : "Close",
+              label: this.state.isDirty ? "Discard" : "Close",
               buttonStyle: ButtonStyle.Secondary,
-              key: this.state.isDirty ? "Discard" : "Close",
               useAsContextualAction: true
             }}
           />

@@ -24,9 +24,8 @@ export const MarkdownField = (props: IMarkdownFieldProps) => {
               button={{
                 buttonStyle: ButtonStyle.LinkLike,
                 onClick: toggleIsPreview,
-                nodeOrLabel: isPreview ? "Back to edit mode" : "View preview",
+                label: isPreview ? "Back to edit mode" : "View preview",
                 fontSize: theme.font.size.small,
-                key: isPreview ? "toEditMode" : "toPreview",
                 useAsContextualAction: true
               }}
             />

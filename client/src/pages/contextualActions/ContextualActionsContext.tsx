@@ -2,8 +2,7 @@ import * as React from "react";
 import { createContext, ReactNode, useState } from "react";
 
 export interface IContextualAction {
-  key: string;
-  label: ReactNode;
+  label: string;
   onClick: () => void;
 }
 
@@ -28,13 +27,13 @@ export class ContextualActionsContextType implements IContextualActionsContext {
     }
   };
 
-  public removeAction = (actionKey: string): void => {
-    this.actions = this.actions.filter(a => a.key !== actionKey);
+  public removeAction = (actionLabel: string): void => {
+    this.actions = this.actions.filter(a => a.label !== actionLabel);
     this.setActions(this.actions);
   };
 
   private containsAction = (action: IContextualAction): boolean => {
-    return this.actions.filter(a => a.key === action.key).length > 0;
+    return this.actions.filter(a => a.label === action.label).length > 0;
   };
 }
 
