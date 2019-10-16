@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
 import * as React from "react";
-import { ContextualActionsContext } from "../../../pages/contextualActions/ContextualActionsLauncher";
+import { useContext, useEffect } from "react";
+import { ContextualActionsContext } from "../../../pages/contextualActions/ContextualActionsContext";
 import { ITheme } from "../../../styling/ITheme";
-import { useDidMount, useTheme } from "../../Hooks";
+import { useTheme } from "../../Hooks";
 import { Button, IButtonStyle, LinkLikeButton } from "../Form.StyledComponents";
 import { IButton } from "./IButton";
 

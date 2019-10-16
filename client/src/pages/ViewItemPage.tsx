@@ -16,7 +16,7 @@ import { ItemKindIcon } from "../common/ItemKindIcon";
 import { Keywords } from "../common/Keywords";
 import { ItemKindRegistrationManager } from "../items/ItemKindRegistrationManager";
 import { ItemStore } from "../items/ItemStore";
-import { ContextualActionsContext } from "./contextualActions/ContextualActionsLauncher";
+import { ContextualActionsContext } from "./contextualActions/ContextualActionsContext";
 import { Page } from "./Page";
 
 export const ViewItemPage = (

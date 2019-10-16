@@ -11,10 +11,8 @@ import { useDidMount } from "./common/Hooks";
 import { WelcomeScreen } from "./common/WelcomeScreen";
 import { Footer } from "./Footer";
 import { Notifications } from "./notifications/Notifications";
-import {
-  ContextualActionsLauncher,
-  ContextualActionsProvider
-} from "./pages/contextualActions/ContextualActionsLauncher";
+import { ContextualActionsProvider } from "./pages/contextualActions/ContextualActionsContext";
+import { ContextualActionsLauncher } from "./pages/contextualActions/ContextualActionsLauncher";
 import { CreateItemPage } from "./pages/CreateItemPage";
 import { EditItemPage } from "./pages/EditItemPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
