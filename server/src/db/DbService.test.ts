@@ -9,12 +9,6 @@ let dbService: DbService;
 let currentUser: IUser;
 let anotherUser: IUser;
 
-async function dropTable(name: string) {
-  try {
-    await db.collection(name).drop();
-  } catch (err) {}
-}
-
 async function setUp() {
   connection = await MongoClient.connect((global as any)["__MONGO_URI__"], {
     useNewUrlParser: true,
@@ -264,4 +258,8 @@ async function insertSampleItem(title?: string, userId?: string) {
 
 function asStringId(value: string | number | ObjectId) {
   return new ObjectId(value).toHexString();
+}
+
+async function dropTable(name: string) {
+  await db.collection(name).deleteMany({});
 }
