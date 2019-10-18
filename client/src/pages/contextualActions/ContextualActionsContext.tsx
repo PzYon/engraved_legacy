@@ -1,25 +1,21 @@
 import * as React from "react";
 import { createContext, ReactNode, useState } from "react";
-
-export interface IContextualAction {
-  label: string;
-  onClick: () => void;
-}
+import { IAction } from "../../common/IAction";
 
 export const ContextualActionsContext = createContext<IContextualActionsContext>(null);
 
 export interface IContextualActionsContext {
-  actions: IContextualAction[];
-  addAction: (action: IContextualAction) => () => void;
+  actions: IAction[];
+  addAction: (action: IAction) => () => void;
 }
 
 export class ContextualActionsContextType implements IContextualActionsContext {
   public constructor(
-    public actions: IContextualAction[] = [],
-    private setActions: (actions: IContextualAction[]) => void
+    public actions: IAction[] = [],
+    private setActions: (actions: IAction[]) => void
   ) {}
 
-  public addAction = (action: IContextualAction): (() => void) => {
+  public addAction = (action: IAction): (() => void) => {
     if (this.containsAction(action)) {
       return void 0;
     }
@@ -32,20 +28,20 @@ export class ContextualActionsContextType implements IContextualActionsContext {
     return () => this.removeAction(action);
   };
 
-  private removeAction = (action: IContextualAction): void => {
+  private removeAction = (action: IAction): void => {
     console.log("removing action", action);
 
     this.actions = this.actions.filter(a => a !== action);
     this.setActions(this.actions);
   };
 
-  private containsAction = (action: IContextualAction): boolean => {
+  private containsAction = (action: IAction): boolean => {
     return this.actions.filter(a => a.label === action.label).length > 0;
   };
 }
 
 export const ContextualActionsProvider = (props: { children: ReactNode }) => {
-  const [actions, setActions] = useState<IContextualAction[]>([]);
+  const [actions, setActions] = useState<IAction[]>([]);
 
   return (
     <ContextualActionsContext.Provider

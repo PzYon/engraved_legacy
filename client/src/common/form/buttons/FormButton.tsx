@@ -32,14 +32,9 @@ export const FormButton = (props: IButtonProps) => {
 
   const con = useContext(ContextualActionsContext);
   useEffect(() => {
-    if (!button.useAsContextualAction || button.buttonStyle === ButtonStyle.Disabled) {
-      return void 0;
-    }
-
-    return con.addAction({
-      onClick: button.onClick,
-      label: button.label
-    });
+    return !button.useAsContextualAction || button.buttonStyle === ButtonStyle.Disabled
+      ? void 0
+      : con.addAction(button);
   }, [button.label, button.buttonStyle]);
 
   const ButtonElement = button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
