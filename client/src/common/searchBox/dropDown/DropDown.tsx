@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import { ITheme } from "../../../styling/ITheme";
 import { StyleUtil } from "../../../styling/StyleUtil";
 import { Closer } from "../../Closer";
+import { ILabeled } from "../../IAction";
 import { If } from "../../If";
 import { IDropDownItem } from "./IDropDownItem";
 import { IDropDownItemGroup } from "./IDropDownItemGroup";
@@ -84,7 +85,7 @@ export interface IDropDownProps {
 }
 
 interface IDropDownState {
-  activeItem: IDropDownItem;
+  activeItem: IDropDownItem<ILabeled>;
   activeGroup: IDropDownItemGroup;
 }
 
@@ -146,7 +147,7 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
           <GroupContainerDiv key={group.title || index}>
             <If value={group.title} render={() => <GroupTitleDiv>{group.title}</GroupTitleDiv>} />
             <GroupItemsList>
-              {group.items.map((item: IDropDownItem) => (
+              {group.items.map((item: IDropDownItem<ILabeled>) => (
                 <GroupItem
                   key={item.key}
                   isActive={this.state.activeItem === item}
@@ -154,7 +155,7 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
                   onMouseEnter={() => this.setState({ activeItem: item })}
                   onMouseLeave={() => this.setState({ activeItem: null })}
                 >
-                  {item.label}
+                  {item.item.label}
                 </GroupItem>
               ))}
             </GroupItemsList>
@@ -184,7 +185,7 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
       };
     }
 
-    let previousItem: IDropDownItem = null;
+    let previousItem: IDropDownItem<ILabeled> = null;
     let previousGroup: IDropDownItemGroup = null;
     let plusOne: boolean = false;
 

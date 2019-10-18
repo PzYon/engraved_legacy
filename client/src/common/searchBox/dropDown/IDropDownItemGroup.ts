@@ -1,7 +1,8 @@
+import { ILabeled } from "../../IAction";
 import { IDropDownItem } from "./IDropDownItem";
 
 export interface IDropDownItemGroup {
   title?: string;
-  items: IDropDownItem[];
-  onSelectItem: (item: IDropDownItem) => void;
+  items: Array<IDropDownItem<ILabeled>>;
+  onSelectItem: (item: IDropDownItem<ILabeled>) => void;
 }

@@ -85,7 +85,7 @@ export const ViewItemPage = (
           key={"Edit"}
           button={{
             onClick: void 0,
-            link: `/items/${item._id}/edit`,
+            url: `/items/${item._id}/edit`,
             label: "Edit",
             buttonStyle: ButtonStyle.Primary,
             useAsContextualAction: true

@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 import styled from "styled-components";
 import { ItemStore } from "../../../../items/ItemStore";
 import { ErrorBoundary } from "../../../ErrorBoundary";
-import { IDropDownItem } from "../../../searchBox/dropDown/IDropDownItem";
+import { IDropDownItem, IKeywordWithLabel } from "../../../searchBox/dropDown/IDropDownItem";
 import { IDropDownItemGroup } from "../../../searchBox/dropDown/IDropDownItemGroup";
 import { SearchBox } from "../../../searchBox/SearchBox";
 import { FieldWrapper } from "../FieldWrapper";
@@ -15,7 +15,7 @@ export interface IKeywordFieldProps extends IFieldProps<IKeyword[]> {}
 
 interface IKeywordFieldState {
   searchValue: string;
-  dropDownItems: Array<IDropDownItem<IKeyword>>;
+  dropDownItems: Array<IDropDownItem<IKeywordWithLabel>>;
   showDropDown: boolean;
 }
 
@@ -82,9 +82,8 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
           this.setState({
             dropDownItems: (keywords || []).map(k => {
               return {
-                item: k,
-                key: k.name,
-                label: k.name
+                item: { ...k, label: k.name },
+                key: k.name
               };
             }),
             showDropDown: true
@@ -122,8 +121,11 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
         title: "Actions",
         items: [
           {
-            item: { name: name, user_id: null },
-            label: `Create keyword "${name}"`,
+            item: {
+              name: name,
+              label: `Create keyword "${name}"`,
+              user_id: null
+            } as IKeywordWithLabel,
             key: name
           }
         ],
@@ -134,7 +136,7 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
     return groups;
   };
 
-  private handleGroupItemSelect = (item: IDropDownItem<IKeyword>) => {
+  private handleGroupItemSelect = (item: IDropDownItem<IKeywordWithLabel>) => {
     this.handleKeywordSelect(item.item);
   };
 

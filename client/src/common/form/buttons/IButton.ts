@@ -1,10 +1,8 @@
+import { IAction } from "../../IAction";
 import { ButtonStyle } from "./FormButton";
 
-export interface IButton {
-  onClick: () => void;
-  link?: string;
+export interface IButton extends IAction {
   buttonStyle: ButtonStyle;
-  label: string;
   fontSize?: string;
   useAsContextualAction?: boolean;
 }

@@ -54,7 +54,7 @@ export const FormButton = (props: IButtonProps) => {
       {...(button.fontSize ? { style: { fontSize: button.fontSize } } : null)}
       {...getColors(button.buttonStyle, theme)}
     >
-      {button.link ? <Link to={button.link}>{button.label}</Link> : button.label}
+      {button.url ? <Link to={button.url}>{button.label}</Link> : button.label}
     </ButtonElement>
   );
 };
