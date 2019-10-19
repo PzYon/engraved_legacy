@@ -13,7 +13,7 @@ export const Pill = (props: IPillProps<any>) => (
   <ContainerSpan
     className={props.className}
     hasOnClick={!!props.onClick}
-    onClick={() => (props.onClick ? props.onClick() : void 0)}
+    onClick={() => (props.onClick ? props.onClick() : undefined)}
     isSecondary={props.isSecondary}
     title={props.tooltip}
   >

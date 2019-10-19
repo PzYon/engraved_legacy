@@ -1,23 +1,24 @@
 import * as React from "react";
 import { createContext, ReactNode, useState } from "react";
-import { IAction } from "../../common/IAction";
+import { IAction } from "./IAction";
 
-export const ContextualActionsContext = createContext<IContextualActionsContext>(null);
+export const ActionsContext = createContext<IActionsContext>(null);
 
-export interface IContextualActionsContext {
+export interface IActionsContext {
   actions: IAction[];
   addAction: (action: IAction) => () => void;
 }
 
-export class ContextualActionsContextType implements IContextualActionsContext {
-  public constructor(
-    public actions: IAction[] = [],
-    private setActions: (actions: IAction[]) => void
-  ) {}
+export class ActionsContextType implements IActionsContext {
+  public actions: IAction[];
+
+  public constructor(actions: IAction[] = [], private setActions: (actions: IAction[]) => void) {
+    this.actions = [...actions];
+  }
 
   public addAction = (action: IAction): (() => void) => {
     if (this.containsAction(action)) {
-      return void 0;
+      return undefined;
     }
 
     console.log("adding action", action);
@@ -29,9 +30,11 @@ export class ContextualActionsContextType implements IContextualActionsContext {
   };
 
   private removeAction = (action: IAction): void => {
+    console.log("actions length:" + this.actions.length);
     console.log("removing action", action);
+    this.actions = this.actions.filter(a => a.label !== action.label);
+    console.log("actions length:" + this.actions.length);
 
-    this.actions = this.actions.filter(a => a !== action);
     this.setActions(this.actions);
   };
 
@@ -44,10 +47,8 @@ export const ContextualActionsProvider = (props: { children: ReactNode }) => {
   const [actions, setActions] = useState<IAction[]>([]);
 
   return (
-    <ContextualActionsContext.Provider
-      value={new ContextualActionsContextType(actions, setActions)}
-    >
+    <ActionsContext.Provider value={new ActionsContextType(actions, setActions)}>
       {props.children}
-    </ContextualActionsContext.Provider>
+    </ActionsContext.Provider>
   );
 };

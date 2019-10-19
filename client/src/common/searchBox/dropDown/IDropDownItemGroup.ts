@@ -1,4 +1,4 @@
-import { ILabeled } from "../../IAction";
+import { ILabeled } from "../../../actions/IAction";
 import { IDropDownItem } from "./IDropDownItem";
 
 export interface IDropDownItemGroup {

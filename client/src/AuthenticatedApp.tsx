@@ -4,6 +4,8 @@ import { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { first, tap } from "rxjs/operators";
 import styled from "styled-components";
+import { ContextualActionsProvider } from "./actions/ActionsContext";
+import { ActionsLauncher } from "./actions/ActionsLauncher";
 import { AuthenticatedServerApi } from "./authentication/AuthenticatedServerApi";
 import { AuthenticationCallback } from "./authentication/AuthenticationCallback";
 import { Header } from "./common/Header";
@@ -11,8 +13,6 @@ import { useDidMount } from "./common/Hooks";
 import { WelcomeScreen } from "./common/WelcomeScreen";
 import { Footer } from "./Footer";
 import { Notifications } from "./notifications/Notifications";
-import { ContextualActionsProvider } from "./pages/contextualActions/ContextualActionsContext";
-import { ContextualActionsLauncher } from "./pages/contextualActions/ContextualActionsLauncher";
 import { CreateItemPage } from "./pages/CreateItemPage";
 import { EditItemPage } from "./pages/EditItemPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -79,7 +79,7 @@ export const AuthenticatedApp = () => {
           </MainContainer>
           <Notifications />
           <div style={{ position: "fixed", right: "20px", top: "40vh" }}>
-            <ContextualActionsLauncher />
+            <ActionsLauncher />
           </div>
         </ContextualActionsProvider>
       </AppRootDiv>

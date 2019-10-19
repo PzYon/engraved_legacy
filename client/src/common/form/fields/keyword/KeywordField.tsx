@@ -5,17 +5,18 @@ import { Subscription } from "rxjs";
 import styled from "styled-components";
 import { ItemStore } from "../../../../items/ItemStore";
 import { ErrorBoundary } from "../../../ErrorBoundary";
-import { IDropDownItem, IKeywordWithLabel } from "../../../searchBox/dropDown/IDropDownItem";
+import { IDropDownItem } from "../../../searchBox/dropDown/IDropDownItem";
 import { IDropDownItemGroup } from "../../../searchBox/dropDown/IDropDownItemGroup";
 import { SearchBox } from "../../../searchBox/SearchBox";
 import { FieldWrapper } from "../FieldWrapper";
 import { IFieldProps } from "../IFieldProps";
+import { IKeywordDropDownItem } from "./IKeywordDropDownItem";
 
 export interface IKeywordFieldProps extends IFieldProps<IKeyword[]> {}
 
 interface IKeywordFieldState {
   searchValue: string;
-  dropDownItems: Array<IDropDownItem<IKeywordWithLabel>>;
+  dropDownItems: Array<IDropDownItem<IKeywordDropDownItem>>;
   showDropDown: boolean;
 }
 
@@ -82,7 +83,7 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
           this.setState({
             dropDownItems: (keywords || []).map(k => {
               return {
-                item: { ...k, label: k.name },
+                item: { label: k.name, keyword: k },
                 key: k.name
               };
             }),
@@ -111,7 +112,7 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
 
     const isNewKeyword: boolean =
       this.state.dropDownItems
-        .map(d => d.item.name.toLowerCase())
+        .map(d => d.item.keyword.name.toLowerCase())
         .indexOf(this.state.searchValue.toLowerCase()) === -1;
 
     if (isNewKeyword) {
@@ -122,10 +123,12 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
         items: [
           {
             item: {
-              name: name,
               label: `Create keyword "${name}"`,
-              user_id: null
-            } as IKeywordWithLabel,
+              keyword: {
+                name: name,
+                user_id: null
+              }
+            } as IKeywordDropDownItem,
             key: name
           }
         ],
@@ -136,8 +139,8 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
     return groups;
   };
 
-  private handleGroupItemSelect = (item: IDropDownItem<IKeywordWithLabel>) => {
-    this.handleKeywordSelect(item.item);
+  private handleGroupItemSelect = (item: IDropDownItem<IKeywordDropDownItem>) => {
+    this.handleKeywordSelect(item.item.keyword);
   };
 
   private handleKeywordSelect = (keyword: IKeyword): void => {

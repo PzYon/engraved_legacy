@@ -4,9 +4,10 @@ import { ReactNode } from "react";
 import { Redirect } from "react-router";
 import { Subscription } from "rxjs";
 import styled, { css } from "styled-components";
+import { IAction } from "../../actions/IAction";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
-import { IAction } from "../../common/IAction";
-import { IDropDownItem, IKeywordWithLabel } from "../../common/searchBox/dropDown/IDropDownItem";
+import { IKeywordDropDownItem } from "../../common/form/fields/keyword/IKeywordDropDownItem";
+import { IDropDownItem } from "../../common/searchBox/dropDown/IDropDownItem";
 import { IDropDownItemGroup } from "../../common/searchBox/dropDown/IDropDownItemGroup";
 import { SearchBox } from "../../common/searchBox/SearchBox";
 import { ItemStore } from "../../items/ItemStore";
@@ -34,7 +35,7 @@ interface IGlobalSearchBoxState {
   searchValue: string;
   keywordSearchValue: string;
   showDropDown: boolean;
-  keywordDropDownItems: Array<IDropDownItem<IKeywordWithLabel>>;
+  keywordDropDownItems: Array<IDropDownItem<IKeywordDropDownItem>>;
   actionDropDownItems: Array<IDropDownItem<IAction>>;
   selectedKeywords: IKeyword[];
   redirectToUrl: string;
@@ -126,8 +127,8 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
       dropDownGroups.push({
         title: "Keywords",
         items: this.state.keywordDropDownItems,
-        onSelectItem: (item: IDropDownItem<IKeywordWithLabel>) => {
-          this.handleKeywordSelect(item.item);
+        onSelectItem: (item: IDropDownItem<IKeywordDropDownItem>) => {
+          this.handleKeywordSelect(item.item.keyword);
         }
       });
     }
@@ -135,7 +136,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     return dropDownGroups;
   };
 
-  private handleKeywordSelect = (keyword: IKeywordWithLabel) => {
+  private handleKeywordSelect = (keyword: IKeyword) => {
     const isNew: boolean = ItemStore.instance.toggleKeyword(keyword);
 
     if (isNew) {
@@ -172,7 +173,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
             keywordSearchValue: searchText,
             keywordDropDownItems: (keywords || []).map(k => {
               return {
-                item: { ...k, label: k.name },
+                item: { label: k.name, keyword: k },
                 key: k.name
               };
             }),

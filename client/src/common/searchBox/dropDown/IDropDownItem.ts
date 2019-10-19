@@ -1,7 +1,4 @@
-import { IKeyword } from "../../../../../shared/src";
-import { ILabeled } from "../../IAction";
-
-export type IKeywordWithLabel = IKeyword & ILabeled;
+import { ILabeled } from "../../../actions/IAction";
 
 export interface IDropDownItem<T extends ILabeled> {
   item: T;

@@ -1,17 +1,20 @@
 import * as React from "react";
 import { useContext, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
-import { IAction } from "../../common/IAction";
-import { DropDown } from "../../common/searchBox/dropDown/DropDown";
-import { IDropDownItem } from "../../common/searchBox/dropDown/IDropDownItem";
-import { ContextualActionsContext } from "./ContextualActionsContext";
+import { DropDown } from "../common/searchBox/dropDown/DropDown";
+import { IDropDownItem } from "../common/searchBox/dropDown/IDropDownItem";
+import { ActionsContext } from "./ActionsContext";
+import { IAction } from "./IAction";
 
-export const ContextualActionsPanel = (props: { closePanel: () => void }) => {
-  const contextualActionsContext = useContext(ContextualActionsContext);
+export const ActionsPanel = (props: { closePanel: () => void }) => {
+  const actionsContext = useContext(ActionsContext);
   const [redirectUrl, setRedirectUrl] = useState();
 
+  console.log("rendering Actions Panel with " + actionsContext.actions.length + " actions");
+
   if (redirectUrl) {
+    props.closePanel();
     return <Redirect to={redirectUrl} />;
   }
 
@@ -20,16 +23,16 @@ export const ContextualActionsPanel = (props: { closePanel: () => void }) => {
       <DropDown
         groups={[
           {
-            title: "Quick@ctions",
+            title: "Quick Actions",
             onSelectItem: (item: IDropDownItem<IAction>) => {
               if (item.item.url) {
                 setRedirectUrl(item.item.url);
               } else if (item.item.onClick) {
                 item.item.onClick();
+                // props.closePanel();
               }
-              props.closePanel();
             },
-            items: contextualActionsContext.actions.map(a => ({
+            items: actionsContext.actions.map(a => ({
               key: a.label,
               label: a.label,
               item: a
@@ -37,6 +40,7 @@ export const ContextualActionsPanel = (props: { closePanel: () => void }) => {
           }
         ]}
         onClose={props.closePanel}
+        isFloating={true}
       />
     </Panel>
   );

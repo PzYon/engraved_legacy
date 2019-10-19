@@ -84,7 +84,6 @@ export const ViewItemPage = (
         <FormButton
           key={"Edit"}
           button={{
-            onClick: void 0,
             url: `/items/${item._id}/edit`,
             label: "Edit",
             buttonStyle: ButtonStyle.Primary,
