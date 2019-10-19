@@ -2,6 +2,7 @@ import * as React from "react";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ActionsContext } from "../../../actions/ActionsContext";
+import { IAction } from "../../../actions/IAction";
 import { ITheme } from "../../../styling/ITheme";
 import { useTheme } from "../../Hooks";
 import {
@@ -29,13 +30,19 @@ export const FormButton = (props: IButtonProps) => {
   const button = props.button;
 
   const theme = useTheme();
-  const con = useContext(ActionsContext);
+  const actionsContext = useContext(ActionsContext);
 
   useEffect(() => {
     console.log("executing effect on action: " + button.label);
-    return button.useAsContextualAction && button.buttonStyle !== ButtonStyle.Disabled
-      ? con.addAction(button)
-      : undefined;
+    if (button.useAsContextualAction && button.buttonStyle !== ButtonStyle.Disabled) {
+      actionsContext.dispatch({ action: button, key: "add" });
+
+      return () => {
+        actionsContext.dispatch({ action: button, key: "remove" });
+      };
+    } else {
+      return undefined;
+    }
   }, [button.url, button.label, button.buttonStyle]);
 
   const ButtonElement = button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;

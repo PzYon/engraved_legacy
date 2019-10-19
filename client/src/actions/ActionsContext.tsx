@@ -1,53 +1,44 @@
 import * as React from "react";
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useReducer, useState } from "react";
 import { IAction } from "./IAction";
 
 export const ActionsContext = createContext<IActionsContext>(null);
 
 export interface IActionsContext {
   actions: IAction[];
-  addAction: (action: IAction) => () => void;
+  dispatch: (args: { action: IAction; key: string }) => void;
 }
 
-export class ActionsContextType implements IActionsContext {
-  public actions: IAction[];
-
-  public constructor(actions: IAction[] = [], private setActions: (actions: IAction[]) => void) {
-    this.actions = [...actions];
+const reducer = (
+  actions: IAction[],
+  args: {
+    action: IAction;
+    key: string;
   }
-
-  public addAction = (action: IAction): (() => void) => {
-    if (this.containsAction(action)) {
-      return undefined;
+): IAction[] => {
+  switch (args.key) {
+    case "add": {
+      return [...actions, args.action];
     }
-
-    console.log("adding action", action);
-
-    this.actions = [...this.actions, action];
-    this.setActions(this.actions);
-
-    return () => this.removeAction(action);
-  };
-
-  private removeAction = (action: IAction): void => {
-    console.log("actions length:" + this.actions.length);
-    console.log("removing action", action);
-    this.actions = this.actions.filter(a => a.label !== action.label);
-    console.log("actions length:" + this.actions.length);
-
-    this.setActions(this.actions);
-  };
-
-  private containsAction = (action: IAction): boolean => {
-    return this.actions.filter(a => a.label === action.label).length > 0;
-  };
-}
+    case "remove": {
+      return [...actions.filter(a => a.label !== args.action.label)];
+    }
+    default: {
+      throw new Error("what ever");
+    }
+  }
+};
 
 export const ContextualActionsProvider = (props: { children: ReactNode }) => {
-  const [actions, setActions] = useState<IAction[]>([]);
+  const [actions, dispatch] = useReducer(reducer, []);
 
   return (
-    <ActionsContext.Provider value={new ActionsContextType(actions, setActions)}>
+    <ActionsContext.Provider
+      value={{
+        actions: actions,
+        dispatch: dispatch
+      }}
+    >
       {props.children}
     </ActionsContext.Provider>
   );
