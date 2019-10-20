@@ -95,7 +95,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
               onClick: (): void => this.setState({ isClose: true }),
               label: this.state.isDirty ? "Discard" : "Close",
               buttonStyle: ButtonStyle.Secondary,
-              useAsContextualAction: true
+              isContextualAction: true
             }}
           />
         </FormButtonContainer>

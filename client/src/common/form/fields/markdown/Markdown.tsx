@@ -50,7 +50,7 @@ export const Markdown = (props: IMarkdownProps) => {
                 label: isTocExpanded ? "Hide TOC" : "Show TOC",
                 buttonStyle: ButtonStyle.LinkLike,
                 fontSize: theme.font.size.small,
-                useAsContextualAction: true
+                isContextualAction: true
               }}
             />
             <If

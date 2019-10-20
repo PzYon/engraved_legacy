@@ -11,10 +11,7 @@ export const ActionsPanel = (props: { closePanel: () => void }) => {
   const actionsContext = useContext(ActionsContext);
   const [redirectUrl, setRedirectUrl] = useState();
 
-  console.log("rendering Actions Panel with " + actionsContext.actions.length + " actions");
-
   if (redirectUrl) {
-    props.closePanel();
     return <Redirect to={redirectUrl} />;
   }
 
@@ -29,7 +26,6 @@ export const ActionsPanel = (props: { closePanel: () => void }) => {
                 setRedirectUrl(item.item.url);
               } else if (item.item.onClick) {
                 item.item.onClick();
-                // props.closePanel();
               }
             },
             items: actionsContext.actions.map(a => ({

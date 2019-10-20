@@ -94,7 +94,7 @@ export class CreateItemPage extends React.PureComponent<
                   }
                 },
                 buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
-                useAsContextualAction: true
+                isContextualAction: true
               }}
             />
           )}

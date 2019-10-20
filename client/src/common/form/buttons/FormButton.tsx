@@ -1,16 +1,10 @@
 import * as React from "react";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ActionsContext } from "../../../actions/ActionsContext";
-import { IAction } from "../../../actions/IAction";
+import { ActionsContext, ActionsType } from "../../../actions/ActionsContext";
 import { ITheme } from "../../../styling/ITheme";
 import { useTheme } from "../../Hooks";
-import {
-  Button,
-  FormButtonContainer,
-  IButtonStyle,
-  LinkLikeButton
-} from "../Form.StyledComponents";
+import { Button, IButtonStyle, LinkLikeButton } from "../Form.StyledComponents";
 import { IButton } from "./IButton";
 
 export enum ButtonStyle {
@@ -33,16 +27,12 @@ export const FormButton = (props: IButtonProps) => {
   const actionsContext = useContext(ActionsContext);
 
   useEffect(() => {
-    console.log("executing effect on action: " + button.label);
-    if (button.useAsContextualAction && button.buttonStyle !== ButtonStyle.Disabled) {
-      actionsContext.dispatch({ action: button, key: "add" });
-
-      return () => {
-        actionsContext.dispatch({ action: button, key: "remove" });
-      };
-    } else {
-      return undefined;
+    if (button.isContextualAction && button.buttonStyle !== ButtonStyle.Disabled) {
+      actionsContext.dispatch({ action: button, type: ActionsType.Add });
+      return () => actionsContext.dispatch({ action: button, type: ActionsType.Remove });
     }
+
+    return undefined;
   }, [button.url, button.label, button.buttonStyle]);
 
   const ButtonElement = button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;

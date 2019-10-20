@@ -5,4 +5,5 @@ export interface ILabeled {
 export interface IAction extends ILabeled {
   url?: string;
   onClick?: () => void;
+  isContextualAction?: boolean;
 }

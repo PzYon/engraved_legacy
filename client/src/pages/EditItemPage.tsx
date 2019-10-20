@@ -116,7 +116,7 @@ export class EditItemPage extends React.Component<
                     }
                   },
                   buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
-                  useAsContextualAction: true
+                  isContextualAction: true
                 }}
               />
               <FormButton
@@ -129,7 +129,7 @@ export class EditItemPage extends React.Component<
                     }
                   },
                   buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
-                  useAsContextualAction: true
+                  isContextualAction: true
                 }}
               />
               <ConfirmableButton

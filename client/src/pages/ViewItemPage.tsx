@@ -87,7 +87,7 @@ export const ViewItemPage = (
             url: `/items/${item._id}/edit`,
             label: "Edit",
             buttonStyle: ButtonStyle.Primary,
-            useAsContextualAction: true
+            isContextualAction: true
           }}
         />
         <FormButton
@@ -96,7 +96,7 @@ export const ViewItemPage = (
             onClick: () => setIsClose(true),
             label: "Close",
             buttonStyle: ButtonStyle.Secondary,
-            useAsContextualAction: true
+            isContextualAction: true
           }}
         />
       </FormButtonContainer>

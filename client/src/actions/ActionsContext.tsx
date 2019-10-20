@@ -1,36 +1,39 @@
 import * as React from "react";
-import { createContext, ReactNode, useReducer, useState } from "react";
+import { createContext, ReactNode, useReducer } from "react";
 import { IAction } from "./IAction";
 
-export const ActionsContext = createContext<IActionsContext>(null);
+export interface IActionsContextPayload {
+  action: IAction;
+  type: ActionsType;
+}
 
 export interface IActionsContext {
   actions: IAction[];
-  dispatch: (args: { action: IAction; key: string }) => void;
+  dispatch: (payload: IActionsContextPayload) => void;
 }
 
-const reducer = (
-  actions: IAction[],
-  args: {
-    action: IAction;
-    key: string;
-  }
-): IAction[] => {
-  switch (args.key) {
-    case "add": {
-      return [...actions, args.action];
-    }
-    case "remove": {
-      return [...actions.filter(a => a.label !== args.action.label)];
-    }
-    default: {
+export const ActionsContext = createContext<IActionsContext>(null);
+
+export enum ActionsType {
+  Add,
+  Remove
+}
+
+const actionsReducer = (actions: IAction[], payload: IActionsContextPayload): IAction[] => {
+  switch (payload.type) {
+    case ActionsType.Add:
+      return [...actions, payload.action];
+
+    case ActionsType.Remove:
+      return [...actions.filter(a => a.label !== payload.action.label)];
+
+    default:
       throw new Error("what ever");
-    }
   }
 };
 
 export const ContextualActionsProvider = (props: { children: ReactNode }) => {
-  const [actions, dispatch] = useReducer(reducer, []);
+  const [actions, dispatch] = useReducer(actionsReducer, []);
 
   return (
     <ActionsContext.Provider

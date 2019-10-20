@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useContext } from "react";
+import { fromEvent } from "rxjs";
 import styled from "styled-components";
-import { useFlag } from "../common/Hooks";
+import { useDidMount, useFlag } from "../common/Hooks";
 import { If } from "../common/If";
 import { ActionsContext } from "./ActionsContext";
 import { ActionsPanel } from "./ActionsPanel";
@@ -9,6 +10,18 @@ import { ActionsPanel } from "./ActionsPanel";
 export const ActionsLauncher = () => {
   const [isOpen, setIsOpen] = useFlag(false);
   const actionsContext = useContext(ActionsContext);
+
+  useDidMount(() => {
+    debugger;
+    const sub = fromEvent(document, "keyup").subscribe((keyboardEvent: KeyboardEvent) => {
+      debugger;
+      if (keyboardEvent.ctrlKey && keyboardEvent.key === ".") {
+        alert("foo");
+      }
+    });
+
+    return sub.unsubscribe();
+  });
 
   return (
     <>
