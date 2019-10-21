@@ -19,7 +19,7 @@
     "compression": "^1.7.4",
     "engraved-shared": "file:../shared/dist",
     "express": "^4.17.1",
-    "mongodb": "^3.3.2",
+    "mongodb": "^3.3.3",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
     "passport-jwt": "^4.0.0"
