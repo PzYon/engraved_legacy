@@ -27,7 +27,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/codemirror": "^0.0.78",
+    "@types/codemirror": "^0.0.79",
     "@types/date-fns": "^2.6.0",
     "@types/jest": "^24.0.18",
     "@types/markdown-it": "^0.0.9",
