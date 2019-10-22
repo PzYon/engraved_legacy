@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ActionsContext, ActionsType } from "../../../actions/ActionsContext";
+import { ActionsContext, ActionsContextMethod } from "../../../actions/ActionsContext";
 import { ITheme } from "../../../styling/ITheme";
 import { useTheme } from "../../Hooks";
 import { Button, IButtonStyle, LinkLikeButton } from "../Form.StyledComponents";
@@ -28,8 +28,8 @@ export const FormButton = (props: IButtonProps) => {
 
   useEffect(() => {
     if (button.isContextualAction && button.buttonStyle !== ButtonStyle.Disabled) {
-      actionsContext.dispatch({ action: button, type: ActionsType.Add });
-      return () => actionsContext.dispatch({ action: button, type: ActionsType.Remove });
+      actionsContext.dispatch({ action: button, type: ActionsContextMethod.Add });
+      return () => actionsContext.dispatch({ action: button, type: ActionsContextMethod.Remove });
     }
 
     return undefined;

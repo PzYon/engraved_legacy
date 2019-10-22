@@ -1,10 +1,31 @@
 import * as React from "react";
-import { createContext, ReactNode, useReducer } from "react";
+import { createContext, ReactNode, Reducer, useReducer } from "react";
 import { IAction } from "./IAction";
+
+const actionsReducer: Reducer<IAction[], IActionsContextPayload> = (
+  state: IAction[],
+  payload: IActionsContextPayload
+): IAction[] => {
+  switch (payload.type) {
+    case ActionsContextMethod.Add:
+      return [...state, payload.action];
+
+    case ActionsContextMethod.Remove:
+      return [...state.filter(a => a.label !== payload.action.label)];
+
+    default:
+      throw new Error(`Unsupported ActionsContextMethod '${payload.type}'.`);
+  }
+};
+
+export enum ActionsContextMethod {
+  Add,
+  Remove
+}
 
 export interface IActionsContextPayload {
   action: IAction;
-  type: ActionsType;
+  type: ActionsContextMethod;
 }
 
 export interface IActionsContext {
@@ -13,24 +34,6 @@ export interface IActionsContext {
 }
 
 export const ActionsContext = createContext<IActionsContext>(null);
-
-export enum ActionsType {
-  Add,
-  Remove
-}
-
-const actionsReducer = (actions: IAction[], payload: IActionsContextPayload): IAction[] => {
-  switch (payload.type) {
-    case ActionsType.Add:
-      return [...actions, payload.action];
-
-    case ActionsType.Remove:
-      return [...actions.filter(a => a.label !== payload.action.label)];
-
-    default:
-      throw new Error("what ever");
-  }
-};
 
 export const ContextualActionsProvider = (props: { children: ReactNode }) => {
   const [actions, dispatch] = useReducer(actionsReducer, []);
