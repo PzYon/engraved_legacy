@@ -51,18 +51,16 @@ const GroupTitleDiv = styled.div`
   padding: ${p => p.theme.formElementPadding};
 `;
 
-interface IGroupItemStyle {
+const GroupItem = styled.li<{
   isActive: boolean;
   theme?: ITheme;
-}
-
-const GroupItem = styled.li<IGroupItemStyle>`
+}>`
   padding: ${p => p.theme.formElementPadding};
 
   ${StyleUtil.getEllipsis()}
   ${p => StyleUtil.normalizeAnchors(p.theme.colors.text)}
 
-  ${(p: IGroupItemStyle) =>
+  ${p =>
     p.isActive
       ? css`
           background-color: ${p.theme.colors.accent};

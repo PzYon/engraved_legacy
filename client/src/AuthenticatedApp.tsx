@@ -78,9 +78,7 @@ export const AuthenticatedApp = () => {
             <Footer />
           </MainContainer>
           <Notifications />
-          <div style={{ position: "fixed", right: "20px", top: "40vh" }}>
-            <ActionsLauncher />
-          </div>
+          <ActionsLauncher />
         </ContextualActionsProvider>
       </AppRootDiv>
     </Router>

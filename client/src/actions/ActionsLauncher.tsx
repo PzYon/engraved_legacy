@@ -1,49 +1,33 @@
 import * as React from "react";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { fromEvent } from "rxjs";
-import styled from "styled-components";
 import { useDidMount, useFlag } from "../common/Hooks";
-import { If } from "../common/If";
 import { ActionsContext } from "./ActionsContext";
 import { ActionsPanel } from "./ActionsPanel";
 
 export const ActionsLauncher = () => {
-  const [isOpen, setIsOpen] = useFlag(false);
   const actionsContext = useContext(ActionsContext);
+  const [isDropDownOpen, toggleIsDropDownOpen] = useFlag(false);
+  const isOpen = useRef(isDropDownOpen);
+
+  const toggleIsOpen = (forceValue?: boolean) => {
+    isOpen.current = forceValue !== undefined ? forceValue : !isOpen.current;
+    toggleIsDropDownOpen(isOpen.current);
+  };
 
   useDidMount(() => {
-    debugger;
-    const sub = fromEvent(document, "keyup").subscribe((keyboardEvent: KeyboardEvent) => {
-      debugger;
-      if (keyboardEvent.ctrlKey && keyboardEvent.key === ".") {
-        alert("foo");
+    const sub = fromEvent(window, "keyup").subscribe((keyboardEvent: KeyboardEvent) => {
+      if (keyboardEvent.ctrlKey && keyboardEvent.key === " ") {
+        toggleIsOpen();
       }
     });
 
-    return sub.unsubscribe();
+    return () => sub.unsubscribe();
   });
 
-  return (
-    <>
-      <If
-        value={actionsContext.actions}
-        render={() => <Container onClick={setIsOpen as any}>@</Container>}
-      />
-      <If
-        value={isOpen && actionsContext.actions}
-        render={() => <ActionsPanel closePanel={() => setIsOpen(false)} />}
-      />
-    </>
-  );
-};
+  if (!isDropDownOpen || !actionsContext.actions || actionsContext.actions.length === 0) {
+    return null;
+  }
 
-const Container = styled.div`
-  border-radius: 50%;
-  font-size: 30px;
-  height: 43px;
-  width: 43px;
-  text-align: center;
-  color: ${p => p.theme.colors.accent};
-  font-weight: ${p => p.theme.font.weight.bold};
-  cursor: pointer;
-`;
+  return <ActionsPanel closePanel={() => toggleIsOpen(false)} />;
+};

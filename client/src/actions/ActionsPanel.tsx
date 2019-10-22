@@ -43,8 +43,9 @@ export const ActionsPanel = (props: { closePanel: () => void }) => {
 };
 
 const Panel = styled.div`
+  position: fixed;
+  right: ${p => p.theme.defaultSpacing};
+  top: 40vh;
   width: 300px;
-  position: absolute;
-  right: 50px;
-  top: 0;
+  z-index: 10;
 `;
