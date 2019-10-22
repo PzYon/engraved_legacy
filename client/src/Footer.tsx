@@ -29,17 +29,13 @@ export const Footer = () => {
     <Container>
       <Inner className={"ngrvd-left"}>
         <span>
-          <a href={"https://github.com/PzYon/engraved/commit/" + stats.commitHash} onClick={void 0}>
+          <a href={"https://github.com/PzYon/engraved/commit/" + stats.commitHash}>
             {stats.appVersion}
           </a>
         </span>
         <span>Released {formatDate(stats.releaseDate)}</span>
         <span>
-          Got{" "}
-          <a href={"https://github.com/PzYon/engraved/issues/new"} onClick={void 0}>
-            feedback
-          </a>
-          ?
+          Got <a href={"https://github.com/PzYon/engraved/issues/new"}>feedback</a>?
         </span>
       </Inner>
       <Inner className={"ngrvd-right"}>

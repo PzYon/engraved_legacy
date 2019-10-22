@@ -15,7 +15,7 @@ export const ViewCodeItem: React.FC<IViewItemProps<ICodeItem>> = (
         language={props.item.codeLanguage as CodeLanguage}
         isReadOnly={true}
         value={props.item.code}
-        onValueChange={() => void 0}
+        onValueChange={() => undefined}
       />
     </>
   );

@@ -1,12 +1,11 @@
-import { ReactNode } from "react";
 import { ButtonStyle } from "./FormButton";
 
 export interface IConfirmableButton {
-  initialButtonNodeOrLabel: ReactNode;
+  initialButtonLabel: string;
   initialButtonStyle: ButtonStyle;
   confirmationDialogTitle: string;
-  confirmationButtonNodeOrLabel: ReactNode;
+  confirmationButtonLabel: string;
   confirmationButtonStyle: ButtonStyle;
-  cancelButtonNodeOrLabel: ReactNode;
+  cancelButtonLabel: string;
   onClick: () => void;
 }

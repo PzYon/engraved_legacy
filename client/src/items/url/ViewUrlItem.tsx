@@ -45,7 +45,7 @@ export const ViewUrlItem = (props: IViewItemProps<IUrlItem>) => {
             fontSize: theme.font.size.small,
             buttonStyle: ButtonStyle.LinkLike,
             onClick: copyToClipBoard,
-            nodeOrLabel: "copy URL"
+            label: "copy URL"
           }}
         />
       </ActionDiv>

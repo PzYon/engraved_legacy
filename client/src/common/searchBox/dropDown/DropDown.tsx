@@ -2,6 +2,7 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { fromEvent, Subscription } from "rxjs";
 import styled, { css } from "styled-components";
+import { ILabeled } from "../../../actions/IAction";
 import { ITheme } from "../../../styling/ITheme";
 import { StyleUtil } from "../../../styling/StyleUtil";
 import { Closer } from "../../Closer";
@@ -9,7 +10,7 @@ import { If } from "../../If";
 import { IDropDownItem } from "./IDropDownItem";
 import { IDropDownItemGroup } from "./IDropDownItemGroup";
 
-const ContainerDiv = styled.div`
+const ContainerDiv = styled.div<{ isFloating: boolean }>`
   position: absolute;
   width: calc(100% - 2px);
   text-align: left;
@@ -18,6 +19,14 @@ const ContainerDiv = styled.div`
   border-right: 1px solid ${p => p.theme.colors.border};
   border-bottom: 1px solid ${p => p.theme.colors.border};
   border-left: 1px solid ${p => p.theme.colors.border};
+
+  ${p =>
+    p.isFloating
+      ? css`
+          border-top: 1px solid ${p.theme.colors.border};
+        `
+      : null}
+  
   background-color: ${p => p.theme.colors.formElementBackground};
   box-shadow: ${p => p.theme.defaultBoxShadow};
 
@@ -42,18 +51,16 @@ const GroupTitleDiv = styled.div`
   padding: ${p => p.theme.formElementPadding};
 `;
 
-interface IGroupItemStyle {
+const GroupItem = styled.li<{
   isActive: boolean;
   theme?: ITheme;
-}
-
-const GroupItem = styled.li<IGroupItemStyle>`
+}>`
   padding: ${p => p.theme.formElementPadding};
 
   ${StyleUtil.getEllipsis()}
   ${p => StyleUtil.normalizeAnchors(p.theme.colors.text)}
 
-  ${(p: IGroupItemStyle) =>
+  ${p =>
     p.isActive
       ? css`
           background-color: ${p.theme.colors.accent};
@@ -72,10 +79,11 @@ enum ArrowDirection {
 export interface IDropDownProps {
   groups: IDropDownItemGroup[];
   onClose: () => void;
+  isFloating?: boolean;
 }
 
 interface IDropDownState {
-  activeItem: IDropDownItem;
+  activeItem: IDropDownItem<ILabeled>;
   activeGroup: IDropDownItemGroup;
 }
 
@@ -131,13 +139,13 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
     }
 
     return (
-      <ContainerDiv>
+      <ContainerDiv isFloating={this.props.isFloating}>
         <Closer onClose={this.props.onClose} title={"Close"} />
         {groups.map((group: IDropDownItemGroup, index: number) => (
           <GroupContainerDiv key={group.title || index}>
             <If value={group.title} render={() => <GroupTitleDiv>{group.title}</GroupTitleDiv>} />
             <GroupItemsList>
-              {group.items.map((item: IDropDownItem) => (
+              {group.items.map((item: IDropDownItem<ILabeled>) => (
                 <GroupItem
                   key={item.key}
                   isActive={this.state.activeItem === item}
@@ -145,7 +153,7 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
                   onMouseEnter={() => this.setState({ activeItem: item })}
                   onMouseLeave={() => this.setState({ activeItem: null })}
                 >
-                  {item.label}
+                  {item.item.label}
                 </GroupItem>
               ))}
             </GroupItemsList>
@@ -175,7 +183,7 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
       };
     }
 
-    let previousItem: IDropDownItem = null;
+    let previousItem: IDropDownItem<ILabeled> = null;
     let previousGroup: IDropDownItemGroup = null;
     let plusOne: boolean = false;
 

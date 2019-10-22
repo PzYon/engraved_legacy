@@ -10,12 +10,13 @@ import { IDropDownItemGroup } from "../../../searchBox/dropDown/IDropDownItemGro
 import { SearchBox } from "../../../searchBox/SearchBox";
 import { FieldWrapper } from "../FieldWrapper";
 import { IFieldProps } from "../IFieldProps";
+import { IKeywordDropDownItem } from "./IKeywordDropDownItem";
 
 export interface IKeywordFieldProps extends IFieldProps<IKeyword[]> {}
 
 interface IKeywordFieldState {
   searchValue: string;
-  dropDownItems: Array<IDropDownItem<IKeyword>>;
+  dropDownItems: Array<IDropDownItem<IKeywordDropDownItem>>;
   showDropDown: boolean;
 }
 
@@ -82,9 +83,8 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
           this.setState({
             dropDownItems: (keywords || []).map(k => {
               return {
-                item: k,
-                key: k.name,
-                label: k.name
+                item: { label: k.name, keyword: k },
+                key: k.name
               };
             }),
             showDropDown: true
@@ -112,7 +112,7 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
 
     const isNewKeyword: boolean =
       this.state.dropDownItems
-        .map(d => d.item.name.toLowerCase())
+        .map(d => d.item.keyword.name.toLowerCase())
         .indexOf(this.state.searchValue.toLowerCase()) === -1;
 
     if (isNewKeyword) {
@@ -122,8 +122,13 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
         title: "Actions",
         items: [
           {
-            item: { name: name, user_id: null },
-            label: `Create keyword "${name}"`,
+            item: {
+              label: `Create keyword "${name}"`,
+              keyword: {
+                name: name,
+                user_id: null
+              }
+            } as IKeywordDropDownItem,
             key: name
           }
         ],
@@ -134,8 +139,8 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
     return groups;
   };
 
-  private handleGroupItemSelect = (item: IDropDownItem<IKeyword>) => {
-    this.handleKeywordSelect(item.item);
+  private handleGroupItemSelect = (item: IDropDownItem<IKeywordDropDownItem>) => {
+    this.handleKeywordSelect(item.item.keyword);
   };
 
   private handleKeywordSelect = (keyword: IKeyword): void => {

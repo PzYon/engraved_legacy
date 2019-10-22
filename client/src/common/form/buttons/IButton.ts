@@ -1,9 +1,7 @@
-import { ReactNode } from "react";
+import { IAction } from "../../../actions/IAction";
 import { ButtonStyle } from "./FormButton";
 
-export interface IButton {
-  onClick: () => void;
+export interface IButton extends IAction {
   buttonStyle: ButtonStyle;
-  nodeOrLabel: ReactNode;
   fontSize?: string;
 }

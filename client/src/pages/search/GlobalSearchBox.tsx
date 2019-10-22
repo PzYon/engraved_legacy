@@ -4,8 +4,9 @@ import { ReactNode } from "react";
 import { Redirect } from "react-router";
 import { Subscription } from "rxjs";
 import styled, { css } from "styled-components";
+import { IAction } from "../../actions/IAction";
 import { ErrorBoundary } from "../../common/ErrorBoundary";
-import { IAction } from "../../common/IAction";
+import { IKeywordDropDownItem } from "../../common/form/fields/keyword/IKeywordDropDownItem";
 import { IDropDownItem } from "../../common/searchBox/dropDown/IDropDownItem";
 import { IDropDownItemGroup } from "../../common/searchBox/dropDown/IDropDownItemGroup";
 import { SearchBox } from "../../common/searchBox/SearchBox";
@@ -34,7 +35,7 @@ interface IGlobalSearchBoxState {
   searchValue: string;
   keywordSearchValue: string;
   showDropDown: boolean;
-  keywordDropDownItems: Array<IDropDownItem<IKeyword>>;
+  keywordDropDownItems: Array<IDropDownItem<IKeywordDropDownItem>>;
   actionDropDownItems: Array<IDropDownItem<IAction>>;
   selectedKeywords: IKeyword[];
   redirectToUrl: string;
@@ -126,8 +127,8 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
       dropDownGroups.push({
         title: "Keywords",
         items: this.state.keywordDropDownItems,
-        onSelectItem: (item: IDropDownItem<IKeyword>) => {
-          this.handleKeywordSelect(item.item);
+        onSelectItem: (item: IDropDownItem<IKeywordDropDownItem>) => {
+          this.handleKeywordSelect(item.item.keyword);
         }
       });
     }
@@ -172,8 +173,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
             keywordSearchValue: searchText,
             keywordDropDownItems: (keywords || []).map(k => {
               return {
-                item: k,
-                label: k.name,
+                item: { label: k.name, keyword: k },
                 key: k.name
               };
             }),
@@ -193,19 +193,19 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
         const url = `/items/create/${ItemKind.Url}/${encodeURIComponent(searchText)}`;
         actions.push({
           item: {
-            url: url
+            url: url,
+            label: "Create URL"
           },
-          key: url,
-          label: "Create URL"
+          key: url
         });
       } else if (searchText) {
         const url = `/items/create/${ItemKind.Note}/${encodeURIComponent(searchText)}`;
         actions.push({
           item: {
-            url: url
+            url: url,
+            label: `Create note titled "${searchText}"`
           },
-          key: url,
-          label: `Create note titled "${searchText}"`
+          key: url
         });
         actions.push({
           item: {
@@ -213,10 +213,10 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
               ItemStore.instance.searchText = "";
               ItemStore.instance.loadItems();
               this.setState({ searchValue: "" }, () => this.setActionDropDownItems(""));
-            }
+            },
+            label: `Clear search text`
           },
-          key: "clear_search_text",
-          label: `Clear search text`
+          key: "clear_search_text"
         });
       }
 
@@ -227,10 +227,10 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
               ItemStore.instance.keywords$.next([]);
               ItemStore.instance.loadItems();
               this.setActionDropDownItems("");
-            }
+            },
+            label: `Clear keywords`
           },
-          key: "clear_keywords",
-          label: `Clear keywords`
+          key: "clear_keywords"
         });
       }
     }

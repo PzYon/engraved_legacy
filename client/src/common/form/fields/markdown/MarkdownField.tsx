@@ -24,8 +24,9 @@ export const MarkdownField = (props: IMarkdownFieldProps) => {
               button={{
                 buttonStyle: ButtonStyle.LinkLike,
                 onClick: toggleIsPreview,
-                nodeOrLabel: isPreview ? "Back to edit mode" : "View preview",
-                fontSize: theme.font.size.small
+                label: isPreview ? "Back to edit mode" : "View preview",
+                fontSize: theme.font.size.small,
+                isContextualAction: true
               }}
             />
           </TogglePreviewContainer>
@@ -47,11 +48,7 @@ export const MarkdownField = (props: IMarkdownFieldProps) => {
   );
 };
 
-interface ITogglePreviewContainerStyle {
-  isPreview: boolean;
-}
-
-const TogglePreviewContainer = styled.div<ITogglePreviewContainerStyle>`
+const TogglePreviewContainer = styled.div<{ isPreview: boolean }>`
   display: flex;
   border: 1px solid ${p => p.theme.colors.border};
   background-color: ${p => p.theme.colors.palette.shades.light};

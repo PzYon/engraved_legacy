@@ -38,7 +38,7 @@ export class ConfirmableButton extends React.PureComponent<
       <FormButton
         button={{
           buttonStyle: this.props.confirmableButton.initialButtonStyle,
-          nodeOrLabel: this.props.confirmableButton.initialButtonNodeOrLabel,
+          label: this.props.confirmableButton.initialButtonLabel,
           onClick: () => this.setState({ showConfirmation: true })
         }}
       />
@@ -50,14 +50,14 @@ export class ConfirmableButton extends React.PureComponent<
       <Dialog title={this.props.confirmableButton.confirmationDialogTitle}>
         <FormButton
           button={{
-            nodeOrLabel: this.props.confirmableButton.cancelButtonNodeOrLabel,
+            label: this.props.confirmableButton.cancelButtonLabel,
             buttonStyle: ButtonStyle.Secondary,
             onClick: () => this.setState({ showConfirmation: false })
           }}
         />
         <FormButton
           button={{
-            nodeOrLabel: this.props.confirmableButton.confirmationButtonNodeOrLabel,
+            label: this.props.confirmableButton.confirmationButtonLabel,
             buttonStyle: this.props.confirmableButton.confirmationButtonStyle,
             onClick: this.props.confirmableButton.onClick
           }}

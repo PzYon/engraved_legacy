@@ -4,6 +4,8 @@ import { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { first, tap } from "rxjs/operators";
 import styled from "styled-components";
+import { ContextualActionsProvider } from "./actions/ActionsContext";
+import { ActionsLauncher } from "./actions/ActionsLauncher";
 import { AuthenticatedServerApi } from "./authentication/AuthenticatedServerApi";
 import { AuthenticationCallback } from "./authentication/AuthenticationCallback";
 import { Header } from "./common/Header";
@@ -56,25 +58,28 @@ export const AuthenticatedApp = () => {
   return (
     <Router>
       <AppRootDiv>
-        <HeaderContainerDiv>
-          <HeaderContainer>
-            <Header currentUser={currentUser} />
-          </HeaderContainer>
-        </HeaderContainerDiv>
-        <MainContainer>
-          <ContentContainer>
-            <Switch>
-              <Route path="/" component={SearchPage} exact={true} />
-              <Route path="/users/me" component={UserPage} exact={true} />
-              <Route path="/items/create/:itemKind?/:value?" component={CreateItemPage} />
-              <Route path="/items/:itemId/edit" component={EditItemPage} />
-              <Route path="/items/:itemId" component={ViewItemPage} exact={true} />
-              <Route path="/" component={NotFoundPage} />
-            </Switch>
-          </ContentContainer>
-          <Footer />
-        </MainContainer>
-        <Notifications />
+        <ContextualActionsProvider>
+          <HeaderContainerDiv>
+            <HeaderContainer>
+              <Header currentUser={currentUser} />
+            </HeaderContainer>
+          </HeaderContainerDiv>
+          <MainContainer>
+            <ContentContainer>
+              <Switch>
+                <Route path="/" component={SearchPage} exact={true} />
+                <Route path="/users/me" component={UserPage} exact={true} />
+                <Route path="/items/create/:itemKind?/:value?" component={CreateItemPage} />
+                <Route path="/items/:itemId/edit" component={EditItemPage} />
+                <Route path="/items/:itemId" component={ViewItemPage} exact={true} />
+                <Route path="/" component={NotFoundPage} />
+              </Switch>
+            </ContentContainer>
+            <Footer />
+          </MainContainer>
+          <Notifications />
+          <ActionsLauncher />
+        </ContextualActionsProvider>
       </AppRootDiv>
     </Router>
   );

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Edited } from "../common/Edited";
 import { ButtonStyle, FormButton } from "../common/form/buttons/FormButton";
@@ -85,21 +84,19 @@ export const ViewItemPage = (
         <FormButton
           key={"Edit"}
           button={{
-            onClick: void 0,
-            nodeOrLabel: (
-              <Link to={`/items/${item._id}/edit`} key={item._id}>
-                {"Edit"}
-              </Link>
-            ),
-            buttonStyle: ButtonStyle.Primary
+            url: `/items/${item._id}/edit`,
+            label: "Edit",
+            buttonStyle: ButtonStyle.Primary,
+            isContextualAction: true
           }}
         />
         <FormButton
           key={"Close"}
           button={{
             onClick: () => setIsClose(true),
-            nodeOrLabel: "Close",
-            buttonStyle: ButtonStyle.Secondary
+            label: "Close",
+            buttonStyle: ButtonStyle.Secondary,
+            isContextualAction: true
           }}
         />
       </FormButtonContainer>
@@ -122,6 +119,7 @@ const ItemPropertyDiv = styled.div`
   border-left: 1px solid ${p => p.theme.colors.border};
   border-top: 1px solid ${p => p.theme.colors.border};
   border-bottom: 1px solid ${p => p.theme.colors.border};
+
   display: flex;
   align-items: center;
 
