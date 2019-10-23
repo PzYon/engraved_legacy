@@ -87,6 +87,8 @@ const TocContainer = styled(BaseContainer)<ITocContainerStyle>`
 `;
 
 const ContentContainer = styled(BaseContainer)`
+  overflow: auto;
+
   h1,
   h2,
   h3 {

@@ -27,7 +27,7 @@ export const CodeEditor = (props: ICodeEditorProps) => {
         options={{
           theme: theme.themeStyle === ThemeStyle.Dark ? "material" : "default",
           lineNumbers: true,
-          lineWrapping: true,
+          lineWrapping: false,
           viewportMargin: Infinity,
           readOnly: props.isReadOnly,
           mode: getModeOptions(props.language)

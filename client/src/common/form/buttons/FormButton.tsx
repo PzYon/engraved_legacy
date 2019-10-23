@@ -16,11 +16,7 @@ export enum ButtonStyle {
   Disabled
 }
 
-export interface IButtonProps {
-  button: IButton;
-}
-
-export const FormButton = (props: IButtonProps) => {
+export const FormButton = (props: { button: IButton }) => {
   const button = props.button;
 
   const theme = useTheme();
