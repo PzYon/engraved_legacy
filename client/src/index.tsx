@@ -2,8 +2,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { createGlobalStyle } from "styled-components";
 import { App } from "./App";
-import { UserSettingsContextProvider } from "./context/UserSettingsContext";
 import { StyleUtil } from "./styling/StyleUtil";
+import { ThemeContextProvider } from "./styling/ThemeContext";
 
 const GlobalStyle = createGlobalStyle`
         ::selection {
@@ -36,10 +36,10 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 ReactDOM.render(
-  <UserSettingsContextProvider>
+  <ThemeContextProvider>
     <GlobalStyle />
     <App />
-  </UserSettingsContextProvider>,
+  </ThemeContextProvider>,
   document.getElementById("root") as HTMLElement
 );
 

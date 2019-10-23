@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useContext } from "react";
 import { SelectField } from "../common/form/fields/select/SelectField";
-import { UserSettingsContext } from "../context/UserSettingsContext";
+import { ThemeContext } from "./ThemeContext";
 import { ThemeStyle } from "./ThemeStyle";
 
 export const ThemePicker = () => {
-  const userSettingsContext = useContext(UserSettingsContext);
+  const userSettingsContext = useContext(ThemeContext);
 
   return (
     <SelectField
