@@ -28,11 +28,17 @@ export const ActionsPanel = (props: { closePanel: () => void }) => {
                 item.item.onClick();
               }
             },
-            items: actionsContext.actions.map(a => ({
-              key: a.label,
-              label: a.label,
-              item: a
-            }))
+            items: actionsContext.actions
+              .sort((a: IAction, b: IAction) => {
+                const labelA = a.label.toUpperCase();
+                const labelB = b.label.toUpperCase();
+                return labelA < labelB ? -1 : labelA > labelB ? 1 : 0;
+              })
+              .map(a => ({
+                key: a.label,
+                label: a.label,
+                item: a
+              }))
           }
         ]}
         onClose={props.closePanel}
