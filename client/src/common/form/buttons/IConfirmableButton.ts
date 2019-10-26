@@ -1,8 +1,7 @@
 import { ButtonStyle } from "./FormButton";
+import { IButton } from "./IButton";
 
-export interface IConfirmableButton {
-  initialButtonLabel: string;
-  initialButtonStyle: ButtonStyle;
+export interface IConfirmableButton extends IButton {
   confirmationDialogTitle: string;
   confirmationButtonLabel: string;
   confirmationButtonStyle: ButtonStyle;

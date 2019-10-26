@@ -1,7 +1,8 @@
 import { IKeyword } from "engraved-shared";
 import * as React from "react";
-import { ChangeEvent, ReactNode } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import styled from "styled-components";
+import { useDidMount, useOnClickOutside } from "../Hooks";
 import { If } from "../If";
 import { DropDown } from "./dropDown/DropDown";
 import { IDropDownItemGroup } from "./dropDown/IDropDownItemGroup";
@@ -53,86 +54,53 @@ export interface ISearchBoxProps {
   giveFocusOnLoad?: boolean;
 }
 
-interface ISearchBoxState {
-  showDropDown: boolean;
-  hidePlaceholder: boolean;
-  hasFocus: boolean;
-}
+export const SearchBox = (props: ISearchBoxProps) => {
+  const [hasFocus, setHasFocus] = useState(false);
+  const [hidePlaceholder, setHidePlaceHolder] = useState(false);
+  const [showDropDown, setShowDropDown] = useState(false);
 
-export class SearchBox extends React.Component<ISearchBoxProps, ISearchBoxState> {
-  public readonly state: ISearchBoxState = {
-    showDropDown: true,
-    hidePlaceholder: false,
-    hasFocus: false
-  };
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  private container = React.createRef<HTMLDivElement>();
-  private input = React.createRef<HTMLInputElement>();
+  useOnClickOutside(containerRef, () => setShowDropDown(false));
 
-  public render(): ReactNode {
-    return (
-      <ContainerDiv ref={this.container}>
-        <InnerContainerDiv isHighlight={this.state.hasFocus} className={"search-box-inner"}>
-          <SelectedKeywords
-            selectedKeywords={this.props.selectedKeywords}
-            onKeywordSelect={this.props.onKeywordSelect}
-          />
-          <Input
-            type="text"
-            value={this.props.searchValue}
-            ref={this.input}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              this.props.onChange(e.target.value);
-              this.setState({
-                showDropDown: true
-              });
-            }}
-            onFocus={() =>
-              this.setState({
-                showDropDown: true,
-                hidePlaceholder: true,
-                hasFocus: true
-              })
-            }
-            onBlur={() =>
-              this.setState({
-                hasFocus: false
-              })
-            }
-            placeholder={this.state.hidePlaceholder ? "" : this.props.placeholder}
-          />
-        </InnerContainerDiv>
-        <If
-          value={this.state.showDropDown}
-          render={() => (
-            <DropDown
-              groups={this.props.dropDownItemGroups}
-              onClose={() => this.setState({ showDropDown: false })}
-            />
-          )}
+  useDidMount(() => {
+    if (props.giveFocusOnLoad) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  });
+
+  return (
+    <ContainerDiv ref={containerRef}>
+      <InnerContainerDiv isHighlight={hasFocus} className={"search-box-inner"}>
+        <SelectedKeywords
+          selectedKeywords={props.selectedKeywords}
+          onKeywordSelect={props.onKeywordSelect}
         />
-      </ContainerDiv>
-    );
-  }
-
-  public componentDidMount(): void {
-    document.addEventListener("mousedown", this.handleDocumentClick, false);
-
-    if (this.props.giveFocusOnLoad) {
-      this.input.current.focus();
-      this.input.current.select();
-    }
-  }
-
-  public componentWillUnmount(): void {
-    document.removeEventListener("mousedown", this.handleDocumentClick, false);
-  }
-
-  private handleDocumentClick = (e: any): void => {
-    if (this.container.current && this.container.current.contains(e.target)) {
-      return;
-    }
-
-    this.setState({ showDropDown: false });
-  };
-}
+        <Input
+          type="text"
+          value={props.searchValue}
+          ref={inputRef}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            props.onChange(e.target.value);
+            setShowDropDown(true);
+          }}
+          onFocus={() => {
+            setShowDropDown(true);
+            setHidePlaceHolder(true);
+            setHasFocus(true);
+          }}
+          onBlur={() => setHasFocus(false)}
+          placeholder={hidePlaceholder ? "" : props.placeholder}
+        />
+      </InnerContainerDiv>
+      <If
+        value={showDropDown}
+        render={() => (
+          <DropDown groups={props.dropDownItemGroups} onClose={() => setShowDropDown(false)} />
+        )}
+      />
+    </ContainerDiv>
+  );
+};
