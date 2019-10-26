@@ -1,3 +1,4 @@
+import * as React from "react";
 import { EffectCallback, useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "styled-components";
 import { ITheme } from "../styling/ITheme";
@@ -21,4 +22,21 @@ export const useFlag = (defaultValue: boolean): [boolean, (value?: boolean) => v
       setFlag(currentValue.current);
     }
   ];
+};
+
+export const useOnClickOutside = (
+  container: React.RefObject<HTMLElement>,
+  onClickOutside: () => void
+) => {
+  useDidMount(() => {
+    const handleDocumentClick = (e: any): void => {
+      if (container.current && !container.current.contains(e.target)) {
+        onClickOutside();
+      }
+    };
+
+    document.addEventListener("mousedown", handleDocumentClick, false);
+
+    return () => document.removeEventListener("mousedown", handleDocumentClick, false);
+  });
 };

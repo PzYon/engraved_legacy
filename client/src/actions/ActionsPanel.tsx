@@ -1,7 +1,8 @@
 import * as React from "react";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
+import { useOnClickOutside } from "../common/Hooks";
 import { DropDown } from "../common/searchBox/dropDown/DropDown";
 import { IDropDownItem } from "../common/searchBox/dropDown/IDropDownItem";
 import { ActionsContext } from "./ActionsContext";
@@ -11,12 +12,16 @@ export const ActionsPanel = (props: { closePanel: () => void }) => {
   const actionsContext = useContext(ActionsContext);
   const [redirectUrl, setRedirectUrl] = useState();
 
+  const containerRef = useRef(null);
+  useOnClickOutside(containerRef, props.closePanel);
+
   if (redirectUrl) {
+    props.closePanel();
     return <Redirect to={redirectUrl} />;
   }
 
   return (
-    <Panel>
+    <Panel ref={containerRef}>
       <DropDown
         groups={[
           {
@@ -25,6 +30,7 @@ export const ActionsPanel = (props: { closePanel: () => void }) => {
               if (item.item.url) {
                 setRedirectUrl(item.item.url);
               } else if (item.item.onClick) {
+                props.closePanel();
                 item.item.onClick();
               }
             },

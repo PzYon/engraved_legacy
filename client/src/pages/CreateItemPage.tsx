@@ -79,25 +79,23 @@ export class CreateItemPage extends React.PureComponent<
           ref={this.formRef}
           isReadonly={false}
           item={this.state.item as IItem}
-          renderButtons={(
+          createButtons={(
             isDirty: boolean,
             isValid: boolean,
             validate: () => boolean,
             item: IItem
-          ) => (
-            <FormButton
-              button={{
-                label: "Create",
-                onClick: () => {
-                  if (isDirty && validate()) {
-                    this.addItem(item);
-                  }
-                },
-                buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
-                isContextualAction: true
-              }}
-            />
-          )}
+          ) => [
+            {
+              label: "Create",
+              onClick: () => {
+                if (isDirty && validate()) {
+                  this.addItem(item);
+                }
+              },
+              buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+              isContextualAction: true
+            }
+          ]}
         />
       </Page>
     );

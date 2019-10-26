@@ -3,7 +3,10 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect } from "react-router";
 import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
+import { ConfirmableButton } from "./buttons/ConfirmableButton";
 import { ButtonStyle, FormButton } from "./buttons/FormButton";
+import { IButton } from "./buttons/IButton";
+import { IConfirmableButton } from "./buttons/IConfirmableButton";
 import { KeywordField } from "./fields/keyword/KeywordField";
 import { SelectField } from "./fields/select/SelectField";
 import { MultiLineTextField } from "./fields/text/MultiLineTextField";
@@ -16,12 +19,12 @@ export interface IFormProps {
 
   isReadonly: boolean;
 
-  renderButtons(
+  createButtons(
     isDirty: boolean,
     isValid: boolean,
     validate: () => boolean,
     item: IItem
-  ): ReactNode;
+  ): IButton[];
 }
 
 interface IFormState {
@@ -83,12 +86,14 @@ export class Form extends React.Component<IFormProps, IFormState> {
           />
         </FormFieldContainer>
         <FormButtonContainer>
-          {this.props.renderButtons(
-            this.state.isDirty,
-            this.state.isValid,
-            () => this.validateItem(item),
-            item
-          )}
+          {this.props
+            .createButtons(
+              this.state.isDirty,
+              this.state.isValid,
+              () => this.validateItem(item),
+              item
+            )
+            .map(this.createButton)}
           <FormButton
             key={"Cancel"}
             button={{
@@ -102,6 +107,17 @@ export class Form extends React.Component<IFormProps, IFormState> {
       </FormContainer>
     );
   }
+
+  private createButton = (button: IButton): ReactNode => {
+    if ((button as IConfirmableButton).cancelButtonLabel) {
+      return <ConfirmableButton confirmableButton={button as IConfirmableButton} />;
+    }
+
+    // key needs to change every time in order to have ActionContext
+    // being updated every time. this is a hack, but works for the moment.
+    const key = Math.random();
+    return <FormButton key={key} button={button} />;
+  };
 
   private validateItem(item: IItem): boolean {
     const validatedFields = FormValidator.validateItem(item);
@@ -128,13 +144,16 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
   public onValueChange = (fieldName: string, value: any): void => {
     this.setState((prevState: IFormState) => {
+      if (prevState.item[fieldName] === value) {
+        return null;
+      }
+
       const defaultValues =
         fieldName === "itemKind"
           ? ItemKindRegistrationManager.resolve(value as ItemKind).getDefaultProperties()
           : {};
 
-      const updatedField: any = {};
-      updatedField[fieldName] = value;
+      const updatedField = { [fieldName]: value };
       const updatedItem = { ...defaultValues, ...prevState.item, ...updatedField };
 
       const updatedValidations = { ...prevState.validatedFields };

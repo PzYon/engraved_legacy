@@ -37,8 +37,8 @@ export class ConfirmableButton extends React.PureComponent<
     return (
       <FormButton
         button={{
-          buttonStyle: this.props.confirmableButton.initialButtonStyle,
-          label: this.props.confirmableButton.initialButtonLabel,
+          buttonStyle: this.props.confirmableButton.buttonStyle,
+          label: this.props.confirmableButton.label,
           onClick: () => this.setState({ showConfirmation: true })
         }}
       />

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Subscription } from "rxjs";
 import { ConfirmableButton } from "../common/form/buttons/ConfirmableButton";
 import { ButtonStyle, FormButton } from "../common/form/buttons/FormButton";
+import { IConfirmableButton } from "../common/form/buttons/IConfirmableButton";
 import { Form } from "../common/form/Form";
 import { DateFormat, formatDate } from "../common/FormatDate";
 import { ItemStore } from "../items/ItemStore";
@@ -99,53 +100,42 @@ export class EditItemPage extends React.Component<
           key={reactKey}
           isReadonly={false}
           item={item}
-          renderButtons={(
+          createButtons={(
             isDirty: boolean,
             isValid: boolean,
             validate: () => boolean,
             updatedItem: IItem
-          ) => (
-            <>
-              <FormButton
-                key={"Save"}
-                button={{
-                  label: "Save",
-                  onClick: () => {
-                    if (isDirty && validate()) {
-                      this.updateItem(updatedItem, false);
-                    }
-                  },
-                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
-                  isContextualAction: true
-                }}
-              />
-              <FormButton
-                key={"SaveAndClose"}
-                button={{
-                  label: "Save & Close",
-                  onClick: () => {
-                    if (isDirty && validate()) {
-                      this.updateItem(updatedItem, true);
-                    }
-                  },
-                  buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
-                  isContextualAction: true
-                }}
-              />
-              <ConfirmableButton
-                key={"Delete"}
-                confirmableButton={{
-                  initialButtonLabel: "Delete",
-                  initialButtonStyle: ButtonStyle.Secondary,
-                  confirmationDialogTitle: `Do you really want to delete "${updatedItem.title}"?`,
-                  confirmationButtonLabel: "Yep, delete it.",
-                  confirmationButtonStyle: ButtonStyle.Red,
-                  cancelButtonLabel: "No, keep it.",
-                  onClick: () => this.deleteItem(updatedItem)
-                }}
-              />
-            </>
-          )}
+          ) => [
+            {
+              label: "Save",
+              onClick: () => {
+                if (isDirty && validate()) {
+                  this.updateItem(updatedItem, false);
+                }
+              },
+              buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+              isContextualAction: true
+            },
+            {
+              label: "Save & Close",
+              onClick: () => {
+                if (isDirty && validate()) {
+                  this.updateItem(updatedItem, true);
+                }
+              },
+              buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+              isContextualAction: true
+            },
+            {
+              label: "Delete",
+              buttonStyle: ButtonStyle.Secondary,
+              onClick: () => this.deleteItem(updatedItem),
+              confirmationDialogTitle: `Do you really want to delete "${updatedItem.title}"?`,
+              confirmationButtonLabel: "Yep, delete it.",
+              confirmationButtonStyle: ButtonStyle.Red,
+              cancelButtonLabel: "No, keep it."
+            }
+          ]}
         />
       </Page>
     );
