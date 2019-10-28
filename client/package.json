@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/codemirror": "^0.0.79",
     "@types/date-fns": "^2.6.0",
-    "@types/jest": "^24.0.19",
+    "@types/jest": "^24.0.20",
     "@types/markdown-it": "^0.0.9",
     "@types/marked": "^0.6.5",
     "@types/node": "12.11.5",
