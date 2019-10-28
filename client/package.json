@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "private": true,
   "dependencies": {
-    "codemirror": "^5.49.0",
+    "codemirror": "^5.49.2",
     "date-fns": "^2.5.1",
     "engraved-shared": "file:../shared/dist",
     "markdown-it": "^10.0.0",
