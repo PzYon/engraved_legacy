@@ -18,7 +18,7 @@ export const useFlag = (defaultValue: boolean): [boolean, (value?: boolean) => v
   return [
     currentValue.current,
     (value?: boolean) => {
-      currentValue.current = value !== undefined ? value : !currentValue.current;
+      currentValue.current = value === true || value === false ? value : !currentValue.current;
       setFlag(currentValue.current);
     }
   ];

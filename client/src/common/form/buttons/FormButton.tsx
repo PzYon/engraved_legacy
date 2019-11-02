@@ -16,7 +16,7 @@ export enum ButtonStyle {
   Disabled
 }
 
-export const FormButton = (props: { button: IButton }) => {
+export const FormButton = (props: { button: IButton; changeToken?: string }) => {
   const button = props.button;
 
   const theme = useTheme();
@@ -29,7 +29,7 @@ export const FormButton = (props: { button: IButton }) => {
     }
 
     return undefined;
-  }, [button.url, button.label, button.buttonStyle]);
+  }, [props.changeToken, button.url, button.label, button.buttonStyle]);
 
   const ButtonElement = button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
 

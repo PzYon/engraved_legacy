@@ -37,6 +37,7 @@ interface IFormState {
 
 export class Form extends React.Component<IFormProps, IFormState> {
   private readonly initialItemJson: string;
+  private changeToken: string = Math.random().toString();
 
   public constructor(props: IFormProps) {
     super(props);
@@ -96,6 +97,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
             .map(this.createButton)}
           <FormButton
             key={"Cancel"}
+            changeToken={this.changeToken}
             button={{
               onClick: (): void => this.setState({ isClose: true }),
               label: this.state.isDirty ? "Discard" : "Close",
@@ -109,14 +111,13 @@ export class Form extends React.Component<IFormProps, IFormState> {
   }
 
   private createButton = (button: IButton): ReactNode => {
+    const key = button.label;
+
     if ((button as IConfirmableButton).cancelButtonLabel) {
-      return <ConfirmableButton confirmableButton={button as IConfirmableButton} />;
+      return <ConfirmableButton key={key} confirmableButton={button as IConfirmableButton} />;
     }
 
-    // key needs to change every time in order to have ActionContext
-    // being updated every time. this is a hack, but works for the moment.
-    const key = Math.random();
-    return <FormButton key={key} button={button} />;
+    return <FormButton changeToken={this.changeToken} key={key} button={button} />;
   };
 
   private validateItem(item: IItem): boolean {
@@ -147,6 +148,8 @@ export class Form extends React.Component<IFormProps, IFormState> {
       if (prevState.item[fieldName] === value) {
         return null;
       }
+
+      this.changeToken = Math.random().toString();
 
       const defaultValues =
         fieldName === "itemKind"
