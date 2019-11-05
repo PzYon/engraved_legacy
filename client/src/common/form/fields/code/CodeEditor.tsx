@@ -1,3 +1,8 @@
+import "codemirror/addon/fold/brace-fold.js";
+import "codemirror/addon/fold/foldcode.js";
+import "codemirror/addon/fold/foldgutter.css";
+import "codemirror/addon/fold/foldgutter.js";
+import "codemirror/addon/fold/indent-fold.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/clike/clike.js";
 import "codemirror/mode/javascript/javascript.js";
@@ -29,8 +34,10 @@ export const CodeEditor = (props: ICodeEditorProps) => {
           lineNumbers: true,
           lineWrapping: false,
           viewportMargin: Infinity,
+          foldGutter: true,
           readOnly: props.isReadOnly,
-          mode: getModeOptions(props.language)
+          mode: getModeOptions(props.language),
+          gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
         }}
       />
     </CodeEditorContainer>
@@ -69,7 +76,7 @@ const CodeEditorContainer = styled.div`
     height: auto;
     background-color: ${p => p.theme.colors.formElementBackground} !important;
 
-    .CodeMirror-linenumbers {
+    .CodeMirror-gutter {
       background-color: ${p => p.theme.colors.palette.shades.light} !important;
     }
   }
