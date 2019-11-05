@@ -32,7 +32,7 @@ const WrapperDiv = styled.div<IWrapperDivStyle>`
 `;
 
 interface IGlobalSearchBoxState {
-  searchValue: string;
+  searchText: string;
   keywordSearchValue: string;
   showDropDown: boolean;
   keywordDropDownItems: Array<IDropDownItem<IKeywordDropDownItem>>;
@@ -43,7 +43,7 @@ interface IGlobalSearchBoxState {
 
 export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
   public readonly state: IGlobalSearchBoxState = {
-    searchValue: ItemStore.instance.searchText,
+    searchText: "",
     keywordSearchValue: "",
     showDropDown: true,
     actionDropDownItems: [],
@@ -51,18 +51,29 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     selectedKeywords: [],
     redirectToUrl: null
   };
+
   private findOnTypeTimer: any;
-  private keywords$Subscription: Subscription;
+
+  private keywordsSub: Subscription;
+  private searchTextSub: Subscription;
 
   public componentDidMount(): void {
-    this.keywords$Subscription = ItemStore.instance.keywords$.subscribe(keywords =>
+    this.keywordsSub = ItemStore.instance.keywords$.subscribe(keywords =>
       this.setState({ selectedKeywords: keywords })
+    );
+
+    this.searchTextSub = ItemStore.instance.searchText$.subscribe(searchText =>
+      this.setState({ searchText: searchText })
     );
   }
 
   public componentWillUnmount(): void {
-    if (this.keywords$Subscription) {
-      this.keywords$Subscription.unsubscribe();
+    if (this.keywordsSub) {
+      this.keywordsSub.unsubscribe();
+    }
+
+    if (this.searchTextSub) {
+      this.searchTextSub.unsubscribe();
     }
   }
 
@@ -80,7 +91,7 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
           onKeywordSelect={this.handleKeywordSelect}
           dropDownItemGroups={dropDownItemGroups}
           onChange={this.onChange}
-          searchValue={this.state.searchValue}
+          searchValue={this.state.searchText}
           giveFocusOnLoad={true}
         />
       </WrapperDiv>
@@ -88,15 +99,11 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
   }
 
   private onChange = (value: string): void => {
-    this.setState({ searchValue: value });
-
-    ItemStore.instance.searchText = value;
+    ItemStore.instance.searchText$.next(value);
 
     this.setActionDropDownItems(value);
 
-    if (this.findOnTypeTimer) {
-      clearTimeout(this.findOnTypeTimer);
-    }
+    clearTimeout(this.findOnTypeTimer);
 
     this.findOnTypeTimer = setTimeout(() => {
       ItemStore.instance.loadItems();
@@ -140,14 +147,12 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     const isNew: boolean = ItemStore.instance.toggleKeyword(keyword);
 
     if (isNew) {
-      const i = this.state.searchValue.lastIndexOf(this.state.keywordSearchValue);
+      const i = this.state.searchText.lastIndexOf(this.state.keywordSearchValue);
       if (i > -1) {
-        const newBoxValue = this.state.searchValue.substring(0, i);
-        this.setState({
-          searchValue: newBoxValue,
-          actionDropDownItems: []
-        });
-        ItemStore.instance.searchText = newBoxValue;
+        this.setState({ actionDropDownItems: [] });
+
+        const newBoxValue = this.state.searchText.substring(0, i);
+        ItemStore.instance.searchText$.next(newBoxValue);
       }
     }
 
@@ -210,9 +215,9 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
         actions.push({
           item: {
             onClick: () => {
-              ItemStore.instance.searchText = "";
+              ItemStore.instance.searchText$.next("");
               ItemStore.instance.loadItems();
-              this.setState({ searchValue: "" }, () => this.setActionDropDownItems(""));
+              this.setActionDropDownItems("");
             },
             label: `Clear search text`
           },

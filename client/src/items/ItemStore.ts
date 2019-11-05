@@ -32,7 +32,7 @@ export class ItemStore {
 
   public keywords$: BehaviorSubject<IKeyword[]> = new BehaviorSubject<IKeyword[]>([]);
 
-  public searchText: string = "";
+  public searchText$: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
   public noPagesLeft: boolean = false;
 
@@ -129,7 +129,7 @@ export class ItemStore {
 
   public resetAndLoad(): void {
     this.keywords$.next([]);
-    this.searchText = "";
+    this.searchText$.next("");
     this.pageNumber = 0;
     this.loadItems();
   }
@@ -148,7 +148,7 @@ export class ItemStore {
 
   private createQuery(): ItemSearchQuery {
     return new ItemSearchQuery(
-      this.searchText,
+      this.searchText$.value,
       this.keywords$.value.map(k => k.name),
       this.pageNumber * this.pageSize,
       this.pageSize,
