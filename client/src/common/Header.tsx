@@ -1,7 +1,7 @@
+import { IUser } from "engraved-shared";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { IUser } from "../../../shared/src";
 import { CurrentUser } from "../authentication/CurrentUser";
 import { ItemStore } from "../items/ItemStore";
 import { StyleUtil } from "../styling/StyleUtil";

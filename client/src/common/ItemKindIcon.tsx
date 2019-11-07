@@ -1,6 +1,6 @@
+import { ItemKind } from "engraved-shared";
 import * as React from "react";
 import styled from "styled-components";
-import { ItemKind } from "../../../shared/src";
 import { ItemKindRegistrationManager } from "../items/ItemKindRegistrationManager";
 
 interface IIconProps {

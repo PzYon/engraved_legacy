@@ -1,8 +1,8 @@
+import { IUser } from "engraved-shared";
 import * as React from "react";
 import { BehaviorSubject } from "rxjs";
 import { ajax, AjaxResponse } from "rxjs/ajax";
 import { Observable } from "rxjs/internal/Observable";
-import { IUser } from "../../../shared/src";
 import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
 import { SilentAuthentication } from "./SilentAuthentication";
 

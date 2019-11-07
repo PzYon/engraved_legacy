@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled, { css } from "styled-components";
+import styled, { css, DefaultTheme, ThemedStyledProps } from "styled-components";
 
 export interface IPillProps<T> {
   onClick?: () => void;
@@ -23,12 +23,15 @@ export const Pill = (props: IPillProps<any>) => (
 
 export const PillMargin: string = "3px";
 
-interface IContainerSpanProps {
-  hasOnClick: boolean;
-  isSecondary?: boolean;
-}
+type IContainerSpanProps = ThemedStyledProps<
+  {
+    hasOnClick: boolean;
+    isSecondary?: boolean;
+  },
+  DefaultTheme
+>;
 
-const ContainerSpan = styled.span`
+const ContainerSpan = styled.span<IContainerSpanProps>`
   background-color: ${(props: IContainerSpanProps) =>
     props.isSecondary ? p => p.theme.colors.palette.shades.dark : p => p.theme.colors.accent};
   color: ${(props: IContainerSpanProps) =>
@@ -38,12 +41,12 @@ const ContainerSpan = styled.span`
   margin: ${PillMargin};
   word-wrap: break-word;
   border-radius: ${p => p.theme.borderRadius};
-  ${(props: IContainerSpanProps) => {
-    return props.hasOnClick
+
+  ${(props: IContainerSpanProps) =>
+    props.hasOnClick
       ? css`
           cursor: pointer;
-          box-shadow: ${p => p.theme.discreetBoxShadow};
+          box-shadow: ${props.theme.discreetBoxShadow};
         `
-      : "";
-  }};
+      : css``};
 `;
