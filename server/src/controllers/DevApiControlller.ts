@@ -37,7 +37,10 @@ export class DevApiController {
       })
       .then((user: IUser) => {
         new DbService(this.db, user)
-          .insertItems(...createRandomItems(10, user), ...createKnownItems(user))
+          .insertItems(
+            ...createRandomItems(10, user),
+            ...createKnownItems(user)
+          )
           .then((items: IItem[]) => res.send(items));
       });
   };

@@ -11,14 +11,17 @@ export const useDidMount = (action: () => EffectCallback | void): void => {
   useEffect(action, []);
 };
 
-export const useFlag = (defaultValue: boolean): [boolean, (value?: boolean) => void] => {
+export const useFlag = (
+  defaultValue: boolean
+): [boolean, (value?: boolean) => void] => {
   const [flag, setFlag] = useState(defaultValue);
   const currentValue = useRef(flag);
 
   return [
     currentValue.current,
     (value?: boolean) => {
-      currentValue.current = value === true || value === false ? value : !currentValue.current;
+      currentValue.current =
+        value === true || value === false ? value : !currentValue.current;
       setFlag(currentValue.current);
     }
   ];
@@ -37,6 +40,7 @@ export const useOnClickOutside = (
 
     document.addEventListener("mousedown", handleDocumentClick, false);
 
-    return () => document.removeEventListener("mousedown", handleDocumentClick, false);
+    return () =>
+      document.removeEventListener("mousedown", handleDocumentClick, false);
   });
 };

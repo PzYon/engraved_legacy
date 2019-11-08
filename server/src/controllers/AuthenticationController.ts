@@ -17,11 +17,12 @@ export class AuthenticationController extends BaseController {
 
     app.use(passport.initialize());
 
-    app
-      .route(Config.webServer.apiUrlPrefix + "/auth/google/init")
-      .get(
-        passport.authenticate("google", { session: false, scope: ["openid", "profile", "email"] })
-      );
+    app.route(Config.webServer.apiUrlPrefix + "/auth/google/init").get(
+      passport.authenticate("google", {
+        session: false,
+        scope: ["openid", "profile", "email"]
+      })
+    );
 
     app
       .route(Config.webServer.apiUrlPrefix + "/auth/google/callback")
@@ -78,18 +79,21 @@ export class AuthenticationController extends BaseController {
     };
 
     passport.use(
-      new Google.OAuth2Strategy(googleOptions, (accessToken, refreshToken, profile, done) => {
-        dbService
-          .ensureUser({
-            displayName: profile.displayName,
-            mail: profile.emails[0].value,
-            image: profile.photos[0].value,
-            memberSince: undefined
-          })
-          .then((user: IUser) => {
-            done(null, user);
-          });
-      })
+      new Google.OAuth2Strategy(
+        googleOptions,
+        (accessToken, refreshToken, profile, done) => {
+          dbService
+            .ensureUser({
+              displayName: profile.displayName,
+              mail: profile.emails[0].value,
+              image: profile.photos[0].value,
+              memberSince: undefined
+            })
+            .then((user: IUser) => {
+              done(null, user);
+            });
+        }
+      )
     );
   }
 }

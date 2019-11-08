@@ -7,7 +7,10 @@ interface IErrorBoundaryState {
   error?: Error;
 }
 
-export class ErrorBoundary extends React.PureComponent<{}, IErrorBoundaryState> {
+export class ErrorBoundary extends React.PureComponent<
+  {},
+  IErrorBoundaryState
+> {
   public readonly state: IErrorBoundaryState = {
     error: undefined
   };

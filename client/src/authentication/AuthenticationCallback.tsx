@@ -58,6 +58,8 @@ export class AuthenticationCallback extends React.PureComponent<
   }
 
   public render(): ReactNode {
-    return this.state.targetUrl ? <Redirect to={this.state.targetUrl} push={false} /> : null;
+    return this.state.targetUrl ? (
+      <Redirect to={this.state.targetUrl} push={false} />
+    ) : null;
   }
 }

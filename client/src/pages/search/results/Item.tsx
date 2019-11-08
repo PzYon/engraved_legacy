@@ -77,9 +77,13 @@ export class Item extends React.PureComponent<IItemProps> {
   private itemEl = React.createRef<HTMLDivElement>();
 
   private static getSpecificProperties(item: IItem): ReactNode {
-    const props = ItemKindRegistrationManager.resolve(item.itemKind).getSpecificProperties(item);
+    const props = ItemKindRegistrationManager.resolve(
+      item.itemKind
+    ).getSpecificProperties(item);
 
-    return props && props.length ? props.map((p, i) => <Property key={i}>{p}</Property>) : null;
+    return props && props.length
+      ? props.map((p, i) => <Property key={i}>{p}</Property>)
+      : null;
   }
 
   private static toggleSelectedKeyword(k: IKeyword) {
@@ -105,7 +109,9 @@ export class Item extends React.PureComponent<IItemProps> {
         </Title>
         <If
           value={item.description}
-          render={() => <DescriptionParagraph>{item.description}</DescriptionParagraph>}
+          render={() => (
+            <DescriptionParagraph>{item.description}</DescriptionParagraph>
+          )}
         />
         <Grower />
         <If

@@ -22,7 +22,9 @@ export const ViewItemPage = (
     itemId: string;
   }>
 ) => {
-  const [itemId, setItemId] = useState(decodeURIComponent(props.match.params.itemId));
+  const [itemId, setItemId] = useState(
+    decodeURIComponent(props.match.params.itemId)
+  );
   const [item, setItem] = useState();
   const [failedToLoad, setFailedToLoad] = useState(false);
   const [isClose, setIsClose] = useState(false);
@@ -72,10 +74,14 @@ export const ViewItemPage = (
             </ItemPropertiesContainer>
             <If
               value={item.description}
-              render={() => <SectionContainer>{item.description}</SectionContainer>}
+              render={() => (
+                <SectionContainer>{item.description}</SectionContainer>
+              )}
             />
             <SectionContainer>
-              {ItemKindRegistrationManager.resolve(item.itemKind).getViewFormFields(item)}
+              {ItemKindRegistrationManager.resolve(
+                item.itemKind
+              ).getViewFormFields(item)}
             </SectionContainer>
           </FormFieldContainer>
         </article>

@@ -23,7 +23,9 @@ export const EditablePageTitle = (props: IEditablePageTitleProps) => {
       ref={inputRef}
       placeholder={props.placeholder}
       value={props.value}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => props.onChange(e.target.value)}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        props.onChange(e.target.value)
+      }
     />
   );
 };

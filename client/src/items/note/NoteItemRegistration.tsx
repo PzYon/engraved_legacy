@@ -24,7 +24,10 @@ export class NoteItemRegistration implements IItemKindRegistration<INoteItem> {
       <MarkdownField
         label={"Note"}
         onValueChange={(value: string) => callback("note", value)}
-        validationMessage={FormValidator.getValidationMessage(validatedFields, "note")}
+        validationMessage={FormValidator.getValidationMessage(
+          validatedFields,
+          "note"
+        )}
         value={item.note}
         isReadOnly={isReadOnly}
       />

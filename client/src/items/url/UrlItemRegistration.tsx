@@ -22,7 +22,10 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
       <TextField
         label={"URL"}
         onValueChange={(value: string) => callback("url", value)}
-        validationMessage={FormValidator.getValidationMessage(validatedFields, "url")}
+        validationMessage={FormValidator.getValidationMessage(
+          validatedFields,
+          "url"
+        )}
         value={item.url}
         isReadOnly={isReadOnly}
       />
@@ -67,7 +70,9 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
     parser.href = url;
 
     const hostname = parser.hostname.toLowerCase();
-    return hostname.indexOf("www.") === 0 ? hostname.substr(4, hostname.length - 1) : hostname;
+    return hostname.indexOf("www.") === 0
+      ? hostname.substr(4, hostname.length - 1)
+      : hostname;
   }
 
   public getDefaultProperties(): Partial<IUrlItem> {

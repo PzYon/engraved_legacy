@@ -3,9 +3,9 @@ import { catchError, filter, first, flatMap } from "rxjs/operators";
 import { AuthenticatedServerApi } from "./AuthenticatedServerApi";
 
 export class SilentAuthentication {
-  private static isWaitingForSilent$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
+  private static isWaitingForSilent$: BehaviorSubject<
+    boolean
+  > = new BehaviorSubject<boolean>(false);
 
   private static lastActivityDate: Date;
 
@@ -44,7 +44,10 @@ export class SilentAuthentication {
     return waitUntilAuthenticated().pipe(
       catchError(
         (err: Error, o: Observable<T>): ObservableInput<T> => {
-          if ((err as any).status === 401 && AuthenticatedServerApi.currentUser$.value) {
+          if (
+            (err as any).status === 401 &&
+            AuthenticatedServerApi.currentUser$.value
+          ) {
             SilentAuthentication.ensure();
             return waitUntilAuthenticated();
           }
@@ -71,7 +74,10 @@ export class SilentAuthentication {
     if (!SilentAuthentication.lastActivityDate) {
       this.lastActivityDate = new Date();
 
-      document.addEventListener("click", () => (this.lastActivityDate = new Date()));
+      document.addEventListener(
+        "click",
+        () => (this.lastActivityDate = new Date())
+      );
     }
 
     setTimeout(
@@ -91,7 +97,8 @@ export class SilentAuthentication {
     // computer overnight. and even in other cases: if there's no activity
     // we might as well do the silent authentication lazily.
     return (
-      (new Date() as any) - (this.lastActivityDate as any) < SilentAuthentication.msFromMinutes(45)
+      (new Date() as any) - (this.lastActivityDate as any) <
+      SilentAuthentication.msFromMinutes(45)
     );
   }
 

@@ -57,7 +57,9 @@ export const createTheme = (themeStyle: ThemeStyle): ITheme => {
     bigSpacing: "30px",
     formElementPadding: "5px",
     bigBoxShadow: `0px 1px 20px 15px ${rgba(palette.primary, 0.2)}`,
-    defaultBoxShadow: isNonDark ? `0 1px 6px 0 ${rgba(palette.primary, 0.2)}` : "none",
+    defaultBoxShadow: isNonDark
+      ? `0 1px 6px 0 ${rgba(palette.primary, 0.2)}`
+      : "none",
     discreetBoxShadow: `inset 0 -1px 0 ${rgba(palette.primary, 0.2)}`,
     font: {
       family: "'IBM Plex Sans', sans-serif",
@@ -80,7 +82,9 @@ export const createTheme = (themeStyle: ThemeStyle): ITheme => {
       accentContrast: ACCENT_CONTRAST,
       pageBackground: palette.shades.zero,
       rootPageBackground: palette.shades.light,
-      formElementBackground: isNonDark ? palette.shades.lightest : palette.shades.regular,
+      formElementBackground: isNonDark
+        ? palette.shades.lightest
+        : palette.shades.regular,
       border: isNonDark ? palette.shades.dark : palette.primary,
       header: {
         background: HEADER,

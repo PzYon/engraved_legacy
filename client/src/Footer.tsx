@@ -10,13 +10,16 @@ export const Footer = () => {
   const [stats, setStats] = useState<IAppStats>(null);
 
   useDidMount(() => {
-    const sub = AuthenticatedServerApi.get("app/stats").subscribe((s: IAppStats) => {
-      s.appVersion = s.appVersion || "vDev";
-      s.commitHash = s.commitHash || "2bc15f981007dd25daee3ef13bbe14802f821c5b"; // initial ;)
-      s.releaseDate = s.releaseDate || new Date().toISOString();
+    const sub = AuthenticatedServerApi.get("app/stats").subscribe(
+      (s: IAppStats) => {
+        s.appVersion = s.appVersion || "vDev";
+        s.commitHash =
+          s.commitHash || "2bc15f981007dd25daee3ef13bbe14802f821c5b"; // initial ;)
+        s.releaseDate = s.releaseDate || new Date().toISOString();
 
-      setStats(s);
-    });
+        setStats(s);
+      }
+    );
 
     return () => sub.unsubscribe();
   });
@@ -29,13 +32,18 @@ export const Footer = () => {
     <Container>
       <Inner className={"ngrvd-left"}>
         <span>
-          <a href={"https://github.com/PzYon/engraved/commit/" + stats.commitHash}>
+          <a
+            href={
+              "https://github.com/PzYon/engraved/commit/" + stats.commitHash
+            }
+          >
             {stats.appVersion}
           </a>
         </span>
         <span>Released {formatDate(stats.releaseDate)}</span>
         <span>
-          Got <a href={"https://github.com/PzYon/engraved/issues/new"}>feedback</a>?
+          Got{" "}
+          <a href={"https://github.com/PzYon/engraved/issues/new"}>feedback</a>?
         </span>
       </Inner>
       <Inner className={"ngrvd-right"}>

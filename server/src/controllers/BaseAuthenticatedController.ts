@@ -14,25 +14,37 @@ export abstract class BaseAuthenticatedController extends BaseController {
     return passport.authenticate(["jwt"], { session: false });
   }
 
-  protected authenticatedGet(url: string, callback: (req: Request, res: Response) => void) {
+  protected authenticatedGet(
+    url: string,
+    callback: (req: Request, res: Response) => void
+  ) {
     this.app
       .route(Config.webServer.apiUrlPrefix + url)
       .get(BaseAuthenticatedController.authenticate(), callback);
   }
 
-  protected authenticatedPatch(url: string, callback: (req: Request, res: Response) => void) {
+  protected authenticatedPatch(
+    url: string,
+    callback: (req: Request, res: Response) => void
+  ) {
     this.app
       .route(Config.webServer.apiUrlPrefix + url)
       .patch(BaseAuthenticatedController.authenticate(), callback);
   }
 
-  protected authenticatedPost(url: string, callback: (req: Request, res: Response) => void) {
+  protected authenticatedPost(
+    url: string,
+    callback: (req: Request, res: Response) => void
+  ) {
     this.app
       .route(Config.webServer.apiUrlPrefix + url)
       .post(BaseAuthenticatedController.authenticate(), callback);
   }
 
-  protected authenticatedDelete(url: string, callback: (req: Request, res: Response) => void) {
+  protected authenticatedDelete(
+    url: string,
+    callback: (req: Request, res: Response) => void
+  ) {
     this.app
       .route(Config.webServer.apiUrlPrefix + url)
       .delete(BaseAuthenticatedController.authenticate(), callback);

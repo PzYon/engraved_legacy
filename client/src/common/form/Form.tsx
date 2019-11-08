@@ -10,7 +10,11 @@ import { IConfirmableButton } from "./buttons/IConfirmableButton";
 import { KeywordField } from "./fields/keyword/KeywordField";
 import { SelectField } from "./fields/select/SelectField";
 import { MultiLineTextField } from "./fields/text/MultiLineTextField";
-import { FormButtonContainer, FormContainer, FormFieldContainer } from "./Form.StyledComponents";
+import {
+  FormButtonContainer,
+  FormContainer,
+  FormFieldContainer
+} from "./Form.StyledComponents";
 import { FormValidator } from "./validation/FormValidator";
 import { IValidatedFields } from "./validation/IValidatedFields";
 
@@ -62,8 +66,12 @@ export class Form extends React.Component<IFormProps, IFormState> {
           <SelectField
             label={"Item Kind"}
             value={item.itemKind}
-            valueLabel={ItemKindRegistrationManager.getItemKindLabel(item.itemKind)}
-            onValueChange={(value: ItemKind) => this.onValueChange("itemKind", value)}
+            valueLabel={ItemKindRegistrationManager.getItemKindLabel(
+              item.itemKind
+            )}
+            onValueChange={(value: ItemKind) =>
+              this.onValueChange("itemKind", value)
+            }
             validationMessage={FormValidator.getValidationMessage(
               this.state.validatedFields,
               "itemKind"
@@ -74,14 +82,18 @@ export class Form extends React.Component<IFormProps, IFormState> {
           />
           <MultiLineTextField
             label={"Description"}
-            onValueChange={(value: string) => this.onValueChange("description", value)}
+            onValueChange={(value: string) =>
+              this.onValueChange("description", value)
+            }
             value={item.description}
             isReadOnly={this.props.isReadonly}
           />
           {this.getKindSpecificFields(item)}
           <KeywordField
             label={"Keywords"}
-            onValueChange={(value: IKeyword[]) => this.onValueChange("keywords", value)}
+            onValueChange={(value: IKeyword[]) =>
+              this.onValueChange("keywords", value)
+            }
             value={item.keywords || []}
             isReadOnly={this.props.isReadonly}
           />
@@ -114,10 +126,17 @@ export class Form extends React.Component<IFormProps, IFormState> {
     const key = button.label;
 
     if ((button as IConfirmableButton).cancelButtonLabel) {
-      return <ConfirmableButton key={key} confirmableButton={button as IConfirmableButton} />;
+      return (
+        <ConfirmableButton
+          key={key}
+          confirmableButton={button as IConfirmableButton}
+        />
+      );
     }
 
-    return <FormButton changeToken={this.changeToken} key={key} button={button} />;
+    return (
+      <FormButton changeToken={this.changeToken} key={key} button={button} />
+    );
   };
 
   private validateItem(item: IItem): boolean {
@@ -153,15 +172,24 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
       const defaultValues =
         fieldName === "itemKind"
-          ? ItemKindRegistrationManager.resolve(value as ItemKind).getDefaultProperties()
+          ? ItemKindRegistrationManager.resolve(
+              value as ItemKind
+            ).getDefaultProperties()
           : {};
 
       const updatedField = { [fieldName]: value };
-      const updatedItem = { ...defaultValues, ...prevState.item, ...updatedField };
+      const updatedItem = {
+        ...defaultValues,
+        ...prevState.item,
+        ...updatedField
+      };
 
       const updatedValidations = { ...prevState.validatedFields };
 
-      const validationMessage: string = FormValidator.validateField(updatedItem, fieldName);
+      const validationMessage: string = FormValidator.validateField(
+        updatedItem,
+        fieldName
+      );
       if (validationMessage) {
         updatedValidations[fieldName] = validationMessage;
       } else {
@@ -172,7 +200,10 @@ export class Form extends React.Component<IFormProps, IFormState> {
     });
   };
 
-  private createState(item: IItem, validatedFields: IValidatedFields): IFormState {
+  private createState(
+    item: IItem,
+    validatedFields: IValidatedFields
+  ): IFormState {
     return {
       item: item,
       validatedFields: validatedFields,

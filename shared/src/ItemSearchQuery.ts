@@ -42,8 +42,12 @@ export class ItemSearchQuery {
     }
 
     if (this.sorting) {
-      keyValuePairs[ItemSearchQuery.sortingPropParamName] = this.sorting.propName;
-      keyValuePairs[ItemSearchQuery.sortingDirectionParamName] = this.sorting.direction;
+      keyValuePairs[
+        ItemSearchQuery.sortingPropParamName
+      ] = this.sorting.propName;
+      keyValuePairs[
+        ItemSearchQuery.sortingDirectionParamName
+      ] = this.sorting.direction;
     }
 
     return Object.keys(keyValuePairs)
@@ -66,7 +70,9 @@ export class ItemSearchQuery {
 
     return new ItemSearchQuery(
       obj[ItemSearchQuery.freeTextParamName],
-      keywords ? (keywords as string).split(ItemSearchQuery.keywordsSeparator) : [],
+      keywords
+        ? (keywords as string).split(ItemSearchQuery.keywordsSeparator)
+        : [],
       Number(obj[ItemSearchQuery.skipParamName] || 0),
       Number(obj[ItemSearchQuery.takeParamName] || 0),
       sorting

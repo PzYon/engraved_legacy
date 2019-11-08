@@ -24,7 +24,10 @@ const SearchBoxContainer = styled.div`
   margin-bottom: 10px;
 `;
 
-export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywordFieldState> {
+export class KeywordField extends React.PureComponent<
+  IKeywordFieldProps,
+  IKeywordFieldState
+> {
   public readonly state: IKeywordFieldState = {
     dropDownItems: [],
     searchValue: "",
@@ -38,7 +41,10 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
     const keywords: IKeyword[] = this.props.value || [];
 
     return (
-      <FieldWrapper label={this.props.label} validationError={this.props.validationMessage}>
+      <FieldWrapper
+        label={this.props.label}
+        validationError={this.props.validationMessage}
+      >
         {this.props.isReadOnly ? (
           keywords.map(k => k.name).join(", ")
         ) : (
@@ -78,20 +84,22 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
         this.findSubscription.unsubscribe();
       }
 
-      this.findSubscription = ItemStore.instance.searchKeywords(searchText).subscribe(
-        (keywords: IKeyword[]) => {
-          this.setState({
-            dropDownItems: (keywords || []).map(k => {
-              return {
-                item: { label: k.name, keyword: k },
-                key: k.name
-              };
-            }),
-            showDropDown: true
-          });
-        },
-        (error: Error) => ErrorBoundary.ensureError(this, error)
-      );
+      this.findSubscription = ItemStore.instance
+        .searchKeywords(searchText)
+        .subscribe(
+          (keywords: IKeyword[]) => {
+            this.setState({
+              dropDownItems: (keywords || []).map(k => {
+                return {
+                  item: { label: k.name, keyword: k },
+                  key: k.name
+                };
+              }),
+              showDropDown: true
+            });
+          },
+          (error: Error) => ErrorBoundary.ensureError(this, error)
+        );
     }, 400);
   };
 
@@ -139,7 +147,9 @@ export class KeywordField extends React.PureComponent<IKeywordFieldProps, IKeywo
     return groups;
   };
 
-  private handleGroupItemSelect = (item: IDropDownItem<IKeywordDropDownItem>) => {
+  private handleGroupItemSelect = (
+    item: IDropDownItem<IKeywordDropDownItem>
+  ) => {
     this.handleKeywordSelect(item.item.keyword);
   };
 

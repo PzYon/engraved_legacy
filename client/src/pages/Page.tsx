@@ -30,8 +30,11 @@ export const Page = (props: IPageProps) => {
   const theme = useTheme();
 
   useDidMount(() => {
-    document.title = props.browserTitle ? "engraved. | " + props.browserTitle : "engraved.";
-    document.body.style.backgroundColor = props.backgroundColor || theme.colors.pageBackground;
+    document.title = props.browserTitle
+      ? "engraved. | " + props.browserTitle
+      : "engraved.";
+    document.body.style.backgroundColor =
+      props.backgroundColor || theme.colors.pageBackground;
   });
 
   return (
@@ -40,7 +43,10 @@ export const Page = (props: IPageProps) => {
         <If
           value={!props.noCloser}
           render={() => (
-            <Closer onClose={() => window.history.back()} title={"Back to previous page"} />
+            <Closer
+              onClose={() => window.history.back()}
+              title={"Back to previous page"}
+            />
           )}
         />
         <If value={props.title} render={() => <Title>{props.title}</Title>} />

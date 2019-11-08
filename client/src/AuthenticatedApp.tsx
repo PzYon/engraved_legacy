@@ -69,9 +69,16 @@ export const AuthenticatedApp = () => {
               <Switch>
                 <Route path="/" component={SearchPage} exact={true} />
                 <Route path="/users/me" component={UserPage} exact={true} />
-                <Route path="/items/create/:itemKind?/:value?" component={CreateItemPage} />
+                <Route
+                  path="/items/create/:itemKind?/:value?"
+                  component={CreateItemPage}
+                />
                 <Route path="/items/:itemId/edit" component={EditItemPage} />
-                <Route path="/items/:itemId" component={ViewItemPage} exact={true} />
+                <Route
+                  path="/items/:itemId"
+                  component={ViewItemPage}
+                  exact={true}
+                />
                 <Route path="/" component={NotFoundPage} />
               </Switch>
             </ContentContainer>

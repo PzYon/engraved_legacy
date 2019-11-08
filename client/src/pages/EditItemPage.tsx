@@ -47,7 +47,11 @@ export class EditItemPage extends React.Component<
     this.itemSub = ItemStore.instance
       .getLocalItemOrLoad(this.state.itemId)
       .subscribe(
-        item => this.setState({ item: item, currentTitle: item ? item.title : undefined }),
+        item =>
+          this.setState({
+            item: item,
+            currentTitle: item ? item.title : undefined
+          }),
         () => this.setState({ failedToLoad: true })
       );
   }
@@ -113,7 +117,8 @@ export class EditItemPage extends React.Component<
                   this.updateItem(updatedItem, false);
                 }
               },
-              buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+              buttonStyle:
+                isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
               isContextualAction: true
             },
             {
@@ -123,7 +128,8 @@ export class EditItemPage extends React.Component<
                   this.updateItem(updatedItem, true);
                 }
               },
-              buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+              buttonStyle:
+                isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
               isContextualAction: true
             },
             {
@@ -142,21 +148,25 @@ export class EditItemPage extends React.Component<
   }
 
   private updateItem = (item: IItem, backToHome: boolean): void => {
-    this.updateItemSub = ItemStore.instance.updateItem(item).subscribe((updatedItem: IItem) => {
-      NotificationStore.instance.addNotification({
-        messageOrNode: (
-          <span>
-            Successfully updated{" "}
-            <Link to={`/items/${updatedItem._id}/edit`}>"{updatedItem.title}"</Link>
-          </span>
-        ),
-        id: Util.createGuid(),
-        kind: NotificationKind.Success,
-        timeToLiveInSeconds: 8
-      });
+    this.updateItemSub = ItemStore.instance
+      .updateItem(item)
+      .subscribe((updatedItem: IItem) => {
+        NotificationStore.instance.addNotification({
+          messageOrNode: (
+            <span>
+              Successfully updated{" "}
+              <Link to={`/items/${updatedItem._id}/edit`}>
+                "{updatedItem.title}"
+              </Link>
+            </span>
+          ),
+          id: Util.createGuid(),
+          kind: NotificationKind.Success,
+          timeToLiveInSeconds: 8
+        });
 
-      this.setState({ item: updatedItem, backToHome: backToHome });
-    });
+        this.setState({ item: updatedItem, backToHome: backToHome });
+      });
   };
 
   private deleteItem = (item: IItem): void => {

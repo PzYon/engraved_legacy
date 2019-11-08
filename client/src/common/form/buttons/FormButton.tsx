@@ -1,7 +1,10 @@
 import * as React from "react";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ActionsContext, ActionsContextMethod } from "../../../actions/ActionsContext";
+import {
+  ActionsContext,
+  ActionsContextMethod
+} from "../../../actions/ActionsContext";
 import { ITheme } from "../../../styling/ITheme";
 import { useTheme } from "../../Hooks";
 import { Button, IButtonStyle, LinkLikeButton } from "../Form.StyledComponents";
@@ -16,22 +19,36 @@ export enum ButtonStyle {
   Disabled
 }
 
-export const FormButton = (props: { button: IButton; changeToken?: string }) => {
+export const FormButton = (props: {
+  button: IButton;
+  changeToken?: string;
+}) => {
   const button = props.button;
 
   const theme = useTheme();
   const actionsContext = useContext(ActionsContext);
 
   useEffect(() => {
-    if (button.isContextualAction && button.buttonStyle !== ButtonStyle.Disabled) {
-      actionsContext.dispatch({ action: button, type: ActionsContextMethod.Add });
-      return () => actionsContext.dispatch({ action: button, type: ActionsContextMethod.Remove });
+    if (
+      button.isContextualAction &&
+      button.buttonStyle !== ButtonStyle.Disabled
+    ) {
+      actionsContext.dispatch({
+        action: button,
+        type: ActionsContextMethod.Add
+      });
+      return () =>
+        actionsContext.dispatch({
+          action: button,
+          type: ActionsContextMethod.Remove
+        });
     }
 
     return undefined;
   }, [props.changeToken, button.url, button.label, button.buttonStyle]);
 
-  const ButtonElement = button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
+  const ButtonElement =
+    button.buttonStyle === ButtonStyle.LinkLike ? LinkLikeButton : Button;
 
   return (
     <ButtonElement
@@ -39,7 +56,9 @@ export const FormButton = (props: { button: IButton; changeToken?: string }) => 
       type={"button"}
       className={"ngrvd-button"}
       onClick={button.onClick}
-      {...(button.buttonStyle === ButtonStyle.Disabled ? { disabled: "disabled" } : null)}
+      {...(button.buttonStyle === ButtonStyle.Disabled
+        ? { disabled: "disabled" }
+        : null)}
       {...(button.fontSize ? { style: { fontSize: button.fontSize } } : null)}
       {...getColors(button.buttonStyle, theme)}
     >

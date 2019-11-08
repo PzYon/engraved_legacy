@@ -1,4 +1,11 @@
-import { ICodeItem, IItem, INoteItem, ItemKind, IUrlItem, IUser } from "engraved-shared";
+import {
+  ICodeItem,
+  IItem,
+  INoteItem,
+  ItemKind,
+  IUrlItem,
+  IUser
+} from "engraved-shared";
 
 export const createKnownItems = (user: IUser): IItem[] => {
   return [
@@ -7,7 +14,8 @@ export const createKnownItems = (user: IUser): IItem[] => {
       itemKind: ItemKind.Url,
       title: "Google",
       editedOn: new Date(),
-      description: "Looking for something on the web? You'll definitely find it here...",
+      description:
+        "Looking for something on the web? You'll definitely find it here...",
       url: "http://www.google.ch",
       keywords: [
         {

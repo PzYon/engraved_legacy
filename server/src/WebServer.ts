@@ -16,7 +16,9 @@ const configureDb = async (client: MongoClient) => {
     const db: Db = client.db();
     db.on("error", console.log);
 
-    await db.collection(Config.db.collections.items).createIndex({ "$**": "text" });
+    await db
+      .collection(Config.db.collections.items)
+      .createIndex({ "$**": "text" });
 
     return db;
   } catch (err) {
@@ -51,10 +53,14 @@ const configureExpress = (db: Db) => {
     app.use(express.static(path.join(__dirname, "client")));
     app
       .route("*")
-      .get((req: any, res: any) => res.sendFile(path.join(__dirname, "client", "index.html")));
+      .get((req: any, res: any) =>
+        res.sendFile(path.join(__dirname, "client", "index.html"))
+      );
   }
 
-  app.listen(Config.webServer.apiPort, () => console.log("-> Express up and running"));
+  app.listen(Config.webServer.apiPort, () =>
+    console.log("-> Express up and running")
+  );
 };
 
 const bootstrap = async (client: MongoClient) => {

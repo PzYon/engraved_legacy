@@ -16,7 +16,9 @@ interface ICurrentUserProps {
   user: IUser;
 }
 
-export const CurrentUser: React.FC<ICurrentUserProps> = (props: ICurrentUserProps) => {
+export const CurrentUser: React.FC<ICurrentUserProps> = (
+  props: ICurrentUserProps
+) => {
   if (!props.user) {
     return null;
   }

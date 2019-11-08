@@ -27,7 +27,8 @@ export class Typer {
   private typeNextChar(index: number = 0): void {
     const hasNotStarted = index === 0;
     const isDone = index > this.textToType.length;
-    const delay = hasNotStarted || isDone ? this.idleBlinkDuration : Typer.getTypeInMs();
+    const delay =
+      hasNotStarted || isDone ? this.idleBlinkDuration : Typer.getTypeInMs();
 
     this.typeTimer = setTimeout(() => {
       if (isDone) {

@@ -55,7 +55,9 @@ export const Markdown = (props: IMarkdownProps) => {
             />
             <If
               value={isTocExpanded}
-              render={() => <TocDiv dangerouslySetInnerHTML={{ __html: tocHtml }} />}
+              render={() => (
+                <TocDiv dangerouslySetInnerHTML={{ __html: tocHtml }} />
+              )}
             />
           </TocContainer>
         )}

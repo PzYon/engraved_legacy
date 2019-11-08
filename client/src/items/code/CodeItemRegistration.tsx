@@ -4,7 +4,10 @@ import { DomUtil } from "../../common/DomUtil";
 import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { CodeLanguage } from "../../common/form/fields/code/CodeEditor";
 import { CodeField } from "../../common/form/fields/code/CodeField";
-import { ISelectFieldOptions, SelectField } from "../../common/form/fields/select/SelectField";
+import {
+  ISelectFieldOptions,
+  SelectField
+} from "../../common/form/fields/select/SelectField";
 import { FormValidator } from "../../common/form/validation/FormValidator";
 import { IFieldValidators } from "../../common/form/validation/IFieldValidators";
 import { IValidatedFields } from "../../common/form/validation/IValidatedFields";
@@ -32,7 +35,10 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
           value={language}
           valueLabel={CodeItemRegistration.getCodeLanguageLabel(language)}
           onValueChange={(value: string) => callback("codeLanguage", value)}
-          validationMessage={FormValidator.getValidationMessage(validatedFields, "codeLanguage")}
+          validationMessage={FormValidator.getValidationMessage(
+            validatedFields,
+            "codeLanguage"
+          )}
           isReadOnly={isReadOnly}
           defaultKey={language}
           key={"language"}
@@ -41,7 +47,10 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
           label={"Code"}
           language={item.codeLanguage as CodeLanguage}
           onValueChange={(value: string) => callback("code", value)}
-          validationMessage={FormValidator.getValidationMessage(validatedFields, "code")}
+          validationMessage={FormValidator.getValidationMessage(
+            validatedFields,
+            "code"
+          )}
           value={item.code}
           isReadOnly={isReadOnly}
           key={"code"}
@@ -85,7 +94,9 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
       : null;
   }
 
-  public static getCodeLanguageOptions(): Array<ISelectFieldOptions<CodeLanguage>> {
+  public static getCodeLanguageOptions(): Array<
+    ISelectFieldOptions<CodeLanguage>
+  > {
     return Object.keys(CodeLanguage).map((codeLanguage: string) => {
       const language: CodeLanguage = CodeLanguage[codeLanguage] as CodeLanguage;
       return {
@@ -95,7 +106,9 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
     });
   }
 
-  public static getCodeLanguageLabel(codeLanguage: CodeLanguage | string): string {
+  public static getCodeLanguageLabel(
+    codeLanguage: CodeLanguage | string
+  ): string {
     switch (codeLanguage) {
       case CodeLanguage.Json:
         return "JSON";

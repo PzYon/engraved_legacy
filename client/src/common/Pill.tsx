@@ -1,5 +1,9 @@
 import * as React from "react";
-import styled, { css, DefaultTheme, ThemedStyledProps } from "styled-components";
+import styled, {
+  css,
+  DefaultTheme,
+  ThemedStyledProps
+} from "styled-components";
 
 export interface IPillProps<T> {
   onClick?: () => void;
@@ -33,9 +37,13 @@ type IContainerSpanProps = ThemedStyledProps<
 
 const ContainerSpan = styled.span<IContainerSpanProps>`
   background-color: ${(props: IContainerSpanProps) =>
-    props.isSecondary ? p => p.theme.colors.palette.shades.dark : p => p.theme.colors.accent};
+    props.isSecondary
+      ? p => p.theme.colors.palette.shades.dark
+      : p => p.theme.colors.accent};
   color: ${(props: IContainerSpanProps) =>
-    props.isSecondary ? p => p.theme.colors.text : p => p.theme.colors.accentContrast};
+    props.isSecondary
+      ? p => p.theme.colors.text
+      : p => p.theme.colors.accentContrast};
   font-size: ${p => p.theme.font.size.small};
   padding: 0 9px;
   margin: ${PillMargin};

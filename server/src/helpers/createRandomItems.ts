@@ -10,7 +10,10 @@ export const createRandomItems = (count: number, user: IUser): IItem[] => {
       title: getLorems(getRandomInt(2, 10)),
       editedOn: new Date(),
       itemKind: ItemKind.Note,
-      keywords: [{ name: i + "_1", user_id: user._id }, { name: i + "_2", user_id: user._id }]
+      keywords: [
+        { name: i + "_1", user_id: user._id },
+        { name: i + "_2", user_id: user._id }
+      ]
     });
   }
 

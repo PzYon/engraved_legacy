@@ -15,7 +15,9 @@ export const UserPage = () => {
 
   useDidMount(() => {
     const sub1 = AuthenticatedServerApi.currentUser$.subscribe(setUser);
-    const sub2 = AuthenticatedServerApi.get("users/me/stats").subscribe(setStats);
+    const sub2 = AuthenticatedServerApi.get("users/me/stats").subscribe(
+      setStats
+    );
 
     return () => {
       sub1.unsubscribe();
@@ -28,9 +30,13 @@ export const UserPage = () => {
   }
 
   return (
-    <Page browserTitle={user.displayName} title={`Greetings ${user.displayName}`}>
+    <Page
+      browserTitle={user.displayName}
+      title={`Greetings ${user.displayName}`}
+    >
       <p>
-        Your mail address is <Highlight>{user.mail}</Highlight> and you signed up{" "}
+        Your mail address is <Highlight>{user.mail}</Highlight> and you signed
+        up{" "}
         <Highlight>
           <FormatDate value={user.memberSince} />
         </Highlight>

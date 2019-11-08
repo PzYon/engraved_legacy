@@ -36,7 +36,9 @@ export const Header = (props: IHeaderProps) => {
 
 const HeaderContainer = styled.header`
   margin: 0 ${p => p.theme.defaultSpacing};
-  width: calc(100% - ${p => p.theme.defaultSpacing} - ${p => p.theme.defaultSpacing});
+  width: calc(
+    100% - ${p => p.theme.defaultSpacing} - ${p => p.theme.defaultSpacing}
+  );
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,7 +50,11 @@ const AppTitle = styled.h1`
   font-weight: ${p => p.theme.font.weight.normal};
   margin: 0;
 
-  ${p => StyleUtil.normalizeAnchors(p.theme.colors.header.text, p.theme.colors.accent)};
+  ${p =>
+    StyleUtil.normalizeAnchors(
+      p.theme.colors.header.text,
+      p.theme.colors.accent
+    )};
 `;
 
 const CurrentUserSpan = styled.span`

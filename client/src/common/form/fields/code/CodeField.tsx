@@ -7,7 +7,9 @@ export interface ICodeFieldProps extends IFieldProps<string> {
   language: CodeLanguage;
 }
 
-export const CodeField: React.FC<ICodeFieldProps> = (props: ICodeFieldProps) => {
+export const CodeField: React.FC<ICodeFieldProps> = (
+  props: ICodeFieldProps
+) => {
   return (
     <FieldWrapper label={props.label} validationError={props.validationMessage}>
       <CodeEditor

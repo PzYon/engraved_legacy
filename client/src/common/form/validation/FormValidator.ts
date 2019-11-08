@@ -5,7 +5,9 @@ import { IValidatedFields } from "./IValidatedFields";
 
 export class FormValidator {
   public static validateField(item: IItem, fieldName: string): string {
-    const validator: IFieldValidator = FormValidator.getValidators(item)[fieldName];
+    const validator: IFieldValidator = FormValidator.getValidators(item)[
+      fieldName
+    ];
     if (!validator) {
       return null;
     } else {
@@ -14,14 +16,17 @@ export class FormValidator {
   }
 
   public static validateItem(item: IItem): IValidatedFields {
-    return Object.keys(FormValidator.getValidators(item)).reduce((acc: any, fieldName: string) => {
-      const validationMessage = FormValidator.validateField(item, fieldName);
-      if (validationMessage) {
-        acc[fieldName] = validationMessage;
-      }
+    return Object.keys(FormValidator.getValidators(item)).reduce(
+      (acc: any, fieldName: string) => {
+        const validationMessage = FormValidator.validateField(item, fieldName);
+        if (validationMessage) {
+          acc[fieldName] = validationMessage;
+        }
 
-      return acc;
-    }, {});
+        return acc;
+      },
+      {}
+    );
   }
 
   public static getValidationMessage(

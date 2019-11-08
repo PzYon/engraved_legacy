@@ -38,7 +38,9 @@ export class CreateItemPage extends React.PureComponent<
     super(props);
 
     const value = decodeURIComponent(props.match.params.value);
-    const itemKind = decodeURIComponent(props.match.params.itemKind) as ItemKind;
+    const itemKind = decodeURIComponent(
+      props.match.params.itemKind
+    ) as ItemKind;
 
     const item = {
       ...{
@@ -92,7 +94,8 @@ export class CreateItemPage extends React.PureComponent<
                   this.addItem(item);
                 }
               },
-              buttonStyle: isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+              buttonStyle:
+                isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
               isContextualAction: true
             }
           ]}
@@ -108,7 +111,8 @@ export class CreateItemPage extends React.PureComponent<
         NotificationStore.instance.addNotification({
           messageOrNode: (
             <span>
-              Successfully created <Link to={`/items/${i._id}`}>"{i.title}"</Link>
+              Successfully created{" "}
+              <Link to={`/items/${i._id}`}>"{i.title}"</Link>
             </span>
           ),
           kind: NotificationKind.Success,

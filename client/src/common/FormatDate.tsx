@@ -24,7 +24,10 @@ export const formatDate = (value: any, dateFormat?: DateFormat): string => {
       return format(date, "T");
     case DateFormat.relativeToNow:
     default:
-      return formatDistanceToNow(date, { addSuffix: true, includeSeconds: true });
+      return formatDistanceToNow(date, {
+        addSuffix: true,
+        includeSeconds: true
+      });
   }
 };
 

@@ -30,7 +30,9 @@ export class ItemStore {
 
   public items$: BehaviorSubject<IItem[]> = new BehaviorSubject<IItem[]>([]);
 
-  public keywords$: BehaviorSubject<IKeyword[]> = new BehaviorSubject<IKeyword[]>([]);
+  public keywords$: BehaviorSubject<IKeyword[]> = new BehaviorSubject<
+    IKeyword[]
+  >([]);
 
   public searchText$: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
@@ -74,7 +76,9 @@ export class ItemStore {
   }
 
   public addItem = (item: IItem): Observable<IItem> => {
-    return AuthenticatedServerApi.post("items", item).pipe(map((r: AjaxResponse) => r.response));
+    return AuthenticatedServerApi.post("items", item).pipe(
+      map((r: AjaxResponse) => r.response)
+    );
   };
 
   // we send the item to the server and then update it in the (client) cache
@@ -112,23 +116,25 @@ export class ItemStore {
 
     console.log(`ItemStore: calling server @ "${urlQuery}"`);
 
-    this.nextItemsSubscription = AuthenticatedServerApi.get<IItem[]>(`items?${urlQuery}`).subscribe(
-      (items: IItem[]) => {
-        if (!items || !items.length || items.length < this.pageSize) {
-          this.noPagesLeft = true;
-        }
-
-        // not happy with this approach, but i believe the whole
-        // ItemStore needs to be refactored sooner or later.
-        this.isFirstLoad = false;
-
-        const transformedItems = this.transformItems(items);
-
-        const allItems = isPaging ? [...this.items$.value, ...transformedItems] : transformedItems;
-
-        this.items$.next(allItems);
+    this.nextItemsSubscription = AuthenticatedServerApi.get<IItem[]>(
+      `items?${urlQuery}`
+    ).subscribe((items: IItem[]) => {
+      if (!items || !items.length || items.length < this.pageSize) {
+        this.noPagesLeft = true;
       }
-    );
+
+      // not happy with this approach, but i believe the whole
+      // ItemStore needs to be refactored sooner or later.
+      this.isFirstLoad = false;
+
+      const transformedItems = this.transformItems(items);
+
+      const allItems = isPaging
+        ? [...this.items$.value, ...transformedItems]
+        : transformedItems;
+
+      this.items$.next(allItems);
+    });
   };
 
   public resetAndLoad(): void {
@@ -139,7 +145,9 @@ export class ItemStore {
   }
 
   public getLocalItemOrLoad(id: string): Observable<IItem> {
-    const localItem: IItem | undefined = this.items$.value.find(i => i._id === id);
+    const localItem: IItem | undefined = this.items$.value.find(
+      i => i._id === id
+    );
     if (localItem) {
       return new Observable((observer: Observer<IItem>) => {
         observer.next(localItem);
@@ -176,7 +184,9 @@ export class ItemStore {
           return new UrlItem(item as IUrlItem);
         default:
           // todo: return a default item instead?
-          throw new Error(`item with kind "${item.itemKind}" is not supported.`);
+          throw new Error(
+            `item with kind "${item.itemKind}" is not supported.`
+          );
       }
     });
   }
@@ -189,10 +199,13 @@ export class ItemStore {
   }
 
   private updateCache(item: IItem): IItem {
-    this.doWithCachedItem(item._id, (itemIndex: number, newItemsArray: IItem[]): IItem[] => {
-      newItemsArray[itemIndex] = item;
-      return newItemsArray;
-    });
+    this.doWithCachedItem(
+      item._id,
+      (itemIndex: number, newItemsArray: IItem[]): IItem[] => {
+        newItemsArray[itemIndex] = item;
+        return newItemsArray;
+      }
+    );
 
     return item;
   }
@@ -205,7 +218,9 @@ export class ItemStore {
     const cachedItemIndex: number = cachedItems.findIndex(i => i._id === id);
 
     if (cachedItemIndex > -1) {
-      const modifiedItems: IItem[] = callback(cachedItemIndex, [...cachedItems]);
+      const modifiedItems: IItem[] = callback(cachedItemIndex, [
+        ...cachedItems
+      ]);
       this.items$.next(modifiedItems);
     }
   }

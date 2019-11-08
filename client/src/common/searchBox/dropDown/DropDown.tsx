@@ -87,7 +87,10 @@ interface IDropDownState {
   activeGroup: IDropDownItemGroup;
 }
 
-export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState> {
+export class DropDown extends React.PureComponent<
+  IDropDownProps,
+  IDropDownState
+> {
   public readonly state: IDropDownState = {
     activeItem: null,
     activeGroup: null
@@ -143,7 +146,10 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
         <Closer onClose={this.props.onClose} title={"Close"} />
         {groups.map((group: IDropDownItemGroup, index: number) => (
           <GroupContainerDiv key={group.title || index}>
-            <If value={group.title} render={() => <GroupTitleDiv>{group.title}</GroupTitleDiv>} />
+            <If
+              value={group.title}
+              render={() => <GroupTitleDiv>{group.title}</GroupTitleDiv>}
+            />
             <GroupItemsList>
               {group.items.map((item: IDropDownItem<ILabeled>) => (
                 <GroupItem
@@ -168,7 +174,10 @@ export class DropDown extends React.PureComponent<IDropDownProps, IDropDownState
     const firstGroup = groups[0];
     const firstItem = firstGroup.items[0];
 
-    if (firstItem === this.state.activeItem && arrowDirection === ArrowDirection.Up) {
+    if (
+      firstItem === this.state.activeItem &&
+      arrowDirection === ArrowDirection.Up
+    ) {
       const lastGroup = groups[groups.length - 1];
       return {
         activeItem: lastGroup.items[lastGroup.items.length - 1],

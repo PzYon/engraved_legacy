@@ -18,7 +18,10 @@ export interface ISelectFieldProps<T> extends IFieldProps<T> {
 export class SelectField extends React.PureComponent<ISelectFieldProps<any>> {
   public render(): ReactNode {
     return (
-      <FieldWrapper label={this.props.label} validationError={this.props.validationMessage}>
+      <FieldWrapper
+        label={this.props.label}
+        validationError={this.props.validationMessage}
+      >
         {this.props.isReadOnly ? (
           this.props.valueLabel
         ) : (

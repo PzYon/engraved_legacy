@@ -9,14 +9,24 @@ export const Typing = (props: { textToType: string }) => {
   const theme = useTheme();
 
   useDidMount(() => {
-    const typer = new Typer(props.textToType, setCurrentValue, toggleIsCursorVisible);
+    const typer = new Typer(
+      props.textToType,
+      setCurrentValue,
+      toggleIsCursorVisible
+    );
     typer.start();
 
     return typer.end;
   });
 
   return (
-    <span style={isCursorVisible ? { borderRight: `2px solid ${theme.colors.header.text}` } : null}>
+    <span
+      style={
+        isCursorVisible
+          ? { borderRight: `2px solid ${theme.colors.header.text}` }
+          : null
+      }
+    >
       {currentValue}
     </span>
   );

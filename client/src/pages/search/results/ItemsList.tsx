@@ -14,10 +14,12 @@ export const ItemsList = () => {
   const [noPagesLeft, setNoPagesLeft] = useState(false);
 
   useDidMount(() => {
-    const items$Subscription = ItemStore.instance.items$.subscribe(loadedItems => {
-      setItems(loadedItems);
-      setNoPagesLeft(ItemStore.instance.noPagesLeft);
-    });
+    const items$Subscription = ItemStore.instance.items$.subscribe(
+      loadedItems => {
+        setItems(loadedItems);
+        setNoPagesLeft(ItemStore.instance.noPagesLeft);
+      }
+    );
 
     ItemStore.instance.loadItems(false);
 
@@ -60,7 +62,9 @@ export const ItemsList = () => {
                 <UserMessage>That's all, you reached the end...</UserMessage>
               )
             }
-            renderElse={() => <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />}
+            renderElse={() => (
+              <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />
+            )}
           />
         </>
       )}

@@ -17,7 +17,9 @@ export const MarkdownField = (props: IMarkdownFieldProps) => {
   return (
     <FieldWrapper label={props.label} validationError={props.validationMessage}>
       <If
-        value={!props.isReadOnly && props.value && props.value.trim().length > 0}
+        value={
+          !props.isReadOnly && props.value && props.value.trim().length > 0
+        }
         render={() => (
           <TogglePreviewContainer isPreview={isPreview}>
             <FormButton

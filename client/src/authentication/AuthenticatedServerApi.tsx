@@ -7,7 +7,9 @@ import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
 import { SilentAuthentication } from "./SilentAuthentication";
 
 export class AuthenticatedServerApi {
-  public static currentUser$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
+  public static currentUser$: BehaviorSubject<IUser> = new BehaviorSubject<
+    IUser
+  >(null);
 
   private static readonly tokenKey: string = "jwt";
 
@@ -48,19 +50,36 @@ export class AuthenticatedServerApi {
     );
   }
 
-  public static post(url: string, value: any, headers: any = {}): Observable<AjaxResponse> {
+  public static post(
+    url: string,
+    value: any,
+    headers: any = {}
+  ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
-      ajax.post(this.getAbsoluteUrl(url), value, { ...headers, ...this.headers })
+      ajax.post(this.getAbsoluteUrl(url), value, {
+        ...headers,
+        ...this.headers
+      })
     );
   }
 
-  public static patch(url: string, value: any, headers: any = {}): Observable<AjaxResponse> {
+  public static patch(
+    url: string,
+    value: any,
+    headers: any = {}
+  ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
-      ajax.patch(this.getAbsoluteUrl(url), value, { ...headers, ...this.headers })
+      ajax.patch(this.getAbsoluteUrl(url), value, {
+        ...headers,
+        ...this.headers
+      })
     );
   }
 
-  public static delete(url: string, headers: any = {}): Observable<AjaxResponse> {
+  public static delete(
+    url: string,
+    headers: any = {}
+  ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
       ajax.delete(this.getAbsoluteUrl(url), { ...headers, ...this.headers })
     );

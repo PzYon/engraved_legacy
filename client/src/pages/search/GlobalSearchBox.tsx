@@ -41,7 +41,10 @@ interface IGlobalSearchBoxState {
   redirectToUrl: string;
 }
 
-export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxState> {
+export class GlobalSearchBox extends React.PureComponent<
+  {},
+  IGlobalSearchBoxState
+> {
   public readonly state: IGlobalSearchBoxState = {
     searchText: "",
     keywordSearchValue: "",
@@ -85,7 +88,9 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     const dropDownItemGroups = this.getDropDownItemGroups();
 
     return (
-      <WrapperDiv showDropDown={dropDownItemGroups.length > 0 && this.state.showDropDown}>
+      <WrapperDiv
+        showDropDown={dropDownItemGroups.length > 0 && this.state.showDropDown}
+      >
         <SearchBox
           selectedKeywords={ItemStore.instance.keywords$.value}
           onKeywordSelect={this.handleKeywordSelect}
@@ -147,7 +152,9 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     const isNew: boolean = ItemStore.instance.toggleKeyword(keyword);
 
     if (isNew) {
-      const i = this.state.searchText.lastIndexOf(this.state.keywordSearchValue);
+      const i = this.state.searchText.lastIndexOf(
+        this.state.keywordSearchValue
+      );
       if (i > -1) {
         this.setState({ actionDropDownItems: [] });
 
@@ -194,8 +201,13 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
     const actions: Array<IDropDownItem<IAction>> = [];
 
     if (!ItemStore.isInvalidSearchText(searchText)) {
-      if (searchText.startsWith("http://") || searchText.startsWith("https://")) {
-        const url = `/items/create/${ItemKind.Url}/${encodeURIComponent(searchText)}`;
+      if (
+        searchText.startsWith("http://") ||
+        searchText.startsWith("https://")
+      ) {
+        const url = `/items/create/${ItemKind.Url}/${encodeURIComponent(
+          searchText
+        )}`;
         actions.push({
           item: {
             url: url,
@@ -204,7 +216,9 @@ export class GlobalSearchBox extends React.PureComponent<{}, IGlobalSearchBoxSta
           key: url
         });
       } else if (searchText) {
-        const url = `/items/create/${ItemKind.Note}/${encodeURIComponent(searchText)}`;
+        const url = `/items/create/${ItemKind.Note}/${encodeURIComponent(
+          searchText
+        )}`;
         actions.push({
           item: {
             url: url,

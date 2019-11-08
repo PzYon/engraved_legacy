@@ -38,13 +38,18 @@ export class DbService {
       delete user.memberSince;
       existingUser = { ...existingUser, ...user };
       return this.users
-        .updateOne(DbService.getDocumentByIdFilter(existingUser._id), { $set: existingUser })
+        .updateOne(DbService.getDocumentByIdFilter(existingUser._id), {
+          $set: existingUser
+        })
         .then((r: UpdateWriteOpResult) => existingUser);
     } else {
       user.memberSince = new Date();
       return this.users
         .insertOne(user)
-        .then((writeUserResult: InsertOneWriteOpResult<IUser>) => writeUserResult.ops[0]);
+        .then(
+          (writeUserResult: InsertOneWriteOpResult<IUser>) =>
+            writeUserResult.ops[0]
+        );
     }
   }
 
@@ -73,7 +78,9 @@ export class DbService {
   }
 
   public searchKeywords(searchText: any): Promise<IKeyword[]> {
-    let query: any = searchText ? { name: { $regex: searchText, $options: "-i" } } : {};
+    let query: any = searchText
+      ? { name: { $regex: searchText, $options: "-i" } }
+      : {};
 
     query = this.ensureCurrentUserId(query);
 
@@ -106,7 +113,9 @@ export class DbService {
   }
 
   public getItems(searchQuery: ItemSearchQuery): Promise<IItem[]> {
-    const query = this.ensureCurrentUserId(DbService.transformQuery(searchQuery));
+    const query = this.ensureCurrentUserId(
+      DbService.transformQuery(searchQuery)
+    );
 
     let cursor = this.items.find(query).collation({ locale: "en" });
 
@@ -142,7 +151,9 @@ export class DbService {
 
     // TODO: filter terms for current user! -> add unit test!
 
-    const allFromDb = await this.keywords.find({ name: { $in: all.map(k => k.name) } }).toArray();
+    const allFromDb = await this.keywords
+      .find({ name: { $in: all.map(k => k.name) } })
+      .toArray();
 
     const allFromDbNames = allFromDb.map((f: IKeyword) => f.name);
     const allNotInDb: IKeyword[] = all
@@ -185,7 +196,9 @@ export class DbService {
   private saveItems(items: IItem[]) {
     return this.items
       .insertMany(items)
-      .then((writeItemsResult: InsertWriteOpResult<IItem>) => writeItemsResult.ops);
+      .then(
+        (writeItemsResult: InsertWriteOpResult<IItem>) => writeItemsResult.ops
+      );
   }
 
   private static transformQuery(searchQuery: ItemSearchQuery): any {
@@ -237,7 +250,10 @@ export class DbService {
       : this.createCustomFullTextFilter(fieldNames, fullText);
   }
 
-  private static createCustomFullTextFilter(fieldNames: string[], fullText: string) {
+  private static createCustomFullTextFilter(
+    fieldNames: string[],
+    fullText: string
+  ) {
     const fieldConditions = fieldNames.map(n => {
       const conditionObj: any = {};
       conditionObj[n] = { $regex: fullText, $options: "i" };

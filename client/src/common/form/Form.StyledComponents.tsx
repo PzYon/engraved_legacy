@@ -20,13 +20,16 @@ export const FormContainer = styled.section`
   textarea {
     padding: ${p => p.theme.formElementPadding};
     width: calc(
-      100% - ${p => p.theme.formElementPadding} - ${p => p.theme.formElementPadding} - 2px
+      100% - ${p => p.theme.formElementPadding} -
+        ${p => p.theme.formElementPadding} - 2px
     );
     min-width: calc(
-      100% - ${p => p.theme.formElementPadding} - ${p => p.theme.formElementPadding} - 2px
+      100% - ${p => p.theme.formElementPadding} -
+        ${p => p.theme.formElementPadding} - 2px
     );
     max-width: calc(
-      100% - ${p => p.theme.formElementPadding} - ${p => p.theme.formElementPadding} - 2px
+      100% - ${p => p.theme.formElementPadding} -
+        ${p => p.theme.formElementPadding} - 2px
     );
   }
 

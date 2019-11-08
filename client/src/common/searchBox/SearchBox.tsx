@@ -98,7 +98,10 @@ export const SearchBox = (props: ISearchBoxProps) => {
       <If
         value={showDropDown}
         render={() => (
-          <DropDown groups={props.dropDownItemGroups} onClose={() => setShowDropDown(false)} />
+          <DropDown
+            groups={props.dropDownItemGroups}
+            onClose={() => setShowDropDown(false)}
+          />
         )}
       />
     </ContainerDiv>

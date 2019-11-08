@@ -17,7 +17,9 @@ async function setUp() {
 
   db = await connection.db((global as any)["__MONGO_DB_NAME__"]);
 
-  await db.collection(Config.db.collections.items).createIndex({ "$**": "text" });
+  await db
+    .collection(Config.db.collections.items)
+    .createIndex({ "$**": "text" });
 
   let service = new DbService(db, null);
 
@@ -53,7 +55,9 @@ describe("DbService", () => {
     it("adds item to DB", async () => {
       const item = await dbService.insertItem(createSampleItem());
 
-      const count: number = await db.collection(Config.db.collections.items).countDocuments();
+      const count: number = await db
+        .collection(Config.db.collections.items)
+        .countDocuments();
       expect(count).toBe(1);
 
       const results: IItem[] = await db
@@ -106,13 +110,17 @@ describe("DbService", () => {
       const otherItem = await createItemAsAnotherUser();
       otherItem.title = "isch jetzt anderscht.";
 
-      expect(() => dbService.updateItem(asStringId(otherItem._id), otherItem)).toThrow();
+      expect(() =>
+        dbService.updateItem(asStringId(otherItem._id), otherItem)
+      ).toThrow();
     });
   });
 
   describe("deleteItem", () => {
     it("removes item from DB", async () => {
-      await db.collection(Config.db.collections.items).insertMany(createLotsOfSampleItems());
+      await db
+        .collection(Config.db.collections.items)
+        .insertMany(createLotsOfSampleItems());
       const countBeforeDelete: number = await db
         .collection(Config.db.collections.items)
         .countDocuments();
@@ -132,7 +140,9 @@ describe("DbService", () => {
     });
 
     it("doesn't remove item from another user", async () => {
-      await db.collection(Config.db.collections.items).insertMany(createLotsOfSampleItems());
+      await db
+        .collection(Config.db.collections.items)
+        .insertMany(createLotsOfSampleItems());
       const itemToDelete = await createItemAsAnotherUser();
 
       const countBeforeDelete: number = await db
@@ -151,7 +161,9 @@ describe("DbService", () => {
     it("retrieves item by ID", async () => {
       const item = await insertSampleItem();
 
-      const count: number = await db.collection(Config.db.collections.items).countDocuments();
+      const count: number = await db
+        .collection(Config.db.collections.items)
+        .countDocuments();
       expect(count).toBe(1);
 
       const resultItem = await dbService.getItemById(item._id);
@@ -171,11 +183,15 @@ describe("DbService", () => {
 
   describe("getItems", () => {
     it("with page size", async () => {
-      await db.collection(Config.db.collections.items).insertMany(createLotsOfSampleItems());
+      await db
+        .collection(Config.db.collections.items)
+        .insertMany(createLotsOfSampleItems());
 
       const pageSize = 3;
 
-      const items = await dbService.getItems(new ItemSearchQuery("foo", [], 0, pageSize));
+      const items = await dbService.getItems(
+        new ItemSearchQuery("foo", [], 0, pageSize)
+      );
 
       expect(items.length).toEqual(pageSize);
     });
@@ -185,7 +201,9 @@ describe("DbService", () => {
 
       await ensureItemsIncludingOneWithKeywords(title, "alpha");
 
-      const items = await dbService.getItems(new ItemSearchQuery(null, ["alpha"], 0, 10));
+      const items = await dbService.getItems(
+        new ItemSearchQuery(null, ["alpha"], 0, 10)
+      );
 
       expect(items.length).toEqual(1);
       expect(items[0].title).toEqual(title);
@@ -196,7 +214,9 @@ describe("DbService", () => {
 
       await ensureItemsIncludingOneWithKeywords(title, "alpha", "beta");
 
-      const items = await dbService.getItems(new ItemSearchQuery(null, ["alpha", "beta"], 0, 10));
+      const items = await dbService.getItems(
+        new ItemSearchQuery(null, ["alpha", "beta"], 0, 10)
+      );
 
       expect(items.length).toEqual(1);
       expect(items[0].title).toEqual(title);
@@ -224,8 +244,13 @@ function createLotsOfSampleItems(): IItem[] {
   return items;
 }
 
-async function ensureItemsIncludingOneWithKeywords(title: string, ...keywords: string[]) {
-  await db.collection(Config.db.collections.items).insertMany(createLotsOfSampleItems());
+async function ensureItemsIncludingOneWithKeywords(
+  title: string,
+  ...keywords: string[]
+) {
+  await db
+    .collection(Config.db.collections.items)
+    .insertMany(createLotsOfSampleItems());
   await db.collection<IItem>(Config.db.collections.items).insertOne({
     user_id: currentUser._id,
     itemKind: ItemKind.Code,

@@ -11,7 +11,11 @@ const GlobalStyle = createGlobalStyle`
           background: ${(p: any) => p.theme.colors.accent};
         }
 
-        ${(p: any) => StyleUtil.normalizeAnchors(p.theme.colors.accent, p.theme.colors.text)}
+        ${(p: any) =>
+          StyleUtil.normalizeAnchors(
+            p.theme.colors.accent,
+            p.theme.colors.text
+          )}
 
         body,
         html,
@@ -23,7 +27,8 @@ const GlobalStyle = createGlobalStyle`
             font-size: ${(p: any) => p.theme.font.size.regular};
             font-weight:  ${(p: any) => p.theme.font.weight.normal};
             color: ${(p: any) => p.theme.colors.text};
-            background-color: ${(p: any) => p.theme.colors.formElementBackground};
+            background-color: ${(p: any) =>
+              p.theme.colors.formElementBackground};
         }
 
         body {
@@ -31,7 +36,8 @@ const GlobalStyle = createGlobalStyle`
             padding: 0;
             overflow-x: hidden;
             overflow-y: scroll;
-            transition: background-color ease-in ${(p: any) => p.theme.transitionTime};
+            transition: background-color ease-in ${(p: any) =>
+              p.theme.transitionTime};
         }
 `;
 

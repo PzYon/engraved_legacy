@@ -10,16 +10,22 @@ export const ActionsLauncher = () => {
   const [isDropDownOpen, toggleIsDropDownOpen] = useFlag(false);
 
   useDidMount(() => {
-    const sub = fromEvent(window, "keyup").subscribe((keyboardEvent: KeyboardEvent) => {
-      if (keyboardEvent.ctrlKey && keyboardEvent.key === " ") {
-        toggleIsDropDownOpen();
+    const sub = fromEvent(window, "keyup").subscribe(
+      (keyboardEvent: KeyboardEvent) => {
+        if (keyboardEvent.ctrlKey && keyboardEvent.key === " ") {
+          toggleIsDropDownOpen();
+        }
       }
-    });
+    );
 
     return () => sub.unsubscribe();
   });
 
-  if (!isDropDownOpen || !actionsContext.actions || actionsContext.actions.length === 0) {
+  if (
+    !isDropDownOpen ||
+    !actionsContext.actions ||
+    actionsContext.actions.length === 0
+  ) {
     return null;
   }
 

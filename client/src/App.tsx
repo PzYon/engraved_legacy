@@ -7,7 +7,11 @@ export const App = () => (
   <React.StrictMode>
     <Router>
       <Switch>
-        <Route path="/authenticated/:jwt" component={AuthenticationCallback} exact={true} />
+        <Route
+          path="/authenticated/:jwt"
+          component={AuthenticationCallback}
+          exact={true}
+        />
         <Route path="/" component={AuthenticatedApp} />
       </Switch>
     </Router>
