@@ -43,6 +43,10 @@ export class ItemStore {
     direction: SortDirection.Descending
   };
 
+  public get isFirstPage(): boolean {
+    return this.pageNumber === 0;
+  }
+
   private pageNumber: number = 0;
 
   private readonly pageSize: number = 20;

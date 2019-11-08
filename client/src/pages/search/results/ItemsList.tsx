@@ -54,9 +54,13 @@ export const ItemsList = () => {
             </List>
           </ListContainer>
           <If
-            value={!noPagesLeft}
-            render={() => <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />}
-            renderElse={() => <UserMessage>That's all, you reached the end...</UserMessage>}
+            value={noPagesLeft}
+            render={() =>
+              !ItemStore.instance.isFirstPage && (
+                <UserMessage>That's all, you reached the end...</UserMessage>
+              )
+            }
+            renderElse={() => <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />}
           />
         </>
       )}
