@@ -1,6 +1,5 @@
-import { IItem, ItemKind, ItemSearchQuery } from "engraved-shared";
+import { IItem, IKeyword, ItemKind, ItemSearchQuery } from "engraved-shared";
 import { InsertOneWriteOpResult, ObjectId } from "mongodb";
-import { IKeyword } from "../../../shared/src";
 import Config from "../Config";
 import { DbTestContext } from "./DbTestContext";
 

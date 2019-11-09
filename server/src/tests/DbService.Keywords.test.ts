@@ -1,4 +1,4 @@
-import { IKeyword } from "../../../shared/src";
+import { IKeyword } from "engraved-shared";
 import Config from "../Config";
 import { DbTestContext } from "./DbTestContext";
 
