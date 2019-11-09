@@ -1,66 +1,27 @@
-import { IItem, ItemKind, ItemSearchQuery, IUser } from "engraved-shared";
-import { Db, InsertOneWriteOpResult, MongoClient, ObjectId } from "mongodb";
+import { IItem, ItemKind, ItemSearchQuery } from "engraved-shared";
+import { InsertOneWriteOpResult, ObjectId } from "mongodb";
+import { IKeyword } from "../../../shared/src";
 import Config from "../Config";
-import { DbService } from "./DbService";
+import { DbTestContext } from "./DbTestContext";
 
-let connection: MongoClient;
-let db: Db;
-let dbService: DbService;
-let currentUser: IUser;
-let anotherUser: IUser;
+const context = new DbTestContext();
 
-async function setUp() {
-  connection = await MongoClient.connect((global as any)["__MONGO_URI__"], {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-
-  db = await connection.db((global as any)["__MONGO_DB_NAME__"]);
-
-  await db
-    .collection(Config.db.collections.items)
-    .createIndex({ "$**": "text" });
-
-  let service = new DbService(db, null);
-
-  currentUser = await service.ensureUser({
-    displayName: "Mar Dog",
-    image: null,
-    mail: "mar.dog@dogmar.io",
-    memberSince: new Date()
-  });
-
-  anotherUser = await service.ensureUser({
-    displayName: "Another User",
-    image: null,
-    mail: "not.me@dogmar.io",
-    memberSince: new Date()
-  });
-
-  dbService = new DbService(db, currentUser);
-}
-
-async function tearDown() {
-  await dropTable(Config.db.collections.items);
-  await dropTable(Config.db.collections.keywords);
-  await dropTable(Config.db.collections.users);
-  await connection.close();
-}
-
-describe("DbService", () => {
-  beforeEach(async () => await setUp());
-  afterEach(async () => await tearDown());
+describe("DbService.Items", () => {
+  beforeEach(async () => await context.setUp());
+  afterEach(async () => await context.tearDown());
 
   describe("insertItem", () => {
     it("adds item to DB", async () => {
-      const item = await dbService.insertItem(createSampleItem());
+      const item = await context.dbService.insertItem(
+        context.createSampleItem()
+      );
 
-      const count: number = await db
+      const count: number = await context.db
         .collection(Config.db.collections.items)
         .countDocuments();
       expect(count).toBe(1);
 
-      const results: IItem[] = await db
+      const results: IItem[] = await context.db
         .collection(Config.db.collections.items)
         .find()
         .limit(1)
@@ -71,20 +32,34 @@ describe("DbService", () => {
       const resultItem = results[0];
 
       expect(resultItem).not.toBe(null);
-      expect(resultItem.user_id).toEqual(currentUser._id);
+      expect(resultItem.user_id).toEqual(context.currentUser._id);
       expect(resultItem.title).toEqual(item.title);
+    });
+
+    it("keywords created while creating an item are stored in keyword collection", async () => {
+      await context.dbService.insertItem(
+        context.createSampleItem("A B C", context.currentUser._id, [
+          "javascript"
+        ])
+      );
+
+      const keywords: IKeyword[] = await context.dbService.searchKeywords(
+        "javascript"
+      );
+
+      expect(keywords.length).toBe(1);
     });
   });
 
   describe("updateItem", () => {
     it("updates item in DB", async () => {
-      const item = await insertSampleItem();
+      const item = await context.insertSampleItem();
 
       const itemToUpdate: IItem = item;
       itemToUpdate.title = "Freddy New";
       itemToUpdate.editedOn = null;
 
-      const updatedItem = await dbService.updateItem(
+      const updatedItem = await context.dbService.updateItem(
         asStringId(item._id),
         JSON.parse(JSON.stringify(itemToUpdate))
       );
@@ -99,10 +74,10 @@ describe("DbService", () => {
     });
 
     it("throws on ID mismatch", async () => {
-      const item = await insertSampleItem();
+      const item = await context.insertSampleItem();
 
       expect(() => {
-        dbService.updateItem(new ObjectId().toHexString(), item);
+        context.dbService.updateItem(new ObjectId().toHexString(), item);
       }).toThrow();
     });
 
@@ -111,28 +86,28 @@ describe("DbService", () => {
       otherItem.title = "isch jetzt anderscht.";
 
       expect(() =>
-        dbService.updateItem(asStringId(otherItem._id), otherItem)
+        context.dbService.updateItem(asStringId(otherItem._id), otherItem)
       ).toThrow();
     });
   });
 
   describe("deleteItem", () => {
     it("removes item from DB", async () => {
-      await db
+      await context.db
         .collection(Config.db.collections.items)
         .insertMany(createLotsOfSampleItems());
-      const countBeforeDelete: number = await db
+      const countBeforeDelete: number = await context.db
         .collection(Config.db.collections.items)
         .countDocuments();
-      const allItems = await db
+      const allItems = await context.db
         .collection<IItem>(Config.db.collections.items)
         .find({})
         .toArray();
       const itemToDelete = allItems[0];
 
-      await dbService.deleteItem(itemToDelete._id);
+      await context.dbService.deleteItem(itemToDelete._id);
 
-      const countAfterDelete: number = await db
+      const countAfterDelete: number = await context.db
         .collection(Config.db.collections.items)
         .countDocuments();
 
@@ -140,16 +115,16 @@ describe("DbService", () => {
     });
 
     it("doesn't remove item from another user", async () => {
-      await db
+      await context.db
         .collection(Config.db.collections.items)
         .insertMany(createLotsOfSampleItems());
       const itemToDelete = await createItemAsAnotherUser();
 
-      const countBeforeDelete: number = await db
+      const countBeforeDelete: number = await context.db
         .collection(Config.db.collections.items)
         .countDocuments();
-      await dbService.deleteItem(itemToDelete._id);
-      const countAfterDelete: number = await db
+      await context.dbService.deleteItem(itemToDelete._id);
+      const countAfterDelete: number = await context.db
         .collection(Config.db.collections.items)
         .countDocuments();
 
@@ -159,14 +134,14 @@ describe("DbService", () => {
 
   describe("getItemById", () => {
     it("retrieves item by ID", async () => {
-      const item = await insertSampleItem();
+      const item = await context.insertSampleItem();
 
-      const count: number = await db
+      const count: number = await context.db
         .collection(Config.db.collections.items)
         .countDocuments();
       expect(count).toBe(1);
 
-      const resultItem = await dbService.getItemById(item._id);
+      const resultItem = await context.dbService.getItemById(item._id);
 
       expect(resultItem).not.toBe(null);
       expect(resultItem._id).toEqual(item._id);
@@ -175,7 +150,7 @@ describe("DbService", () => {
     it("doesn't return item from another user", async () => {
       const item = await createItemAsAnotherUser();
 
-      const resultItem = await dbService.getItemById(item._id);
+      const resultItem = await context.dbService.getItemById(item._id);
 
       expect(resultItem).toBe(null);
     });
@@ -183,13 +158,13 @@ describe("DbService", () => {
 
   describe("getItems", () => {
     it("with page size", async () => {
-      await db
+      await context.db
         .collection(Config.db.collections.items)
         .insertMany(createLotsOfSampleItems());
 
       const pageSize = 3;
 
-      const items = await dbService.getItems(
+      const items = await context.dbService.getItems(
         new ItemSearchQuery("foo", [], 0, pageSize)
       );
 
@@ -201,7 +176,7 @@ describe("DbService", () => {
 
       await ensureItemsIncludingOneWithKeywords(title, "alpha");
 
-      const items = await dbService.getItems(
+      const items = await context.dbService.getItems(
         new ItemSearchQuery(null, ["alpha"], 0, 10)
       );
 
@@ -214,7 +189,7 @@ describe("DbService", () => {
 
       await ensureItemsIncludingOneWithKeywords(title, "alpha", "beta");
 
-      const items = await dbService.getItems(
+      const items = await context.dbService.getItems(
         new ItemSearchQuery(null, ["alpha", "beta"], 0, 10)
       );
 
@@ -224,21 +199,10 @@ describe("DbService", () => {
   });
 });
 
-function createSampleItem(title: string = "Foo", userId?: string): IItem {
-  return {
-    keywords: [],
-    title: title,
-    editedOn: new Date(),
-    itemKind: ItemKind.Code,
-    description: null,
-    user_id: userId || currentUser._id
-  };
-}
-
 function createLotsOfSampleItems(): IItem[] {
   const items = [];
   for (let i = 0; i < 20; i++) {
-    items.push(createSampleItem("Foo " + i));
+    items.push(context.createSampleItem("Foo " + i));
   }
 
   return items;
@@ -248,43 +212,31 @@ async function ensureItemsIncludingOneWithKeywords(
   title: string,
   ...keywords: string[]
 ) {
-  await db
+  await context.db
     .collection(Config.db.collections.items)
     .insertMany(createLotsOfSampleItems());
-  await db.collection<IItem>(Config.db.collections.items).insertOne({
-    user_id: currentUser._id,
+  await context.db.collection<IItem>(Config.db.collections.items).insertOne({
+    user_id: context.currentUser._id,
     itemKind: ItemKind.Code,
     title: title,
     keywords: (Array.isArray(keywords) ? keywords : [keywords]).map(k => ({
       name: k,
-      user_id: currentUser._id
+      user_id: context.currentUser._id
     }))
   });
 }
 
 async function createItemAsAnotherUser(): Promise<IItem> {
-  const sampleItem = createSampleItem();
-  sampleItem.user_id = anotherUser._id;
+  const sampleItem = context.createSampleItem();
+  sampleItem.user_id = context.otherUser._id;
 
-  const result: InsertOneWriteOpResult<any> = await db
+  const result: InsertOneWriteOpResult<any> = await context.db
     .collection(Config.db.collections.items)
     .insertOne(sampleItem);
 
   return result.ops[0] as IItem;
 }
 
-async function insertSampleItem(title?: string, userId?: string) {
-  const result: InsertOneWriteOpResult<any> = await db
-    .collection(Config.db.collections.items)
-    .insertOne(createSampleItem(title, userId));
-
-  return result.ops[0];
-}
-
 function asStringId(value: string | number | ObjectId) {
   return new ObjectId(value).toHexString();
-}
-
-async function dropTable(name: string) {
-  await db.collection(name).deleteMany({});
 }

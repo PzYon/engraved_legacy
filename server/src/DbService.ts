@@ -14,7 +14,7 @@ import {
   ObjectID,
   UpdateWriteOpResult
 } from "mongodb";
-import Config from "../Config";
+import Config from "./Config";
 
 export class DbService {
   public get keywords(): Collection<IKeyword> {
@@ -144,9 +144,18 @@ export class DbService {
   public async insertItems(...items: IItem[]): Promise<IItem[]> {
     const all: IKeyword[] = items
       .map(i => i.keywords || [])
-      .reduce((previousValue, currentValue) => {
-        previousValue.push(...currentValue);
-        return previousValue;
+      .reduce((allKeywords: IKeyword[], keywords: IKeyword[]) => {
+        keywords.forEach(keyword => {
+          if (
+            allKeywords.filter(
+              k => k.name.toLowerCase() === keyword.name.toLowerCase()
+            ).length === 0
+          ) {
+            allKeywords.push(keyword);
+          }
+        });
+
+        return allKeywords;
       }, []);
 
     // TODO: filter terms for current user! -> add unit test!
@@ -154,10 +163,12 @@ export class DbService {
     const allFromDb = await this.keywords
       .find({ name: { $in: all.map(k => k.name) } })
       .toArray();
+    const allFromDbNames = allFromDb.map((f: IKeyword) => f.name.toLowerCase());
 
-    const allFromDbNames = allFromDb.map((f: IKeyword) => f.name);
     const allNotInDb: IKeyword[] = all
-      .filter((k: IKeyword) => allFromDbNames.indexOf(k.name) === -1)
+      .filter(
+        (k: IKeyword) => allFromDbNames.indexOf(k.name.toLowerCase()) === -1
+      )
       .map((k: IKeyword) => {
         k.user_id = new ObjectID(this.currentUser._id) as any;
         return k;

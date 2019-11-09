@@ -26,7 +26,7 @@ export class ItemSearchQuery {
   }
 
   public toUrl(): string {
-    const keyValuePairs: {} = {};
+    const keyValuePairs: { [key: string]: string | number } = {};
 
     keyValuePairs[ItemSearchQuery.freeTextParamName] = this.getFullText();
 

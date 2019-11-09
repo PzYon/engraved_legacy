@@ -3,7 +3,7 @@ import { Express } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { Db, DeleteWriteOpResultObject } from "mongodb";
 import Config from "../Config";
-import { DbService } from "../db/DbService";
+import { DbService } from "../DbService";
 import { createKnownItems } from "../helpers/createKnownItems";
 import { createRandomItems } from "../helpers/createRandomItems";
 

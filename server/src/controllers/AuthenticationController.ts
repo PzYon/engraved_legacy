@@ -8,7 +8,7 @@ import * as Google from "passport-google-oauth";
 import { IOAuth2StrategyOption } from "passport-google-oauth";
 import * as PassportJwt from "passport-jwt";
 import Config from "../Config";
-import { DbService } from "../db/DbService";
+import { DbService } from "../DbService";
 import { BaseController } from "./BaseController";
 
 export class AuthenticationController extends BaseController {
