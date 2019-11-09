@@ -5,14 +5,7 @@ import { IValidatedFields } from "./IValidatedFields";
 
 export class FormValidator {
   public static validateField(item: IItem, fieldName: string): string {
-    const validator: IFieldValidator = FormValidator.getValidators(item)[
-      fieldName
-    ];
-    if (!validator) {
-      return null;
-    } else {
-      return validator(item[fieldName]);
-    }
+    return FormValidator.getValidators(item)[fieldName]?.(item[fieldName]);
   }
 
   public static validateItem(item: IItem): IValidatedFields {

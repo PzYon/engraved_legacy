@@ -9,7 +9,7 @@ import { If } from "../common/If";
 
 const Title = styled.h2`
   font-weight: ${p => p.theme.font.weight.normal};
-  font-size: ${p => p.theme.font.size.largest};
+  font-size: ${p => p.theme.font.size.large};
   color: ${p => p.theme.colors.accent};
   margin: 0 0 ${p => p.theme.defaultSpacing} 0;
 `;
