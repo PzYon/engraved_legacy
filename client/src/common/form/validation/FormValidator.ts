@@ -1,6 +1,6 @@
 import { IItem } from "engraved-shared";
 import { ItemKindRegistrationManager } from "../../../items/ItemKindRegistrationManager";
-import { IFieldValidator, IFieldValidators } from "./IFieldValidators";
+import { IFieldValidators } from "./IFieldValidators";
 import { IValidatedFields } from "./IValidatedFields";
 
 export class FormValidator {

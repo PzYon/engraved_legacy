@@ -19,6 +19,7 @@ const InnerDiv = styled.div`
 `;
 
 const TitleDiv = styled.div`
+  font-family: ${p => p.theme.font.logoFamily};
   font-size: 60px;
   font-weight: ${p => p.theme.font.weight.bold};
   margin-bottom: 20px;

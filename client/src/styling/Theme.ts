@@ -63,7 +63,8 @@ export const createTheme = (themeStyle: ThemeStyle): ITheme => {
     discreetBoxShadow: `inset 0 -1px 0 ${rgba(palette.primary, 0.2)}`,
     font: {
       family: "'IBM Plex Sans', sans-serif",
-      codeFamily: "'Dank Mono', 'IBM Plex Mono', monospace",
+      codeFamily: "'Dank Mono', monospace",
+      logoFamily: "'Pacifico', cursive",
       size: {
         small: "14px",
         regular: "18px",

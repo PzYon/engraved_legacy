@@ -16,6 +16,7 @@ export interface ITheme {
   font: {
     family: string;
     codeFamily: string;
+    logoFamily: string;
     size: {
       small: string;
       regular: string;

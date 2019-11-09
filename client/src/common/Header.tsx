@@ -46,6 +46,7 @@ const HeaderContainer = styled.header`
 `;
 
 const AppTitle = styled.h1`
+  font-family: ${p => p.theme.font.logoFamily};
   font-size: ${p => p.theme.headerHeightInPx * 0.5}px;
   font-weight: ${p => p.theme.font.weight.normal};
   margin: 0;
