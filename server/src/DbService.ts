@@ -12,7 +12,8 @@ import {
   InsertOneWriteOpResult,
   InsertWriteOpResult,
   ObjectID,
-  UpdateWriteOpResult
+  UpdateWriteOpResult,
+  UpdateQuery
 } from "mongodb";
 import Config from "./Config";
 
@@ -59,14 +60,25 @@ export class DbService {
 
   public getMyStats(): Promise<IUserStats> {
     return Promise.all([
-      this.keywords.countDocuments(this.ensureCurrentUserId({}), {}),
-      this.items.countDocuments(this.ensureCurrentUserId({}), {})
+      this.keywords.countDocuments(this.ensureCurrentUserId(), {}),
+      this.items.countDocuments(this.ensureCurrentUserId(), {})
     ]).then(values => {
       return {
         keywordCount: values[0],
         itemCount: values[1]
       };
     });
+  }
+
+  public async saveUserSetting(key: string, value: any): Promise<void> {
+    const updateQuery: UpdateQuery<IUser> = {
+      ["settings." + key]: value
+    };
+
+    await this.users.findOneAndUpdate(
+      { _id: this.currentUser._id },
+      { $set: updateQuery }
+    );
   }
 
   public getTotalNumberOfUsers(): Promise<number> {
@@ -282,7 +294,7 @@ export class DbService {
     return this.ensureCurrentUserId(DbService.getDocumentByIdFilter(id));
   }
 
-  private ensureCurrentUserId(query: any): any {
+  private ensureCurrentUserId(query: any = {}): any {
     return { ...query, ...{ user_id: new ObjectID(this.currentUser._id) } };
   }
 

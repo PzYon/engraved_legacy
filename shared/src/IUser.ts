@@ -4,4 +4,5 @@ export interface IUser {
   displayName: string;
   image: string;
   memberSince: Date;
+  settings?: { [key: string]: any };
 }

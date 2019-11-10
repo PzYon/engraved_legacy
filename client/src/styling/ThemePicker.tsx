@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useContext } from "react";
+import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi";
 import { SelectField } from "../common/form/fields/select/SelectField";
 import { ThemeContext } from "./ThemeContext";
 import { ThemeStyle } from "./ThemeStyle";
@@ -13,7 +14,12 @@ export const ThemePicker = () => {
       options={themeOptions}
       defaultKey={userSettingsContext.themeStyle}
       value={userSettingsContext.themeStyle}
-      onValueChange={userSettingsContext.setThemeStyle}
+      onValueChange={(themeStyle: ThemeStyle) => {
+        userSettingsContext.setThemeStyle(themeStyle);
+        AuthenticatedServerApi.post("users/me/settings/themeStyle", {
+          value: themeStyle
+        }).subscribe();
+      }}
       isReadOnly={false}
     />
   );
