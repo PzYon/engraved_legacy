@@ -44,9 +44,6 @@
     "node": "8.11.2"
   },
   "proxy": "http://localhost:3001/",
-  "ngrvd": {
-    "buildDate": ""
-  },
   "eslintConfig": {
     "extends": "react-app"
   }
