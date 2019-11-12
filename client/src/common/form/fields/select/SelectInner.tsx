@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ChangeEvent } from "react";
+import styled from "styled-components";
 import { Select } from "../../Form.StyledComponents";
 import { ISelectFieldOptions } from "./SelectField";
 
@@ -13,9 +14,9 @@ export const SelectInner = (props: ISelectInnerProps<any>) => {
   return (
     <Select defaultValue={props.defaultKey} onChange={handleOnChange}>
       {props.options.map((o: ISelectFieldOptions<any>) => (
-        <option value={o.value} key={o.value}>
+        <Option value={o.value} key={o.value}>
           {o.label}
-        </option>
+        </Option>
       ))}
     </Select>
   );
@@ -28,3 +29,7 @@ export const SelectInner = (props: ISelectInnerProps<any>) => {
     props.onValueChange(option ? option.value : null);
   }
 };
+
+const Option = styled.option`
+  font-weight: ${p => p.theme.font.weight.normal};
+`;

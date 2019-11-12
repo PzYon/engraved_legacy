@@ -23,7 +23,7 @@ export const CurrentUser: React.FC<ICurrentUserProps> = (
     return null;
   }
 
-  const title = props.user.displayName + " | " + props.user.mail;
+  const title = props.user.displayName + " - " + props.user.mail;
 
   return (
     <ImageContainer title={title}>

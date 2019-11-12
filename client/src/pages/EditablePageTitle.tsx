@@ -32,6 +32,7 @@ export const EditablePageTitle = (props: IEditablePageTitleProps) => {
 
 const Input = styled.input`
   font-size: ${p => p.theme.font.size.large};
+  font-weight: ${p => p.theme.font.weight.bold};
   width: calc(100% - 30px);
   color: ${p => p.theme.colors.accent};
   background-color: ${p => p.theme.colors.pageBackground};

@@ -85,7 +85,7 @@ export class EditItemPage extends React.Component<
 
     return (
       <Page
-        browserTitle={item.title + " | edit"}
+        browserTitle={item.title + " - edit"}
         title={
           <EditablePageTitle
             placeholder={"Enter your title"}

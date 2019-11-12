@@ -8,14 +8,10 @@ import { useDidMount, useTheme } from "../common/Hooks";
 import { If } from "../common/If";
 
 const Title = styled.h2`
-  font-weight: ${p => p.theme.font.weight.normal};
+  font-weight: ${p => p.theme.font.weight.bold};
   font-size: ${p => p.theme.font.size.large};
   color: ${p => p.theme.colors.accent};
   margin: 0 0 ${p => p.theme.defaultSpacing} 0;
-`;
-
-const ContentDiv = styled.div`
-  margin: ${p => p.theme.defaultSpacing} 0;
 `;
 
 export interface IPageProps {
@@ -31,7 +27,7 @@ export const Page = (props: IPageProps) => {
 
   useDidMount(() => {
     document.title = props.browserTitle
-      ? "engraved. | " + props.browserTitle
+      ? "engraved. - " + props.browserTitle
       : "engraved.";
     document.body.style.backgroundColor =
       props.backgroundColor || theme.colors.pageBackground;
@@ -50,7 +46,7 @@ export const Page = (props: IPageProps) => {
           )}
         />
         <If value={props.title} render={() => <Title>{props.title}</Title>} />
-        <ContentDiv>{props.children}</ContentDiv>
+        {props.children}
       </ErrorBoundary>
     </FaderContainer>
   );
