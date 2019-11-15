@@ -18,19 +18,11 @@ export const FormContainer = styled.section`
 
   input,
   textarea {
+    box-sizing: border-box;
     padding: ${p => p.theme.formElementPadding};
-    width: calc(
-      100% - ${p => p.theme.formElementPadding} -
-        ${p => p.theme.formElementPadding} - 2px
-    );
-    min-width: calc(
-      100% - ${p => p.theme.formElementPadding} -
-        ${p => p.theme.formElementPadding} - 2px
-    );
-    max-width: calc(
-      100% - ${p => p.theme.formElementPadding} -
-        ${p => p.theme.formElementPadding} - 2px
-    );
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
   }
 
   select {
@@ -63,6 +55,8 @@ export const Input = styled.input``;
 export const TextArea = styled.textarea`
   border: 0;
   padding: 0;
+  margin: 0;
+  height: 36px;
 `;
 
 export const Select = styled.select`

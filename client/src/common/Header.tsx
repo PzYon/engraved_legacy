@@ -11,28 +11,26 @@ export interface IHeaderProps {
   currentUser: IUser;
 }
 
-export const Header = (props: IHeaderProps) => {
-  return (
-    <HeaderContainer>
-      <AppTitle>
-        <Link
-          to={"/"}
-          onClick={() => {
-            ItemStore.instance.resetAndLoad();
-            return true;
-          }}
-        >
-          <Typing textToType={"engraved."} />
-        </Link>
-      </AppTitle>
-      <CurrentUserSpan>
-        <Link to={"/users/me"}>
-          <CurrentUser user={props.currentUser} />
-        </Link>
-      </CurrentUserSpan>
-    </HeaderContainer>
-  );
-};
+export const Header = (props: IHeaderProps) => (
+  <HeaderContainer>
+    <AppTitle>
+      <Link
+        to={"/"}
+        onClick={() => {
+          ItemStore.instance.resetAndLoad();
+          return true;
+        }}
+      >
+        <Typing textToType={"engraved."} />
+      </Link>
+    </AppTitle>
+    <CurrentUserSpan>
+      <Link to={"/users/me"}>
+        <CurrentUser user={props.currentUser} />
+      </Link>
+    </CurrentUserSpan>
+  </HeaderContainer>
+);
 
 const HeaderContainer = styled.header`
   margin: 0 ${p => p.theme.defaultSpacing};

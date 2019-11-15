@@ -75,19 +75,6 @@ const BaseContainer = styled.div`
   background-color: ${p => p.theme.colors.palette.shades.lightest};
 `;
 
-interface ITocContainerStyle {
-  isExpanded: boolean;
-}
-
-const TocContainer = styled(BaseContainer)<ITocContainerStyle>`
-  padding: 0.2rem 0.7rem;
-  margin-bottom: 0.5rem;
-
-  ul {
-    padding-left: 0.7rem;
-  }
-`;
-
 const ContentContainer = styled(BaseContainer)`
   overflow: auto;
 
@@ -104,7 +91,7 @@ const ContentContainer = styled(BaseContainer)`
   h5,
   h6,
   li {
-    margin: 0.7rem 0;
+    margin: 0.5rem 0;
   }
 
   h1 {
@@ -120,18 +107,23 @@ const ContentContainer = styled(BaseContainer)`
   }
 
   ul {
-    margin: 0.7rem 0;
+    margin: 0.5rem 0;
     padding-left: 1rem;
+    list-style-type: circle;
   }
 
   code {
-    width: calc(100% - 1.4rem - 2px);
-    padding: 0.7rem;
-    display: block;
-    background-color: ${p => p.theme.colors.pageBackground};
-    border: 1px solid ${p => p.theme.colors.border};
-    overflow-y: auto;
     font-family: ${p => p.theme.font.codeFamily};
+  }
+
+  pre > code {
+    overflow-y: auto;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid ${p => p.theme.colors.border};
+    background-color: ${p => p.theme.colors.pageBackground};
   }
 
   img {
@@ -144,6 +136,21 @@ const ContentContainer = styled(BaseContainer)`
 
   * > :last-child {
     margin-bottom: 0 !important;
+  }
+`;
+
+const TocContainer = styled(BaseContainer)<{
+  isExpanded: boolean;
+}>`
+  padding: 0.2rem 0.7rem;
+  margin-bottom: 0.5rem;
+
+  ul {
+    padding-left: 0.7rem;
+  }
+
+  p:empty {
+    display: none;
   }
 `;
 

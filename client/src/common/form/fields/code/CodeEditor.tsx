@@ -32,7 +32,7 @@ export const CodeEditor = (props: ICodeEditorProps) => {
         options={{
           theme: theme.themeStyle === ThemeStyle.Dark ? "material" : "default",
           lineNumbers: true,
-          lineWrapping: false,
+          lineWrapping: props.language === CodeLanguage.Markdown,
           viewportMargin: Infinity,
           foldGutter: true,
           readOnly: props.isReadOnly,
