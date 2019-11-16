@@ -4,6 +4,7 @@ import { createContext, ReactNode, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi";
 import { useDidMount } from "../common/Hooks";
+import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
 import { createTheme } from "./Theme";
 import { ThemeStyle } from "./ThemeStyle";
 
@@ -18,14 +19,20 @@ export const ThemeContext = createContext<IThemeContext>({
 });
 
 export const ThemeContextProvider = (props: { children: ReactNode }) => {
-  const [themeStyle, setThemeStyle] = useState(ThemeStyle.Random);
+  const [themeStyle, setThemeStyle] = useState(ThemeStyle.Light);
   const theme = createTheme(themeStyle);
 
   useDidMount(() => {
     const sub = AuthenticatedServerApi.currentUser$.subscribe((user: IUser) => {
+      let style: ThemeStyle;
       if (user?.settings?.themeStyle) {
-        setThemeStyle(user.settings.themeStyle);
+        style = user.settings.themeStyle;
+        LocalStorageUtil.setValue(style, "themeStyle");
+      } else {
+        style = LocalStorageUtil.getValue("themeStyle");
       }
+
+      setThemeStyle(style);
     });
 
     return () => sub.unsubscribe();
