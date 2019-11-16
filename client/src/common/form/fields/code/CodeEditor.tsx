@@ -79,5 +79,15 @@ const CodeEditorContainer = styled.div`
     .CodeMirror-gutter {
       background-color: ${p => p.theme.colors.palette.shades.light} !important;
     }
+
+    .CodeMirror-foldmarker {
+      color: ${p => p.theme.colors.accent};
+      text-shadow: none;
+    }
+
+    .cm-link,
+    .cm-header {
+      color: ${p => p.theme.colors.accent};
+    }
   }
 `;
