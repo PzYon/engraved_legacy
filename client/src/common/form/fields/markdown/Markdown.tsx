@@ -5,9 +5,11 @@ import { DomUtil } from "../../../DomUtil";
 import { useFlag, useTheme } from "../../../Hooks";
 import { If } from "../../../If";
 import { ButtonStyle, FormButton } from "../../buttons/FormButton";
+import { IButton } from "../../buttons/IButton";
 
 export interface IMarkdownProps {
   markdown: string;
+  buttons?: IButton[];
 }
 
 const tocSeparator = "---ngrvd-separator---";
@@ -20,7 +22,56 @@ export const Markdown = (props: IMarkdownProps) => {
     return null;
   }
 
-  const md = `
+  const completeHtml = transformMarkDownToHtml();
+
+  const sections = completeHtml.split(tocSeparator);
+  const contentHtml = sections[0];
+  const tocHtml = sections[1];
+
+  const buttons: IButton[] = getButtons();
+
+  return (
+    <>
+      <If
+        value={buttons.length > 0}
+        render={() => (
+          <ButtonContainer>
+            {buttons.map(button => (
+              <FormButton key={button.label} button={button} />
+            ))}
+          </ButtonContainer>
+        )}
+      />
+      <ContentContainer>
+        <If
+          value={isTocExpanded}
+          render={() => (
+            <TocContainer dangerouslySetInnerHTML={{ __html: tocHtml }} />
+          )}
+        />
+        <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      </ContentContainer>
+    </>
+  );
+
+  function getButtons(): IButton[] {
+    const allButtons: IButton[] = [...(props.buttons || [])];
+
+    if (!DomUtil.isEmptyHtml(tocHtml)) {
+      allButtons.push({
+        onClick: toggleIsTocExpanded,
+        label: isTocExpanded ? "Hide TOC" : "Show TOC",
+        buttonStyle: ButtonStyle.LinkLike,
+        fontSize: theme.font.size.small,
+        isContextualAction: true
+      });
+    }
+
+    return allButtons;
+  }
+
+  function transformMarkDownToHtml() {
+    const md = `
   ${props.markdown || ""} 
   
   ${tocSeparator} 
@@ -29,54 +80,18 @@ export const Markdown = (props: IMarkdownProps) => {
   
   `;
 
-  const completeHtml = new MarkdownIt("default", { linkify: true })
-    .use(require("markdown-it-anchor").default)
-    .use(require("markdown-it-table-of-contents"))
-    .render(md);
-
-  const sections = completeHtml.split(tocSeparator);
-  const contentHtml = sections[0];
-  const tocHtml = sections[1];
-
-  return (
-    <>
-      <If
-        value={!DomUtil.isEmptyHtml(tocHtml)}
-        render={() => (
-          <TocContainer isExpanded={isTocExpanded}>
-            <FormButton
-              button={{
-                onClick: toggleIsTocExpanded,
-                label: isTocExpanded ? "Hide TOC" : "Show TOC",
-                buttonStyle: ButtonStyle.LinkLike,
-                fontSize: theme.font.size.small,
-                isContextualAction: true
-              }}
-            />
-            <If
-              value={isTocExpanded}
-              render={() => (
-                <TocDiv dangerouslySetInnerHTML={{ __html: tocHtml }} />
-              )}
-            />
-          </TocContainer>
-        )}
-      />
-      <ContentContainer>
-        <MarkupDiv dangerouslySetInnerHTML={{ __html: contentHtml }} />
-      </ContentContainer>
-    </>
-  );
+    return new MarkdownIt("default", { linkify: true })
+      .use(require("markdown-it-anchor").default)
+      .use(require("markdown-it-table-of-contents"))
+      .render(md);
+  }
 };
 
-const BaseContainer = styled.div`
+const ContentContainer = styled.div`
+  overflow: auto;
   padding: 0.7rem;
   border: 1px solid ${p => p.theme.colors.border};
   background-color: ${p => p.theme.colors.palette.shades.lightest};
-`;
-
-const ContentContainer = styled(BaseContainer)`
-  overflow: auto;
 
   h1,
   h2,
@@ -139,14 +154,16 @@ const ContentContainer = styled(BaseContainer)`
   }
 `;
 
-const TocContainer = styled(BaseContainer)<{
-  isExpanded: boolean;
-}>`
-  padding: 0.2rem 0.7rem;
-  margin-bottom: 0.5rem;
+const TocContainer = styled.div`
+  margin: 1rem 0 1.5rem;
+
+  .table-of-contents > ul {
+    padding-left: 0;
+  }
 
   ul {
     padding-left: 0.7rem;
+    list-style-type: none;
   }
 
   p:empty {
@@ -154,21 +171,9 @@ const TocContainer = styled(BaseContainer)<{
   }
 `;
 
-const TocDiv = styled.div`
-  margin: 1rem 0;
-  list-style-type: none;
-
-  ul {
-    list-style-type: none;
-  }
-
-  .table-of-contents > ul {
-    padding-left: 0;
-  }
-`;
-
-const MarkupDiv = styled.div`
-  .CodeMirror-gutters {
-    border-right-color: ${p => p.theme.colors.border};
+const ButtonContainer = styled.div`
+  button:not(:last-of-type)::after {
+    content: "\\00B7";
+    margin: 0 0.4rem;
   }
 `;
