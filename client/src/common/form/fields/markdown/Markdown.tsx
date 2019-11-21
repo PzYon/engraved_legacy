@@ -145,17 +145,17 @@ const ContentContainer = styled.div`
     max-width: 100%;
   }
 
-  * > :first-child {
+  div > :first-child {
     margin-top: 0 !important;
   }
 
-  * > :last-child {
+  div > :last-child {
     margin-bottom: 0 !important;
   }
 `;
 
 const TocContainer = styled.div`
-  margin: 1rem 0 1.5rem;
+  margin: 0 0 1.5rem 0;
 
   .table-of-contents > ul {
     padding-left: 0;
