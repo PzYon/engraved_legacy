@@ -7,15 +7,11 @@ import {
   FormValidationErrorDiv
 } from "../Form.StyledComponents";
 
-export interface IFieldWrapperProps {
+export const FieldWrapper = (props: {
   label: string;
   children: ReactNode;
   validationError: string;
-}
-
-export const FieldWrapper: React.FC<IFieldWrapperProps> = (
-  props: IFieldWrapperProps
-) => (
+}) => (
   <FormFieldWrapperRoot>
     <FormLabel>{props.label}</FormLabel>
     <FormField>{props.children}</FormField>
