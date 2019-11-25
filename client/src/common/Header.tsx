@@ -7,11 +7,7 @@ import { ItemStore } from "../items/ItemStore";
 import { StyleUtil } from "../styling/StyleUtil";
 import { Typing } from "./Typing";
 
-export interface IHeaderProps {
-  currentUser: IUser;
-}
-
-export const Header = (props: IHeaderProps) => (
+export const Header = (props: { currentUser: IUser }) => (
   <HeaderContainer>
     <AppTitle>
       <Link

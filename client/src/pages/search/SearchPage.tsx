@@ -22,7 +22,7 @@ export const SearchPage = () => {
 
 const SearchContainerDiv = styled.div`
   text-align: center;
-  margin: 0 0 1rem 0;
+  margin: 1rem 0;
   width: 100%;
 `;
 

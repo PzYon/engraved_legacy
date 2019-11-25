@@ -20,8 +20,12 @@ export const useFlag = (
   return [
     currentValue.current,
     (value?: boolean) => {
-      currentValue.current =
+      const valueToSet =
         value === true || value === false ? value : !currentValue.current;
+
+      console.log("setting value to ", valueToSet);
+
+      currentValue.current = valueToSet;
       setFlag(currentValue.current);
     }
   ];

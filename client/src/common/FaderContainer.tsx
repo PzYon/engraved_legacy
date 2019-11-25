@@ -1,28 +1,26 @@
 import * as React from "react";
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useRef } from "react";
 import styled from "styled-components";
+import { useDidMount } from "./Hooks";
 
 const ContainerSection = styled.section`
   opacity: 0;
   transition: opacity ${p => p.theme.transitionTime};
 `;
 
-export interface IFaderContainerProps {
+export const FaderContainer = (props: {
   style?: CSSProperties;
-}
+  children: ReactNode;
+}) => {
+  const containerEl = useRef<HTMLDivElement>(null);
 
-export class FaderContainer extends React.PureComponent<IFaderContainerProps> {
-  private containerEl = React.createRef<HTMLDivElement>();
+  useDidMount(() => {
+    setTimeout(() => (containerEl.current.style.opacity = "1"));
+  });
 
-  public componentDidMount(): void {
-    setTimeout(() => (this.containerEl.current.style.opacity = "1"));
-  }
-
-  public render(): ReactNode {
-    return (
-      <ContainerSection style={this.props.style} ref={this.containerEl}>
-        {this.props.children}
-      </ContainerSection>
-    );
-  }
-}
+  return (
+    <ContainerSection style={props.style} ref={containerEl}>
+      {props.children}
+    </ContainerSection>
+  );
+};

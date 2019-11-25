@@ -31,12 +31,10 @@ export const formatDate = (value: any, dateFormat?: DateFormat): string => {
   }
 };
 
-export interface IFormatDateProps {
+export const FormatDate = (props: {
   value: Date | string | number;
   dateFormat?: DateFormat;
-}
-
-export const FormatDate = (props: IFormatDateProps) => (
+}) => (
   <span title={formatDate(props.value, props.dateFormat || DateFormat.full)}>
     {formatDate(props.value)}
   </span>

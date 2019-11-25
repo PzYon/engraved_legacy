@@ -41,12 +41,7 @@ const ChildrenContainer = styled.div`
   padding-top: 1rem;
 `;
 
-interface IDialogProps {
-  title: string;
-  children: ReactNode;
-}
-
-export const Dialog: React.FC<IDialogProps> = (props: IDialogProps) => {
+export const Dialog = (props: { title: string; children: ReactNode }) => {
   return (
     <FaderContainer style={{ position: "fixed", zIndex: 100 }}>
       <RootContainer>

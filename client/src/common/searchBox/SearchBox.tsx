@@ -13,11 +13,9 @@ const ContainerDiv = styled.div`
   width: 100%;
 `;
 
-interface IInnerContainerDivStyle {
+const InnerContainerDiv = styled.div<{
   isHighlight: boolean;
-}
-
-const InnerContainerDiv = styled.div<IInnerContainerDivStyle>`
+}>`
   background-color: ${p => p.theme.colors.palette.shades.light};
   border: 1px solid ${p => p.theme.colors.border};
   overflow: hidden;
@@ -44,7 +42,7 @@ const Input = styled.input`
   }
 `;
 
-export interface ISearchBoxProps {
+export const SearchBox = (props: {
   selectedKeywords: IKeyword[];
   onKeywordSelect: (keyword: IKeyword) => void;
   dropDownItemGroups: IDropDownItemGroup[];
@@ -52,9 +50,7 @@ export interface ISearchBoxProps {
   searchValue: string;
   placeholder?: string;
   giveFocusOnLoad?: boolean;
-}
-
-export const SearchBox = (props: ISearchBoxProps) => {
+}) => {
   const [hasFocus, setHasFocus] = useState(false);
   const [hidePlaceholder, setHidePlaceHolder] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
