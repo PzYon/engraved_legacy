@@ -122,6 +122,44 @@ export class Form extends React.Component<IFormProps, IFormState> {
     );
   }
 
+  public onValueChange = (fieldName: string, value: any): void => {
+    this.setState((prevState: IFormState) => {
+      if (prevState.item[fieldName] === value) {
+        return null;
+      }
+
+      this.changeToken = Math.random().toString();
+
+      const defaultValues =
+        fieldName === "itemKind"
+          ? ItemKindRegistrationManager.resolve(
+              value as ItemKind
+            ).getDefaultProperties()
+          : {};
+
+      const updatedField = { [fieldName]: value };
+      const updatedItem = {
+        ...defaultValues,
+        ...prevState.item,
+        ...updatedField
+      };
+
+      const updatedValidations = { ...prevState.validatedFields };
+
+      const validationMessage: string = FormValidator.validateField(
+        updatedItem,
+        fieldName
+      );
+      if (validationMessage) {
+        updatedValidations[fieldName] = validationMessage;
+      } else {
+        delete updatedValidations[fieldName];
+      }
+
+      return this.createState(updatedItem, updatedValidations);
+    });
+  };
+
   private createButton = (button: IButton): ReactNode => {
     const key = button.label;
 
@@ -161,44 +199,6 @@ export class Form extends React.Component<IFormProps, IFormState> {
           this.onValueChange
         );
   }
-
-  public onValueChange = (fieldName: string, value: any): void => {
-    this.setState((prevState: IFormState) => {
-      if (prevState.item[fieldName] === value) {
-        return null;
-      }
-
-      this.changeToken = Math.random().toString();
-
-      const defaultValues =
-        fieldName === "itemKind"
-          ? ItemKindRegistrationManager.resolve(
-              value as ItemKind
-            ).getDefaultProperties()
-          : {};
-
-      const updatedField = { [fieldName]: value };
-      const updatedItem = {
-        ...defaultValues,
-        ...prevState.item,
-        ...updatedField
-      };
-
-      const updatedValidations = { ...prevState.validatedFields };
-
-      const validationMessage: string = FormValidator.validateField(
-        updatedItem,
-        fieldName
-      );
-      if (validationMessage) {
-        updatedValidations[fieldName] = validationMessage;
-      } else {
-        delete updatedValidations[fieldName];
-      }
-
-      return this.createState(updatedItem, updatedValidations);
-    });
-  };
 
   private createState(
     item: IItem,

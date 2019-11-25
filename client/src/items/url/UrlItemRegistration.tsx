@@ -12,6 +12,16 @@ import { ViewUrlItem } from "./ViewUrlItem";
 export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
   public kind: ItemKind = ItemKind.Url;
 
+  private static getHostName(url: string): string {
+    const parser = document.createElement("a");
+    parser.href = url;
+
+    const hostname = parser.hostname.toLowerCase();
+    return hostname.indexOf("www.") === 0
+      ? hostname.substr(4, hostname.length - 1)
+      : hostname;
+  }
+
   public getEditFormFields(
     item: IUrlItem,
     isReadOnly: boolean,
@@ -63,16 +73,6 @@ export class UrlItemRegistration implements IItemKindRegistration<IUrlItem> {
         }}
       />
     ];
-  }
-
-  private static getHostName(url: string): string {
-    const parser = document.createElement("a");
-    parser.href = url;
-
-    const hostname = parser.hostname.toLowerCase();
-    return hostname.indexOf("www.") === 0
-      ? hostname.substr(4, hostname.length - 1)
-      : hostname;
   }
 
   public getDefaultProperties(): Partial<IUrlItem> {

@@ -14,6 +14,10 @@ export class Typer {
     this.cursorInterval = setInterval(this.toggleCursor, this.blinkDurationMs);
   }
 
+  private static getTypeInMs() {
+    return Math.random() * 200 + 50;
+  }
+
   public start() {
     this.typeNextChar();
   }
@@ -46,9 +50,5 @@ export class Typer {
   private getNextIndex(index: number) {
     const isTypo = Math.random() < this.typoProbability;
     return isTypo && index > 0 ? --index : ++index;
-  }
-
-  private static getTypeInMs() {
-    return Math.random() * 200 + 50;
   }
 }

@@ -1,9 +1,9 @@
 import {
   IItem,
   IKeyword,
-  IUserStats,
   ItemSearchQuery,
   IUser,
+  IUserStats,
   SortDirection
 } from "engraved-shared";
 import {
@@ -12,8 +12,8 @@ import {
   InsertOneWriteOpResult,
   InsertWriteOpResult,
   ObjectID,
-  UpdateWriteOpResult,
-  UpdateQuery
+  UpdateQuery,
+  UpdateWriteOpResult
 } from "mongodb";
 import Config from "./Config";
 
