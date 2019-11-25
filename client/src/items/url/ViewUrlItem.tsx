@@ -4,7 +4,6 @@ import { useRef } from "react";
 import styled from "styled-components";
 import { ButtonStyle, FormButton } from "../../common/form/buttons/FormButton";
 import { useFlag, useTheme } from "../../common/Hooks";
-import { If } from "../../common/If";
 import { ItemKindIcon } from "../../common/ItemKindIcon";
 import { IViewItemProps } from "../IViewItemProps";
 
@@ -19,20 +18,18 @@ export const ViewUrlItem = (props: IViewItemProps<IUrlItem>) => {
       <UrlInputDiv>
         <UrlInput readOnly={true} ref={inputEl} value={props.item.url} />
         <IconAnchor ref={imageAnchorEl} href={props.item.url} target="_blank">
-          <If
-            value={!showFallbackIcon}
-            render={() => (
-              <IconImage
-                src={getFaviconUrl()}
-                onLoad={() => (imageAnchorEl.current.style.opacity = "1")}
-                onError={() => {
-                  toggleShowFallbackIcon(true);
-                  imageAnchorEl.current.style.opacity = "1";
-                }}
-              />
-            )}
-            renderElse={() => <ItemKindIcon itemKind={ItemKind.Url} />}
-          />
+          {showFallbackIcon ? (
+            <ItemKindIcon itemKind={ItemKind.Url} />
+          ) : (
+            <IconImage
+              src={getFaviconUrl()}
+              onLoad={() => (imageAnchorEl.current.style.opacity = "1")}
+              onError={() => {
+                toggleShowFallbackIcon(true);
+                imageAnchorEl.current.style.opacity = "1";
+              }}
+            />
+          )}
         </IconAnchor>
       </UrlInputDiv>
       <ActionDiv>

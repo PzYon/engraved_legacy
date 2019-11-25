@@ -18,4 +18,14 @@ export class DomUtil {
 
     textArea.parentNode.removeChild(textArea);
   }
+
+  public static shouldRender(v: any): boolean {
+    return !(
+      v === false ||
+      v === null ||
+      v === undefined ||
+      v === "" ||
+      (Array.isArray(v) && v.length === 0)
+    );
+  }
 }

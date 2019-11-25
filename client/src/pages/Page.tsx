@@ -2,10 +2,10 @@ import * as React from "react";
 import { ReactNode } from "react";
 import styled from "styled-components";
 import { Closer } from "../common/Closer";
+import { DomUtil } from "../common/DomUtil";
 import { ErrorBoundary } from "../common/ErrorBoundary";
 import { FaderContainer } from "../common/FaderContainer";
 import { useDidMount, useTheme } from "../common/Hooks";
-import { If } from "../common/If";
 
 const Title = styled.h2`
   font-weight: ${p => p.theme.font.weight.bold};
@@ -36,16 +36,13 @@ export const Page = (props: IPageProps) => {
   return (
     <FaderContainer style={{ padding: theme.defaultSpacing }}>
       <ErrorBoundary>
-        <If
-          value={!props.noCloser}
-          render={() => (
-            <Closer
-              onClose={() => window.history.back()}
-              title={"Back to previous page"}
-            />
-          )}
-        />
-        <If value={props.title} render={() => <Title>{props.title}</Title>} />
+        {!props.noCloser && (
+          <Closer
+            onClose={() => window.history.back()}
+            title={"Back to previous page"}
+          />
+        )}
+        {DomUtil.shouldRender(props.title) && <Title>{props.title}</Title>}
         {props.children}
       </ErrorBoundary>
     </FaderContainer>
