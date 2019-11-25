@@ -3,8 +3,8 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { DomUtil } from "../../../common/DomUtil";
 import { Edited } from "../../../common/Edited";
-import { If } from "../../../common/If";
 import { ItemKindIcon } from "../../../common/ItemKindIcon";
 import { Keywords } from "../../../common/Keywords";
 import { PillMargin } from "../../../common/Pill";
@@ -107,25 +107,19 @@ export class Item extends React.PureComponent<IItemProps> {
         <Title>
           <Link to={`/items/${item._id || ""}`}>{item.title}</Link>
         </Title>
-        <If
-          value={item.description}
-          render={() => (
-            <DescriptionParagraph>{item.description}</DescriptionParagraph>
-          )}
-        />
+        {DomUtil.shouldRender(item.description) && (
+          <DescriptionParagraph>{item.description}</DescriptionParagraph>
+        )}
         <Grower />
-        <If
-          value={item.keywords}
-          render={() => (
-            <Paragraph>
-              <Keywords
-                keywords={item.keywords}
-                onClick={Item.toggleSelectedKeyword}
-                orderAlphabetically={true}
-              />
-            </Paragraph>
-          )}
-        />
+        {DomUtil.shouldRender(item.keywords) && (
+          <Paragraph>
+            <Keywords
+              keywords={item.keywords}
+              onClick={Item.toggleSelectedKeyword}
+              orderAlphabetically={true}
+            />
+          </Paragraph>
+        )}
         <SpecificPropertiesParagraph>
           <Property>
             <ItemKindIcon itemKind={item.itemKind} />

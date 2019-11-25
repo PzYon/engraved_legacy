@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import styled from "styled-components";
+import { DomUtil } from "../common/DomUtil";
 import { Edited } from "../common/Edited";
 import { ButtonStyle, FormButton } from "../common/form/buttons/FormButton";
 import {
@@ -10,7 +11,6 @@ import {
   FormFieldContainer
 } from "../common/form/Form.StyledComponents";
 import { useDidMount } from "../common/Hooks";
-import { If } from "../common/If";
 import { ItemKindIcon } from "../common/ItemKindIcon";
 import { Keywords } from "../common/Keywords";
 import { ItemKindRegistrationManager } from "../items/ItemKindRegistrationManager";
@@ -63,21 +63,15 @@ export const ViewItemPage = (
               <ItemPropertyDiv>
                 <Edited {...item} />
               </ItemPropertyDiv>
-              <If
-                value={item.keywords}
-                render={() => (
-                  <ItemPropertyDiv>
-                    <Keywords onClick={null} keywords={item.keywords} />
-                  </ItemPropertyDiv>
-                )}
-              />
-            </ItemPropertiesContainer>
-            <If
-              value={item.description}
-              render={() => (
-                <SectionContainer>{item.description}</SectionContainer>
+              {DomUtil.shouldRender(item.keywords) && (
+                <ItemPropertyDiv>
+                  <Keywords onClick={null} keywords={item.keywords} />
+                </ItemPropertyDiv>
               )}
-            />
+            </ItemPropertiesContainer>
+            {DomUtil.shouldRender(item.description) && (
+              <SectionContainer>{item.description}</SectionContainer>
+            )}
             <SectionContainer>
               {ItemKindRegistrationManager.resolve(
                 item.itemKind

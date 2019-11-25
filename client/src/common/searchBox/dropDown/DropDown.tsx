@@ -6,7 +6,7 @@ import { ILabeled } from "../../../actions/IAction";
 import { ITheme } from "../../../styling/ITheme";
 import { StyleUtil } from "../../../styling/StyleUtil";
 import { Closer } from "../../Closer";
-import { If } from "../../If";
+import { DomUtil } from "../../DomUtil";
 import { IDropDownItem } from "./IDropDownItem";
 import { IDropDownItemGroup } from "./IDropDownItemGroup";
 
@@ -146,10 +146,9 @@ export class DropDown extends React.PureComponent<
         <Closer onClose={this.props.onClose} title={"Close"} />
         {groups.map((group: IDropDownItemGroup, index: number) => (
           <GroupContainerDiv key={group.title || index}>
-            <If
-              value={group.title}
-              render={() => <GroupTitleDiv>{group.title}</GroupTitleDiv>}
-            />
+            {DomUtil.shouldRender(group.title) && (
+              <GroupTitleDiv>{group.title}</GroupTitleDiv>
+            )}
             <GroupItemsList>
               {group.items.map((item: IDropDownItem<ILabeled>) => (
                 <GroupItem

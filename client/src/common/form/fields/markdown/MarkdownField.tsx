@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useFlag, useTheme } from "../../../Hooks";
-import { If } from "../../../If";
 import { ButtonStyle, FormButton } from "../../buttons/FormButton";
 import { CodeEditor, CodeLanguage } from "../code/CodeEditor";
 import { FieldWrapper } from "../FieldWrapper";
@@ -21,23 +20,19 @@ export const MarkdownField = (props: IFieldProps<string>) => {
 
   return (
     <FieldWrapper label={props.label} validationError={props.validationMessage}>
-      <If
-        value={props.isReadOnly || isPreview}
-        render={() => (
-          <Markdown markdown={props.value} buttons={[toggleEditButton]} />
-        )}
-        renderElse={() => (
-          <>
-            <FormButton button={toggleEditButton} />
-            <CodeEditor
-              language={CodeLanguage.Markdown}
-              onValueChange={props.onValueChange}
-              value={props.value}
-              isReadOnly={false}
-            />
-          </>
-        )}
-      />
+      {props.isReadOnly || isPreview ? (
+        <Markdown markdown={props.value} buttons={[toggleEditButton]} />
+      ) : (
+        <>
+          <FormButton button={toggleEditButton} />
+          <CodeEditor
+            language={CodeLanguage.Markdown}
+            onValueChange={props.onValueChange}
+            value={props.value}
+            isReadOnly={false}
+          />
+        </>
+      )}
     </FieldWrapper>
   );
 };

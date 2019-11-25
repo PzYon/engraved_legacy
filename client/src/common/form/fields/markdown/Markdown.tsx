@@ -3,7 +3,6 @@ import * as React from "react";
 import styled from "styled-components";
 import { DomUtil } from "../../../DomUtil";
 import { useFlag, useTheme } from "../../../Hooks";
-import { If } from "../../../If";
 import { ButtonStyle, FormButton } from "../../buttons/FormButton";
 import { IButton } from "../../buttons/IButton";
 
@@ -32,23 +31,17 @@ export const Markdown = (props: IMarkdownProps) => {
 
   return (
     <>
-      <If
-        value={buttons.length > 0}
-        render={() => (
-          <ButtonContainer>
-            {buttons.map(button => (
-              <FormButton key={button.label} button={button} />
-            ))}
-          </ButtonContainer>
-        )}
-      />
+      {DomUtil.shouldRender(buttons) && (
+        <ButtonContainer>
+          {buttons.map(button => (
+            <FormButton key={button.label} button={button} />
+          ))}
+        </ButtonContainer>
+      )}
       <ContentContainer>
-        <If
-          value={isTocExpanded}
-          render={() => (
-            <TocContainer dangerouslySetInnerHTML={{ __html: tocHtml }} />
-          )}
-        />
+        {isTocExpanded && (
+          <TocContainer dangerouslySetInnerHTML={{ __html: tocHtml }} />
+        )}
         <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
       </ContentContainer>
     </>

@@ -3,9 +3,9 @@ import * as React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi";
+import { DomUtil } from "../common/DomUtil";
 import { FormatDate } from "../common/FormatDate";
 import { useDidMount } from "../common/Hooks";
-import { If } from "../common/If";
 import { ThemePicker } from "../styling/ThemePicker";
 import { Page } from "./Page";
 
@@ -42,15 +42,12 @@ export const UserPage = () => {
         </Highlight>
         .
       </p>
-      <If
-        value={stats}
-        render={() => (
-          <p>
-            You've created <Highlight>{stats.itemCount}</Highlight> items and{" "}
-            <Highlight>{stats.keywordCount}</Highlight> keywords.
-          </p>
-        )}
-      />
+      {DomUtil.shouldRender(stats) && (
+        <p>
+          You've created <Highlight>{stats.itemCount}</Highlight> items and{" "}
+          <Highlight>{stats.keywordCount}</Highlight> keywords.
+        </p>
+      )}
       <UserSettingsContainer>
         <UserSettingsTitle>Your Settings</UserSettingsTitle>
         <ThemePicker />

@@ -3,7 +3,6 @@ import * as React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { useDidMount } from "../../../common/Hooks";
-import { If } from "../../../common/If";
 import { LoadMore } from "../../../common/LoadMore";
 import { ItemStore } from "../../../items/ItemStore";
 import { Sorting } from "../Sorting";
@@ -26,49 +25,43 @@ export const ItemsList = () => {
     return () => items$Subscription.unsubscribe();
   });
 
+  if (!items || items.length === 0) {
+    if (!ItemStore.instance.isFirstLoad) {
+      return (
+        <NoItemsFound>
+          No items found. You might want to search for something else.
+        </NoItemsFound>
+      );
+    } else {
+      return null;
+    }
+  }
+
   return (
-    <If
-      value={items}
-      renderElse={() => {
-        return (
-          !ItemStore.instance.isFirstLoad && (
-            <NoItemsFound>
-              No items found. You might want to search for something else.
-            </NoItemsFound>
-          )
-        );
-      }}
-      render={() => (
-        <>
-          <Sorting
-            options={[
-              { label: "Edited On", value: "editedOn" },
-              { label: "Title", value: "title" }
-            ]}
-          />
-          <ListContainer>
-            <List>
-              {items.map((item: IItem) => (
-                <ListItem key={item._id}>
-                  <Item item={item} />
-                </ListItem>
-              ))}
-            </List>
-          </ListContainer>
-          <If
-            value={noPagesLeft}
-            render={() =>
-              !ItemStore.instance.isFirstPage && (
-                <UserMessage>That's all, you reached the end...</UserMessage>
-              )
-            }
-            renderElse={() => (
-              <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />
-            )}
-          />
-        </>
+    <>
+      <Sorting
+        options={[
+          { label: "Edited On", value: "editedOn" },
+          { label: "Title", value: "title" }
+        ]}
+      />
+      <ListContainer>
+        <List>
+          {items.map((item: IItem) => (
+            <ListItem key={item._id}>
+              <Item item={item} />
+            </ListItem>
+          ))}
+        </List>
+      </ListContainer>
+      {noPagesLeft ? (
+        !ItemStore.instance.isFirstPage && (
+          <UserMessage>That's all, you reached the end...</UserMessage>
+        )
+      ) : (
+        <LoadMore loadMore={() => ItemStore.instance.loadItems(true)} />
       )}
-    />
+    </>
   );
 };
 
