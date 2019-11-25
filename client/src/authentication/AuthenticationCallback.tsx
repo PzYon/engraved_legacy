@@ -25,19 +25,6 @@ export class AuthenticationCallback extends React.PureComponent<
     jwt: null
   };
 
-  public componentDidMount(): void {
-    const jwt: string = decodeURIComponent(this.props.match.params.jwt);
-
-    this.setState({
-      jwt: jwt,
-      targetUrl: AuthenticationCallback.getTargetUrl()
-    });
-
-    AuthenticatedServerApi.setToken(jwt);
-
-    SilentAuthentication.onAuthenticated();
-  }
-
   public static rememberCurrentUrlForRedirectionAfterAuthentication() {
     LocalStorageUtil.setValue(window.location.pathname, urlBeforeAuthKey);
   }
@@ -55,6 +42,19 @@ export class AuthenticationCallback extends React.PureComponent<
     }
 
     return "/";
+  }
+
+  public componentDidMount(): void {
+    const jwt: string = decodeURIComponent(this.props.match.params.jwt);
+
+    this.setState({
+      jwt: jwt,
+      targetUrl: AuthenticationCallback.getTargetUrl()
+    });
+
+    AuthenticatedServerApi.setToken(jwt);
+
+    SilentAuthentication.onAuthenticated();
   }
 
   public render(): ReactNode {

@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { ErrorBoundary } from "../common/ErrorBoundary";
-import { ButtonStyle, FormButton } from "../common/form/buttons/FormButton";
+import { ButtonStyle } from "../common/form/buttons/FormButton";
 import { Form } from "../common/form/Form";
 import { ItemKindRegistrationManager } from "../items/ItemKindRegistrationManager";
 import { ItemStore } from "../items/ItemStore";

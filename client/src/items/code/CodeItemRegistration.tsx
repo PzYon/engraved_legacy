@@ -19,6 +19,37 @@ const defaultLanguage = CodeLanguage.Json;
 export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
   public kind: ItemKind = ItemKind.Code;
 
+  public static getCodeLanguageOptions(): Array<
+    ISelectFieldOptions<CodeLanguage>
+  > {
+    return Object.keys(CodeLanguage).map((codeLanguage: string) => {
+      const language: CodeLanguage = CodeLanguage[codeLanguage] as CodeLanguage;
+      return {
+        label: this.getCodeLanguageLabel(language),
+        value: language
+      };
+    });
+  }
+
+  public static getCodeLanguageLabel(
+    codeLanguage: CodeLanguage | string
+  ): string {
+    switch (codeLanguage) {
+      case CodeLanguage.Json:
+        return "JSON";
+      case CodeLanguage.CSharp:
+        return "C#";
+      case CodeLanguage.TypeScript:
+        return "TypeScript";
+      case CodeLanguage.JavaScript:
+        return "JavaScript";
+      case CodeLanguage.Markdown:
+        return "Markdown";
+      default:
+        return codeLanguage;
+    }
+  }
+
   public getEditFormFields(
     item: ICodeItem,
     isReadOnly: boolean,
@@ -92,37 +123,6 @@ export class CodeItemRegistration implements IItemKindRegistration<ICodeItem> {
           />
         ]
       : null;
-  }
-
-  public static getCodeLanguageOptions(): Array<
-    ISelectFieldOptions<CodeLanguage>
-  > {
-    return Object.keys(CodeLanguage).map((codeLanguage: string) => {
-      const language: CodeLanguage = CodeLanguage[codeLanguage] as CodeLanguage;
-      return {
-        label: this.getCodeLanguageLabel(language),
-        value: language
-      };
-    });
-  }
-
-  public static getCodeLanguageLabel(
-    codeLanguage: CodeLanguage | string
-  ): string {
-    switch (codeLanguage) {
-      case CodeLanguage.Json:
-        return "JSON";
-      case CodeLanguage.CSharp:
-        return "C#";
-      case CodeLanguage.TypeScript:
-        return "TypeScript";
-      case CodeLanguage.JavaScript:
-        return "JavaScript";
-      case CodeLanguage.Markdown:
-        return "Markdown";
-      default:
-        return codeLanguage;
-    }
   }
 
   public getDefaultProperties(): Partial<ICodeItem> {

@@ -1,5 +1,4 @@
 import { IUser } from "engraved-shared";
-import * as React from "react";
 import { BehaviorSubject } from "rxjs";
 import { ajax, AjaxResponse } from "rxjs/ajax";
 import { Observable } from "rxjs/internal/Observable";
@@ -13,12 +12,8 @@ export class AuthenticatedServerApi {
 
   private static readonly tokenKey: string = "jwt";
 
-  public static getToken(): string {
-    return LocalStorageUtil.getValue<string>(this.tokenKey);
-  }
-
-  public static setToken(jwt: string): void {
-    LocalStorageUtil.setValue(jwt, this.tokenKey);
+  public static get authUrl(): string {
+    return AuthenticatedServerApi.baseUrl + "auth/google/init";
   }
 
   private static get baseUrl(): string {
@@ -29,10 +24,6 @@ export class AuthenticatedServerApi {
     );
   }
 
-  public static get authUrl(): string {
-    return AuthenticatedServerApi.baseUrl + "auth/google/init";
-  }
-
   private static get headers(): any {
     return {
       "Content-Type": "application/json",
@@ -40,8 +31,12 @@ export class AuthenticatedServerApi {
     };
   }
 
-  private static getAbsoluteUrl(url: string) {
-    return `${AuthenticatedServerApi.baseUrl}${url}`;
+  public static getToken(): string {
+    return LocalStorageUtil.getValue<string>(this.tokenKey);
+  }
+
+  public static setToken(jwt: string): void {
+    LocalStorageUtil.setValue(jwt, this.tokenKey);
   }
 
   public static get<T>(url: string, headers: any = {}): Observable<T> {
@@ -83,5 +78,9 @@ export class AuthenticatedServerApi {
     return SilentAuthentication.wrap(() =>
       ajax.delete(this.getAbsoluteUrl(url), { ...headers, ...this.headers })
     );
+  }
+
+  private static getAbsoluteUrl(url: string) {
+    return `${AuthenticatedServerApi.baseUrl}${url}`;
   }
 }

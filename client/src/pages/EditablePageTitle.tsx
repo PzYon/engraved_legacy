@@ -3,7 +3,6 @@ import { ChangeEvent, useRef } from "react";
 import { Simulate } from "react-dom/test-utils";
 import styled from "styled-components";
 import { useDidMount } from "../common/Hooks";
-import input = Simulate.input;
 
 export interface IEditablePageTitleProps {
   placeholder: string;

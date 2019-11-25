@@ -9,10 +9,6 @@ export class ItemSearchQuery {
   public static readonly sortingDirectionParamName = "sortDirection";
   public static readonly sortingPropParamName = "sortProp";
 
-  public get hasConditions(): boolean {
-    return !!this.fullText || (this.keywords && this.keywords.length > 0);
-  }
-
   public constructor(
     private fullText: string,
     public keywords: string[],
@@ -20,6 +16,34 @@ export class ItemSearchQuery {
     public take?: number,
     public sorting?: ISorting
   ) {}
+
+  public get hasConditions(): boolean {
+    return !!this.fullText || (this.keywords && this.keywords.length > 0);
+  }
+
+  public static fromObject(obj: any): ItemSearchQuery {
+    const keywords = obj[ItemSearchQuery.keywordsParamName];
+
+    const sortDirection = obj[ItemSearchQuery.sortingDirectionParamName];
+    const sortProp = obj[ItemSearchQuery.sortingPropParamName];
+
+    const sorting = sortProp
+      ? {
+          direction: sortDirection,
+          propName: sortProp
+        }
+      : undefined;
+
+    return new ItemSearchQuery(
+      obj[ItemSearchQuery.freeTextParamName],
+      keywords
+        ? (keywords as string).split(ItemSearchQuery.keywordsSeparator)
+        : [],
+      Number(obj[ItemSearchQuery.skipParamName] || 0),
+      Number(obj[ItemSearchQuery.takeParamName] || 0),
+      sorting
+    );
+  }
 
   public getFullText(): string {
     return this.fullText ? this.fullText.trim() : "";
@@ -53,29 +77,5 @@ export class ItemSearchQuery {
     return Object.keys(keyValuePairs)
       .map(k => `${k}=${keyValuePairs[k]}`)
       .join("&");
-  }
-
-  public static fromObject(obj: any): ItemSearchQuery {
-    const keywords = obj[ItemSearchQuery.keywordsParamName];
-
-    const sortDirection = obj[ItemSearchQuery.sortingDirectionParamName];
-    const sortProp = obj[ItemSearchQuery.sortingPropParamName];
-
-    const sorting = sortProp
-      ? {
-          direction: sortDirection,
-          propName: sortProp
-        }
-      : undefined;
-
-    return new ItemSearchQuery(
-      obj[ItemSearchQuery.freeTextParamName],
-      keywords
-        ? (keywords as string).split(ItemSearchQuery.keywordsSeparator)
-        : [],
-      Number(obj[ItemSearchQuery.skipParamName] || 0),
-      Number(obj[ItemSearchQuery.takeParamName] || 0),
-      sorting
-    );
   }
 }
