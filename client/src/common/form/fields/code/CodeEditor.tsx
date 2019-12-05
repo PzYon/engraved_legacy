@@ -70,7 +70,7 @@ const getModeOptions = (language: CodeLanguage) => {
 const CodeEditorContainer = styled.div`
   .CodeMirror {
     border: 1px solid ${p => p.theme.colors.border};
-    font-size: ${p => p.theme.font.size.regular};
+    font-size: ${p => p.theme.font.size.code};
     font-family: ${p => p.theme.font.codeFamily};
     width: calc(100% - 2px);
     height: auto;

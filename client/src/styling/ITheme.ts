@@ -21,6 +21,7 @@ export interface ITheme {
       small: string;
       regular: string;
       large: string;
+      code: string;
     };
     weight: {
       normal: number;
