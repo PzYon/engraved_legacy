@@ -68,7 +68,8 @@ export const createTheme = (themeStyle: ThemeStyle): ITheme => {
       size: {
         small: "14px",
         regular: "18px",
-        large: "25px"
+        large: "25px",
+        code: "16px"
       },
       weight: {
         normal: 300,
