@@ -44,7 +44,7 @@ export class NoteItemRegistration implements IItemKindRegistration<INoteItem> {
     };
   }
 
-  public getSpecificProperties(item: INoteItem): React.ReactNode[] {
+  public getSpecificProperties(_: INoteItem): React.ReactNode[] {
     return null;
   }
 

@@ -22,9 +22,8 @@ export const ViewItemPage = (
     itemId: string;
   }>
 ) => {
-  const [itemId, setItemId] = useState(
-    decodeURIComponent(props.match.params.itemId)
-  );
+  const itemId = decodeURIComponent(props.match.params.itemId);
+
   const [item, setItem] = useState();
   const [failedToLoad, setFailedToLoad] = useState(false);
   const [isClose, setIsClose] = useState(false);

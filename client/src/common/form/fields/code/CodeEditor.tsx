@@ -14,6 +14,14 @@ import styled from "styled-components";
 import { ThemeStyle } from "../../../../styling/ThemeStyle";
 import { useTheme } from "../../../Hooks";
 
+export enum CodeLanguage {
+  Json = "json",
+  JavaScript = "javascript",
+  TypeScript = "typescript",
+  CSharp = "csharp",
+  Markdown = "markdown"
+}
+
 interface ICodeEditorProps {
   language: CodeLanguage;
   isReadOnly: boolean;
@@ -28,7 +36,7 @@ export const CodeEditor = (props: ICodeEditorProps) => {
     <CodeEditorContainer>
       <CodeMirror
         value={props.value}
-        onBeforeChange={(editor, data, value) => props.onValueChange(value)}
+        onBeforeChange={(_, __, value) => props.onValueChange(value)}
         options={{
           theme: theme.themeStyle === ThemeStyle.Dark ? "material" : "default",
           lineNumbers: true,
@@ -43,14 +51,6 @@ export const CodeEditor = (props: ICodeEditorProps) => {
     </CodeEditorContainer>
   );
 };
-
-export enum CodeLanguage {
-  Json = "json",
-  JavaScript = "javascript",
-  TypeScript = "typescript",
-  CSharp = "csharp",
-  Markdown = "markdown"
-}
 
 const getModeOptions = (language: CodeLanguage) => {
   switch (language) {

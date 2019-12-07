@@ -11,14 +11,14 @@ export class DevApiController {
   public constructor(app: Express, private db: Db) {
     app.route("/dev/add/items").get(this.addItems);
 
-    app.route("/dev/clear/items").get((req: Request, res: Response): any => {
+    app.route("/dev/clear/items").get((_: Request, res: Response): any => {
       return db
         .collection(Config.db.collections.items)
         .deleteMany({})
         .then((i: DeleteWriteOpResultObject) => res.send(i.result));
     });
 
-    app.route("/dev/clear/keywords").get((req: Request, res: Response): any => {
+    app.route("/dev/clear/keywords").get((_: Request, res: Response): any => {
       return db
         .collection(Config.db.collections.items)
         .deleteMany({})
@@ -26,7 +26,7 @@ export class DevApiController {
     });
   }
 
-  private addItems = (req: Request, res: Response): any => {
+  private addItems = (_: Request, res: Response): any => {
     new DbService(this.db, null)
       .ensureUser({
         displayName: "Markus Doggweiler",

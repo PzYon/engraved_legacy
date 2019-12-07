@@ -10,7 +10,7 @@ export const Footer = () => {
   const [stats, setStats] = useState<IAppStats>(null);
 
   useDidMount(() => {
-    const sub = AuthenticatedServerApi.get("app/stats").subscribe(
+    const sub = AuthenticatedServerApi.get<IAppStats>("app/stats").subscribe(
       (s: IAppStats) => {
         s.appVersion = s.appVersion || "vDev";
         s.commitHash =

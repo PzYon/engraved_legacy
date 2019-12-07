@@ -10,10 +10,8 @@ import {
   Collection,
   Db,
   InsertOneWriteOpResult,
-  InsertWriteOpResult,
   ObjectID,
-  UpdateQuery,
-  UpdateWriteOpResult
+  UpdateQuery
 } from "mongodb";
 import Config from "./Config";
 
@@ -42,7 +40,7 @@ export class DbService {
         .updateOne(DbService.getDocumentByIdFilter(existingUser._id), {
           $set: existingUser
         })
-        .then((r: UpdateWriteOpResult) => existingUser);
+        .then(() => existingUser);
     } else {
       user.memberSince = new Date();
       return this.users
@@ -216,12 +214,8 @@ export class DbService {
   // todo: consider returning one item if insertMany has appropriate return value?
   // i.e. return type depends on query type
 
-  private saveItems(items: IItem[]) {
-    return this.items
-      .insertMany(items)
-      .then(
-        (writeItemsResult: InsertWriteOpResult<IItem>) => writeItemsResult.ops
-      );
+  private saveItems(items: IItem[]): Promise<IItem[]> {
+    return this.items.insertMany(items).then(r => r.ops as any);
   }
 
   private static transformQuery(searchQuery: ItemSearchQuery): any {

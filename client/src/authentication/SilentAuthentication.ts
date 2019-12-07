@@ -2,6 +2,10 @@ import { BehaviorSubject, Observable, ObservableInput } from "rxjs";
 import { catchError, filter, first, flatMap } from "rxjs/operators";
 import { AuthenticatedServerApi } from "./AuthenticatedServerApi";
 
+export interface IAuthenticationFrame extends HTMLIFrameElement {
+  removeMe: () => void;
+}
+
 export class SilentAuthentication {
   private static isWaitingForSilent$: BehaviorSubject<
     boolean
@@ -21,7 +25,7 @@ export class SilentAuthentication {
     iframe.style.display = "none";
     iframe.id = "ngrvd-silent-authentication";
 
-    (iframe as any).removeMe = () => {
+    (iframe as IAuthenticationFrame).removeMe = () => {
       document.body.removeChild(iframe);
       SilentAuthentication.isWaitingForSilent$.next(false);
 
@@ -59,12 +63,15 @@ export class SilentAuthentication {
   }
 
   public static isCallback(): boolean {
-    return window.frameElement && (window.frameElement as any).removeMe;
+    return (
+      window.frameElement &&
+      !!(window.frameElement as IAuthenticationFrame).removeMe
+    );
   }
 
   public static onAuthenticated(): void {
     if (SilentAuthentication.isCallback()) {
-      (window.frameElement as any).removeMe();
+      (window.frameElement as IAuthenticationFrame).removeMe();
     }
 
     SilentAuthentication.schedule();

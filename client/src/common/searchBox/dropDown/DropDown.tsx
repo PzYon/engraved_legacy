@@ -99,33 +99,34 @@ export class DropDown extends React.PureComponent<
   private keyUpSubscription: Subscription;
 
   public componentDidMount(): void {
-    this.keyUpSubscription = fromEvent(document, "keyup").subscribe(
-      (keyboardEvent: KeyboardEvent) => {
-        if (!this.props.groups || !this.props.groups.length) {
-          return;
-        }
-
-        switch (keyboardEvent.key) {
-          case "ArrowUp":
-            this.setState(this.getNextState(ArrowDirection.Up));
-            break;
-
-          case "ArrowDown":
-            this.setState(this.getNextState(ArrowDirection.Down));
-            break;
-
-          case "Enter":
-            if (this.state.activeGroup && this.state.activeItem) {
-              this.state.activeGroup.onSelectItem(this.state.activeItem);
-            }
-            break;
-
-          case "Escape":
-            this.props.onClose();
-            break;
-        }
+    this.keyUpSubscription = fromEvent<KeyboardEvent>(
+      document,
+      "keyup"
+    ).subscribe((keyboardEvent: KeyboardEvent) => {
+      if (!this.props.groups || !this.props.groups.length) {
+        return;
       }
-    );
+
+      switch (keyboardEvent.key) {
+        case "ArrowUp":
+          this.setState(this.getNextState(ArrowDirection.Up));
+          break;
+
+        case "ArrowDown":
+          this.setState(this.getNextState(ArrowDirection.Down));
+          break;
+
+        case "Enter":
+          if (this.state.activeGroup && this.state.activeItem) {
+            this.state.activeGroup.onSelectItem(this.state.activeItem);
+          }
+          break;
+
+        case "Escape":
+          this.props.onClose();
+          break;
+      }
+    });
   }
 
   public componentWillUnmount() {

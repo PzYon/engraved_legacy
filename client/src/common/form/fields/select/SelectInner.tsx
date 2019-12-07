@@ -24,7 +24,7 @@ export const SelectInner = (props: ISelectInnerProps<any>) => {
   function handleOnChange(event: ChangeEvent<HTMLSelectElement>): void {
     const option: ISelectFieldOptions<any> = props.options.find(
       o => o.value === event.target.value
-    ) as any;
+    );
 
     props.onValueChange(option ? option.value : null);
   }

@@ -149,7 +149,7 @@ export class KeywordField extends React.PureComponent<
 
   private handleGroupItemSelect = (
     item: IDropDownItem<IKeywordDropDownItem>
-  ) => {
+  ): void => {
     this.handleKeywordSelect(item.item.keyword);
   };
 

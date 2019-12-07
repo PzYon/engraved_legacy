@@ -11,7 +11,7 @@ import { ItemController } from "./controllers/ItemController";
 import { KeywordController } from "./controllers/KeywordController";
 import { UserController } from "./controllers/UserController";
 
-const configureDb = async (client: MongoClient) => {
+const configureDb = async (client: MongoClient): Promise<Db> => {
   try {
     const db: Db = client.db();
     db.on("error", console.log);
@@ -24,6 +24,8 @@ const configureDb = async (client: MongoClient) => {
   } catch (err) {
     console.log("Error while configuring DB: " + err);
   }
+
+  return Promise.resolve(null);
 };
 
 const configureExpress = (db: Db) => {
@@ -32,7 +34,7 @@ const configureExpress = (db: Db) => {
   app.use(compression());
   app.use(json());
 
-  app.use((req, res, next) => {
+  app.use((_, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
       "Access-Control-Allow-Headers",
@@ -42,18 +44,18 @@ const configureExpress = (db: Db) => {
     next();
   });
 
-  const authController = new AuthenticationController(app, db);
-  const itemController = new ItemController(app, db);
-  const keywordController = new KeywordController(app, db);
-  const userController = new UserController(app, db);
-  const appController = new AppController(app, db);
-  const devApiController = new DevApiController(app, db);
+  new AuthenticationController(app, db);
+  new ItemController(app, db);
+  new KeywordController(app, db);
+  new UserController(app, db);
+  new AppController(app, db);
+  new DevApiController(app, db);
 
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "client")));
     app
       .route("*")
-      .get((req: any, res: any) =>
+      .get((_, res: any) =>
         res.sendFile(path.join(__dirname, "client", "index.html"))
       );
   }

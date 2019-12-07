@@ -25,7 +25,7 @@ export const AuthenticatedApp = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useDidMount(() => {
-    AuthenticatedServerApi.get("users/me")
+    AuthenticatedServerApi.get<IUser>("users/me")
       .pipe(
         first(),
         tap(
@@ -39,7 +39,7 @@ export const AuthenticatedApp = () => {
       )
       .subscribe((user: IUser) => {
         AuthenticatedServerApi.currentUser$.next(user);
-        if (!currentUser || user._id !== user._id) {
+        if (!currentUser || currentUser._id !== user._id) {
           console.log("loaded user: ", user);
           setCurrentUser(user);
           setIsLoading(false);

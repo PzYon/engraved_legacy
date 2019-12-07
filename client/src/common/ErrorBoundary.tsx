@@ -21,7 +21,7 @@ export class ErrorBoundary extends React.PureComponent<
     });
   }
 
-  public componentDidCatch(error: Error, info: any): void {
+  public componentDidCatch(error: Error): void {
     this.setState({ error: error });
   }
 

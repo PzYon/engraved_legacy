@@ -15,9 +15,9 @@ export const UserPage = () => {
 
   useDidMount(() => {
     const sub1 = AuthenticatedServerApi.currentUser$.subscribe(setUser);
-    const sub2 = AuthenticatedServerApi.get("users/me/stats").subscribe(
-      setStats
-    );
+    const sub2 = AuthenticatedServerApi.get<IUserStats>(
+      "users/me/stats"
+    ).subscribe(setStats);
 
     return () => {
       sub1.unsubscribe();
