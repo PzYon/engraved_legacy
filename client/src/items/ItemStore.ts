@@ -90,7 +90,7 @@ export class ItemStore {
 
   public deleteItem = (itemId: string): Observable<any> => {
     return AuthenticatedServerApi.delete("items/" + itemId).pipe(
-      map((r: AjaxResponse) => this.deleteFromCache(itemId))
+      map(() => this.deleteFromCache(itemId))
     );
   };
 

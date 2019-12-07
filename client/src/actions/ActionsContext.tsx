@@ -2,6 +2,11 @@ import * as React from "react";
 import { createContext, ReactNode, Reducer, useReducer } from "react";
 import { IAction } from "./IAction";
 
+export enum ActionsContextMethod {
+  Add,
+  Remove
+}
+
 const actionsReducer: Reducer<IAction[], IActionsContextPayload> = (
   state: IAction[],
   payload: IActionsContextPayload
@@ -18,11 +23,6 @@ const actionsReducer: Reducer<IAction[], IActionsContextPayload> = (
   }
 };
 
-export enum ActionsContextMethod {
-  Add,
-  Remove
-}
-
 export interface IActionsContextPayload {
   action: IAction;
   type: ActionsContextMethod;
@@ -33,7 +33,10 @@ export interface IActionsContext {
   dispatch: (payload: IActionsContextPayload) => void;
 }
 
-export const ActionsContext = createContext<IActionsContext>(null);
+export const ActionsContext = createContext<IActionsContext>({
+  actions: [],
+  dispatch: () => void 0
+});
 
 export const ContextualActionsProvider = (props: { children: ReactNode }) => {
   const [actions, dispatch] = useReducer(actionsReducer, []);

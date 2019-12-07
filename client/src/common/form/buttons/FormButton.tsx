@@ -45,6 +45,7 @@ export const FormButton = (props: {
     }
 
     return undefined;
+    // eslint-disable-next-line
   }, [props.changeToken, button.url, button.label, button.buttonStyle]);
 
   const ButtonElement =

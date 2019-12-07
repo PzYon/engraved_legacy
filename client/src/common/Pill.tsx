@@ -5,7 +5,7 @@ import styled, {
   ThemedStyledProps
 } from "styled-components";
 
-export interface IPillProps<T> {
+export interface IPillProps {
   onClick?: () => void;
   label: string;
   tooltip?: string;
@@ -13,7 +13,7 @@ export interface IPillProps<T> {
   isSecondary?: boolean;
 }
 
-export const Pill = (props: IPillProps<any>) => (
+export const Pill = (props: IPillProps) => (
   <ContainerSpan
     className={props.className}
     hasOnClick={!!props.onClick}

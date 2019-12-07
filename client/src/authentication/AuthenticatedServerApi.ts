@@ -20,7 +20,7 @@ export class AuthenticatedServerApi {
     return (
       (window.location.hostname === "localhost"
         ? "http://localhost:3001"
-        : `${location.protocol}//${location.hostname}`) + "/api/"
+        : `${window.location.protocol}//${window.location.hostname}`) + "/api/"
     );
   }
 

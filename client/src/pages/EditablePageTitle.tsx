@@ -1,6 +1,5 @@
 import * as React from "react";
 import { ChangeEvent, useRef } from "react";
-import { Simulate } from "react-dom/test-utils";
 import styled from "styled-components";
 import { useDidMount } from "../common/Hooks";
 

@@ -10,7 +10,7 @@ export const ActionsLauncher = () => {
   const [isDropDownOpen, toggleIsDropDownOpen] = useFlag(false);
 
   useDidMount(() => {
-    const sub = fromEvent(window, "keyup").subscribe(
+    const sub = fromEvent<KeyboardEvent>(window, "keyup").subscribe(
       (keyboardEvent: KeyboardEvent) => {
         if (keyboardEvent.ctrlKey && keyboardEvent.key === " ") {
           toggleIsDropDownOpen();

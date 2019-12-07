@@ -17,7 +17,12 @@ export const ViewUrlItem = (props: IViewItemProps<IUrlItem>) => {
     <>
       <UrlInputDiv>
         <UrlInput readOnly={true} ref={inputEl} value={props.item.url} />
-        <IconAnchor ref={imageAnchorEl} href={props.item.url} target="_blank">
+        <IconAnchor
+          ref={imageAnchorEl}
+          href={props.item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {showFallbackIcon ? (
             <ItemKindIcon itemKind={ItemKind.Url} />
           ) : (
@@ -33,7 +38,7 @@ export const ViewUrlItem = (props: IViewItemProps<IUrlItem>) => {
         </IconAnchor>
       </UrlInputDiv>
       <ActionDiv>
-        <a href={props.item.url} target="_blank">
+        <a href={props.item.url} target="_blank" rel="noopener noreferrer">
           open
         </a>
         &nbsp;&middot;&nbsp;

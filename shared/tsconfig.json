@@ -4,6 +4,14 @@
     "module": "commonjs",
     "sourceMap": true,
     "declaration": true,
-    "target": "es6"
+    "target": "es6",
+    "strict": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true
   }
 }

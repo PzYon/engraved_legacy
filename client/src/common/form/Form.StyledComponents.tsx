@@ -1,5 +1,4 @@
 import { darken, lighten } from "polished";
-import * as React from "react";
 import styled from "styled-components";
 import { StyleUtil } from "../../styling/StyleUtil";
 

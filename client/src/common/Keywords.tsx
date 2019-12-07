@@ -25,11 +25,7 @@ export const Keywords: React.FC<IKeywordsProps> = (props: IKeywordsProps) => {
       <Container className={"ngrvd-keywords"}>
         {props.keywords
           .sort((a: IKeyword, b: IKeyword) =>
-            props.orderAlphabetically
-              ? (a.name as any) > (b.name as any)
-                ? 1
-                : -1
-              : 0
+            props.orderAlphabetically ? (a.name > b.name ? 1 : -1) : 0
           )
           .map(k => (
             <Keyword

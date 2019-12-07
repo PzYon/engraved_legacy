@@ -1,4 +1,4 @@
-import * as MarkdownIt from "markdown-it";
+import MarkdownIt from "markdown-it";
 import * as React from "react";
 import styled from "styled-components";
 import { DomUtil } from "../../../DomUtil";
@@ -73,7 +73,7 @@ export const Markdown = (props: IMarkdownProps) => {
   
   `;
 
-    return new MarkdownIt("default", { linkify: true })
+    return MarkdownIt("default", { linkify: true })
       .use(require("markdown-it-anchor").default)
       .use(require("markdown-it-table-of-contents"))
       .render(md);
