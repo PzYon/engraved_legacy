@@ -1,12 +1,8 @@
 import {
-  ICodeItem,
   IItem,
   IKeyword,
-  INoteItem,
   ISorting,
-  ItemKind,
   ItemSearchQuery,
-  IUrlItem,
   SortDirection,
   Util
 } from "engraved-shared";
@@ -14,9 +10,6 @@ import { BehaviorSubject, Observable, Observer, SubscriptionLike } from "rxjs";
 import { AjaxResponse } from "rxjs/ajax";
 import { map } from "rxjs/operators";
 import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi";
-import { CodeItem } from "./code/CodeItem";
-import { NoteItem } from "./note/NoteItem";
-import { UrlItem } from "./url/UrlItem";
 
 export class ItemStore {
   private static cachedInstance: ItemStore;
@@ -127,11 +120,7 @@ export class ItemStore {
       // ItemStore needs to be refactored sooner or later.
       this.isFirstLoad = false;
 
-      const transformedItems = this.transformItems(items);
-
-      const allItems = isPaging
-        ? [...this.items$.value, ...transformedItems]
-        : transformedItems;
+      const allItems = isPaging ? [...this.items$.value, ...items] : items;
 
       this.items$.next(allItems);
     });
@@ -155,9 +144,7 @@ export class ItemStore {
       });
     }
 
-    return AuthenticatedServerApi.get<IItem>(`items/${id}`).pipe(
-      map(i => this.transformItems([i])[0])
-    );
+    return AuthenticatedServerApi.get<IItem>(`items/${id}`);
   }
 
   private createQuery(): ItemSearchQuery {
@@ -168,29 +155,6 @@ export class ItemStore {
       this.pageSize,
       this.sorting
     );
-  }
-
-  private transformItems(items: IItem[]): IItem[] {
-    if (!items || !items.length) {
-      return [];
-    }
-
-    return items.map((item: IItem) => {
-      // todo: consider moving this logic to ItemKindRegistration instead?
-      switch (item.itemKind) {
-        case ItemKind.Note:
-          return new NoteItem(item as INoteItem);
-        case ItemKind.Code:
-          return new CodeItem(item as ICodeItem);
-        case ItemKind.Url:
-          return new UrlItem(item as IUrlItem);
-        default:
-          // todo: return a default item instead?
-          throw new Error(
-            `item with kind "${item.itemKind}" is not supported.`
-          );
-      }
-    });
   }
 
   private deleteFromCache(id: string): void {
