@@ -1,4 +1,5 @@
 import {
+  IFile,
   IItem,
   IKeyword,
   ItemSearchQuery,
@@ -26,6 +27,10 @@ export class DbService {
 
   public get items(): Collection<IItem> {
     return this.db.collection(Config.db.collections.items);
+  }
+
+  public get files(): Collection<IFile> {
+    return this.db.collection(Config.db.collections.files);
   }
 
   public constructor(private db: Db, private currentUser: IUser) {}
@@ -87,6 +92,11 @@ export class DbService {
     return this.items.countDocuments();
   }
 
+  public insertImage(file: IFile): Promise<IFile> {
+    file.user_id = this.currentUser._id;
+    return this.files.insertOne(file).then(r => r.ops[0]);
+  }
+
   public searchKeywords(searchText: any): Promise<IKeyword[]> {
     let query: any = searchText
       ? { name: { $regex: searchText, $options: "-i" } }
@@ -98,6 +108,7 @@ export class DbService {
   }
 
   public insertItem(item: IItem): Promise<IItem> {
+    // todo: ensure user_id or at least check if it's defined
     return this.insertItems(item).then((items: IItem[]) => {
       return items[0];
     });
@@ -168,7 +179,7 @@ export class DbService {
         return allKeywords;
       }, []);
 
-    // TODO: filter terms for current user! -> add unit test!
+    // todo: filter terms for current user! -> add unit test!
 
     const allFromDb = await this.keywords
       .find({ name: { $in: all.map(k => k.name) } })
@@ -205,6 +216,10 @@ export class DbService {
         });
       } else {
         item.keywords = [];
+      }
+
+      if (item.files) {
+        this.files.deleteMany({ _id: { $in: item.files.map(f => f._id) } });
       }
     });
 

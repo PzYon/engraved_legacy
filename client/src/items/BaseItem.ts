@@ -1,4 +1,4 @@
-import { IItem, IKeyword, ItemKind } from "engraved-shared";
+import { IItem, IFile, IKeyword, ItemKind } from "engraved-shared";
 import { IRenderableItem } from "./IRenderableItem";
 
 export abstract class BaseItem implements IRenderableItem {
@@ -9,6 +9,7 @@ export abstract class BaseItem implements IRenderableItem {
   public readonly editedOn: Date;
   public readonly description: string;
   public readonly keywords: IKeyword[];
+  public readonly files: IFile[];
 
   protected constructor(dbItem: IItem) {
     this._id = dbItem._id || "";
@@ -18,5 +19,6 @@ export abstract class BaseItem implements IRenderableItem {
     this.editedOn = dbItem.editedOn || new Date();
     this.description = dbItem.description || "";
     this.keywords = dbItem.keywords || [];
+    this.files = dbItem.files || [];
   }
 }

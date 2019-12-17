@@ -47,6 +47,7 @@ export class DbTestContext {
   public async tearDown(): Promise<void> {
     await this.dropTable(Config.db.collections.items);
     await this.dropTable(Config.db.collections.keywords);
+    await this.dropTable(Config.db.collections.files);
     await this.dropTable(Config.db.collections.users);
     await this.connection.close();
   }

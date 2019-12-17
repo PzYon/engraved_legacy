@@ -155,7 +155,9 @@ export class ItemStore {
       });
     }
 
-    return AuthenticatedServerApi.get(`items/${id}`);
+    return AuthenticatedServerApi.get<IItem>(`items/${id}`).pipe(
+      map(i => this.transformItems([i])[0])
+    );
   }
 
   private createQuery(): ItemSearchQuery {

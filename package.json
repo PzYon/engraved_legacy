@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "dependencies": {},
   "scripts": {
-    "start": "npm run shared:build && cd server && npm run prod",
+    "start": "cd server && npm run prod",
     "heroku-postbuild": "npm run shared:build && npm run server:build:prod && npm run client:build:prod",
     "server:build:prod": "cd server && npm install && npm install --only=dev && npm run build",
     "client:build:prod": "cd client && npm install && npm install --only=dev && npm run build && copyfiles -u 1 build/**/*.* ../server/dist/client",

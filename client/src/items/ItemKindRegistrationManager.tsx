@@ -6,7 +6,7 @@ import { NoteItemRegistration } from "./note/NoteItemRegistration";
 import { UrlItemRegistration } from "./url/UrlItemRegistration";
 
 export class ItemKindRegistrationManager {
-  private static registrations: Array<IItemKindRegistration<IItem>> = [
+  private static registrations: Array<IItemKindRegistration> = [
     new UrlItemRegistration(),
     new CodeItemRegistration(),
     new NoteItemRegistration()

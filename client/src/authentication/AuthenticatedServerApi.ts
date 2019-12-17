@@ -24,13 +24,6 @@ export class AuthenticatedServerApi {
     );
   }
 
-  private static get headers(): any {
-    return {
-      "Content-Type": "application/json",
-      Authorization: "JWT " + this.getToken()
-    };
-  }
-
   public static getToken(): string {
     return LocalStorageUtil.getValue<string>(this.tokenKey);
   }
@@ -41,20 +34,22 @@ export class AuthenticatedServerApi {
 
   public static get<T>(url: string, headers: any = {}): Observable<T> {
     return SilentAuthentication.wrap(() =>
-      ajax.getJSON(this.getAbsoluteUrl(url), { ...headers, ...this.headers })
+      ajax.getJSON(this.getAbsoluteUrl(url), this.getHeaders(headers))
     );
   }
 
   public static post(
     url: string,
     value: any,
-    headers: any = {}
+    headers: any = {},
+    emitDefaultContentType: boolean = false
   ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
-      ajax.post(this.getAbsoluteUrl(url), value, {
-        ...headers,
-        ...this.headers
-      })
+      ajax.post(
+        this.getAbsoluteUrl(url),
+        value,
+        this.getHeaders(headers, emitDefaultContentType)
+      )
     );
   }
 
@@ -64,10 +59,7 @@ export class AuthenticatedServerApi {
     headers: any = {}
   ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
-      ajax.patch(this.getAbsoluteUrl(url), value, {
-        ...headers,
-        ...this.headers
-      })
+      ajax.patch(this.getAbsoluteUrl(url), value, this.getHeaders(headers))
     );
   }
 
@@ -76,11 +68,33 @@ export class AuthenticatedServerApi {
     headers: any = {}
   ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
-      ajax.delete(this.getAbsoluteUrl(url), { ...headers, ...this.headers })
+      ajax.delete(this.getAbsoluteUrl(url), this.getHeaders(headers))
     );
   }
 
   private static getAbsoluteUrl(url: string) {
     return `${AuthenticatedServerApi.baseUrl}${url}`;
+  }
+
+  private static getHeaders(
+    headers: {},
+    emitDefaultContentType: boolean = false
+  ) {
+    return {
+      ...headers,
+      ...this.getDefaultHeaders(emitDefaultContentType)
+    };
+  }
+
+  private static getDefaultHeaders(emitDefaultContentType: boolean): {} {
+    const defaultHeaders = {
+      Authorization: "JWT " + this.getToken()
+    };
+
+    if (!emitDefaultContentType) {
+      defaultHeaders["Content-Type"] = "application/json";
+    }
+
+    return defaultHeaders;
   }
 }
