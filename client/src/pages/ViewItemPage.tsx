@@ -1,3 +1,4 @@
+import { IItem } from "engraved-shared";
 import * as React from "react";
 import { useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
@@ -5,6 +6,7 @@ import styled from "styled-components";
 import { DomUtil } from "../common/DomUtil";
 import { Edited } from "../common/Edited";
 import { ButtonStyle, FormButton } from "../common/form/buttons/FormButton";
+import { ItemFiles } from "../common/form/fields/files/ItemFiles";
 import {
   FormButtonContainer,
   FormContainer,
@@ -24,7 +26,7 @@ export const ViewItemPage = (
 ) => {
   const itemId = decodeURIComponent(props.match.params.itemId);
 
-  const [item, setItem] = useState();
+  const [item, setItem] = useState<IItem>();
   const [failedToLoad, setFailedToLoad] = useState(false);
   const [isClose, setIsClose] = useState(false);
 
@@ -75,6 +77,9 @@ export const ViewItemPage = (
               {ItemKindRegistrationManager.resolve(
                 item.itemKind
               ).getViewFormFields(item)}
+            </SectionContainer>
+            <SectionContainer>
+              <ItemFiles files={item.files} />
             </SectionContainer>
           </FormFieldContainer>
         </article>

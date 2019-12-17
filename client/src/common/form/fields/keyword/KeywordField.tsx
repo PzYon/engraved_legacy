@@ -20,9 +20,7 @@ interface IKeywordFieldState {
   showDropDown: boolean;
 }
 
-const SearchBoxContainer = styled.div`
-  margin-bottom: 10px;
-`;
+const SearchBoxContainer = styled.div``;
 
 export class KeywordField extends React.PureComponent<
   IKeywordFieldProps,

@@ -1,8 +1,9 @@
-import { IItem, IKeyword, ItemKind } from "engraved-shared";
+import { IFile, IItem, IKeyword, ItemKind } from "engraved-shared";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Redirect } from "react-router";
 import { ItemKindRegistrationManager } from "../../items/ItemKindRegistrationManager";
+import { FilesField } from "./fields/files/FilesField";
 import { ConfirmableButton } from "./buttons/ConfirmableButton";
 import { ButtonStyle, FormButton } from "./buttons/FormButton";
 import { IButton } from "./buttons/IButton";
@@ -96,6 +97,15 @@ export class Form extends React.Component<IFormProps, IFormState> {
             }
             value={item.keywords || []}
             isReadOnly={this.props.isReadonly}
+          />
+          <FilesField
+            label={"Files"}
+            isReadOnly={this.props.isReadonly}
+            value={item.files}
+            onValueChange={(files: IFile[]) => {
+              const newFiles = [...(item.files || []), ...files];
+              this.onValueChange("files", newFiles);
+            }}
           />
         </FormFieldContainer>
         <FormButtonContainer>

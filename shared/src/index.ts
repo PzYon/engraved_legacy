@@ -1,3 +1,7 @@
+export { SharedConstants } from "./SharedConstants";
+
+export { IUserScoped } from "./IUserScoped";
+
 export { ItemKind } from "./items/ItemKind";
 export { IItem } from "./items/IItem";
 
@@ -7,6 +11,9 @@ export { IUrlItem } from "./items/IUrlItem";
 export { INoteItem } from "./items/INoteItem";
 
 export { IKeyword } from "./IKeyword";
+
+export { IFile } from "./IFile";
+export { FileType } from "./IFile";
 
 export { IUser } from "./IUser";
 

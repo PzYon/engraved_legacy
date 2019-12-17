@@ -1,7 +1,9 @@
+import { IFile } from "../IFile";
 import { IKeyword } from "../IKeyword";
+import { IUserScoped } from "../IUserScoped";
 import { ItemKind } from "./ItemKind";
 
-export interface IItem {
+export interface IItem extends IUserScoped {
   [fieldName: string]: any;
   _id?: string;
   itemKind: ItemKind;
@@ -9,5 +11,5 @@ export interface IItem {
   description?: string;
   editedOn?: Date;
   keywords?: IKeyword[];
-  user_id: string;
+  files?: IFile[];
 }
