@@ -8,6 +8,8 @@ import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
 import { createTheme } from "./Theme";
 import { ThemeStyle } from "./ThemeStyle";
 
+const defaultThemeStyle = ThemeStyle.Light;
+
 export interface IThemeContext {
   themeStyle: ThemeStyle;
   setThemeStyle: (theme: ThemeStyle) => void;
@@ -19,7 +21,7 @@ export const ThemeContext = createContext<IThemeContext>({
 });
 
 export const ThemeContextProvider = (props: { children: ReactNode }) => {
-  const [themeStyle, setThemeStyle] = useState(ThemeStyle.Light);
+  const [themeStyle, setThemeStyle] = useState(defaultThemeStyle);
   const theme = createTheme(themeStyle);
 
   useDidMount(() => {
@@ -29,7 +31,7 @@ export const ThemeContextProvider = (props: { children: ReactNode }) => {
         style = user.settings.themeStyle;
         LocalStorageUtil.setValue(style, "themeStyle");
       } else {
-        style = LocalStorageUtil.getValue("themeStyle");
+        style = LocalStorageUtil.getValue("themeStyle") || defaultThemeStyle;
       }
 
       setThemeStyle(style);
