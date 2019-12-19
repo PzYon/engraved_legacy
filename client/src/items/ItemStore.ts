@@ -13,6 +13,7 @@ import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi
 
 export class ItemStore {
   private static cachedInstance: ItemStore;
+  public userHasNoItems: boolean;
 
   public static get instance(): ItemStore {
     if (!this.cachedInstance) {
@@ -105,16 +106,22 @@ export class ItemStore {
       this.nextItemsSubscription.unsubscribe();
     }
 
-    const urlQuery = this.createQuery().toUrl();
+    const itemSearchQuery = this.createQuery();
+    const urlQuery = itemSearchQuery.toUrl();
 
     console.log(`ItemStore: calling server @ "${urlQuery}"`);
 
     this.nextItemsSubscription = AuthenticatedServerApi.get<IItem[]>(
       `items?${urlQuery}`
     ).subscribe((items: IItem[]) => {
-      if (!items || !items.length || items.length < this.pageSize) {
+      if (!items.length || items.length < this.pageSize) {
         this.noPagesLeft = true;
       }
+
+      this.userHasNoItems =
+        items.length === 0 &&
+        !itemSearchQuery.hasConditions &&
+        !itemSearchQuery.skip;
 
       // not happy with this approach, but i believe the whole
       // ItemStore needs to be refactored sooner or later.
@@ -137,6 +144,7 @@ export class ItemStore {
     const localItem: IItem | undefined = this.items$.value.find(
       i => i._id === id
     );
+
     if (localItem) {
       return new Observable((observer: Observer<IItem>) => {
         observer.next(localItem);

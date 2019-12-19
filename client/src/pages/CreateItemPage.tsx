@@ -37,7 +37,7 @@ export class CreateItemPage extends React.PureComponent<
   public constructor(props: RouteComponentProps<IRouterParams>) {
     super(props);
 
-    const value = decodeURIComponent(props.match.params.value);
+    const value = decodeURIComponent(props.match.params.value || "");
     const itemKind = decodeURIComponent(
       props.match.params.itemKind
     ) as ItemKind;

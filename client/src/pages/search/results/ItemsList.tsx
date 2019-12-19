@@ -1,6 +1,8 @@
 import { IItem } from "engraved-shared";
+import { lighten } from "polished";
 import * as React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useDidMount } from "../../../common/Hooks";
 import { LoadMore } from "../../../common/LoadMore";
@@ -27,14 +29,22 @@ export const ItemsList = () => {
 
   if (!items || items.length === 0) {
     if (!ItemStore.instance.isFirstLoad) {
+      if (!ItemStore.instance.userHasNoItems) {
+        return (
+          <UserMessage>
+            No items found. You might want to search for something else.
+          </UserMessage>
+        );
+      }
+
       return (
-        <NoItemsFound>
-          No items found. You might want to search for something else.
-        </NoItemsFound>
+        <UserMessage>
+          New here? <Link to={"items/create/note"}>Add</Link> your first item.
+        </UserMessage>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   return (
@@ -87,11 +97,8 @@ const List = styled.ul`
 const ListItem = styled.li``;
 
 const UserMessage = styled.div`
+  margin-top: 100px;
   text-align: center;
   font-size: ${p => p.theme.font.size.large};
-  color: ${p => p.theme.colors.palette.shades.dark};
-`;
-
-const NoItemsFound = styled(UserMessage)`
-  margin-top: 100px;
+  color: ${p => lighten(0.3, p.theme.colors.text)};
 `;
