@@ -13,6 +13,7 @@ export { INoteItem } from "./items/INoteItem";
 export { IKeyword } from "./IKeyword";
 
 export { IFile } from "./IFile";
+export { ICloudFile } from "./IFile";
 export { FileType } from "./IFile";
 
 export { IUser } from "./IUser";

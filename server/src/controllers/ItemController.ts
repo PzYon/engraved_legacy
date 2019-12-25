@@ -24,7 +24,7 @@ export class ItemController extends BaseAuthenticatedController {
   private deleteItem = (req: Request, res: Response): void => {
     this.createDbService(req)
       .deleteItem(req.params.itemId)
-      .then((item: IItem) => res.send(item));
+      .then((result: any) => res.send(result));
   };
 
   private updateItem = (req: Request, res: Response): void => {

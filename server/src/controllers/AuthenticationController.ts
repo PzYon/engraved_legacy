@@ -31,7 +31,7 @@ export class AuthenticationController extends BaseController {
         AuthenticationController.generateJwt
       );
 
-    const dbService: DbService = new DbService(db, null);
+    const dbService: DbService = new DbService(db, null, null);
     this.registerJwtAuth(dbService);
     this.registerGoogleAuth(dbService);
   }

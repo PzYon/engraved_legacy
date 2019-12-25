@@ -1,5 +1,5 @@
 import {
-  IFile,
+  ICloudFile,
   IItem,
   IKeyword,
   ItemSearchQuery,
@@ -15,6 +15,8 @@ import {
   UpdateQuery
 } from "mongodb";
 import Config from "./Config";
+import { FileService } from "./files/FileService";
+import { ICloudinary } from "./files/ICloudinary";
 
 export class DbService {
   public get keywords(): Collection<IKeyword> {
@@ -29,11 +31,15 @@ export class DbService {
     return this.db.collection(Config.db.collections.items);
   }
 
-  public get files(): Collection<IFile> {
+  public get files(): Collection<ICloudFile> {
     return this.db.collection(Config.db.collections.files);
   }
 
-  public constructor(private db: Db, private currentUser: IUser) {}
+  public constructor(
+    private db: Db,
+    public currentUser: IUser,
+    private cloudinaryFactory: () => ICloudinary
+  ) {}
 
   public async ensureUser(user: IUser): Promise<IUser> {
     let existingUser: IUser = await this.users.findOne({ mail: user.mail });
@@ -92,13 +98,22 @@ export class DbService {
     return this.items.countDocuments();
   }
 
-  public insertImage(file: IFile): Promise<IFile> {
+  public insertFile(file: ICloudFile): Promise<ICloudFile> {
     file.user_id = this.currentUser._id;
+
     return this.files.insertOne(file).then(r => r.ops[0]);
   }
 
+  public getFile(id: string): Promise<ICloudFile> {
+    return this.files.findOne<ICloudFile>(DbService.getDocumentByIdFilter(id));
+  }
+
+  public deleteFile(fileId: string): Promise<any> {
+    return this.files.deleteOne(DbService.getDocumentByIdFilter(fileId));
+  }
+
   public searchKeywords(searchText: any): Promise<IKeyword[]> {
-    let query: any = searchText
+    let query: {} = searchText
       ? { name: { $regex: searchText, $options: "-i" } }
       : {};
 
@@ -114,7 +129,7 @@ export class DbService {
     });
   }
 
-  public updateItem(id: string, item: IItem): Promise<IItem> {
+  public async updateItem(id: string, item: IItem): Promise<IItem> {
     if (item._id && item._id !== id) {
       throw new Error("ID mismatch!");
     }
@@ -128,9 +143,14 @@ export class DbService {
     delete item.user_id;
     item.editedOn = new Date();
 
-    return this.items
-      .updateOne(this.getItemByIdFilter(id), { $set: item })
-      .then(() => this.getItemById(id));
+    // todo: what if current item is null?
+    const currentItem = await this.getItemById(id);
+    const fileService = new FileService(this, this.cloudinaryFactory());
+    await fileService.synchronizeFiles(currentItem.files, item.files);
+
+    await this.items.updateOne(this.getItemByIdFilter(id), { $set: item });
+
+    return this.getItemById(id);
   }
 
   public getItems(searchQuery: ItemSearchQuery): Promise<IItem[]> {
@@ -154,8 +174,24 @@ export class DbService {
     return cursor.toArray();
   }
 
-  public deleteItem(id: string): Promise<any> {
-    return this.items.deleteOne(this.getItemByIdFilter(id));
+  public async deleteItem(id: string): Promise<any> {
+    const item = await this.getItemById(id);
+    if (!item) {
+      // inexistent ID or current user has no permissions
+      return Promise.resolve();
+    }
+
+    const res = await this.items.deleteOne(this.getItemByIdFilter(id));
+
+    if (item.files) {
+      const fs = new FileService(this, this.cloudinaryFactory());
+
+      for (const file of item.files) {
+        await fs.deleteFile(file.cloudFile_id);
+      }
+    }
+
+    return res;
   }
 
   public getItemById(id: string): Promise<IItem> {
@@ -184,6 +220,7 @@ export class DbService {
     const allFromDb = await this.keywords
       .find({ name: { $in: all.map(k => k.name) } })
       .toArray();
+
     const allFromDbNames = allFromDb.map((f: IKeyword) => f.name.toLowerCase());
 
     const allNotInDb: IKeyword[] = all
@@ -206,22 +243,22 @@ export class DbService {
       idByName[k.name] = k._id;
     });
 
-    items.forEach((item: IItem) => {
+    const fileService = new FileService(this, this.cloudinaryFactory());
+
+    for (const item of items) {
       item.editedOn = new Date();
       item.user_id = new ObjectID(this.currentUser._id) as any;
 
+      await fileService.synchronizeFiles([], item.files);
+
       if (item.keywords) {
-        item.keywords.forEach((keyword: IKeyword) => {
+        for (const keyword of item.keywords) {
           keyword._id = idByName[keyword.name];
-        });
+        }
       } else {
         item.keywords = [];
       }
-
-      if (item.files) {
-        this.files.deleteMany({ _id: { $in: item.files.map(f => f._id) } });
-      }
-    });
+    }
 
     return this.saveItems(items);
   }
@@ -272,7 +309,7 @@ export class DbService {
     useNative: boolean,
     fullText: string,
     ...fieldNames: string[]
-  ): any {
+  ): {} {
     if (!fieldNames || !fieldNames.length) {
       return null;
     }
@@ -285,7 +322,7 @@ export class DbService {
   private static createCustomFullTextFilter(
     fieldNames: string[],
     fullText: string
-  ) {
+  ): {} {
     const fieldConditions = fieldNames.map(n => {
       const conditionObj: any = {};
       conditionObj[n] = { $regex: fullText, $options: "i" };
@@ -295,19 +332,19 @@ export class DbService {
     return { $or: [{ $text: { $search: fullText } }, ...fieldConditions] };
   }
 
-  private static createNativeFullTextFilter(fullText: string): any {
+  private static createNativeFullTextFilter(fullText: string): {} {
     return { $text: { $search: fullText } };
   }
 
-  private getItemByIdFilter(id: string): any {
+  private getItemByIdFilter(id: string): {} {
     return this.ensureCurrentUserId(DbService.getDocumentByIdFilter(id));
   }
 
-  private ensureCurrentUserId(query: any = {}): any {
+  private ensureCurrentUserId(query: any = {}): {} {
     return { ...query, ...{ user_id: new ObjectID(this.currentUser._id) } };
   }
 
-  private static getDocumentByIdFilter(id: string): any {
+  private static getDocumentByIdFilter(id: string): {} {
     return { _id: new ObjectID(id) };
   }
 }
