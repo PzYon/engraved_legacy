@@ -1,7 +1,7 @@
 import { IUser } from "engraved-shared";
-import { DbTestContext } from "./DbTestContext";
+import { TestContext } from "./TestContext";
 
-const context = new DbTestContext();
+const context = new TestContext();
 
 describe("DbService.Users", () => {
   beforeEach(async () => await context.setUp());

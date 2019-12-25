@@ -1,8 +1,8 @@
 import { IKeyword } from "engraved-shared";
 import Config from "../Config";
-import { DbTestContext } from "./DbTestContext";
+import { TestContext } from "./TestContext";
 
-const context = new DbTestContext();
+const context = new TestContext();
 
 describe("DbService.Keywords", () => {
   beforeEach(async () => await context.setUp());
@@ -61,7 +61,7 @@ describe("DbService.Keywords", () => {
     it.skip("keywords added while updating an item are scoped to current user", async () => {
       const commonName = "beidi";
 
-      context.db
+      await context.db
         .collection<IKeyword>(Config.db.collections.keywords)
         .insertMany([
           {
@@ -94,7 +94,7 @@ describe("DbService.Keywords", () => {
     });
 
     it("keyword search is case insensitive", async () => {
-      context.db
+      await context.db
         .collection<IKeyword>(Config.db.collections.keywords)
         .insertOne({
           name: "alphA",

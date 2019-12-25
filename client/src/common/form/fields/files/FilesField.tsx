@@ -2,9 +2,9 @@ import { IFile, SharedConstants } from "engraved-shared";
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { AuthenticatedServerApi } from "../../../../authentication/AuthenticatedServerApi";
-import { ItemFiles } from "./ItemFiles";
 import { FieldWrapper } from "../FieldWrapper";
 import { IFilesFieldProps } from "./FilesFieldProps";
+import { ItemFiles } from "./ItemFiles";
 
 export const FilesField = (props: IFilesFieldProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -39,8 +39,8 @@ export const FilesField = (props: IFilesFieldProps) => {
     formData.append(SharedConstants.fileUpload.name, file, file.name);
 
     AuthenticatedServerApi.post("files", formData, {}, true).subscribe(
-      f => {
-        const uploadedFile: IFile = f.response;
+      res => {
+        const uploadedFile: IFile = res.response;
         console.log("uploaded file to server: ", uploadedFile);
         props.onValueChange([uploadedFile]);
       },

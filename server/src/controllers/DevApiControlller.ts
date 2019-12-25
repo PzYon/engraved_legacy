@@ -27,7 +27,7 @@ export class DevApiController {
   }
 
   private addItems = (_: Request, res: Response): any => {
-    new DbService(this.db, null)
+    new DbService(this.db, null, null)
       .ensureUser({
         displayName: "Markus Doggweiler",
         image:
@@ -36,7 +36,7 @@ export class DevApiController {
         memberSince: undefined
       })
       .then((user: IUser) => {
-        new DbService(this.db, user)
+        new DbService(this.db, user, null)
           .insertItems(
             ...createRandomItems(10, user),
             ...createKnownItems(user)

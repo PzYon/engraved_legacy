@@ -1,9 +1,10 @@
 import { IItem, IKeyword, ItemKind, ItemSearchQuery } from "engraved-shared";
-import { InsertOneWriteOpResult, ObjectId } from "mongodb";
+import { InsertOneWriteOpResult } from "mongodb";
 import Config from "../Config";
-import { DbTestContext } from "./DbTestContext";
+import { TestContext } from "./TestContext";
+import { asStringId } from "./testHelpers";
 
-const context = new DbTestContext();
+const context = new TestContext();
 
 describe("DbService.Items", () => {
   beforeEach(async () => await context.setUp());
@@ -15,10 +16,11 @@ describe("DbService.Items", () => {
         context.createSampleItem()
       );
 
-      const count: number = await context.db
-        .collection(Config.db.collections.items)
-        .countDocuments();
-      expect(count).toBe(1);
+      expect(
+        await context.db
+          .collection(Config.db.collections.items)
+          .countDocuments()
+      ).toBe(1);
 
       const results: IItem[] = await context.db
         .collection(Config.db.collections.items)
@@ -75,18 +77,18 @@ describe("DbService.Items", () => {
     it("throws on ID mismatch", async () => {
       const item = await context.insertSampleItem();
 
-      expect(() => {
-        context.dbService.updateItem(new ObjectId().toHexString(), item);
-      }).toThrow();
+      await expect(
+        context.dbService.updateItem(asStringId(), item)
+      ).rejects.toThrowError();
     });
 
     it("doesn't update item from another user", async () => {
       const otherItem = await createItemAsAnotherUser();
       otherItem.title = "isch jetzt anderscht.";
 
-      expect(() =>
+      await expect(
         context.dbService.updateItem(asStringId(otherItem._id), otherItem)
-      ).toThrow();
+      ).rejects.toThrowError();
     });
   });
 
@@ -234,8 +236,4 @@ async function createItemAsAnotherUser(): Promise<IItem> {
     .insertOne(sampleItem);
 
   return result.ops[0] as IItem;
-}
-
-function asStringId(value: string | number | ObjectId) {
-  return new ObjectId(value).toHexString();
 }

@@ -9,7 +9,7 @@
     "dev-server": "nodemon",
     "lint": "tslint --project tsconfig.json",
     "start": "ts-node src/WebServer.ts",
-    "test": "jest",
+    "test": "jest -i",
     "prod": "node ./dist/WebServer.js"
   },
   "author": "",

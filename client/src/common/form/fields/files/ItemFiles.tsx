@@ -13,13 +13,24 @@ export const ItemFiles: React.FC<IItemFilesProps> = (
   return (
     <Container style={props.style}>
       {(props.files || []).map(f => (
-        <Image key={f.url} src={f.url} alt={f._id} />
+        <ImageContainer key={f.url}>
+          <a href={f.url} target="_blank" rel="noopener noreferrer">
+            <Image src={f.url} alt={f.label} />
+          </a>
+        </ImageContainer>
       ))}
     </Container>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Image = styled.img`
   margin-right: ${p => p.theme.defaultSpacing};
