@@ -23,7 +23,7 @@ export const FilesField = (props: IFilesFieldProps) => {
             style={{ display: "none" }}
           />
           <Label htmlFor="fooBar">Click to add a file</Label>
-          <ItemFiles files={props.value} />
+          <ItemFiles files={props.value} onDelete={deleteFile} />
         </>
       )}
     </FieldWrapper>
@@ -42,9 +42,15 @@ export const FilesField = (props: IFilesFieldProps) => {
       res => {
         const uploadedFile: IFile = res.response;
         console.log("uploaded file to server: ", uploadedFile);
-        props.onValueChange([uploadedFile]);
+        props.onValueChange([...(props.value || []), uploadedFile]);
       },
       (e: Error) => alert(e.message)
+    );
+  }
+
+  function deleteFile(file: IFile): void {
+    props.onValueChange(
+      props.value.filter(f => f.cloudFile_id !== file.cloudFile_id)
     );
   }
 };
@@ -57,9 +63,13 @@ const Input = styled.input`
 
 const Label = styled.label`
   border: 1px solid ${p => p.theme.colors.border};
-  background-color: ${(p: any) => p.theme.colors.formElementBackground};
+  background-color: ${p => p.theme.colors.formElementBackground};
+  color: ${p => p.theme.colors.palette.accent};
+  cursor: pointer;
+  font-size: ${p => p.theme.font.size.small};
   box-sizing: border-box;
   width: 100%;
   display: inline-block;
   padding: 5px;
+  margin-bottom: ${p => p.theme.formElementPadding};
 `;

@@ -102,10 +102,9 @@ export class Form extends React.Component<IFormProps, IFormState> {
             label={"Files"}
             isReadOnly={this.props.isReadonly}
             value={item.files}
-            onValueChange={(files: IFile[]) => {
-              const newFiles = [...(item.files || []), ...files];
-              this.onValueChange("files", newFiles);
-            }}
+            onValueChange={(files: IFile[]) =>
+              this.onValueChange("files", files)
+            }
           />
         </FormFieldContainer>
         <FormButtonContainer>

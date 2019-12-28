@@ -12,7 +12,8 @@ describe("FileService", () => {
     it("stores file in files table", async () => {
       const file: IFile = await context.fileService.uploadFile({
         path: "foo",
-        filename: "freddy.jpg"
+        filename: "freddy.jpg",
+        originalname: "freddy.jpg"
       } as any);
 
       expect(file.label).toBe("freddy.jpg");
@@ -83,7 +84,8 @@ describe("DbService", () => {
 
       const addedFile = await context.fileService.uploadFile({
         path: "newlyAddedFile",
-        filename: "file.jpg"
+        filename: "file.jpg",
+        originalname: "file.jpg"
       } as any);
 
       item.files.push(addedFile);
@@ -146,11 +148,13 @@ async function insertItemWithFiles(): Promise<IItem> {
   const allFiles = [
     {
       path: "foo2",
-      filename: "freddy.jpg"
+      filename: "freddy.jpg",
+      originalname: "freddy.jpg"
     } as any,
     {
       path: "foo2",
-      filename: "mani.jpg"
+      filename: "mani.jpg",
+      originalname: "mani.jpg"
     } as any
   ];
 

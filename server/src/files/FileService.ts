@@ -21,7 +21,7 @@ export class FileService {
     });
 
     return {
-      label: file.filename,
+      label: file.originalname,
       url: cloudFile.url,
       cloudFile_id: cloudFile._id,
       type: FileType.Image
