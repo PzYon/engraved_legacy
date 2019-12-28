@@ -1,6 +1,6 @@
 import { IKeyword } from "engraved-shared";
 import { Express } from "express";
-import { Request, Response } from "express-serve-static-core";
+import { Request } from "express-serve-static-core";
 import { Db } from "mongodb";
 import { BaseAuthenticatedController } from "./BaseAuthenticatedController";
 
@@ -11,9 +11,7 @@ export class KeywordController extends BaseAuthenticatedController {
     this.authenticatedGet("/keywords", this.searchKeywords);
   }
 
-  private searchKeywords = (req: Request, res: Response): void => {
-    this.createDbService(req)
-      .searchKeywords(req.query.q)
-      .then((keywords: IKeyword[]) => res.send(keywords));
+  private searchKeywords = (req: Request): Promise<IKeyword[]> => {
+    return this.createDbService(req).searchKeywords(req.query.q);
   };
 }

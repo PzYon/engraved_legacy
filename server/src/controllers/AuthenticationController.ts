@@ -13,7 +13,7 @@ import { BaseController } from "./BaseController";
 
 export class AuthenticationController extends BaseController {
   public constructor(app: Express, db: Db) {
-    super(app, db);
+    super(db);
 
     app.use(passport.initialize());
 

@@ -1,6 +1,6 @@
 import { IItem, ItemSearchQuery } from "engraved-shared";
 import { Express } from "express";
-import { Request, Response } from "express-serve-static-core";
+import { Request } from "express-serve-static-core";
 import { Db } from "mongodb";
 import { BaseAuthenticatedController } from "./BaseAuthenticatedController";
 
@@ -15,42 +15,25 @@ export class ItemController extends BaseAuthenticatedController {
     this.authenticatedDelete("/items/:itemId", this.deleteItem);
   }
 
-  private insertItem = (req: Request, res: Response): void => {
-    this.createDbService(req)
-      .insertItem(req.body)
-      .then((item: IItem) => res.send(item));
+  private insertItem = (req: Request): Promise<IItem> => {
+    return this.createDbService(req).insertItem(req.body);
   };
 
-  private deleteItem = (req: Request, res: Response): void => {
-    this.createDbService(req)
-      .deleteItem(req.params.itemId)
-      .then((result: any) => res.send(result));
+  private deleteItem = (req: Request): Promise<any> => {
+    return this.createDbService(req).deleteItem(req.params.itemId);
   };
 
-  private updateItem = (req: Request, res: Response): void => {
-    this.createDbService(req)
-      .updateItem(req.params.itemId, req.body)
-      .then((item: IItem) => res.send(item));
+  private updateItem = (req: Request): Promise<IItem> => {
+    return this.createDbService(req).updateItem(req.params.itemId, req.body);
   };
 
-  private getItemById = (req: Request, res: Response): void => {
-    this.createDbService(req)
-      .getItemById(req.params.itemId)
-      .then((item: IItem) => {
-        if (item) {
-          res.send(item);
-        } else {
-          res.statusCode = 404;
-          res.send();
-        }
-      });
+  private getItemById = (req: Request): Promise<IItem> => {
+    return this.createDbService(req).getItemById(req.params.itemId);
   };
 
-  private searchItems = (req: Request, res: Response): void => {
+  private searchItems = (req: Request): Promise<IItem[]> => {
     const query = ItemSearchQuery.fromObject(req.query);
 
-    this.createDbService(req)
-      .getItems(query)
-      .then((items: IItem[]) => res.send(items));
+    return this.createDbService(req).getItems(query);
   };
 }
