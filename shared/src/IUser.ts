@@ -1,5 +1,6 @@
-export interface IUser {
-  _id?: string;
+import { IWithId } from "./IWithId";
+
+export interface IUser extends IWithId {
   mail: string;
   displayName: string;
   image: string;

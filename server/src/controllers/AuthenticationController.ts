@@ -37,13 +37,13 @@ export class AuthenticationController extends BaseController {
   }
 
   private static generateJwt(req: Request, res: Response): void {
-    const userId: string = (req as any).user._id;
+    const userId: string = req.user._id.toString();
 
     const accessToken = jwt.sign({}, Config.authentication.jwtSecret, {
       expiresIn: Config.authentication.jwtExpiration,
       audience: Config.authentication.jwtAudience,
       issuer: Config.authentication.jwtIssuer,
-      subject: userId.toString()
+      subject: userId
     });
 
     res.redirect(Config.authentication.clientCallbackUrl + accessToken);
@@ -86,7 +86,7 @@ export class AuthenticationController extends BaseController {
             mail: profile.emails[0].value,
             image: profile.photos[0].value,
             memberSince: undefined
-          })
+          } as any)
           .then((user: IUser) => {
             done(null, user);
           });

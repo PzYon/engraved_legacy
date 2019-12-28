@@ -169,6 +169,7 @@ async function insertItemWithFiles(): Promise<IItem> {
   cm.uploadedUrls = [];
 
   return context.dbService.insertItem({
+    _id: undefined,
     files: [file1, file2],
     itemKind: ItemKind.Url,
     title: "Item With Files",
@@ -186,6 +187,7 @@ async function createFile(label: string, storeInDb?: boolean): Promise<IFile> {
 
   if (storeInDb) {
     const cloudFile = await context.dbService.insertFile({
+      _id: undefined,
       user_id: context.dbService.currentUser._id,
       publicId: label,
       url: file.url

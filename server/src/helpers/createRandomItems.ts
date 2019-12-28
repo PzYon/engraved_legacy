@@ -5,14 +5,15 @@ export const createRandomItems = (count: number, user: IUser): IItem[] => {
 
   for (let i = 0; i < count; i++) {
     items.push({
+      _id: undefined,
       user_id: user._id,
       description: getLorems(getRandomInt(0, 30)),
       title: getLorems(getRandomInt(2, 10)),
       editedOn: new Date(),
       itemKind: ItemKind.Note,
       keywords: [
-        { name: i + "_1", user_id: user._id },
-        { name: i + "_2", user_id: user._id }
+        { _id: undefined, name: i + "_1", user_id: user._id },
+        { _id: undefined, name: i + "_2", user_id: user._id }
       ]
     });
   }

@@ -32,6 +32,7 @@ export class TestContext {
     let service = new DbService(this.db, null, null);
 
     this.currentUser = await service.ensureUser({
+      _id: undefined,
       displayName: "Mar Dog",
       image: null,
       mail: "mar.dog@dogmar.io",
@@ -39,6 +40,7 @@ export class TestContext {
     });
 
     this.otherUser = await service.ensureUser({
+      _id: undefined,
       displayName: "Another User",
       image: null,
       mail: "not.me@dogmar.io",
@@ -71,7 +73,12 @@ export class TestContext {
   ): IItem {
     const user = userId || this.currentUser._id;
     return {
-      keywords: (keywords || []).map(k => ({ name: k, user_id: user })),
+      _id: undefined,
+      keywords: (keywords || []).map(k => ({
+        _id: undefined,
+        name: k,
+        user_id: user
+      })),
       title: title,
       editedOn: new Date(),
       itemKind: ItemKind.Code,

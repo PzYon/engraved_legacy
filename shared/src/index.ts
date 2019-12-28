@@ -1,6 +1,7 @@
 export { SharedConstants } from "./SharedConstants";
 
 export { IUserScoped } from "./IUserScoped";
+export { IWithId } from "./IWithId";
 
 export { ItemKind } from "./items/ItemKind";
 export { IItem } from "./items/IItem";

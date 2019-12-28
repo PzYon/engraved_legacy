@@ -29,6 +29,7 @@ export class DevApiController {
   private addItems = (_: Request, res: Response): any => {
     new DbService(this.db, null, null)
       .ensureUser({
+        _id: undefined,
         displayName: "Markus Doggweiler",
         image:
           "https://lh5.googleusercontent.com/-R-eoewIwKTs/AAAAAAAAAAI/AAAAAAAAASg/LhdVPDRyOcg/photo.jpg?sz=50",

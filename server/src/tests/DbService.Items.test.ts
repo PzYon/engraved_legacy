@@ -217,10 +217,12 @@ async function ensureItemsIncludingOneWithKeywords(
     .collection(Config.db.collections.items)
     .insertMany(createLotsOfSampleItems());
   await context.db.collection<IItem>(Config.db.collections.items).insertOne({
+    _id: undefined,
     user_id: context.currentUser._id,
     itemKind: ItemKind.Code,
     title: title,
     keywords: (Array.isArray(keywords) ? keywords : [keywords]).map(k => ({
+      _id: undefined,
       name: k,
       user_id: context.currentUser._id
     }))

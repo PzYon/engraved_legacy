@@ -28,6 +28,7 @@ describe("DbService.Keywords", () => {
     it("keywords created while creating an item are stored in keyword collection", async () => {
       const item = await context.createSampleItem();
       item.keywords.push({
+        _id: undefined,
         user_id: context.currentUser._id,
         name: "createdWhileCreate"
       });
@@ -45,6 +46,7 @@ describe("DbService.Keywords", () => {
       const item = await context.insertSampleItem();
 
       item.keywords.push({
+        _id: undefined,
         user_id: context.currentUser._id,
         name: "bockmist"
       });

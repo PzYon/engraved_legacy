@@ -1,3 +1,3 @@
 export interface IUserScoped {
-  user_id?: string;
+  user_id?: any;
 }

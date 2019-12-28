@@ -15,6 +15,7 @@ export class FileService {
     );
 
     const cloudFile: ICloudFile = await this.dbService.insertFile({
+      _id: undefined,
       url: cloudinaryResult.secure_url,
       publicId: cloudinaryResult.public_id
     });
@@ -29,9 +30,8 @@ export class FileService {
 
   public async deleteFile(fileId: string): Promise<any> {
     const file = await this.dbService.getFile(fileId);
-    const cloudinaryResult = await this.cloudi.delete(file.publicId);
+    await this.cloudi.delete(file.publicId);
 
-    console.log(cloudinaryResult);
     return this.dbService.deleteFile(fileId);
   }
 
