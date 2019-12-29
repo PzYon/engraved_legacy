@@ -1,8 +1,11 @@
-import { IUser } from "engraved-shared";
-import { BehaviorSubject } from "rxjs";
-import { ajax, AjaxResponse } from "rxjs/ajax";
+import { IApiError, IUser, Util } from "engraved-shared";
+import { BehaviorSubject, throwError } from "rxjs";
+import { ajax, AjaxError, AjaxResponse } from "rxjs/ajax";
 import { Observable } from "rxjs/internal/Observable";
+import { catchError } from "rxjs/operators";
 import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
+import { NotificationKind } from "../notifications/INotification";
+import { NotificationStore } from "../notifications/NotificationStore";
 import { SilentAuthentication } from "./SilentAuthentication";
 
 export class AuthenticatedServerApi {
@@ -34,7 +37,9 @@ export class AuthenticatedServerApi {
 
   public static get<T>(url: string, headers: any = {}): Observable<T> {
     return SilentAuthentication.wrap(() =>
-      ajax.getJSON(this.getAbsoluteUrl(url), this.getHeaders(headers))
+      ajax
+        .getJSON(this.getAbsoluteUrl(url), this.getHeaders(headers))
+        .pipe(this.getErrorHandler())
     );
   }
 
@@ -45,11 +50,13 @@ export class AuthenticatedServerApi {
     emitDefaultContentType: boolean = false
   ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
-      ajax.post(
-        this.getAbsoluteUrl(url),
-        value,
-        this.getHeaders(headers, emitDefaultContentType)
-      )
+      ajax
+        .post(
+          this.getAbsoluteUrl(url),
+          value,
+          this.getHeaders(headers, emitDefaultContentType)
+        )
+        .pipe(this.getErrorHandler())
     );
   }
 
@@ -59,7 +66,9 @@ export class AuthenticatedServerApi {
     headers: any = {}
   ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
-      ajax.patch(this.getAbsoluteUrl(url), value, this.getHeaders(headers))
+      ajax
+        .patch(this.getAbsoluteUrl(url), value, this.getHeaders(headers))
+        .pipe(this.getErrorHandler())
     );
   }
 
@@ -68,7 +77,9 @@ export class AuthenticatedServerApi {
     headers: any = {}
   ): Observable<AjaxResponse> {
     return SilentAuthentication.wrap(() =>
-      ajax.delete(this.getAbsoluteUrl(url), this.getHeaders(headers))
+      ajax
+        .delete(this.getAbsoluteUrl(url), this.getHeaders(headers))
+        .pipe(this.getErrorHandler())
     );
   }
 
@@ -96,5 +107,21 @@ export class AuthenticatedServerApi {
     }
 
     return defaultHeaders;
+  }
+
+  private static getErrorHandler() {
+    return catchError((e: AjaxError) => {
+      // we add a notification for the error but then re-throw.
+      // this way we don't change any previous behavior and
+      // we also enable the users of this function to have
+      // full  control over how to deal with any errors.
+      NotificationStore.instance.addNotification({
+        id: Util.createGuid(),
+        kind: NotificationKind.Error,
+        messageOrNode: (e.response as IApiError).message
+      });
+
+      return throwError(e);
+    });
   }
 }

@@ -1,5 +1,5 @@
 export { SharedConstants } from "./SharedConstants";
-
+export { IApiError } from "./IApiError";
 export { IUserScoped } from "./IUserScoped";
 export { IWithId } from "./IWithId";
 
