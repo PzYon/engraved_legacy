@@ -1,4 +1,4 @@
-import { SharedConstants } from "engraved-shared";
+import { IApiError, SharedConstants } from "engraved-shared";
 import { Express } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { Db } from "mongodb";
@@ -6,7 +6,6 @@ import multer from "multer";
 import passport from "passport";
 import Config from "../Config";
 import { BaseController } from "./BaseController";
-import { IApiError } from "./IApiError";
 
 const multerUploads = multer({
   storage: multer.diskStorage({
@@ -87,9 +86,9 @@ export abstract class BaseAuthenticatedController extends BaseController {
   private getActionHandler<T>(action: (req: Request) => Promise<T>) {
     return async (req: Request, res: Response): Promise<void> => {
       try {
-        const r: T = await action(req);
-        if (r) {
-          res.send(r);
+        const actionResult: T = await action(req);
+        if (actionResult) {
+          res.send(actionResult);
         } else {
           res.statusCode = 404;
           res.send();
