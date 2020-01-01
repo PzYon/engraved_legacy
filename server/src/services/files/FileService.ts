@@ -1,6 +1,6 @@
 import { FileType, ICloudFile, IFile } from "engraved-shared";
 import { DbService } from "../DbService";
-import { ICloudinaryUploadResult, ICloudinary } from "./ICloudinary";
+import { ICloudinary, ICloudinaryUploadResult } from "./ICloudinary";
 
 export class FileService {
   public constructor(

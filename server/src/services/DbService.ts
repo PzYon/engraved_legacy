@@ -14,11 +14,17 @@ import {
   ObjectID,
   UpdateQuery
 } from "mongodb";
-import Config from "./Config";
+import Config from "../Config";
 import { FileService } from "./files/FileService";
 import { ICloudinary } from "./files/ICloudinary";
 
 export class DbService {
+  public constructor(
+    private db: Db,
+    public currentUser: IUser,
+    private cloudinaryFactory: () => ICloudinary
+  ) {}
+
   public get keywords(): Collection<IKeyword> {
     return this.db.collection(Config.db.collections.keywords);
   }
@@ -35,11 +41,75 @@ export class DbService {
     return this.db.collection(Config.db.collections.files);
   }
 
-  public constructor(
-    private db: Db,
-    public currentUser: IUser,
-    private cloudinaryFactory: () => ICloudinary
-  ) {}
+  private static transformQuery(searchQuery: ItemSearchQuery): any {
+    if (!searchQuery.hasConditions) {
+      return {};
+    }
+
+    const fullText = searchQuery.getFullText();
+    const doesFullTextMatch = fullText
+      ? DbService.createFulltextFilter(true, fullText, "title", "description")
+      : null;
+
+    // todo: make this case insensitive too
+    const areKeywordsApplied = searchQuery.keywords.map((keyword: string) => {
+      const keywordsContains: any = {};
+      keywordsContains[`${Config.db.collections.keywords}.name`] = keyword;
+      return keywordsContains;
+    });
+
+    const hasKeywords = areKeywordsApplied && areKeywordsApplied.length;
+    const hasFullText = !!doesFullTextMatch;
+
+    if (hasKeywords && hasFullText) {
+      return { $and: [doesFullTextMatch, ...areKeywordsApplied] };
+    }
+
+    if (hasKeywords) {
+      return { $and: areKeywordsApplied };
+    }
+
+    if (hasFullText) {
+      return doesFullTextMatch;
+    }
+
+    return {};
+  }
+
+  private static createFulltextFilter(
+    useNative: boolean,
+    fullText: string,
+    ...fieldNames: string[]
+  ): {} {
+    if (!fieldNames || !fieldNames.length) {
+      return null;
+    }
+
+    return useNative
+      ? this.createNativeFullTextFilter(fullText)
+      : this.createCustomFullTextFilter(fieldNames, fullText);
+  }
+
+  private static createCustomFullTextFilter(
+    fieldNames: string[],
+    fullText: string
+  ): {} {
+    const fieldConditions = fieldNames.map(n => {
+      const conditionObj: any = {};
+      conditionObj[n] = { $regex: fullText, $options: "i" };
+      return conditionObj;
+    });
+
+    return { $or: [{ $text: { $search: fullText } }, ...fieldConditions] };
+  }
+
+  private static createNativeFullTextFilter(fullText: string): {} {
+    return { $text: { $search: fullText } };
+  }
+
+  private static getDocumentByIdFilter(id: string): {} {
+    return { _id: new ObjectID(id) };
+  }
 
   public async ensureUser(user: IUser): Promise<IUser> {
     let existingUser: IUser = await this.users.findOne({ mail: user.mail });
@@ -128,6 +198,9 @@ export class DbService {
       return items[0];
     });
   }
+
+  // todo: consider returning one item if insertMany has appropriate return value?
+  // i.e. return type depends on query type
 
   public async updateItem(id: string, item: IItem): Promise<IItem> {
     if (item._id && item._id !== id) {
@@ -263,77 +336,8 @@ export class DbService {
     return this.saveItems(items);
   }
 
-  // todo: consider returning one item if insertMany has appropriate return value?
-  // i.e. return type depends on query type
-
   private saveItems(items: IItem[]): Promise<IItem[]> {
     return this.items.insertMany(items).then(r => r.ops as any);
-  }
-
-  private static transformQuery(searchQuery: ItemSearchQuery): any {
-    if (!searchQuery.hasConditions) {
-      return {};
-    }
-
-    const fullText = searchQuery.getFullText();
-    const doesFullTextMatch = fullText
-      ? DbService.createFulltextFilter(true, fullText, "title", "description")
-      : null;
-
-    // todo: make this case insensitive too
-    const areKeywordsApplied = searchQuery.keywords.map((keyword: string) => {
-      const keywordsContains: any = {};
-      keywordsContains[`${Config.db.collections.keywords}.name`] = keyword;
-      return keywordsContains;
-    });
-
-    const hasKeywords = areKeywordsApplied && areKeywordsApplied.length;
-    const hasFullText = !!doesFullTextMatch;
-
-    if (hasKeywords && hasFullText) {
-      return { $and: [doesFullTextMatch, ...areKeywordsApplied] };
-    }
-
-    if (hasKeywords) {
-      return { $and: areKeywordsApplied };
-    }
-
-    if (hasFullText) {
-      return doesFullTextMatch;
-    }
-
-    return {};
-  }
-
-  private static createFulltextFilter(
-    useNative: boolean,
-    fullText: string,
-    ...fieldNames: string[]
-  ): {} {
-    if (!fieldNames || !fieldNames.length) {
-      return null;
-    }
-
-    return useNative
-      ? this.createNativeFullTextFilter(fullText)
-      : this.createCustomFullTextFilter(fieldNames, fullText);
-  }
-
-  private static createCustomFullTextFilter(
-    fieldNames: string[],
-    fullText: string
-  ): {} {
-    const fieldConditions = fieldNames.map(n => {
-      const conditionObj: any = {};
-      conditionObj[n] = { $regex: fullText, $options: "i" };
-      return conditionObj;
-    });
-
-    return { $or: [{ $text: { $search: fullText } }, ...fieldConditions] };
-  }
-
-  private static createNativeFullTextFilter(fullText: string): {} {
-    return { $text: { $search: fullText } };
   }
 
   private getItemByIdFilter(id: string): {} {
@@ -342,9 +346,5 @@ export class DbService {
 
   private ensureCurrentUserId(query: any = {}): {} {
     return { ...query, ...{ user_id: new ObjectID(this.currentUser._id) } };
-  }
-
-  private static getDocumentByIdFilter(id: string): {} {
-    return { _id: new ObjectID(id) };
   }
 }

@@ -1,5 +1,5 @@
 import { UploadApiOptions, v2 as cloudinary } from "cloudinary";
-import Config from "../Config";
+import Config from "../../Config";
 import { ICloudinary, ICloudinaryUploadResult } from "./ICloudinary";
 
 cloudinary.config(Config.cloudinary);

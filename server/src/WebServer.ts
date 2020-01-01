@@ -10,13 +10,15 @@ import express, { Express } from "express";
 import { Db, MongoClient } from "mongodb";
 import * as path from "path";
 import Config from "./Config";
-import { AppController } from "./controllers/AppController";
-import { AuthenticationController } from "./controllers/AuthenticationController";
-import { DevApiController } from "./controllers/DevApiControlller";
-import { FileController } from "./controllers/FileController";
-import { ItemController } from "./controllers/ItemController";
-import { KeywordController } from "./controllers/KeywordController";
-import { UserController } from "./controllers/UserController";
+import { IRequest } from "./IRequest";
+import { DevApiController } from "./routes/DevApiControlller";
+import { registerAppRoutes } from "./routes/registerAppRoutes";
+import { registerAuthRoutes } from "./routes/registerAuthRoutes";
+import { registerFileRoutes } from "./routes/registerFileRoutes";
+import { registerItemRoutes } from "./routes/registerItemRoutes";
+import { registerKeywordRoutes } from "./routes/registerKeywordRoutes";
+import { registerUserRoutes } from "./routes/registerUserRoutes";
+import { ServiceFactory } from "./services/ServiceFactory";
 
 const configureDb = async (client: MongoClient): Promise<Db> => {
   try {
@@ -51,12 +53,19 @@ const configureExpress = (db: Db) => {
     next();
   });
 
-  new AuthenticationController(app, db);
-  new ItemController(app, db);
-  new FileController(app, db);
-  new KeywordController(app, db);
-  new UserController(app, db);
-  new AppController(app, db);
+  registerAuthRoutes(app, db);
+
+  app.use((req, _, next) => {
+    (req as IRequest).serviceFactory = new ServiceFactory(db, req);
+    next();
+  });
+
+  registerItemRoutes(app);
+  registerKeywordRoutes(app);
+  registerUserRoutes(app);
+  registerAppRoutes(app);
+  registerFileRoutes(app);
+
   new DevApiController(app, db);
 
   if (isProd) {
@@ -68,11 +77,11 @@ const configureExpress = (db: Db) => {
       );
   }
 
-  console.log("Listening on port " + Config.webServer.apiPort);
-
   app.listen(Config.webServer.apiPort, () =>
     console.log(
-      "-> Express up and running @ " + new Date().toLocaleTimeString()
+      `-> engraved API up and running on port ${
+        Config.webServer.apiPort
+      } @ ${new Date().toLocaleTimeString()}`
     )
   );
 };

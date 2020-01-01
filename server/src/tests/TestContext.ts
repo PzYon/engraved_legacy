@@ -1,8 +1,8 @@
 import { IItem, ItemKind, IUser } from "engraved-shared";
 import { Db, InsertOneWriteOpResult, MongoClient } from "mongodb";
 import Config from "../Config";
-import { DbService } from "../DbService";
-import { FileService } from "../files/FileService";
+import { DbService } from "../services/DbService";
+import { FileService } from "../services/files/FileService";
 import { CloudinaryMock } from "./CloudinaryMock";
 
 export class TestContext {
