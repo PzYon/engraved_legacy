@@ -1,4 +1,7 @@
-import { ICloudinary, ICloudinaryUploadResult } from "../files/ICloudinary";
+import {
+  ICloudinary,
+  ICloudinaryUploadResult
+} from "../services/files/ICloudinary";
 
 export class CloudinaryMock implements ICloudinary {
   public deletedPublicIds: string[] = [];
