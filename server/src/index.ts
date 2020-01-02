@@ -1,5 +1,4 @@
 const isProd = process.env.NODE_ENV === "production";
-
 if (!isProd) {
   require("dotenv").config();
 }
@@ -11,7 +10,6 @@ import { Db, MongoClient } from "mongodb";
 import * as path from "path";
 import Config from "./Config";
 import { IRequest } from "./IRequest";
-import { DevApiController } from "./routes/DevApiControlller";
 import { registerAppRoutes } from "./routes/registerAppRoutes";
 import { registerAuthRoutes } from "./routes/registerAuthRoutes";
 import { registerFileRoutes } from "./routes/registerFileRoutes";
@@ -20,24 +18,17 @@ import { registerKeywordRoutes } from "./routes/registerKeywordRoutes";
 import { registerUserRoutes } from "./routes/registerUserRoutes";
 import { ServiceFactory } from "./services/ServiceFactory";
 
-const configureDb = async (client: MongoClient): Promise<Db> => {
-  try {
-    const db: Db = client.db();
-    db.on("error", console.log);
+bootstrap()
+  .then()
+  .catch(err => {
+    console.log("Failed to bootstrap engraved API:");
+    console.log(err.toString());
+    console.log(JSON.stringify(err));
+  });
 
-    await db
-      .collection(Config.db.collections.items)
-      .createIndex({ "$**": "text" });
+async function bootstrap(): Promise<void> {
+  const db = await setupDatabase();
 
-    return db;
-  } catch (err) {
-    console.log("Error while configuring DB: " + err);
-  }
-
-  return Promise.resolve(null);
-};
-
-const configureExpress = (db: Db) => {
   const app: Express = express();
 
   app.use(compression());
@@ -53,6 +44,8 @@ const configureExpress = (db: Db) => {
     next();
   });
 
+  console.log("Registering routes:");
+
   registerAuthRoutes(app, db);
 
   app.use((req, _, next) => {
@@ -65,8 +58,6 @@ const configureExpress = (db: Db) => {
   registerUserRoutes(app);
   registerAppRoutes(app);
   registerFileRoutes(app);
-
-  new DevApiController(app, db);
 
   if (isProd) {
     app.use(express.static(path.join(__dirname, "client")));
@@ -84,29 +75,29 @@ const configureExpress = (db: Db) => {
       } @ ${new Date().toLocaleTimeString()}`
     )
   );
-};
+}
 
-const bootstrap = async (client: MongoClient) => {
-  console.log("Connected to mongoDB");
-
-  const db = await configureDb(client);
-
+async function setupDatabase(): Promise<Db> {
   try {
-    configureExpress(db);
-  } catch (err) {
-    console.log("Failed to configure express:");
-    console.log(err.toString());
+    console.log("Connecting to DB " + Config.db.url + "...");
+
+    const client = await MongoClient.connect(Config.db.url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    console.log("Connected to DB");
+
+    const db: Db = client.db();
+    db.on("error", console.log);
+
+    await db
+      .collection(Config.db.collections.items)
+      .createIndex({ "$**": "text" });
+
+    return db;
+  } catch (e) {
+    console.error("DB failure: " + e.message);
+    throw e;
   }
-};
-
-console.log("Connecting to mongoDB: " + Config.db.url);
-
-MongoClient.connect(Config.db.url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(bootstrap)
-  .catch(e => {
-    console.log("Failed to bootstrap the app:");
-    console.log(JSON.stringify(e));
-  });
+}

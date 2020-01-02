@@ -8,9 +8,9 @@
     "build": "tsc",
     "dev-server": "nodemon",
     "lint": "tslint --project tsconfig.json",
-    "start": "ts-node src/WebServer.ts",
+    "start": "ts-node src/index.ts",
     "test": "jest -i",
-    "prod": "node ./dist/WebServer.js"
+    "prod": "node ./dist/index.js"
   },
   "author": "",
   "license": "ISC",

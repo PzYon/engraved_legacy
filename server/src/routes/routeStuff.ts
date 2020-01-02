@@ -40,6 +40,8 @@ export const registerRoute = <T>(
           getActionHandler(action)
         ];
 
+  console.log(url + " (" + httpAction.toUpperCase() + ")");
+
   return app.route(Config.webServer.apiUrlPrefix + url)[httpMethod](handlers);
 };
 
