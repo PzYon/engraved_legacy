@@ -30,7 +30,7 @@ export const registerAuthRoutes = (app: Express, db: Db) => {
 };
 
 function generateJwt(req: Request, res: Response): void {
-  const userId: string = req.user._id.toString();
+  const userId: string = (req.user as IUser)._id.toString();
 
   const accessToken = jwt.sign({}, Config.authentication.jwtSecret, {
     expiresIn: Config.authentication.jwtExpiration,
