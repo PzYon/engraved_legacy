@@ -10,18 +10,22 @@ describe("FileService", () => {
 
   describe("uploadFile", () => {
     it("stores file in files table", async () => {
-      const file: IFile = await context.fileService.uploadFile({
-        path: "foo",
-        filename: "freddy.jpg",
-        originalname: "freddy.jpg"
-      } as any);
+      const file: IFile = await context.serviceFactory
+        .createFileService()
+        .uploadFile({
+          path: "foo",
+          filename: "freddy.jpg",
+          originalname: "freddy.jpg"
+        } as any);
 
       expect(file.label).toBe("freddy.jpg");
       expect(file.cloudFile_id).not.toBeNull();
 
-      const cloudFile = await context.dbService.getFile(file.cloudFile_id);
+      const dbService = context.serviceFactory.createDbService();
+
+      const cloudFile = await dbService.getFile(file.cloudFile_id);
       expect(cloudFile).not.toBeNull();
-      expect(cloudFile.user_id).toEqual(context.dbService.currentUser._id);
+      expect(cloudFile.user_id).toEqual(dbService.currentUser._id);
     });
   });
 
@@ -32,14 +36,18 @@ describe("FileService", () => {
         await createFile("bar", true)
       ];
 
-      expect(await context.dbService.files.countDocuments()).toBe(2);
+      const dbService = context.serviceFactory.createDbService();
 
-      await context.fileService.synchronizeFiles(previousFiles, []);
+      expect(await dbService.files.countDocuments()).toBe(2);
+
+      await context.serviceFactory
+        .createFileService()
+        .synchronizeFiles(previousFiles, []);
 
       expect(context.cloudinaryMock.deletedPublicIds.length).toBe(2);
       expect(context.cloudinaryMock.uploadedUrls.length).toBe(0);
 
-      expect(await context.dbService.files.countDocuments()).toBe(0);
+      expect(await dbService.files.countDocuments()).toBe(0);
     });
 
     it("does nothing if not required", async () => {
@@ -48,23 +56,29 @@ describe("FileService", () => {
         await createFile("bar", true)
       ];
 
-      expect(await context.dbService.files.countDocuments()).toBe(2);
+      const dbService = context.serviceFactory.createDbService();
 
-      await context.fileService.synchronizeFiles(previousFiles, previousFiles);
+      expect(await dbService.files.countDocuments()).toBe(2);
+
+      await context.serviceFactory
+        .createFileService()
+        .synchronizeFiles(previousFiles, previousFiles);
 
       expect(context.cloudinaryMock.deletedPublicIds.length).toBe(0);
       expect(context.cloudinaryMock.uploadedUrls.length).toBe(0);
-      expect(await context.dbService.files.countDocuments()).toBe(2);
+      expect(await dbService.files.countDocuments()).toBe(2);
     });
 
     it("throws if file to add isn't uploaded yet", async () => {
       const previousFiles: IFile[] = [await createFile("foo", true)];
-      expect(await context.dbService.files.countDocuments()).toBe(1);
+      expect(
+        await context.serviceFactory.createDbService().files.countDocuments()
+      ).toBe(1);
 
       await expect(
-        context.fileService.synchronizeFiles(previousFiles, [
-          await createFile("bar")
-        ])
+        context.serviceFactory
+          .createFileService()
+          .synchronizeFiles(previousFiles, [await createFile("bar")])
       ).rejects.toThrowError();
     });
   });
@@ -82,18 +96,19 @@ describe("DbService", () => {
     it("happy path", async () => {
       const item: IItem = await insertItemWithFiles();
 
-      const addedFile = await context.fileService.uploadFile({
-        path: "newlyAddedFile",
-        filename: "file.jpg",
-        originalname: "file.jpg"
-      } as any);
+      const addedFile = await context.serviceFactory
+        .createFileService()
+        .uploadFile({
+          path: "newlyAddedFile",
+          filename: "file.jpg",
+          originalname: "file.jpg"
+        } as any);
 
       item.files.push(addedFile);
 
-      const updatedItem: IItem = await context.dbService.updateItem(
-        item._id,
-        item
-      );
+      const updatedItem: IItem = await context.serviceFactory
+        .createDbService()
+        .updateItem(item._id, item);
 
       expect(updatedItem.files.length).toBe(3);
       expect(context.cloudinaryMock.deletedPublicIds.length).toBe(0);
@@ -111,7 +126,7 @@ describe("DbService", () => {
       });
 
       await expect(
-        context.dbService.updateItem(item._id, item)
+        context.serviceFactory.createDbService().updateItem(item._id, item)
       ).rejects.toThrowError();
     });
 
@@ -120,15 +135,14 @@ describe("DbService", () => {
 
       item.files.pop();
 
-      const updatedItem: IItem = await context.dbService.updateItem(
-        item._id,
-        item
-      );
+      const dbService = context.serviceFactory.createDbService();
+
+      const updatedItem: IItem = await dbService.updateItem(item._id, item);
 
       expect(updatedItem.files.length).toBe(1);
       expect(context.cloudinaryMock.deletedPublicIds.length).toBe(1);
       expect(context.cloudinaryMock.uploadedUrls.length).toBe(0);
-      expect(await context.dbService.files.countDocuments()).toBe(1);
+      expect(await dbService.files.countDocuments()).toBe(1);
     });
   });
 
@@ -136,10 +150,12 @@ describe("DbService", () => {
     it("deletes all related files from source and DB", async () => {
       const item: IItem = await insertItemWithFiles();
 
-      await context.dbService.deleteItem(item._id);
+      const dbService = context.serviceFactory.createDbService();
+
+      await dbService.deleteItem(item._id);
 
       expect(context.cloudinaryMock.deletedPublicIds.length).toBe(2);
-      expect(await context.dbService.files.countDocuments()).toBe(0);
+      expect(await dbService.files.countDocuments()).toBe(0);
     });
   });
 });
@@ -158,13 +174,14 @@ async function insertItemWithFiles(): Promise<IItem> {
     } as any
   ];
 
-  const fs = context.fileService;
+  const fs = context.serviceFactory.createFileService();
   const cm = context.cloudinaryMock;
+  const dbService = context.serviceFactory.createDbService();
 
-  expect(await context.dbService.files.countDocuments()).toBe(0);
+  expect(await dbService.files.countDocuments()).toBe(0);
   const file1 = await fs.uploadFile(allFiles[0]);
   const file2 = await fs.uploadFile(allFiles[1]);
-  expect(await context.dbService.files.countDocuments()).toBe(2);
+  expect(await dbService.files.countDocuments()).toBe(2);
 
   expect(cm.uploadedUrls[0]).toBe(file1.url);
   expect(cm.uploadedUrls[1]).toBe(file2.url);
@@ -172,7 +189,7 @@ async function insertItemWithFiles(): Promise<IItem> {
   // we reset here in order to be sure we count correctly afterwards
   cm.uploadedUrls = [];
 
-  return context.dbService.insertItem({
+  return dbService.insertItem({
     _id: undefined,
     files: [file1, file2],
     itemKind: ItemKind.Url,
@@ -190,12 +207,14 @@ async function createFile(label: string, storeInDb?: boolean): Promise<IFile> {
   };
 
   if (storeInDb) {
-    const cloudFile = await context.dbService.insertFile({
-      _id: undefined,
-      user_id: context.dbService.currentUser._id,
-      publicId: label,
-      url: file.url
-    });
+    const cloudFile = await context.serviceFactory
+      .createDbService()
+      .insertFile({
+        _id: undefined,
+        user_id: context.serviceFactory.createDbService().currentUser._id,
+        publicId: label,
+        url: file.url
+      });
 
     file.cloudFile_id = cloudFile._id;
   } else {

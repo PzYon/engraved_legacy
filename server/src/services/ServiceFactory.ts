@@ -5,15 +5,16 @@ import { DbService } from "./DbService";
 import { Cloudinary } from "./files/Cloudinary";
 import { FileService } from "./files/FileService";
 
-export class ServiceFactory {
+export interface IServiceFactory {
+  createDbService(): DbService;
+  createFileService(): FileService;
+}
+
+export class ServiceFactory implements IServiceFactory {
   public constructor(private db: Db, private req: Request) {}
 
   public createDbService(): DbService {
-    return new DbService(
-      this.db,
-      this.req.user as IUser,
-      () => new Cloudinary()
-    );
+    return new DbService(this.db, this.req.user as IUser, this);
   }
 
   public createFileService(): FileService {

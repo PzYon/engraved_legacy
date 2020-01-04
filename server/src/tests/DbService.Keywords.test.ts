@@ -12,7 +12,9 @@ describe("DbService.Keywords", () => {
     it("returns my keywords", async () => {
       await createKeyword("freddy");
 
-      const keywords = await context.dbService.searchKeywords("freddy");
+      const keywords = await context.serviceFactory
+        .createDbService()
+        .searchKeywords("freddy");
 
       expect(keywords.length).toEqual(1);
     });
@@ -20,7 +22,9 @@ describe("DbService.Keywords", () => {
     it("doesn't return item from another user", async () => {
       await createKeyword("freddy", context.otherUser._id);
 
-      const keywords = await context.dbService.searchKeywords("freddy");
+      const keywords = await context.serviceFactory
+        .createDbService()
+        .searchKeywords("freddy");
 
       expect(keywords.length).toEqual(0);
     });
@@ -33,9 +37,11 @@ describe("DbService.Keywords", () => {
         name: "createdWhileCreate"
       });
 
-      await context.dbService.insertItem(item);
+      const dbService = context.serviceFactory.createDbService();
 
-      const keywords: IKeyword[] = await context.dbService.searchKeywords(
+      await dbService.insertItem(item);
+
+      const keywords: IKeyword[] = await dbService.searchKeywords(
         "createdWhileCreate"
       );
 
@@ -51,11 +57,11 @@ describe("DbService.Keywords", () => {
         name: "bockmist"
       });
 
-      await context.dbService.updateItem(item._id, item);
+      const dbService = context.serviceFactory.createDbService();
 
-      const keywords: IKeyword[] = await context.dbService.searchKeywords(
-        "bockmist"
-      );
+      await dbService.updateItem(item._id, item);
+
+      const keywords: IKeyword[] = await dbService.searchKeywords("bockmist");
 
       expect(keywords.length).toBe(1);
     });
@@ -82,11 +88,13 @@ describe("DbService.Keywords", () => {
           .countDocuments()
       ).toBe(2);
 
-      await context.dbService.insertItem(
-        context.createSampleItem("pirmin", context.currentUser._id, [
-          commonName
-        ])
-      );
+      await context.serviceFactory
+        .createDbService()
+        .insertItem(
+          context.createSampleItem("pirmin", context.currentUser._id, [
+            commonName
+          ])
+        );
 
       expect(
         await context.db
@@ -103,7 +111,9 @@ describe("DbService.Keywords", () => {
           user_id: context.currentUser._id
         });
 
-      const result = await context.dbService.searchKeywords("aLpHa");
+      const result = await context.serviceFactory
+        .createDbService()
+        .searchKeywords("aLpHa");
 
       expect(result.length).toBe(1);
     });
@@ -111,7 +121,9 @@ describe("DbService.Keywords", () => {
     it("keywords are stored without adjusting the case", async () => {
       const keywords = ["AnToN", "TonI"];
 
-      await context.dbService.insertItem(
+      const dbService = context.serviceFactory.createDbService();
+
+      await dbService.insertItem(
         context.createSampleItem("ABC", context.currentUser._id, keywords)
       );
 
@@ -121,7 +133,7 @@ describe("DbService.Keywords", () => {
           .countDocuments()
       ).toBe(keywords.length);
 
-      const result: IKeyword[] = await context.dbService.searchKeywords("ton");
+      const result: IKeyword[] = await dbService.searchKeywords("ton");
 
       expect(result.filter(k => k.name === keywords[0]).length).toBe(1);
       expect(result.filter(k => k.name === keywords[1]).length).toBe(1);

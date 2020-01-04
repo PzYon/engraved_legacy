@@ -12,9 +12,9 @@ describe("DbService.Items", () => {
 
   describe("insertItem", () => {
     it("adds item to DB", async () => {
-      const item = await context.dbService.insertItem(
-        context.createSampleItem()
-      );
+      const item = await context.serviceFactory
+        .createDbService()
+        .insertItem(context.createSampleItem());
 
       expect(
         await context.db
@@ -38,15 +38,17 @@ describe("DbService.Items", () => {
     });
 
     it("keywords created while creating an item are stored in keyword collection", async () => {
-      await context.dbService.insertItem(
-        context.createSampleItem("A B C", context.currentUser._id, [
-          "javascript"
-        ])
-      );
+      await context.serviceFactory
+        .createDbService()
+        .insertItem(
+          context.createSampleItem("A B C", context.currentUser._id, [
+            "javascript"
+          ])
+        );
 
-      const keywords: IKeyword[] = await context.dbService.searchKeywords(
-        "javascript"
-      );
+      const keywords: IKeyword[] = await context.serviceFactory
+        .createDbService()
+        .searchKeywords("javascript");
 
       expect(keywords.length).toBe(1);
     });
@@ -60,10 +62,12 @@ describe("DbService.Items", () => {
       itemToUpdate.title = "Freddy New";
       itemToUpdate.editedOn = null;
 
-      const updatedItem = await context.dbService.updateItem(
-        asStringId(item._id),
-        JSON.parse(JSON.stringify(itemToUpdate))
-      );
+      const updatedItem = await context.serviceFactory
+        .createDbService()
+        .updateItem(
+          asStringId(item._id),
+          JSON.parse(JSON.stringify(itemToUpdate))
+        );
 
       expect(updatedItem.editedOn).not.toBe(null);
       expect(updatedItem._id).toEqual(itemToUpdate._id);
@@ -78,7 +82,7 @@ describe("DbService.Items", () => {
       const item = await context.insertSampleItem();
 
       await expect(
-        context.dbService.updateItem(asStringId(), item)
+        context.serviceFactory.createDbService().updateItem(asStringId(), item)
       ).rejects.toThrowError();
     });
 
@@ -87,7 +91,9 @@ describe("DbService.Items", () => {
       otherItem.title = "isch jetzt anderscht.";
 
       await expect(
-        context.dbService.updateItem(asStringId(otherItem._id), otherItem)
+        context.serviceFactory
+          .createDbService()
+          .updateItem(asStringId(otherItem._id), otherItem)
       ).rejects.toThrowError();
     });
   });
@@ -106,7 +112,9 @@ describe("DbService.Items", () => {
         .toArray();
       const itemToDelete = allItems[0];
 
-      await context.dbService.deleteItem(itemToDelete._id);
+      await context.serviceFactory
+        .createDbService()
+        .deleteItem(itemToDelete._id);
 
       const countAfterDelete: number = await context.db
         .collection(Config.db.collections.items)
@@ -124,7 +132,9 @@ describe("DbService.Items", () => {
       const countBeforeDelete: number = await context.db
         .collection(Config.db.collections.items)
         .countDocuments();
-      await context.dbService.deleteItem(itemToDelete._id);
+      await context.serviceFactory
+        .createDbService()
+        .deleteItem(itemToDelete._id);
       const countAfterDelete: number = await context.db
         .collection(Config.db.collections.items)
         .countDocuments();
@@ -142,7 +152,9 @@ describe("DbService.Items", () => {
         .countDocuments();
       expect(count).toBe(1);
 
-      const resultItem = await context.dbService.getItemById(item._id);
+      const resultItem = await context.serviceFactory
+        .createDbService()
+        .getItemById(item._id);
 
       expect(resultItem).not.toBe(null);
       expect(resultItem._id).toEqual(item._id);
@@ -151,7 +163,9 @@ describe("DbService.Items", () => {
     it("doesn't return item from another user", async () => {
       const item = await createItemAsAnotherUser();
 
-      const resultItem = await context.dbService.getItemById(item._id);
+      const resultItem = await context.serviceFactory
+        .createDbService()
+        .getItemById(item._id);
 
       expect(resultItem).toBe(null);
     });
@@ -165,9 +179,9 @@ describe("DbService.Items", () => {
 
       const pageSize = 3;
 
-      const items = await context.dbService.getItems(
-        new ItemSearchQuery("foo", [], 0, pageSize)
-      );
+      const items = await context.serviceFactory
+        .createDbService()
+        .getItems(new ItemSearchQuery("foo", [], 0, pageSize));
 
       expect(items.length).toEqual(pageSize);
     });
@@ -177,9 +191,9 @@ describe("DbService.Items", () => {
 
       await ensureItemsIncludingOneWithKeywords(title, "alpha");
 
-      const items = await context.dbService.getItems(
-        new ItemSearchQuery(null, ["alpha"], 0, 10)
-      );
+      const items = await context.serviceFactory
+        .createDbService()
+        .getItems(new ItemSearchQuery(null, ["alpha"], 0, 10));
 
       expect(items.length).toEqual(1);
       expect(items[0].title).toEqual(title);
@@ -190,9 +204,9 @@ describe("DbService.Items", () => {
 
       await ensureItemsIncludingOneWithKeywords(title, "alpha", "beta");
 
-      const items = await context.dbService.getItems(
-        new ItemSearchQuery(null, ["alpha", "beta"], 0, 10)
-      );
+      const items = await context.serviceFactory
+        .createDbService()
+        .getItems(new ItemSearchQuery(null, ["alpha", "beta"], 0, 10));
 
       expect(items.length).toEqual(1);
       expect(items[0].title).toEqual(title);

@@ -2,17 +2,16 @@ import { IItem, ItemKind, IUser } from "engraved-shared";
 import { Db, InsertOneWriteOpResult, MongoClient } from "mongodb";
 import Config from "../Config";
 import { DbService } from "../services/DbService";
-import { FileService } from "../services/files/FileService";
 import { CloudinaryMock } from "./CloudinaryMock";
+import { TestServiceFactory } from "./TestServiceFactory";
 
 export class TestContext {
   public connection: MongoClient;
   public db: Db;
-  public dbService: DbService;
-  public fileService: FileService;
   public currentUser: IUser;
   public otherUser: IUser;
   public cloudinaryMock: CloudinaryMock;
+  public serviceFactory: TestServiceFactory;
 
   public async setUp(): Promise<void> {
     this.connection = await MongoClient.connect(
@@ -47,15 +46,13 @@ export class TestContext {
       memberSince: new Date()
     });
 
-    const cloudinaryMock = new CloudinaryMock();
+    this.cloudinaryMock = new CloudinaryMock();
 
-    this.dbService = new DbService(
+    this.serviceFactory = new TestServiceFactory(
       this.db,
       this.currentUser,
-      () => cloudinaryMock
+      this.cloudinaryMock
     );
-    this.cloudinaryMock = cloudinaryMock;
-    this.fileService = new FileService(this.dbService, this.cloudinaryMock);
   }
 
   public async tearDown(): Promise<void> {

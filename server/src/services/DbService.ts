@@ -15,14 +15,13 @@ import {
   UpdateQuery
 } from "mongodb";
 import Config from "../Config";
-import { FileService } from "./files/FileService";
-import { ICloudinary } from "./files/ICloudinary";
+import { IServiceFactory } from "./ServiceFactory";
 
 export class DbService {
   public constructor(
     private db: Db,
     public currentUser: IUser,
-    private cloudinaryFactory: () => ICloudinary
+    private serviceFactory: IServiceFactory
   ) {}
 
   public get keywords(): Collection<IKeyword> {
@@ -218,8 +217,10 @@ export class DbService {
 
     // todo: what if current item is null?
     const currentItem = await this.getItemById(id);
-    const fileService = new FileService(this, this.cloudinaryFactory());
-    await fileService.synchronizeFiles(currentItem.files, item.files);
+
+    await this.serviceFactory
+      .createFileService()
+      .synchronizeFiles(currentItem.files, item.files);
 
     await this.items.updateOne(this.getItemByIdFilter(id), { $set: item });
 
@@ -257,7 +258,7 @@ export class DbService {
     const res = await this.items.deleteOne(this.getItemByIdFilter(id));
 
     if (item.files) {
-      const fs = new FileService(this, this.cloudinaryFactory());
+      const fs = this.serviceFactory.createFileService();
 
       for (const file of item.files) {
         await fs.deleteFile(file.cloudFile_id);
@@ -316,7 +317,7 @@ export class DbService {
       idByName[k.name] = k._id;
     });
 
-    const fileService = new FileService(this, this.cloudinaryFactory());
+    const fileService = this.serviceFactory.createFileService();
 
     for (const item of items) {
       item.editedOn = new Date();
