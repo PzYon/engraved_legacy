@@ -1,5 +1,11 @@
 import * as React from "react";
-import { EffectCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+  EffectCallback,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from "react";
 import { ThemeContext } from "styled-components";
 import { ITheme } from "../styling/ITheme";
 
@@ -11,20 +17,24 @@ export const useDidMount = (action: () => EffectCallback | void): void => {
   useEffect(action, []);
 };
 
+// thanks to https://github.com/streamich/react-use/blob/master/src/useToggle.ts
 export const useFlag = (
-  defaultValue: boolean
-): [boolean, (value?: boolean) => void] => {
-  const [flag, setFlag] = useState(defaultValue);
-  const currentValue = useRef(flag);
+  initialValue: boolean
+): [boolean, (nextValue?: any) => void] => {
+  const [flag, setFlag] = useState<boolean>(initialValue);
 
-  return [
-    currentValue.current,
-    (value?: boolean) => {
-      currentValue.current =
-        value === true || value === false ? value : !currentValue.current;
-      setFlag(currentValue.current);
-    }
-  ];
+  const toggleFlag = useCallback(
+    (nextValue?: any) => {
+      if (typeof nextValue === "boolean") {
+        setFlag(nextValue);
+      } else {
+        setFlag(currentValue => !currentValue);
+      }
+    },
+    [setFlag]
+  );
+
+  return [flag, toggleFlag];
 };
 
 export const useOnClickOutside = (
