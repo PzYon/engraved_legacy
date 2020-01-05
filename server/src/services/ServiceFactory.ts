@@ -4,11 +4,7 @@ import { Db } from "mongodb";
 import { DbService } from "./DbService";
 import { Cloudinary } from "./files/Cloudinary";
 import { FileService } from "./files/FileService";
-
-export interface IServiceFactory {
-  createDbService(): DbService;
-  createFileService(): FileService;
-}
+import { IServiceFactory } from "./IServiceFactory";
 
 export class ServiceFactory implements IServiceFactory {
   public constructor(private db: Db, private req: Request) {}

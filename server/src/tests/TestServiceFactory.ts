@@ -3,7 +3,7 @@ import { IUser } from "engraved-shared";
 import { DbService } from "../services/DbService";
 import { FileService } from "../services/files/FileService";
 import { ICloudinary } from "../services/files/ICloudinary";
-import { IServiceFactory } from "../services/ServiceFactory";
+import { IServiceFactory } from "../services/IServiceFactory";
 
 export class TestServiceFactory implements IServiceFactory {
   public constructor(

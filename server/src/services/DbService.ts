@@ -15,7 +15,7 @@ import {
   UpdateQuery
 } from "mongodb";
 import Config from "../Config";
-import { IServiceFactory } from "./ServiceFactory";
+import { IServiceFactory } from "./IServiceFactory";
 
 export class DbService {
   public constructor(
