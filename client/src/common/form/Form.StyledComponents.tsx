@@ -85,9 +85,14 @@ export const LinkLikeButton = styled.button`
   background-color: transparent;
   color: ${p => p.theme.colors.accent};
   padding: 0;
+  transition: color 0.3s;
 
   &:focus {
     outline: none;
+  }
+
+  &:hover {
+    color: ${p => p.theme.colors.text};
   }
 `;
 
