@@ -31,9 +31,8 @@ const ContainerDiv = styled.div<{ isFloating: boolean }>`
   box-shadow: ${p => p.theme.defaultBoxShadow};
 
   .ngrvd-closer {
-    font-size: ${p => p.theme.font.size.large};
     right: 0.4rem;
-    top: 0;
+    top: -4px;
   }
 `;
 

@@ -43,7 +43,8 @@ const ImageContainer = styled.div`
   position: relative;
 
   .ngrvd-closer {
-    right: 20px;
+    right: 18px;
+    top: -10px;
   }
 `;
 

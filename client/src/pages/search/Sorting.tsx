@@ -54,13 +54,8 @@ const Root = styled.div`
   font-size: ${p => p.theme.font.size.small};
   text-align: right;
 
-  .ngrvd-closer,
   select {
     font-size: ${p => p.theme.font.size.small};
-  }
-
-  .ngrvd-closer {
-    right: 0;
   }
 `;
 

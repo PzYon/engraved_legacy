@@ -12,9 +12,10 @@ export const Closer = (props: { onClose: () => void; title: string }) => (
 const Container = styled.span`
   position: absolute;
   right: ${p => p.theme.defaultSpacing};
+  top: 8px;
   cursor: pointer;
-  font-size: ${p => p.theme.font.size.large};
-  font-weight: ${p => p.theme.font.weight.bold};
+  font-size: 36px;
+  font-weight: ${p => p.theme.font.weight.normal};
   color: ${p => p.theme.colors.accent};
   transition: color 0.3s;
   user-select: none;
