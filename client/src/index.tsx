@@ -29,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
             color: ${(p: any) => p.theme.colors.text};
             background-color: ${(p: any) =>
               p.theme.colors.formElementBackground};
+            caret-color: ${(p: any) => p.theme.colors.accent};
         }
 
         body {
