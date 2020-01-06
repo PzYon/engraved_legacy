@@ -1,7 +1,7 @@
 import { IAppStats } from "engraved-shared";
 import { Express } from "express";
 import { IRequest } from "../IRequest";
-import { HttpAction, registerRoute } from "./routeStuff";
+import { HttpAction, registerRoute } from "./routerHelpers";
 
 export const registerAppRoutes = (app: Express) => {
   registerRoute(

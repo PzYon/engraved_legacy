@@ -1,4 +1,5 @@
 import { BehaviorSubject, Observable, ObservableInput } from "rxjs";
+import { AjaxError } from "rxjs/ajax";
 import { catchError, filter, first, flatMap } from "rxjs/operators";
 import { AuthenticatedServerApi } from "./AuthenticatedServerApi";
 
@@ -47,16 +48,13 @@ export class SilentAuthentication {
 
     return waitUntilAuthenticated().pipe(
       catchError(
-        (err: Error, o: Observable<T>): ObservableInput<T> => {
-          if (
-            (err as any).status === 401 &&
-            AuthenticatedServerApi.currentUser$.value
-          ) {
+        (err: AjaxError): ObservableInput<T> => {
+          if (err.status === 401 && AuthenticatedServerApi.currentUser$.value) {
             SilentAuthentication.ensure();
             return waitUntilAuthenticated();
           }
 
-          throw o;
+          throw err;
         }
       )
     );

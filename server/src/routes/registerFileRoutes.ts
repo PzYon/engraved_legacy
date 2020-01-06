@@ -2,7 +2,7 @@ import { IFile } from "engraved-shared";
 import { Express } from "express";
 import { Request } from "express-serve-static-core";
 import { IRequest } from "../IRequest";
-import { HttpAction, registerRoute } from "./routeStuff";
+import { HttpAction, registerRoute } from "./routerHelpers";
 
 export const registerFileRoutes = (app: Express) => {
   registerRoute(

@@ -1,8 +1,8 @@
 import { IApiError, IUser, Util } from "engraved-shared";
-import { BehaviorSubject, throwError } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { ajax, AjaxError, AjaxResponse } from "rxjs/ajax";
 import { Observable } from "rxjs/internal/Observable";
-import { catchError } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
 import { NotificationKind } from "../notifications/INotification";
 import { NotificationStore } from "../notifications/NotificationStore";
@@ -110,18 +110,19 @@ export class AuthenticatedServerApi {
   }
 
   private static getErrorHandler() {
-    return catchError((e: AjaxError) => {
-      // we add a notification for the error but then re-throw.
-      // this way we don't change any previous behavior and
-      // we also enable the users of this function to have
-      // full  control over how to deal with any errors.
-      NotificationStore.instance.addNotification({
-        id: Util.createGuid(),
-        kind: NotificationKind.Error,
-        messageOrNode: (e.response as IApiError).message
-      });
-
-      return throwError(e);
+    // we add a notification for the error but then continue
+    // with the regular observable-flow. this way we don't
+    // change any previous behavior and we also enable the
+    // users of this function to have full control over how
+    // to deal with any errors.
+    return tap({
+      error: (e: AjaxError) => {
+        NotificationStore.instance.addNotification({
+          id: Util.createGuid(),
+          kind: NotificationKind.Error,
+          messageOrNode: (e.response as IApiError)?.message
+        });
+      }
     });
   }
 }
