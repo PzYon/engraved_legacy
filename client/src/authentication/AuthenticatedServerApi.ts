@@ -2,7 +2,7 @@ import { IApiError, IUser, Util } from "engraved-shared";
 import { BehaviorSubject } from "rxjs";
 import { ajax, AjaxError, AjaxResponse } from "rxjs/ajax";
 import { Observable } from "rxjs/internal/Observable";
-import { tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { LocalStorageUtil } from "../common/storage/LocalStorageUtil";
 import { NotificationKind } from "../notifications/INotification";
 import { NotificationStore } from "../notifications/NotificationStore";
@@ -43,12 +43,12 @@ export class AuthenticatedServerApi {
     );
   }
 
-  public static post(
+  public static post<T>(
     url: string,
     value: any,
     headers: any = {},
     emitDefaultContentType: boolean = false
-  ): Observable<AjaxResponse> {
+  ): Observable<T> {
     return SilentAuthentication.wrap(() =>
       ajax
         .post(
@@ -56,30 +56,27 @@ export class AuthenticatedServerApi {
           value,
           this.getHeaders(headers, emitDefaultContentType)
         )
-        .pipe(this.getErrorHandler())
+        .pipe(this.getErrorHandler(), this.getSuccessHandler())
     );
   }
 
-  public static patch(
+  public static patch<T>(
     url: string,
     value: any,
     headers: any = {}
-  ): Observable<AjaxResponse> {
+  ): Observable<T> {
     return SilentAuthentication.wrap(() =>
       ajax
         .patch(this.getAbsoluteUrl(url), value, this.getHeaders(headers))
-        .pipe(this.getErrorHandler())
+        .pipe(this.getErrorHandler(), this.getSuccessHandler())
     );
   }
 
-  public static delete(
-    url: string,
-    headers: any = {}
-  ): Observable<AjaxResponse> {
+  public static delete<T>(url: string, headers: any = {}): Observable<T> {
     return SilentAuthentication.wrap(() =>
       ajax
         .delete(this.getAbsoluteUrl(url), this.getHeaders(headers))
-        .pipe(this.getErrorHandler())
+        .pipe(this.getErrorHandler(), this.getSuccessHandler())
     );
   }
 
@@ -124,5 +121,9 @@ export class AuthenticatedServerApi {
         });
       }
     });
+  }
+
+  private static getSuccessHandler() {
+    return map((r: AjaxResponse) => r.response);
   }
 }

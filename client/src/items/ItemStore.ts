@@ -7,7 +7,6 @@ import {
   Util
 } from "engraved-shared";
 import { BehaviorSubject, Observable, Observer, SubscriptionLike } from "rxjs";
-import { AjaxResponse } from "rxjs/ajax";
 import { map } from "rxjs/operators";
 import { AuthenticatedServerApi } from "../authentication/AuthenticatedServerApi";
 
@@ -70,15 +69,13 @@ export class ItemStore {
   }
 
   public addItem = (item: IItem): Observable<IItem> => {
-    return AuthenticatedServerApi.post("items", item).pipe(
-      map((r: AjaxResponse) => r.response)
-    );
+    return AuthenticatedServerApi.post("items", item);
   };
 
   // we send the item to the server and then update it in the (client) cache
   public updateItem = (item: IItem): Observable<IItem> => {
     return AuthenticatedServerApi.patch("items/" + item._id, item).pipe(
-      map((r: AjaxResponse) => this.updateCache(r.response as IItem))
+      map((r: IItem) => this.updateCache(r))
     );
   };
 
