@@ -17,7 +17,13 @@ export const Header = (props: { currentUser: IUser }) => (
           return true;
         }}
       >
-        <Typing textToType={"engraved."} />
+        <Typing
+          textToType={
+            process.env.NODE_ENV === "production"
+              ? "engraved."
+              : "engraved - dev."
+          }
+        />
       </Link>
     </AppTitle>
     <CurrentUserSpan>
