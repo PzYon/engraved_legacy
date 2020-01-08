@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { CloserInner } from "../common/Closer";
+import { Closer } from "../common/Closer";
 import { ErrorBoundary } from "../common/ErrorBoundary";
 import { useDidMount, useTheme } from "../common/Hooks";
 import { ITheme } from "../styling/ITheme";
@@ -30,16 +30,21 @@ export const Notifications = () => {
   return (
     <RootContainerDiv>
       <List>
-        {notifications.map(n => (
-          <ListItem key={n.id} colors={getColors(theme, n.kind)}>
-            <ListItemInner>
-              <MessageSpan>{n.messageOrNode}</MessageSpan>
-              <RemoverSpan onClick={() => removeNotification(n)}>
-                <CloserInner />
-              </RemoverSpan>
-            </ListItemInner>
-          </ListItem>
-        ))}
+        {notifications.map(n => {
+          const colors = getColors(theme, n.kind);
+          return (
+            <ListItem key={n.id} colors={colors}>
+              <ListItemInner>
+                <MessageSpan>{n.messageOrNode}</MessageSpan>
+                <Closer
+                  onClose={() => removeNotification(n)}
+                  title={"Close"}
+                  color={colors.text}
+                />
+              </ListItemInner>
+            </ListItem>
+          );
+        })}
       </List>
     </RootContainerDiv>
   );
@@ -84,6 +89,7 @@ const ListItem = styled.li`
 `;
 
 const ListItemInner = styled.span`
+  position: relative;
   display: flex;
   max-width: calc(
     ${p => p.theme.maxContentWidth} - ${p => p.theme.defaultSpacing} -
@@ -92,12 +98,12 @@ const ListItemInner = styled.span`
   padding: ${p => p.theme.defaultSpacing};
   margin: auto;
   overflow: hidden;
+
+  .ngrvd-closer {
+    top: 5px;
+  }
 `;
 
 const MessageSpan = styled.span`
   flex-grow: 1;
-`;
-
-const RemoverSpan = styled.span`
-  cursor: pointer;
 `;

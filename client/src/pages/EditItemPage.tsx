@@ -13,6 +13,12 @@ import { NotificationStore } from "../notifications/NotificationStore";
 import { EditablePageTitle } from "./EditablePageTitle";
 import { Page } from "./Page";
 
+export enum RedirectTarget {
+  None,
+  Home,
+  View
+}
+
 interface IRouterParams {
   itemId: string;
 }
@@ -21,7 +27,7 @@ interface IEditItemFormState {
   itemId: string;
   currentTitle: string;
   item: IItem | undefined;
-  target: Target;
+  target: RedirectTarget;
   failedToLoad: boolean;
 }
 
@@ -33,7 +39,7 @@ export class EditItemPage extends React.Component<
     item: undefined,
     currentTitle: undefined,
     itemId: decodeURIComponent(this.props.match.params.itemId),
-    target: Target.None,
+    target: RedirectTarget.None,
     failedToLoad: false
   };
 
@@ -65,11 +71,11 @@ export class EditItemPage extends React.Component<
   }
 
   public render(): ReactNode {
-    if (this.state.target === Target.Home) {
+    if (this.state.target === RedirectTarget.Home) {
       return <Redirect to="/" push={true} />;
     }
 
-    if (this.state.target === Target.View) {
+    if (this.state.target === RedirectTarget.View) {
       return <Redirect to={"/items/" + this.state.itemId} push={true} />;
     }
 
@@ -116,7 +122,7 @@ export class EditItemPage extends React.Component<
               label: "Save",
               onClick: () => {
                 if (isDirty && validate()) {
-                  this.updateItem(updatedItem, Target.None);
+                  this.updateItem(updatedItem, RedirectTarget.None);
                 }
               },
               buttonStyle:
@@ -127,7 +133,7 @@ export class EditItemPage extends React.Component<
               label: "Save & Close",
               onClick: () => {
                 if (isDirty && validate()) {
-                  this.updateItem(updatedItem, Target.Home);
+                  this.updateItem(updatedItem, RedirectTarget.Home);
                 }
               },
               buttonStyle:
@@ -138,7 +144,7 @@ export class EditItemPage extends React.Component<
               label: "Save & View",
               onClick: () => {
                 if (isDirty && validate()) {
-                  this.updateItem(updatedItem, Target.View);
+                  this.updateItem(updatedItem, RedirectTarget.View);
                 }
               },
               buttonStyle:
@@ -160,7 +166,7 @@ export class EditItemPage extends React.Component<
     );
   }
 
-  private updateItem = (item: IItem, target: Target): void => {
+  private updateItem = (item: IItem, target: RedirectTarget): void => {
     this.updateItemSub = ItemStore.instance
       .updateItem(item)
       .subscribe((updatedItem: IItem) => {
@@ -184,7 +190,7 @@ export class EditItemPage extends React.Component<
 
   private deleteItem = (item: IItem): void => {
     ItemStore.instance.deleteItem(item._id).subscribe(() => {
-      this.setState({ target: Target.Home });
+      this.setState({ target: RedirectTarget.Home });
       NotificationStore.instance.addNotification({
         id: Util.createGuid(),
         kind: NotificationKind.Success,
@@ -193,10 +199,4 @@ export class EditItemPage extends React.Component<
       });
     });
   };
-}
-
-export enum Target {
-  None,
-  Home,
-  View
 }

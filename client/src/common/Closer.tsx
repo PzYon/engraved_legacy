@@ -1,15 +1,21 @@
 import * as React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const CloserInner = () => <Inner>+</Inner>;
-
-export const Closer = (props: { onClose: () => void; title: string }) => (
-  <Container className={"ngrvd-closer"} onClick={props.onClose}>
-    <CloserInner />
+export const Closer = (props: {
+  onClose: () => void;
+  title: string;
+  color?: string;
+}) => (
+  <Container
+    className={"ngrvd-closer"}
+    onClick={props.onClose}
+    color={props.color}
+  >
+    <Inner>+</Inner>
   </Container>
 );
 
-const Container = styled.span`
+const Container = styled.span<{ color?: string }>`
   position: absolute;
   right: ${p => p.theme.defaultSpacing};
   top: 8px;
@@ -19,6 +25,13 @@ const Container = styled.span`
   color: ${p => p.theme.colors.accent};
   transition: color 0.3s;
   user-select: none;
+
+  ${p =>
+    p.color
+      ? css`
+          color: ${p.color};
+        `
+      : ""}
 
   &:hover {
     color: ${p => p.theme.colors.text};
