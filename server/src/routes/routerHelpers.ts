@@ -19,6 +19,14 @@ const multerUploads = multer({
   })
 }).single(SharedConstants.fileUpload.name);
 
+export const logRoute = (
+  method: string,
+  url: string,
+  prefix?: string
+): void => {
+  console.log((prefix ?? "") + (method.toUpperCase().padEnd(7) + ": " + url));
+};
+
 export const registerRoute = <T>(
   app: Express,
   url: string,
@@ -40,7 +48,7 @@ export const registerRoute = <T>(
           getActionHandler(action)
         ];
 
-  console.log(url + " (" + httpAction.toUpperCase() + ")");
+  logRoute(httpAction, url);
 
   return app.route(Config.webServer.apiUrlPrefix + url)[httpMethod](handlers);
 };
@@ -56,10 +64,11 @@ const getActionHandler = <T>(action: (req: Request) => Promise<T>) => {
         res.send();
       }
     } catch (e) {
+      console.error("ERROR " + e.message);
+
       res.statusCode = 500;
       res.send({
         message: e.message,
-
         stack: e.stack
       } as IApiError);
     }

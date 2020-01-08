@@ -54,7 +54,6 @@ function registerJwtAuth(dbService: DbService): void {
     new PassportJwt.Strategy(jwtOptions, (payload, done) => {
       dbService.getUserById(payload.sub).then((user: IUser) => {
         if (user) {
-          console.log("processing request for user " + user.mail);
           done(null, user, payload);
         } else {
           done(null);

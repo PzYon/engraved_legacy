@@ -16,6 +16,7 @@ import { registerFileRoutes } from "./routes/registerFileRoutes";
 import { registerItemRoutes } from "./routes/registerItemRoutes";
 import { registerKeywordRoutes } from "./routes/registerKeywordRoutes";
 import { registerUserRoutes } from "./routes/registerUserRoutes";
+import { logRoute } from "./routes/routerHelpers";
 import { ServiceFactory } from "./services/ServiceFactory";
 
 bootstrap()
@@ -49,6 +50,7 @@ async function bootstrap(): Promise<void> {
   registerAuthRoutes(app, db);
 
   app.use((req, _, next) => {
+    logRoute(req.method, req.url, "Calling ");
     (req as IRequest).serviceFactory = new ServiceFactory(db, req);
     next();
   });
