@@ -1,33 +1,17 @@
 import { IFile } from "engraved-shared";
 import * as React from "react";
 import styled from "styled-components";
-import { Closer } from "../../../Closer";
+import { ItemFile } from "./ItemFile";
 
-export interface IItemFilesProps {
+export const ItemFiles: React.FC<{
   files: IFile[];
   style?: React.CSSProperties;
   onDelete?: (file: IFile) => void;
-}
-
-export const ItemFiles: React.FC<IItemFilesProps> = (
-  props: IItemFilesProps
-) => {
+}> = ({ files, style, onDelete }) => {
   return (
-    <Container style={props.style}>
-      {(props.files || []).map(f => (
-        <ImageContainer key={f.url}>
-          {props.onDelete && (
-            <Closer onClose={() => props.onDelete(f)} title={"Delete file"} />
-          )}
-          <a
-            href={f.url}
-            target="_blank"
-            title={f.label}
-            rel="noopener noreferrer"
-          >
-            <Image src={f.url} alt={f.label} />
-          </a>
-        </ImageContainer>
+    <Container style={style}>
+      {(files || []).map(f => (
+        <ItemFile key={f.url} onDelete={onDelete} file={f} />
       ))}
     </Container>
   );
@@ -35,21 +19,4 @@ export const ItemFiles: React.FC<IItemFilesProps> = (
 
 const Container = styled.div`
   display: flex;
-`;
-
-const ImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  .ngrvd-closer {
-    right: 18px;
-    top: -10px;
-  }
-`;
-
-const Image = styled.img`
-  margin-right: ${p => p.theme.defaultSpacing};
-  margin-bottom: ${p => p.theme.defaultSpacing};
-  height: 150px;
 `;
