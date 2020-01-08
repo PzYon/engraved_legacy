@@ -21,7 +21,7 @@ interface IEditItemFormState {
   itemId: string;
   currentTitle: string;
   item: IItem | undefined;
-  backToHome: boolean;
+  target: Target;
   failedToLoad: boolean;
 }
 
@@ -33,7 +33,7 @@ export class EditItemPage extends React.Component<
     item: undefined,
     currentTitle: undefined,
     itemId: decodeURIComponent(this.props.match.params.itemId),
-    backToHome: false,
+    target: Target.None,
     failedToLoad: false
   };
 
@@ -65,8 +65,12 @@ export class EditItemPage extends React.Component<
   }
 
   public render(): ReactNode {
-    if (this.state.backToHome) {
+    if (this.state.target === Target.Home) {
       return <Redirect to="/" push={true} />;
+    }
+
+    if (this.state.target === Target.View) {
+      return <Redirect to={"/items/" + this.state.itemId} push={true} />;
     }
 
     if (this.state.failedToLoad) {
@@ -112,7 +116,7 @@ export class EditItemPage extends React.Component<
               label: "Save",
               onClick: () => {
                 if (isDirty && validate()) {
-                  this.updateItem(updatedItem, false);
+                  this.updateItem(updatedItem, Target.None);
                 }
               },
               buttonStyle:
@@ -123,7 +127,18 @@ export class EditItemPage extends React.Component<
               label: "Save & Close",
               onClick: () => {
                 if (isDirty && validate()) {
-                  this.updateItem(updatedItem, true);
+                  this.updateItem(updatedItem, Target.Home);
+                }
+              },
+              buttonStyle:
+                isDirty && isValid ? ButtonStyle.Primary : ButtonStyle.Disabled,
+              isContextualAction: true
+            },
+            {
+              label: "Save & View",
+              onClick: () => {
+                if (isDirty && validate()) {
+                  this.updateItem(updatedItem, Target.View);
                 }
               },
               buttonStyle:
@@ -145,7 +160,7 @@ export class EditItemPage extends React.Component<
     );
   }
 
-  private updateItem = (item: IItem, backToHome: boolean): void => {
+  private updateItem = (item: IItem, target: Target): void => {
     this.updateItemSub = ItemStore.instance
       .updateItem(item)
       .subscribe((updatedItem: IItem) => {
@@ -163,13 +178,13 @@ export class EditItemPage extends React.Component<
           timeToLiveInSeconds: 8
         });
 
-        this.setState({ item: updatedItem, backToHome: backToHome });
+        this.setState({ item: updatedItem, target: target });
       });
   };
 
   private deleteItem = (item: IItem): void => {
     ItemStore.instance.deleteItem(item._id).subscribe(() => {
-      this.setState({ backToHome: true });
+      this.setState({ target: Target.Home });
       NotificationStore.instance.addNotification({
         id: Util.createGuid(),
         kind: NotificationKind.Success,
@@ -178,4 +193,10 @@ export class EditItemPage extends React.Component<
       });
     });
   };
+}
+
+export enum Target {
+  None,
+  Home,
+  View
 }
