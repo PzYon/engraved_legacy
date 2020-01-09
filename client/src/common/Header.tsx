@@ -21,7 +21,7 @@ export const Header = (props: { currentUser: IUser }) => (
           textToType={
             process.env.NODE_ENV === "production"
               ? "engraved."
-              : "engraved - dev."
+              : "engraved-dev."
           }
         />
       </Link>

@@ -25,10 +25,14 @@ export const registerUserRoutes = (app: Express) => {
     app,
     "/users/me/settings/:key",
     HttpAction.Post,
-    (req: IRequest): Promise<void> => {
-      return req.serviceFactory
+    async (req: IRequest): Promise<{}> => {
+      await req.serviceFactory
         .createDbService()
         .saveUserSetting(req.params.key, req.body.value);
+
+      // return something that is not falsey in order to prevent a 404
+      // from being thrown. not sure if this is a good approach.
+      return {};
     }
   );
 };

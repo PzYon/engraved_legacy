@@ -1,4 +1,4 @@
-import { IApiError, IUser, Util } from "engraved-shared";
+import { IUser, Util } from "engraved-shared";
 import { BehaviorSubject } from "rxjs";
 import { ajax, AjaxError, AjaxResponse } from "rxjs/ajax";
 import { Observable } from "rxjs/internal/Observable";
@@ -117,7 +117,9 @@ export class AuthenticatedServerApi {
         NotificationStore.instance.addNotification({
           id: Util.createGuid(),
           kind: NotificationKind.Error,
-          messageOrNode: (e.response as IApiError)?.message
+          messageOrNode:
+            e?.message ||
+            `An unknown error occurred somewhere (status code ${e.status})...`
         });
       }
     });

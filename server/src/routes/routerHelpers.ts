@@ -48,9 +48,11 @@ export const registerRoute = <T>(
           getActionHandler(action)
         ];
 
-  logRoute(httpAction, url);
+  const routeUrl = Config.webServer.apiUrlPrefix + url;
 
-  return app.route(Config.webServer.apiUrlPrefix + url)[httpMethod](handlers);
+  logRoute(httpAction, routeUrl);
+
+  return app.route(routeUrl)[httpMethod](handlers);
 };
 
 const getActionHandler = <T>(action: (req: Request) => Promise<T>) => {
